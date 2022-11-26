@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/FadeAnimation.dart';
+import 'package:imam_pelayanan_katolik/homepage.dart';
 //import 'package:pelayanan_iman_katolik/forgetPassword.dart';
 //import 'package:pelayanan_iman_katolik/singup.dart';
 import 'DatabaseFolder/mongodb.dart';
@@ -175,14 +176,12 @@ class Login extends StatelessWidget {
 
                                     if (ret != "failed") {
                                       print(ret);
-                                      // Navigator.pushReplacement(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //       builder: (context) => HomePage(
-                                      //           ret[0]['name'],
-                                      //           ret[0]['email'],
-                                      //           ret[0]['_id'])),
-                                      // );
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomePage(
+                                                ret[0]['name'], ret[0]['_id'])),
+                                      );
                                     } else {
                                       Fluttertoast.showToast(
                                           msg: "Email dan Password Salah",
@@ -245,95 +244,3 @@ class Login extends StatelessWidget {
         ));
   }
 }
-//     return Material(
-//         child: ListView(
-//       children: <Widget>[
-//         Column(
-//           children: <Widget>[
-//             Padding(
-//               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-//             ),
-//             Text(
-//               'Selamat Datang Iman Katolik',
-//               style: TextStyle(
-//                 fontSize: 15,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//               textAlign: TextAlign.center,
-//             ),
-//             Padding(
-//               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-//               child: TextField(
-//                 controller: emailController,
-//                 decoration: InputDecoration(
-//                   border: OutlineInputBorder(),
-//                   hintText: 'Masukan email anda',
-//                 ),
-//               ),
-//             ),
-//             Padding(
-//               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-//               child: TextField(
-//                 obscureText: true,
-//                 enableSuggestions: false,
-//                 autocorrect: false,
-//                 controller: passwordController,
-//                 decoration: InputDecoration(
-//                   border: OutlineInputBorder(),
-//                   hintText: 'Masukan password anda',
-//                 ),
-//               ),
-//             ),
-//             Padding(
-//               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-//               child: ButtonBar(
-//                 alignment: MainAxisAlignment.center,
-//                 buttonPadding:
-//                     EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-//                 children: [
-//                   RaisedButton(
-//                       child: Text("Log In"),
-//                       textColor: Colors.white,
-//                       color: Colors.blueAccent,
-//                       onPressed: () async {
-//                         var ret = await MongoDatabase.findUser(
-//                             emailController.text, passwordController.text);
-//                         //print("hasil: " + ret);
-//                         if (ret != "failed") {
-//                           //Navigator.popUntil(context, ModalRoute.withName('/'));
-//                           // Navigator.pop(context,
-//                           //     true); // It worked for me instead of above line
-//                           print(ret);
-//                           Navigator.pushReplacement(
-//                             context,
-//                             MaterialPageRoute(
-//                                 builder: (context) => HomePage(ret[0]['name'],
-//                                     ret[0]['email'], ret[0]['_id'])),
-//                           );
-
-//                           // Navigator.push(
-//                           //   context,
-//                           //   MaterialPageRoute(builder: (context) => HomePage()),
-//                           // );
-//                         } else {}
-//                       }),
-//                   RaisedButton(
-//                     child: Text("Sign Up"),
-//                     textColor: Colors.white,
-//                     color: Colors.blueAccent,
-//                     onPressed: () {
-//                       Navigator.push(
-//                         context,
-//                         MaterialPageRoute(builder: (context) => SignUp()),
-//                       );
-//                     },
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         )
-//       ],
-//     ));
-//   }
-// }

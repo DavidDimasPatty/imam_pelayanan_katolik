@@ -13,7 +13,7 @@ class MongoDatabase {
   }
 
   static findUser(email, password) async {
-    userCollection = db.collection(USER_COLLECTION);
+    userCollection = db.collection(IMAM_COLLECTION);
     var conn = await userCollection
         .find({'email': email, 'password': password}).toList();
     try {

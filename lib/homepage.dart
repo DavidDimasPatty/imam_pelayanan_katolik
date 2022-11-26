@@ -4,12 +4,10 @@ import 'DatabaseFolder/mongodb.dart';
 
 class HomePage extends StatelessWidget {
   var names;
-  var emails;
   var iduser;
   var dataUser;
-  int _currentIndex = 0;
 
-  HomePage(this.names, this.emails, this.iduser);
+  HomePage(this.names, this.iduser);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

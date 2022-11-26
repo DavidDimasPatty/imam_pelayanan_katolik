@@ -4,6 +4,7 @@ const MONGO_CONN_URL =
     "mongodb+srv://i18040:wearedead@cluster0.hw29l.mongodb.net/GerejaDB?retryWrites=true&w=majority";
 //const MONGO_CONN_URL = dotenv.env['email'].toString();
 const USER_COLLECTION = "user";
+const IMAM_COLLECTION = "imam";
 const GEREJA_COLLECTION = "Gereja";
 const JADWAL_GEREJA_COLLECTION = "jadwalGereja";
 const TIKET_COLLECTION = "tiket";
