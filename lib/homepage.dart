@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
 import 'DatabaseFolder/mongodb.dart';
 
@@ -94,16 +95,14 @@ class HomePage extends StatelessWidget {
             InkWell(
               borderRadius: new BorderRadius.circular(24),
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => detailDaftarKrisma(
-                //           names,
-                //           emails,
-                //           i['GerejaKrisma'][0]['nama'],
-                //           idUser,
-                //           i['GerejaKrisma'][0]['_id'])),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Sakramentali(
+                            names,
+                            iduser,
+                          )),
+                );
               },
               child: Container(
                   margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
@@ -140,12 +139,10 @@ class HomePage extends StatelessWidget {
                 // Navigator.push(
                 //   context,
                 //   MaterialPageRoute(
-                //       builder: (context) => detailDaftarKrisma(
-                //           names,
-                //           emails,
-                //           i['GerejaKrisma'][0]['nama'],
-                //           idUser,
-                //           i['GerejaKrisma'][0]['_id'])),
+                //       builder: (context) => Sakramentali(
+                //             names,
+                //             iduser,
+                //           )),
                 // );
               },
               child: Container(
