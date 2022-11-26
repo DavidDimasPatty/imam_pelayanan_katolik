@@ -40,10 +40,147 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-          child: Column(
-        children: <Widget>[],
-      )),
+      body: ListView(children: [
+        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+        ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.only(right: 15, left: 15),
+          children: <Widget>[
+            /////////
+
+            InkWell(
+              borderRadius: new BorderRadius.circular(24),
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => detailDaftarKrisma(
+                //           names,
+                //           emails,
+                //           i['GerejaKrisma'][0]['nama'],
+                //           idUser,
+                //           i['GerejaKrisma'][0]['_id'])),
+                // );
+              },
+              child: Container(
+                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.topLeft,
+                        colors: [
+                          Colors.blueGrey,
+                          Colors.lightBlue,
+                        ]),
+                    border: Border.all(
+                      color: Colors.lightBlue,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Column(children: <Widget>[
+                    //Color(Colors.blue);
+
+                    Text(
+                      "Pendaftaran Sakramen",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 26.0,
+                          fontWeight: FontWeight.w300),
+                      textAlign: TextAlign.left,
+                    ),
+                  ])),
+            ),
+
+            InkWell(
+              borderRadius: new BorderRadius.circular(24),
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => detailDaftarKrisma(
+                //           names,
+                //           emails,
+                //           i['GerejaKrisma'][0]['nama'],
+                //           idUser,
+                //           i['GerejaKrisma'][0]['_id'])),
+                // );
+              },
+              child: Container(
+                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.topLeft,
+                        colors: [
+                          Colors.blueGrey,
+                          Colors.lightBlue,
+                        ]),
+                    border: Border.all(
+                      color: Colors.lightBlue,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Column(children: <Widget>[
+                    //Color(Colors.blue);
+
+                    Text(
+                      "Pendaftaran Sakramentali",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 26.0,
+                          fontWeight: FontWeight.w300),
+                      textAlign: TextAlign.left,
+                    ),
+                  ])),
+            ),
+
+            InkWell(
+              borderRadius: new BorderRadius.circular(24),
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => detailDaftarKrisma(
+                //           names,
+                //           emails,
+                //           i['GerejaKrisma'][0]['nama'],
+                //           idUser,
+                //           i['GerejaKrisma'][0]['_id'])),
+                // );
+              },
+              child: Container(
+                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.topLeft,
+                        colors: [
+                          Colors.blueGrey,
+                          Colors.lightBlue,
+                        ]),
+                    border: Border.all(
+                      color: Colors.lightBlue,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Column(children: <Widget>[
+                    //Color(Colors.blue);
+
+                    Text(
+                      "Pendaftaran Kegiatan Umum",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 26.0,
+                          fontWeight: FontWeight.w300),
+                      textAlign: TextAlign.left,
+                    ),
+                  ])),
+            ),
+            /////////
+            ///
+          ],
+        ),
+      ]),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
