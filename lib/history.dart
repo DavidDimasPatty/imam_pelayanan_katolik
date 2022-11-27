@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/historySakramen.dart';
+import 'package:imam_pelayanan_katolik/historySakramentali.dart';
 import 'package:imam_pelayanan_katolik/homepage.dart';
 import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
 import 'package:imam_pelayanan_katolik/sakramen.dart';
@@ -19,7 +20,7 @@ class History extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text('History ' + names + ","),
+        title: Text('History Pelayanan'),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -100,7 +101,7 @@ class History extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          Sakramentali(names, iduser, idGereja)),
+                          HistorySakramentali(names, iduser, idGereja)),
                 );
               },
               child: Container(

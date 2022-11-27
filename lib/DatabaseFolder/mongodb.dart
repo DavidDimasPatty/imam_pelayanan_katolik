@@ -107,6 +107,21 @@ class MongoDatabase {
             localField: 'idUser',
             foreignField: '_id',
             as: 'userDaftar'))
+        .addStage(Match(
+            where.eq('idGereja', idGereja).eq('status', 0).map['\$query']))
+        .build();
+    var conn = await PemberkatanCollection.aggregateToStream(pipeline).toList();
+    return conn;
+  }
+
+  static HistoryfindPemberkatan(idGereja) async {
+    var PemberkatanCollection = db.collection(PEMBERKATAN_COLLECTION);
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'user',
+            localField: 'idUser',
+            foreignField: '_id',
+            as: 'userDaftar'))
         .addStage(Match(where.eq('idGereja', idGereja).map['\$query']))
         .build();
     var conn = await PemberkatanCollection.aggregateToStream(pipeline).toList();
