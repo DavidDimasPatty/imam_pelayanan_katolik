@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
 import 'package:imam_pelayanan_katolik/historyBaptis.dart';
+import 'package:imam_pelayanan_katolik/historyKomuni.dart';
+import 'package:imam_pelayanan_katolik/historyKrisma.dart';
 import 'package:imam_pelayanan_katolik/komuni.dart';
 import 'package:imam_pelayanan_katolik/krisma.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
@@ -99,7 +101,8 @@ class HistorySakramen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Komuni(names, iduser, idGereja)),
+                      builder: (context) =>
+                          HistoryKomuni(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -137,7 +140,8 @@ class HistorySakramen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Krisma(names, iduser, idGereja)),
+                      builder: (context) =>
+                          HistoryKrisma(names, iduser, idGereja)),
                 );
               },
               child: Container(

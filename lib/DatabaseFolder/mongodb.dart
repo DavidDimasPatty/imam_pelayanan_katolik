@@ -178,7 +178,22 @@ class MongoDatabase {
     return conn;
   }
 
+  static HistoryKomuniGerejaTerdaftar(idGereja) async {
+    var userKomuniCollection = db.collection(KOMUNI_COLLECTION);
+    var conn = await userKomuniCollection.find({'idGereja': idGereja}).toList();
+
+    print(conn);
+    return conn;
+  }
+
   static KrismaGerejaTerdaftar(idGereja) async {
+    var userKrismaCollection = db.collection(KRISMA_COLLECTION);
+    var conn = await userKrismaCollection.find({'idGereja': idGereja}).toList();
+
+    return conn;
+  }
+
+  static HistoryKrismaGerejaTerdaftar(idGereja) async {
     var userKrismaCollection = db.collection(KRISMA_COLLECTION);
     var conn = await userKrismaCollection.find({'idGereja': idGereja}).toList();
 
@@ -284,6 +299,20 @@ class MongoDatabase {
     return conn;
   }
 
+  static HistoryUserKomuniTerdaftar(idKomuni) async {
+    var userKomuniCollection = db.collection(USER_KOMUNI_COLLECTION);
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'user',
+            localField: 'idUser',
+            foreignField: '_id',
+            as: 'userKomuni'))
+        .addStage(Match(where.eq('idKomuni', idKomuni).map['\$query']))
+        .build();
+    var conn = await userKomuniCollection.aggregateToStream(pipeline).toList();
+    return conn;
+  }
+
   static UserKrismaTerdaftar(idKrisma) async {
     var userKrismaCollection = db.collection(USER_KRISMA_COLLECTION);
     final pipeline = AggregationPipelineBuilder()
@@ -294,6 +323,21 @@ class MongoDatabase {
             as: 'userKrisma'))
         .addStage(Match(
             where.eq('idKrisma', idKrisma).eq('status', "0").map['\$query']))
+        .build();
+    var conn = await userKrismaCollection.aggregateToStream(pipeline).toList();
+    print(conn);
+    return conn;
+  }
+
+  static HistoryUserKrismaTerdaftar(idKrisma) async {
+    var userKrismaCollection = db.collection(USER_KRISMA_COLLECTION);
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'user',
+            localField: 'idUser',
+            foreignField: '_id',
+            as: 'userKrisma'))
+        .addStage(Match(where.eq('idKrisma', idKrisma).map['\$query']))
         .build();
     var conn = await userKrismaCollection.aggregateToStream(pipeline).toList();
     print(conn);
