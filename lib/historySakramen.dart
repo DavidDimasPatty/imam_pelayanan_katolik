@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
+import 'package:imam_pelayanan_katolik/historyBaptis.dart';
 import 'package:imam_pelayanan_katolik/komuni.dart';
 import 'package:imam_pelayanan_katolik/krisma.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
@@ -59,7 +60,8 @@ class HistorySakramen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Baptis(names, iduser, idGereja)),
+                      builder: (context) =>
+                          HistoryBaptis(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -190,7 +192,7 @@ class HistorySakramen extends StatelessWidget {
               unselectedItemColor: Colors.blue,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.home, color: Color.fromARGB(255, 0, 0, 0)),
                   label: "Home",
                 ),
                 BottomNavigationBarItem(

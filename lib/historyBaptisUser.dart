@@ -1,22 +1,21 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:imam_pelayanan_katolik/baptisUser.dart';
-import 'package:imam_pelayanan_katolik/historyBaptisUser.dart';
 import 'package:imam_pelayanan_katolik/sakramentalidetail.dart';
 import 'DatabaseFolder/mongodb.dart';
 import 'homePage.dart';
 
-class HistoryBaptis extends StatefulWidget {
+class HistoryBaptisUser extends StatefulWidget {
   var names;
   final idUser;
   final idGereja;
-  HistoryBaptis(this.names, this.idUser, this.idGereja);
+  final idBaptis;
+  HistoryBaptisUser(this.names, this.idUser, this.idGereja, this.idBaptis);
   @override
-  _HistoryBaptis createState() =>
-      _HistoryBaptis(this.names, this.idUser, this.idGereja);
+  _HistoryBaptisUser createState() =>
+      _HistoryBaptisUser(this.names, this.idUser, this.idGereja, this.idBaptis);
 }
 
-class _HistoryBaptis extends State<HistoryBaptis> {
+class _HistoryBaptisUser extends State<HistoryBaptisUser> {
   var names;
   var emails;
   var distance;
@@ -25,10 +24,11 @@ class _HistoryBaptis extends State<HistoryBaptis> {
   List dummyTemp = [];
   final idUser;
   final idGereja;
-  _HistoryBaptis(this.names, this.idUser, this.idGereja);
+  final idBaptis;
+  _HistoryBaptisUser(this.names, this.idUser, this.idGereja, this.idBaptis);
 
   Future<List> callDb() async {
-    return await MongoDatabase.HistoryBaptisGerejaTerdaftar(idGereja);
+    return await MongoDatabase.HistoryUserBaptisTerdaftar(idBaptis);
   }
 
   @override
@@ -46,7 +46,7 @@ class _HistoryBaptis extends State<HistoryBaptis> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['jadwalBuka']
+        if (item['userBaptis'][0]['name']
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase())) {
@@ -127,12 +127,12 @@ class _HistoryBaptis extends State<HistoryBaptis> {
               InkWell(
                 borderRadius: new BorderRadius.circular(24),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HistoryBaptisUser(
-                            names, idUser, idGereja, i['_id'])),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => DetailSakramentali(
+                  //           names, idUser, idGereja, i['_id'])),
+                  // );
                 },
                 child: Container(
                     margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
@@ -153,42 +153,46 @@ class _HistoryBaptis extends State<HistoryBaptis> {
                       //Color(Colors.blue);
 
                       Text(
-                        "Baptis " + i['jadwalBuka'].toString().substring(0, 10),
+                        "Nama :" + i['userBaptis'][0]['name'].toString(),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
                             fontWeight: FontWeight.w300),
                         textAlign: TextAlign.left,
                       ),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                       Text(
-                        'Kapasitas: ' + i['kapasitas'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        "Tanggal Daftar :" +
+                            i['tanggalDaftar'].toString().substring(0, 10),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
                       ),
-                      Text(
-                        'Jadwal Tutup: ' + i['jadwalTutup'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      // Text(
-                      //   'Tanggal: ' + i['tanggal'].toString(),
-                      //   style: TextStyle(color: Colors.white, fontSize: 12),
-                      // ),
-                      // FutureBuilder(
-                      //     future: jarak(i['GerejaKomuni'][0]['lat'],
-                      //         i['GerejaKomuni'][0]['lng']),
-                      //     builder: (context, AsyncSnapshot snapshot) {
-                      //       try {
-                      //         return Column(children: <Widget>[
-                      //           Text(
-                      //             snapshot.data,
-                      //             style: TextStyle(
-                      //                 color: Colors.white, fontSize: 12),
-                      //           )
-                      //         ]);
-                      //       } catch (e) {
-                      //         print(e);
-                      //         return Center(child: CircularProgressIndicator());
-                      //       }
-                      //     }),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                      if (i['status'] == "0")
+                        Text(
+                          'Status: Menunggu',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          RaisedButton(
+                            onPressed: () {},
+                            child: Text("Accept"),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10)),
+                          RaisedButton(
+                            onPressed: () {},
+                            child: Text("Reject"),
+                          )
+                        ],
+                      )
                     ])),
               ),
 
