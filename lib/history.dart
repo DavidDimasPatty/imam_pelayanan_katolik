@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:imam_pelayanan_katolik/history.dart';
+import 'package:imam_pelayanan_katolik/historySakramen.dart';
+import 'package:imam_pelayanan_katolik/homepage.dart';
 import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
 import 'package:imam_pelayanan_katolik/sakramen.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
 import 'DatabaseFolder/mongodb.dart';
 
-class HomePage extends StatelessWidget {
+class History extends StatelessWidget {
   var names;
   var iduser;
   var idGereja;
   var dataUser;
 
-  HomePage(this.names, this.iduser, this.idGereja);
+  History(this.names, this.iduser, this.idGereja);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Welcome ' + names + ","),
+        automaticallyImplyLeading: true,
+        title: Text('History ' + names + ","),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -59,7 +60,8 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Sakramen(names, iduser, idGereja)),
+                      builder: (context) =>
+                          HistorySakramen(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -81,7 +83,7 @@ class HomePage extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "Pendaftaran Sakramen",
+                      "History Sakramen",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -120,7 +122,7 @@ class HomePage extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "Pendaftaran Sakramentali",
+                      "History Sakramentali",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -159,7 +161,7 @@ class HomePage extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "Pendaftaran Kegiatan Umum",
+                      "History Kegiatan Umum",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -192,22 +194,27 @@ class HomePage extends StatelessWidget {
               unselectedItemColor: Colors.blue,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.home, color: Color.fromARGB(255, 0, 0, 0)),
                   label: "Home",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.token, color: Color.fromARGB(255, 0, 0, 0)),
-                  label: "History",
+                  icon: Icon(
+                    Icons.token,
+                    color: Colors.blue,
+                  ),
+                  label: "Histori",
                 )
               ],
               onTap: (index) {
                 if (index == 1) {
+                } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, iduser, idGereja)),
+                        builder: (context) =>
+                            HomePage(names, iduser, idGereja)),
                   );
-                } else if (index == 0) {}
+                }
               },
             ),
           )),

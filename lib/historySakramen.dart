@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:imam_pelayanan_katolik/history.dart';
-import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
-import 'package:imam_pelayanan_katolik/sakramen.dart';
+import 'package:imam_pelayanan_katolik/baptis.dart';
+import 'package:imam_pelayanan_katolik/komuni.dart';
+import 'package:imam_pelayanan_katolik/krisma.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
 import 'DatabaseFolder/mongodb.dart';
 
-class HomePage extends StatelessWidget {
+class HistorySakramen extends StatelessWidget {
   var names;
   var iduser;
   var idGereja;
   var dataUser;
 
-  HomePage(this.names, this.iduser, this.idGereja);
+  HistorySakramen(this.names, this.iduser, this.idGereja);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Welcome ' + names + ","),
+        automaticallyImplyLeading: true,
+        title: Text("History Sakramen"),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Sakramen(names, iduser, idGereja)),
+                      builder: (context) => Baptis(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -81,7 +81,7 @@ class HomePage extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "Pendaftaran Sakramen",
+                      "Baptis",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -97,8 +97,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          Sakramentali(names, iduser, idGereja)),
+                      builder: (context) => Komuni(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -120,7 +119,7 @@ class HomePage extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "Pendaftaran Sakramentali",
+                      "Komuni",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -136,8 +135,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          KegiatanUmum(names, iduser, idGereja)),
+                      builder: (context) => Krisma(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -159,7 +157,7 @@ class HomePage extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "Pendaftaran Kegiatan Umum",
+                      "Krisma",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -197,20 +195,28 @@ class HomePage extends StatelessWidget {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.token, color: Color.fromARGB(255, 0, 0, 0)),
-                  label: "History",
+                  label: "Histori",
                 )
               ],
               onTap: (index) {
-                if (index == 1) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => History(names, iduser, idGereja)),
-                  );
-                } else if (index == 0) {}
+                // if (index == 1) {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => tiketSaya(names, emails, iduser)),
+                //   );
+                // } else if (index == 0) {}
               },
             ),
           )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: new FloatingActionButton(
+      //   onPressed: () {
+      //     openCamera();
+      //   },
+      //   tooltip: 'Increment',
+      //   child: new Icon(Icons.camera_alt_rounded),
+      // ),
     );
   }
 }
