@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
+import 'package:imam_pelayanan_katolik/komuni.dart';
+import 'package:imam_pelayanan_katolik/krisma.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
 import 'DatabaseFolder/mongodb.dart';
@@ -95,8 +97,7 @@ class Sakramen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          Sakramentali(names, iduser, idGereja)),
+                      builder: (context) => Komuni(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -131,14 +132,11 @@ class Sakramen extends StatelessWidget {
             InkWell(
               borderRadius: new BorderRadius.circular(24),
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => Sakramentali(
-                //             names,
-                //             iduser,
-                //           )),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Krisma(names, iduser, idGereja)),
+                );
               },
               child: Container(
                   margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),

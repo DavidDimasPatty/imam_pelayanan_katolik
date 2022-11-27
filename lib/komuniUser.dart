@@ -1,22 +1,21 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:imam_pelayanan_katolik/baptisUser.dart';
-import 'package:imam_pelayanan_katolik/komuniUser.dart';
-import 'package:imam_pelayanan_katolik/krismaUser.dart';
 import 'package:imam_pelayanan_katolik/sakramentalidetail.dart';
 import 'DatabaseFolder/mongodb.dart';
 import 'homePage.dart';
 
-class Krisma extends StatefulWidget {
+class KomuniUser extends StatefulWidget {
   var names;
   final idUser;
   final idGereja;
-  Krisma(this.names, this.idUser, this.idGereja);
+  final idKomuni;
+  KomuniUser(this.names, this.idUser, this.idGereja, this.idKomuni);
   @override
-  _Krisma createState() => _Krisma(this.names, this.idUser, this.idGereja);
+  _KomuniUser createState() =>
+      _KomuniUser(this.names, this.idUser, this.idGereja, this.idKomuni);
 }
 
-class _Krisma extends State<Krisma> {
+class _KomuniUser extends State<KomuniUser> {
   var names;
   var emails;
   var distance;
@@ -25,10 +24,11 @@ class _Krisma extends State<Krisma> {
   List dummyTemp = [];
   final idUser;
   final idGereja;
-  _Krisma(this.names, this.idUser, this.idGereja);
+  final idKomuni;
+  _KomuniUser(this.names, this.idUser, this.idGereja, this.idKomuni);
 
   Future<List> callDb() async {
-    return await MongoDatabase.KrismaGerejaTerdaftar(idGereja);
+    return await MongoDatabase.UserKomuniTerdaftar(idKomuni);
   }
 
   @override
@@ -46,7 +46,7 @@ class _Krisma extends State<Krisma> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['jadwalBuka']
+        if (item['userKomuni'][0]['name']
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase())) {
@@ -77,7 +77,7 @@ class _Krisma extends State<Krisma> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
-        title: Text('Krisma'),
+        title: Text('Komuni'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
@@ -127,12 +127,12 @@ class _Krisma extends State<Krisma> {
               InkWell(
                 borderRadius: new BorderRadius.circular(24),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            KrismaUser(names, idUser, idGereja, i['_id'])),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => DetailSakramentali(
+                  //           names, idUser, idGereja, i['_id'])),
+                  // );
                 },
                 child: Container(
                     margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
@@ -153,42 +153,46 @@ class _Krisma extends State<Krisma> {
                       //Color(Colors.blue);
 
                       Text(
-                        "Krisma " + i['jadwalBuka'].toString().substring(0, 10),
+                        "Nama :" + i['userKomuni'][0]['name'].toString(),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
                             fontWeight: FontWeight.w300),
                         textAlign: TextAlign.left,
                       ),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                       Text(
-                        'Kapasitas: ' + i['kapasitas'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        "Tanggal Daftar :" +
+                            i['tanggalDaftar'].toString().substring(0, 10),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
                       ),
-                      Text(
-                        'Jadwal Tutup: ' + i['jadwalTutup'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      // Text(
-                      //   'Tanggal: ' + i['tanggal'].toString(),
-                      //   style: TextStyle(color: Colors.white, fontSize: 12),
-                      // ),
-                      // FutureBuilder(
-                      //     future: jarak(i['GerejaKomuni'][0]['lat'],
-                      //         i['GerejaKomuni'][0]['lng']),
-                      //     builder: (context, AsyncSnapshot snapshot) {
-                      //       try {
-                      //         return Column(children: <Widget>[
-                      //           Text(
-                      //             snapshot.data,
-                      //             style: TextStyle(
-                      //                 color: Colors.white, fontSize: 12),
-                      //           )
-                      //         ]);
-                      //       } catch (e) {
-                      //         print(e);
-                      //         return Center(child: CircularProgressIndicator());
-                      //       }
-                      //     }),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                      if (i['status'] == "0")
+                        Text(
+                          'Status: Menunggu',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          RaisedButton(
+                            onPressed: () {},
+                            child: Text("Accept"),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10)),
+                          RaisedButton(
+                            onPressed: () {},
+                            child: Text("Reject"),
+                          )
+                        ],
+                      )
                     ])),
               ),
 

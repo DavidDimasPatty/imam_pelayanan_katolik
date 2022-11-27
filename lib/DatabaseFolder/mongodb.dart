@@ -138,6 +138,21 @@ class MongoDatabase {
     return conn;
   }
 
+  static KomuniGerejaTerdaftar(idGereja) async {
+    var userKomuniCollection = db.collection(KOMUNI_COLLECTION);
+    var conn = await userKomuniCollection.find({'idGereja': idGereja}).toList();
+
+    print(conn);
+    return conn;
+  }
+
+  static KrismaGerejaTerdaftar(idGereja) async {
+    var userKrismaCollection = db.collection(KRISMA_COLLECTION);
+    var conn = await userKrismaCollection.find({'idGereja': idGereja}).toList();
+
+    return conn;
+  }
+
   static UserBaptisTerdaftar(idBaptis) async {
     var userBaptisCollection = db.collection(USER_BAPTIS_COLLECTION);
     final pipeline = AggregationPipelineBuilder()
@@ -150,6 +165,38 @@ class MongoDatabase {
             where.eq('idBaptis', idBaptis).eq('status', "0").map['\$query']))
         .build();
     var conn = await userBaptisCollection.aggregateToStream(pipeline).toList();
+    print(conn);
+    return conn;
+  }
+
+  static UserKomuniTerdaftar(idKomuni) async {
+    var userKomuniCollection = db.collection(USER_KOMUNI_COLLECTION);
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'user',
+            localField: 'idUser',
+            foreignField: '_id',
+            as: 'userKomuni'))
+        .addStage(Match(
+            where.eq('idKomuni', idKomuni).eq('status', "0").map['\$query']))
+        .build();
+    var conn = await userKomuniCollection.aggregateToStream(pipeline).toList();
+    print(conn);
+    return conn;
+  }
+
+  static UserKrismaTerdaftar(idKrisma) async {
+    var userKrismaCollection = db.collection(USER_KRISMA_COLLECTION);
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'user',
+            localField: 'idUser',
+            foreignField: '_id',
+            as: 'userKrisma'))
+        .addStage(Match(
+            where.eq('idKrisma', idKrisma).eq('status', "0").map['\$query']))
+        .build();
+    var conn = await userKrismaCollection.aggregateToStream(pipeline).toList();
     print(conn);
     return conn;
   }

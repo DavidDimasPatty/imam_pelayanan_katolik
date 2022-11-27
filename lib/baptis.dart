@@ -44,7 +44,7 @@ class _Baptis extends State<Baptis> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['userDaftar'][0]['jadwalBuka']
+        if (item['jadwalBuka']
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase())) {
