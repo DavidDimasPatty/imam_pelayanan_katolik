@@ -1,5 +1,6 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/sakramentalidetail.dart';
 import 'DatabaseFolder/mongodb.dart';
 import 'homePage.dart';
 
@@ -123,16 +124,12 @@ class _Sakramentali extends State<Sakramentali> {
               InkWell(
                 borderRadius: new BorderRadius.circular(24),
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => detailDaftarKomuni(
-                  //           names,
-                  //           emails,
-                  //           i['GerejaKomuni'][0]['nama'],
-                  //           idUser,
-                  //           i['GerejaKomuni'][0]['_id'])),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DetailSakramentali(
+                            names, idUser, idGereja, i['_id'])),
+                  );
                 },
                 child: Container(
                     margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
