@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
-import 'package:imam_pelayanan_katolik/sakramen.dart';
+import 'package:imam_pelayanan_katolik/baptis.dart';
+import 'package:imam_pelayanan_katolik/komuni.dart';
+import 'package:imam_pelayanan_katolik/krisma.dart';
+import 'package:imam_pelayanan_katolik/pendalamanAlkitab.dart';
+import 'package:imam_pelayanan_katolik/rekoleksi.dart';
+import 'package:imam_pelayanan_katolik/retret.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
 import 'DatabaseFolder/mongodb.dart';
 
-class HomePage extends StatelessWidget {
+class KegiatanUmum extends StatelessWidget {
   var names;
   var iduser;
   var idGereja;
   var dataUser;
 
-  HomePage(this.names, this.iduser, this.idGereja);
+  KegiatanUmum(this.names, this.iduser, this.idGereja);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Welcome ' + names + ","),
+        automaticallyImplyLeading: true,
+        title: Text("Sakramen"),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -58,7 +62,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Sakramen(names, iduser, idGereja)),
+                      builder: (context) => Rekoleksi(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -80,7 +84,7 @@ class HomePage extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "Pendaftaran Sakramen",
+                      "Rekoleksi",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -96,8 +100,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          Sakramentali(names, iduser, idGereja)),
+                      builder: (context) => Retret(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -119,7 +122,7 @@ class HomePage extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "Pendaftaran Sakramentali",
+                      "Retret",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -135,8 +138,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          KegiatanUmum(names, iduser, idGereja)),
+                      builder: (context) => PA(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -158,7 +160,7 @@ class HomePage extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "Pendaftaran Kegiatan Umum",
+                      "Pendalaman Alkitab",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
