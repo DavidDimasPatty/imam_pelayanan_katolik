@@ -99,48 +99,17 @@ class MongoDatabase {
     return conn;
   }
 
-  static findGerejaKomuni() async {
-    var gerejaKomuniCollection = db.collection(KOMUNI_COLLECTION);
+  static findPemberkatan(idGereja) async {
+    var PemberkatanCollection = db.collection(PEMBERKATAN_COLLECTION);
     final pipeline = AggregationPipelineBuilder()
         .addStage(Lookup(
-            from: 'Gereja',
-            localField: 'idGereja',
+            from: 'user',
+            localField: 'idUser',
             foreignField: '_id',
-            as: 'GerejaKomuni'))
+            as: 'userDaftar'))
+        .addStage(Match(where.eq('idGereja', idGereja).map['\$query']))
         .build();
-    var conn =
-        await gerejaKomuniCollection.aggregateToStream(pipeline).toList();
-    print(conn);
-    return conn;
-  }
-
-  static findGerejaKrisma() async {
-    var gerejaKrismaCollection = db.collection(KRISMA_COLLECTION);
-    final pipeline = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'Gereja',
-            localField: 'idGereja',
-            foreignField: '_id',
-            as: 'GerejaKrisma'))
-        .build();
-    var conn =
-        await gerejaKrismaCollection.aggregateToStream(pipeline).toList();
-    print(conn);
-    return conn;
-  }
-
-  static findGerejaBaptis() async {
-    var gerejaKomuniCollection = db.collection(BAPTIS_COLLECTION);
-    final pipeline = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'Gereja',
-            localField: 'idGereja',
-            foreignField: '_id',
-            as: 'GerejaBaptis'))
-        .build();
-    var conn =
-        await gerejaKomuniCollection.aggregateToStream(pipeline).toList();
-    print(conn);
+    var conn = await PemberkatanCollection.aggregateToStream(pipeline).toList();
     return conn;
   }
 

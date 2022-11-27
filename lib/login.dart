@@ -180,7 +180,9 @@ class Login extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => HomePage(
-                                                ret[0]['name'], ret[0]['_id'])),
+                                                ret[0]['name'],
+                                                ret[0]['_id'],
+                                                ret[0]['idGereja'])),
                                       );
                                     } else {
                                       Fluttertoast.showToast(

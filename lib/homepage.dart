@@ -6,9 +6,10 @@ import 'DatabaseFolder/mongodb.dart';
 class HomePage extends StatelessWidget {
   var names;
   var iduser;
+  var idGereja;
   var dataUser;
 
-  HomePage(this.names, this.iduser);
+  HomePage(this.names, this.iduser, this.idGereja);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,10 +99,8 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Sakramentali(
-                            names,
-                            iduser,
-                          )),
+                      builder: (context) =>
+                          Sakramentali(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -202,7 +201,7 @@ class HomePage extends StatelessWidget {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.token, color: Color.fromARGB(255, 0, 0, 0)),
-                  label: "Jadwalku",
+                  label: "Histori",
                 )
               ],
               onTap: (index) {

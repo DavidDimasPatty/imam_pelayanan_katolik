@@ -6,23 +6,26 @@ import 'homePage.dart';
 class Sakramentali extends StatefulWidget {
   var names;
   final idUser;
-  Sakramentali(this.names, this.idUser);
+  final idGereja;
+  Sakramentali(this.names, this.idUser, this.idGereja);
   @override
-  _Sakramentali createState() => _Sakramentali(this.names, this.idUser);
+  _Sakramentali createState() =>
+      _Sakramentali(this.names, this.idUser, this.idGereja);
 }
 
 class _Sakramentali extends State<Sakramentali> {
   var names;
   var emails;
   var distance;
-  List daftarGereja = [];
+  List daftarUser = [];
 
   List dummyTemp = [];
   final idUser;
-  _Sakramentali(this.names, this.idUser);
+  final idGereja;
+  _Sakramentali(this.names, this.idUser, this.idGereja);
 
   Future<List> callDb() async {
-    return await MongoDatabase.findGerejaKomuni();
+    return await MongoDatabase.findPemberkatan(idGereja);
   }
 
   @override
@@ -30,7 +33,7 @@ class _Sakramentali extends State<Sakramentali> {
     super.initState();
     callDb().then((result) {
       setState(() {
-        daftarGereja.addAll(result);
+        daftarUser.addAll(result);
         dummyTemp.addAll(result);
       });
     });
@@ -40,21 +43,21 @@ class _Sakramentali extends State<Sakramentali> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['GerejaKomuni'][0]['nama']
+        if (item['userDaftar'][0]['name']
             .toLowerCase()
             .contains(query.toLowerCase())) {
           listOMaps.add(item);
         }
       }
       setState(() {
-        daftarGereja.clear();
-        daftarGereja.addAll(listOMaps);
+        daftarUser.clear();
+        daftarUser.addAll(listOMaps);
       });
-      return daftarGereja;
+      return daftarUser;
     } else {
       setState(() {
-        daftarGereja.clear();
-        daftarGereja.addAll(dummyTemp);
+        daftarUser.clear();
+        daftarUser.addAll(dummyTemp);
       });
     }
   }
@@ -70,7 +73,7 @@ class _Sakramentali extends State<Sakramentali> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
-        title: Text('Pendaftaran Komuni'),
+        title: Text('Sakramentali'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
@@ -116,7 +119,7 @@ class _Sakramentali extends State<Sakramentali> {
             ),
 
             /////////
-            for (var i in daftarGereja)
+            for (var i in daftarUser)
               InkWell(
                 borderRadius: new BorderRadius.circular(24),
                 onTap: () {
@@ -150,7 +153,7 @@ class _Sakramentali extends State<Sakramentali> {
                       //Color(Colors.blue);
 
                       Text(
-                        i['GerejaKomuni'][0]['nama'],
+                        i['userDaftar'][0]['name'],
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 26.0,
@@ -158,16 +161,15 @@ class _Sakramentali extends State<Sakramentali> {
                         textAlign: TextAlign.left,
                       ),
                       Text(
-                        'Paroki: ' + i['GerejaKomuni'][0]['paroki'],
+                        'Jenis Pemberkatan: ' + i['jenis'],
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                       Text(
-                        'Alamat: ' + i['GerejaKomuni'][0]['address'],
+                        'Alamat: ' + i['alamat'],
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                       Text(
-                        'Kapasitas Tersedia: ' +
-                            i['GerejaKomuni'][0]['kapasitas'].toString(),
+                        'Tanggal: ' + i['tanggal'].toString(),
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                       // FutureBuilder(
@@ -218,7 +220,7 @@ class _Sakramentali extends State<Sakramentali> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.token, color: Color.fromARGB(255, 0, 0, 0)),
-                  label: "Jadwalku",
+                  label: "Histori",
                 )
               ],
               onTap: (index) {
