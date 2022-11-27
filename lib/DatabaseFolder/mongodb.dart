@@ -130,6 +130,30 @@ class MongoDatabase {
     return conn;
   }
 
+  static BaptisGerejaTerdaftar(idGereja) async {
+    var userBaptisCollection = db.collection(BAPTIS_COLLECTION);
+    var conn = await userBaptisCollection.find({'idGereja': idGereja}).toList();
+
+    print(conn);
+    return conn;
+  }
+
+  static UserBaptisTerdaftar(idBaptis) async {
+    var userBaptisCollection = db.collection(USER_BAPTIS_COLLECTION);
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'user',
+            localField: 'idUser',
+            foreignField: '_id',
+            as: 'userBaptis'))
+        .addStage(Match(
+            where.eq('idBaptis', idBaptis).eq('status', "0").map['\$query']))
+        .build();
+    var conn = await userBaptisCollection.aggregateToStream(pipeline).toList();
+    print(conn);
+    return conn;
+  }
+
   static detailGerejaKrisma(idGereja) async {
     var gerejaKrismaCollection = db.collection(GEREJA_COLLECTION);
     final pipeline = AggregationPipelineBuilder()
