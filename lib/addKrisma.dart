@@ -9,19 +9,19 @@ import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
-class addKomuni extends StatefulWidget {
+class addKrisma extends StatefulWidget {
   @override
   final names;
   final idUser;
   final idGereja;
-  addKomuni(this.names, this.idUser, this.idGereja);
+  addKrisma(this.names, this.idUser, this.idGereja);
 
   @override
-  _addKomuni createState() =>
-      _addKomuni(this.names, this.idUser, this.idGereja);
+  _addKrisma createState() =>
+      _addKrisma(this.names, this.idUser, this.idGereja);
 }
 
-class _addKomuni extends State<addKomuni> {
+class _addKrisma extends State<addKrisma> {
   final names;
   final idUser;
   final idGereja;
@@ -32,7 +32,7 @@ class _addKomuni extends State<addKomuni> {
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
-  _addKomuni(this.names, this.idUser, this.idGereja);
+  _addKrisma(this.names, this.idUser, this.idGereja);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -61,7 +61,7 @@ class _addKomuni extends State<addKomuni> {
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
-          msg: "Gagal Mendaftarkan Komuni",
+          msg: "Gagal Mendaftarkan Krisma",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -70,7 +70,7 @@ class _addKomuni extends State<addKomuni> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
-          msg: "Berhasil Mendaftarkan Komuni",
+          msg: "Berhasil Mendaftarkan Krisma",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -89,7 +89,7 @@ class _addKomuni extends State<addKomuni> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text("Tambah Kegiatan Komuni"),
+        title: Text("Tambah Kegiatan Krisma"),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
