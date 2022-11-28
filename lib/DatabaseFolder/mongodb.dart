@@ -164,24 +164,33 @@ class MongoDatabase {
 
   static RekoleksiTerdaftar(idGereja) async {
     var rekoleksiCollection = db.collection(UMUM_COLLECTION);
-    var conn = await rekoleksiCollection
-        .find({'idGereja': idGereja, 'jenisKegiatan': "Rekoleksi"}).toList();
+    var conn = await rekoleksiCollection.find({
+      'idGereja': idGereja,
+      'jenisKegiatan': "Rekoleksi",
+      'status': 0
+    }).toList();
 
     return conn;
   }
 
   static RetretTerdaftar(idGereja) async {
     var retretCollection = db.collection(UMUM_COLLECTION);
-    var conn = await retretCollection
-        .find({'idGereja': idGereja, 'jenisKegiatan': "Retret"}).toList();
+    var conn = await retretCollection.find({
+      'idGereja': idGereja,
+      'jenisKegiatan': "Retret",
+      'status': 0
+    }).toList();
 
     return conn;
   }
 
   static PATerdaftar(idGereja) async {
     var PACollection = db.collection(UMUM_COLLECTION);
-    var conn = await PACollection.find(
-        {'idGereja': idGereja, 'jenisKegiatan': "Pendalaman Alkitab"}).toList();
+    var conn = await PACollection.find({
+      'idGereja': idGereja,
+      'jenisKegiatan': "Pendalaman Alkitab",
+      'status': 0
+    }).toList();
 
     return conn;
   }
@@ -977,6 +986,20 @@ class MongoDatabase {
     var baptisCollection = db.collection(BAPTIS_COLLECTION);
 
     var update = await baptisCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', 1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static updateStatusKegiatan(idKegiatan) async {
+    var umumCollection = db.collection(UMUM_COLLECTION);
+
+    var update = await umumCollection.updateOne(
         where.eq('_id', idKegiatan), modify.set('status', 1));
 
     if (!update.isSuccess) {

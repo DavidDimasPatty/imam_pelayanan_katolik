@@ -1,5 +1,6 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/addRetret.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
 import 'package:imam_pelayanan_katolik/rekoleksiUser.dart';
@@ -64,6 +65,35 @@ class _Retret extends State<Retret> {
         daftarUser.clear();
         daftarUser.addAll(dummyTemp);
       });
+    }
+  }
+
+  void updateKegiatan(idKegiatan) async {
+    var hasil = await MongoDatabase.updateStatusKegiatan(idKegiatan);
+
+    if (hasil == "fail") {
+      Fluttertoast.showToast(
+          msg: "Gagal Deactive Kegiatan Retret",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Berhasil Deactive Kegiatan Retret",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Retret(names, idUser, idGereja)),
+      );
     }
   }
 
@@ -197,6 +227,39 @@ class _Retret extends State<Retret> {
                       Text(
                         'Tanggal: ' + i['tanggal'].toString(),
                         style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: RaisedButton(
+                            textColor: Colors.white,
+                            color: Colors.lightBlue,
+                            child: Text("Deactive Kegiatan"),
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            onPressed: () async {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Confirm Deactive'),
+                                  content: const Text(
+                                      'Yakin ingin mendeactive kegiatan ini?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'Cancel'),
+                                      child: const Text('Tidak'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        updateKegiatan(i["_id"]);
+                                      },
+                                      child: const Text('Ya'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
                       ),
                       // Text(
                       //   'Tanggal: ' + i['tanggal'].toString(),
