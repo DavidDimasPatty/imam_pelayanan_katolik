@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:imam_pelayanan_katolik/historyKegiatanUmum.dart';
-import 'package:imam_pelayanan_katolik/historySakramen.dart';
-import 'package:imam_pelayanan_katolik/historySakramentali.dart';
-import 'package:imam_pelayanan_katolik/homepage.dart';
-import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
-import 'package:imam_pelayanan_katolik/sakramen.dart';
+import 'package:imam_pelayanan_katolik/baptis.dart';
+import 'package:imam_pelayanan_katolik/komuni.dart';
+import 'package:imam_pelayanan_katolik/krisma.dart';
+import 'package:imam_pelayanan_katolik/pendalamanAlkitab.dart';
+import 'package:imam_pelayanan_katolik/rekoleksi.dart';
+import 'package:imam_pelayanan_katolik/retret.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
 import 'DatabaseFolder/mongodb.dart';
 
-class History extends StatelessWidget {
+class HistoryKegiatanUmum extends StatelessWidget {
   var names;
   var iduser;
   var idGereja;
   var dataUser;
 
-  History(this.names, this.iduser, this.idGereja);
+  HistoryKegiatanUmum(this.names, this.iduser, this.idGereja);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text('History Pelayanan'),
+        title: Text("History Kegiatan Umum"),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -62,8 +62,7 @@ class History extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          HistorySakramen(names, iduser, idGereja)),
+                      builder: (context) => Rekoleksi(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -85,7 +84,7 @@ class History extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "History Sakramen",
+                      "Rekoleksi",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -101,8 +100,7 @@ class History extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          HistorySakramentali(names, iduser, idGereja)),
+                      builder: (context) => Retret(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -124,7 +122,7 @@ class History extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "History Sakramentali",
+                      "Retret",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -140,8 +138,7 @@ class History extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          HistoryKegiatanUmum(names, iduser, idGereja)),
+                      builder: (context) => PA(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -163,7 +160,7 @@ class History extends StatelessWidget {
                     //Color(Colors.blue);
 
                     Text(
-                      "History Kegiatan Umum",
+                      "Pendalaman Alkitab",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26.0,
@@ -196,30 +193,33 @@ class History extends StatelessWidget {
               unselectedItemColor: Colors.blue,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home, color: Color.fromARGB(255, 0, 0, 0)),
+                  icon: Icon(Icons.home),
                   label: "Home",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.token,
-                    color: Colors.blue,
-                  ),
+                  icon: Icon(Icons.token, color: Color.fromARGB(255, 0, 0, 0)),
                   label: "Histori",
                 )
               ],
               onTap: (index) {
-                if (index == 1) {
-                } else if (index == 0) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, iduser, idGereja)),
-                  );
-                }
+                // if (index == 1) {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => tiketSaya(names, emails, iduser)),
+                //   );
+                // } else if (index == 0) {}
               },
             ),
           )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: new FloatingActionButton(
+      //   onPressed: () {
+      //     openCamera();
+      //   },
+      //   tooltip: 'Increment',
+      //   child: new Icon(Icons.camera_alt_rounded),
+      // ),
     );
   }
 }

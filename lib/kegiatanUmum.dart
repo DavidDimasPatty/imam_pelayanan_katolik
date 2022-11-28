@@ -21,7 +21,7 @@ class KegiatanUmum extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text("Sakramen"),
+        title: Text("Kegiatan Umum"),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
