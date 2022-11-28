@@ -6,6 +6,8 @@ import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
+import 'package:imam_pelayanan_katolik/pendalamanAlkitab.dart';
+import 'package:imam_pelayanan_katolik/rekoleksi.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
@@ -31,6 +33,11 @@ class _addPA extends State<addPA> {
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
+  TextEditingController namaKegiatan = new TextEditingController();
+  TextEditingController temaKegiatan = new TextEditingController();
+  TextEditingController deskripsiKegiatan = new TextEditingController();
+  TextEditingController tamuKegiatan = new TextEditingController();
+  TextEditingController lokasi = new TextEditingController();
   _addPA(this.names, this.idUser, this.idGereja);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
@@ -54,13 +61,20 @@ class _addPA extends State<addPA> {
     });
   }
 
-  void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
-    var hasil = await MongoDatabase.addBaptis(
-        idGereja, kapasitas, tanggalbuka.toString(), tanggaltutup.toString());
+  void submit() async {
+    var hasil = await MongoDatabase.addPA(
+        idGereja,
+        namaKegiatan.text,
+        temaKegiatan.text,
+        deskripsiKegiatan.text,
+        tamuKegiatan.text,
+        kapasitas.text,
+        lokasi.text,
+        _selectedDate.toString());
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
-          msg: "Gagal Mendaftarkan Baptis",
+          msg: "Gagal Mendaftarkan Pendalaman Alkitab",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -69,7 +83,7 @@ class _addPA extends State<addPA> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
-          msg: "Berhasil Mendaftarkan Baptis",
+          msg: "Berhasil Mendaftarkan Pendalaman Alkitab",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -78,8 +92,7 @@ class _addPA extends State<addPA> {
           fontSize: 16.0);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) => Baptis(names, idUser, idGereja)),
+        MaterialPageRoute(builder: (context) => PA(names, idUser, idGereja)),
       );
     }
   }
@@ -88,7 +101,7 @@ class _addPA extends State<addPA> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text("Tambah Kegiatan Baptis"),
+        title: Text("Tambah Kegiatan Pendalaman Alkitab"),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -124,6 +137,167 @@ class _addPA extends State<addPA> {
               padding: EdgeInsets.symmetric(vertical: 10),
             ),
             Text(
+              "Nama Kegiatan",
+              textAlign: TextAlign.left,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+            ),
+            TextField(
+              controller: namaKegiatan,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
+                  hintText: "Nama Kegiatan",
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+            ),
+            Text(
+              "Tema Kegiatan",
+              textAlign: TextAlign.left,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+            ),
+            TextField(
+              controller: temaKegiatan,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
+                  hintText: "Tema Kegiatan",
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+            ),
+            Text(
+              "Deskripsi Kegiatan",
+              textAlign: TextAlign.left,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+            ),
+            TextField(
+              controller: deskripsiKegiatan,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
+                  hintText: "Deskripsi Kegiatan",
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+            ),
+            Text(
+              "Tamu Kegiatan",
+              textAlign: TextAlign.left,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+            ),
+            TextField(
+              controller: tamuKegiatan,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
+                  hintText: "Tamu Kegiatan",
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+            ),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+            ),
+            Text(
               "Kapasitas",
               textAlign: TextAlign.left,
             ),
@@ -146,7 +320,48 @@ class _addPA extends State<addPA> {
                       color: Colors.black,
                     ),
                   ),
-                  hintText: "Kapasitas Pendaftaran",
+                  hintText: "Kapasitas Kegiatan",
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+            ),
+            Text(
+              "Lokasi Kegiatan",
+              textAlign: TextAlign.left,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+            ),
+            TextField(
+              controller: lokasi,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
+                  hintText: "Lokasi Kegiatan",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -162,7 +377,7 @@ class _addPA extends State<addPA> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Tanggal Buka dan Tutup Pendaftaran",
+              "Tanggal Kegiatan",
               textAlign: TextAlign.left,
             ),
             Padding(
@@ -172,7 +387,7 @@ class _addPA extends State<addPA> {
               view: DateRangePickerView.month,
 
               onSelectionChanged: _onSelectionChanged,
-              selectionMode: DateRangePickerSelectionMode.range,
+              selectionMode: DateRangePickerSelectionMode.single,
               monthViewSettings:
                   DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
               // initialSelectedRange: PickerDateRange(
@@ -191,7 +406,7 @@ class _addPA extends State<addPA> {
                 borderRadius: new BorderRadius.circular(30.0),
               ),
               onPressed: () async {
-                submit(idGereja, kapasitas.text, tanggalBuka, tanggalTutup);
+                submit();
               }),
         ),
       ]),

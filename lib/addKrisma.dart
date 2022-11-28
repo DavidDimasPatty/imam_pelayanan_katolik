@@ -6,6 +6,7 @@ import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
+import 'package:imam_pelayanan_katolik/krisma.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
@@ -56,7 +57,7 @@ class _addKrisma extends State<addKrisma> {
   }
 
   void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
-    var hasil = await MongoDatabase.addKomuni(
+    var hasil = await MongoDatabase.addKrisma(
         idGereja, kapasitas, tanggalbuka.toString(), tanggaltutup.toString());
 
     if (hasil == "fail") {
@@ -80,7 +81,7 @@ class _addKrisma extends State<addKrisma> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => Baptis(names, idUser, idGereja)),
+            builder: (context) => Krisma(names, idUser, idGereja)),
       );
     }
   }

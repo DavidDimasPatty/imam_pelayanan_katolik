@@ -800,9 +800,84 @@ class MongoDatabase {
 
     var hasil = await baptisCollection.insertOne({
       'idGereja': idGereja,
-      'kapasitas': kapasitas,
+      'kapasitas': int.parse(kapasitas),
       'jadwalBuka': DateTime.parse(tanggalbuka),
       'jadwalTutup': DateTime.parse(tanggaltutup),
+      'status': 0
+    });
+
+    if (!hasil.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static addRekoleksi(idGereja, namaKegiatan, temaKegiatan, deskripsiKegiatan,
+      tamuKegiatan, kapasitas, lokasi, tanggal) async {
+    var umumCollection = db.collection(UMUM_COLLECTION);
+
+    var hasil = await umumCollection.insertOne({
+      'idGereja': idGereja,
+      'namaKegiatan': namaKegiatan,
+      'temaKegiatan': temaKegiatan,
+      'jenisKegiatan': "Rekoleksi",
+      'deskripsiKegiatan': deskripsiKegiatan,
+      'tamu': tamuKegiatan,
+      'tanggal': DateTime.parse(tanggal),
+      'kapasitas': int.parse(kapasitas),
+      'lokasi': lokasi,
+      'status': 0
+    });
+
+    if (!hasil.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static addRetret(idGereja, namaKegiatan, temaKegiatan, deskripsiKegiatan,
+      tamuKegiatan, kapasitas, lokasi, tanggal) async {
+    var umumCollection = db.collection(UMUM_COLLECTION);
+
+    var hasil = await umumCollection.insertOne({
+      'idGereja': idGereja,
+      'namaKegiatan': namaKegiatan,
+      'temaKegiatan': temaKegiatan,
+      'jenisKegiatan': "Rekoleksi",
+      'deskripsiKegiatan': deskripsiKegiatan,
+      'tamu': tamuKegiatan,
+      'tanggal': DateTime.parse(tanggal),
+      'kapasitas': int.parse(kapasitas),
+      'lokasi': lokasi,
+      'status': 0
+    });
+
+    if (!hasil.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static addPA(idGereja, namaKegiatan, temaKegiatan, deskripsiKegiatan,
+      tamuKegiatan, kapasitas, lokasi, tanggal) async {
+    var umumCollection = db.collection(UMUM_COLLECTION);
+
+    var hasil = await umumCollection.insertOne({
+      'idGereja': idGereja,
+      'namaKegiatan': namaKegiatan,
+      'temaKegiatan': temaKegiatan,
+      'jenisKegiatan': "Pendalaman Alkitab",
+      'deskripsiKegiatan': deskripsiKegiatan,
+      'tamu': tamuKegiatan,
+      'tanggal': DateTime.parse(tanggal),
+      'kapasitas': int.parse(kapasitas),
+      'lokasi': lokasi,
       'status': 0
     });
 
@@ -821,7 +896,7 @@ class MongoDatabase {
 
     var hasil = await komuniCollection.insertOne({
       'idGereja': idGereja,
-      'kapasitas': kapasitas,
+      'kapasitas': int.parse(kapasitas),
       'jadwalBuka': DateTime.parse(tanggalbuka),
       'jadwalTutup': DateTime.parse(tanggaltutup),
       'status': 0
@@ -842,7 +917,7 @@ class MongoDatabase {
 
     var hasil = await krismaCollection.insertOne({
       'idGereja': idGereja,
-      'kapasitas': kapasitas,
+      'kapasitas': int.parse(kapasitas),
       'jadwalBuka': DateTime.parse(tanggalbuka),
       'jadwalTutup': DateTime.parse(tanggaltutup),
       'status': 0
