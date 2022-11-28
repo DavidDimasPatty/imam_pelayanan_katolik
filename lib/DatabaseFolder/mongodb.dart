@@ -185,6 +185,30 @@ class MongoDatabase {
     return conn;
   }
 
+  static HistoryRekoleksiTerdaftar(idGereja) async {
+    var rekoleksiCollection = db.collection(UMUM_COLLECTION);
+    var conn = await rekoleksiCollection
+        .find({'idGereja': idGereja, 'jenisKegiatan': "Rekoleksi"}).toList();
+
+    return conn;
+  }
+
+  static HistoryRetretTerdaftar(idGereja) async {
+    var retretCollection = db.collection(UMUM_COLLECTION);
+    var conn = await retretCollection
+        .find({'idGereja': idGereja, 'jenisKegiatan': "Retret"}).toList();
+
+    return conn;
+  }
+
+  static HistoryPATerdaftar(idGereja) async {
+    var PACollection = db.collection(UMUM_COLLECTION);
+    var conn = await PACollection.find(
+        {'idGereja': idGereja, 'jenisKegiatan': "Pendalaman Alkitab"}).toList();
+
+    return conn;
+  }
+
   static KomuniGerejaTerdaftar(idGereja) async {
     var userKomuniCollection = db.collection(KOMUNI_COLLECTION);
     var conn = await userKomuniCollection.find({'idGereja': idGereja}).toList();
@@ -292,6 +316,51 @@ class MongoDatabase {
             .eq('idKegiatan', idRekoleksi)
             .eq('status', "0")
             .map['\$query']))
+        .build();
+    var conn = await userUmumCollection.aggregateToStream(pipeline).toList();
+    print(conn);
+    return conn;
+  }
+
+  static HistoryUserRekoleksiTerdaftar(idRekoleksi) async {
+    var userUmumCollection = db.collection(USER_UMUM_COLLECTION);
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'user',
+            localField: 'idUser',
+            foreignField: '_id',
+            as: 'userRekoleksi'))
+        .addStage(Match(where.eq('idKegiatan', idRekoleksi).map['\$query']))
+        .build();
+    var conn = await userUmumCollection.aggregateToStream(pipeline).toList();
+    print(conn);
+    return conn;
+  }
+
+  static HistoryUserPATerdaftar(idPA) async {
+    var userUmumCollection = db.collection(USER_UMUM_COLLECTION);
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'user',
+            localField: 'idUser',
+            foreignField: '_id',
+            as: 'userPA'))
+        .addStage(Match(where.eq('idKegiatan', idPA).map['\$query']))
+        .build();
+    var conn = await userUmumCollection.aggregateToStream(pipeline).toList();
+    print(conn);
+    return conn;
+  }
+
+  static HistoryUserRetretTerdaftar(idRekoleksi) async {
+    var userUmumCollection = db.collection(USER_UMUM_COLLECTION);
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'user',
+            localField: 'idUser',
+            foreignField: '_id',
+            as: 'userRetret'))
+        .addStage(Match(where.eq('idKegiatan', idRekoleksi).map['\$query']))
         .build();
     var conn = await userUmumCollection.aggregateToStream(pipeline).toList();
     print(conn);

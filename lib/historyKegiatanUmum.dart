@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
+import 'package:imam_pelayanan_katolik/historyPA.dart';
+import 'package:imam_pelayanan_katolik/historyRekoleksi.dart';
+import 'package:imam_pelayanan_katolik/historyRetret.dart';
 import 'package:imam_pelayanan_katolik/komuni.dart';
 import 'package:imam_pelayanan_katolik/krisma.dart';
 import 'package:imam_pelayanan_katolik/pendalamanAlkitab.dart';
@@ -62,7 +65,8 @@ class HistoryKegiatanUmum extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Rekoleksi(names, iduser, idGereja)),
+                      builder: (context) =>
+                          HistoryRekoleksi(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -100,7 +104,8 @@ class HistoryKegiatanUmum extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Retret(names, iduser, idGereja)),
+                      builder: (context) =>
+                          HistoryRetret(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -138,7 +143,7 @@ class HistoryKegiatanUmum extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PA(names, iduser, idGereja)),
+                      builder: (context) => HistoryPA(names, iduser, idGereja)),
                 );
               },
               child: Container(
@@ -193,7 +198,7 @@ class HistoryKegiatanUmum extends StatelessWidget {
               unselectedItemColor: Colors.blue,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.home, color: Color.fromARGB(255, 0, 0, 0)),
                   label: "Home",
                 ),
                 BottomNavigationBarItem(
