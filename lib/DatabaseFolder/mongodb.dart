@@ -147,7 +147,8 @@ class MongoDatabase {
 
   static BaptisGerejaTerdaftar(idGereja) async {
     var userBaptisCollection = db.collection(BAPTIS_COLLECTION);
-    var conn = await userBaptisCollection.find({'idGereja': idGereja}).toList();
+    var conn = await userBaptisCollection
+        .find({'idGereja': idGereja, 'status': 0}).toList();
 
     print(conn);
     return conn;
@@ -211,7 +212,8 @@ class MongoDatabase {
 
   static KomuniGerejaTerdaftar(idGereja) async {
     var userKomuniCollection = db.collection(KOMUNI_COLLECTION);
-    var conn = await userKomuniCollection.find({'idGereja': idGereja}).toList();
+    var conn = await userKomuniCollection
+        .find({'idGereja': idGereja, 'status': 0}).toList();
 
     print(conn);
     return conn;
@@ -227,7 +229,8 @@ class MongoDatabase {
 
   static KrismaGerejaTerdaftar(idGereja) async {
     var userKrismaCollection = db.collection(KRISMA_COLLECTION);
-    var conn = await userKrismaCollection.find({'idGereja': idGereja}).toList();
+    var conn = await userKrismaCollection
+        .find({'idGereja': idGereja, 'status': 0}).toList();
 
     return conn;
   }
@@ -892,6 +895,48 @@ class MongoDatabase {
       }
     } catch (e) {
       return 'failed';
+    }
+  }
+
+  static updateStatusBaptis(idKegiatan) async {
+    var baptisCollection = db.collection(BAPTIS_COLLECTION);
+
+    var update = await baptisCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', 1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static updateStatusKomuni(idKegiatan) async {
+    var komuniCollection = db.collection(KOMUNI_COLLECTION);
+
+    var update = await komuniCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', 1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static updateStatusKrisma(idKegiatan) async {
+    var krismaCollection = db.collection(KRISMA_COLLECTION);
+
+    var update = await krismaCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', 1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
     }
   }
 
