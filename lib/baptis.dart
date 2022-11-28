@@ -1,5 +1,6 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/addBaptis.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
 import 'package:imam_pelayanan_katolik/sakramentalidetail.dart';
 import 'DatabaseFolder/mongodb.dart';
@@ -119,7 +120,34 @@ class _Baptis extends State<Baptis> {
                 },
               ),
             ),
-
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 10, left: 10),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      color: Colors.black,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  addBaptis(names, idUser, idGereja)),
+                        );
+                      },
+                      splashColor: Colors.blue,
+                      splashRadius: 30,
+                      icon: Icon(Icons.add),
+                    ),
+                  ),
+                ),
+                Text("Add Baptis")
+              ],
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             /////////
             for (var i in daftarUser)
               InkWell(

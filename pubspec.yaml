@@ -42,6 +42,7 @@ dependencies:
   firebase_core: ^1.0.3
   mongo_dart: ^0.8.1
   anim_search_bar: ^2.0.2
+  syncfusion_flutter_datepicker: ^20.3.58
 
 dev_dependencies:
   flutter_test:

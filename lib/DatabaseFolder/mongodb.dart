@@ -790,6 +790,69 @@ class MongoDatabase {
     }
   }
 
+  static addBaptis(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
+    var baptisCollection = db.collection(BAPTIS_COLLECTION);
+    print(tanggalbuka);
+    print(tanggaltutup);
+
+    var hasil = await baptisCollection.insertOne({
+      'idGereja': idGereja,
+      'kapasitas': kapasitas,
+      'jadwalBuka': DateTime.parse(tanggalbuka),
+      'jadwalTutup': DateTime.parse(tanggaltutup),
+      'status': 0
+    });
+
+    if (!hasil.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static addKomuni(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
+    var komuniCollection = db.collection(KOMUNI_COLLECTION);
+    print(tanggalbuka);
+    print(tanggaltutup);
+
+    var hasil = await komuniCollection.insertOne({
+      'idGereja': idGereja,
+      'kapasitas': kapasitas,
+      'jadwalBuka': DateTime.parse(tanggalbuka),
+      'jadwalTutup': DateTime.parse(tanggaltutup),
+      'status': 0
+    });
+
+    if (!hasil.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static addKrisma(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
+    var krismaCollection = db.collection(KRISMA_COLLECTION);
+    print(tanggalbuka);
+    print(tanggaltutup);
+
+    var hasil = await krismaCollection.insertOne({
+      'idGereja': idGereja,
+      'kapasitas': kapasitas,
+      'jadwalBuka': DateTime.parse(tanggalbuka),
+      'jadwalTutup': DateTime.parse(tanggaltutup),
+      'status': 0
+    });
+
+    if (!hasil.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
   static addUser(nama, email, password) async {
     userCollection = db.collection(USER_COLLECTION);
     var checkEmail;
