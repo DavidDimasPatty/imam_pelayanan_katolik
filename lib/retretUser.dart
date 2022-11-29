@@ -67,6 +67,14 @@ class _RetretUser extends State<RetretUser> {
     }
   }
 
+  void updateReject(id) async {
+    var hasil = await MongoDatabase.rejectKegiatan(id);
+  }
+
+  void updateAccept(id) async {
+    var hasil = await MongoDatabase.acceptKegiatan(id);
+  }
+
   TextEditingController editingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -182,18 +190,58 @@ class _RetretUser extends State<RetretUser> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          RaisedButton(
-                            onPressed: () {},
-                            child: Text("Accept"),
+                          Expanded(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                textColor: Colors.white,
+                                color: Colors.lightBlue,
+                                child: Text("Accept"),
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),
+                                onPressed: () async {
+                                  updateAccept(i['_id']);
+                                  callDb().then((result) {
+                                    setState(() {
+                                      daftarUser.clear();
+                                      dummyTemp.clear();
+                                      daftarUser.addAll(result);
+                                      dummyTemp.addAll(result);
+                                    });
+                                  });
+                                },
+                              ),
+                            ),
                           ),
                           Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10)),
-                          RaisedButton(
-                            onPressed: () {},
-                            child: Text("Reject"),
-                          )
+                          Expanded(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                  textColor: Colors.white,
+                                  color: Colors.lightBlue,
+                                  child: Text("Reject"),
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0),
+                                  ),
+                                  onPressed: () async {
+                                    updateReject(i['_id']);
+                                    callDb().then((result) {
+                                      setState(() {
+                                        daftarUser.clear();
+                                        dummyTemp.clear();
+                                        daftarUser.addAll(result);
+                                        dummyTemp.addAll(result);
+                                      });
+                                    });
+                                  }),
+                            ),
+                          ),
                         ],
-                      )
+                      ),
                     ])),
               ),
 

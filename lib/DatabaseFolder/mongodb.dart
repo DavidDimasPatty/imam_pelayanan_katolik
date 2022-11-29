@@ -260,7 +260,7 @@ class MongoDatabase {
             foreignField: '_id',
             as: 'userBaptis'))
         .addStage(Match(
-            where.eq('idBaptis', idBaptis).eq('status', "0").map['\$query']))
+            where.eq('idBaptis', idBaptis).eq('status', 0).map['\$query']))
         .build();
     var conn = await userBaptisCollection.aggregateToStream(pipeline).toList();
     print(conn);
@@ -290,10 +290,8 @@ class MongoDatabase {
             localField: 'idUser',
             foreignField: '_id',
             as: 'userRekoleksi'))
-        .addStage(Match(where
-            .eq('idKegiatan', idRekoleksi)
-            .eq('status', "0")
-            .map['\$query']))
+        .addStage(Match(
+            where.eq('idKegiatan', idRekoleksi).eq('status', 0).map['\$query']))
         .build();
     var conn = await userUmumCollection.aggregateToStream(pipeline).toList();
     print(conn);
@@ -308,8 +306,8 @@ class MongoDatabase {
             localField: 'idUser',
             foreignField: '_id',
             as: 'userPA'))
-        .addStage(Match(
-            where.eq('idKegiatan', idPA).eq('status', "0").map['\$query']))
+        .addStage(
+            Match(where.eq('idKegiatan', idPA).eq('status', 0).map['\$query']))
         .build();
     var conn = await userUmumCollection.aggregateToStream(pipeline).toList();
     print(conn);
@@ -324,10 +322,8 @@ class MongoDatabase {
             localField: 'idUser',
             foreignField: '_id',
             as: 'userRetret'))
-        .addStage(Match(where
-            .eq('idKegiatan', idRekoleksi)
-            .eq('status', "0")
-            .map['\$query']))
+        .addStage(Match(
+            where.eq('idKegiatan', idRekoleksi).eq('status', 0).map['\$query']))
         .build();
     var conn = await userUmumCollection.aggregateToStream(pipeline).toList();
     print(conn);
@@ -388,7 +384,7 @@ class MongoDatabase {
             foreignField: '_id',
             as: 'userKomuni'))
         .addStage(Match(
-            where.eq('idKomuni', idKomuni).eq('status', "0").map['\$query']))
+            where.eq('idKomuni', idKomuni).eq('status', 0).map['\$query']))
         .build();
     var conn = await userKomuniCollection.aggregateToStream(pipeline).toList();
     print(conn);
@@ -418,7 +414,7 @@ class MongoDatabase {
             foreignField: '_id',
             as: 'userKrisma'))
         .addStage(Match(
-            where.eq('idKrisma', idKrisma).eq('status', "0").map['\$query']))
+            where.eq('idKrisma', idKrisma).eq('status', 0).map['\$query']))
         .build();
     var conn = await userKrismaCollection.aggregateToStream(pipeline).toList();
     print(conn);
@@ -568,7 +564,7 @@ class MongoDatabase {
               as: 'UserBaptis'),
         )
         .addStage(
-            Match(where.eq('idUser', idUser).eq('status', '0').map['\$query']))
+            Match(where.eq('idUser', idUser).eq('status', 0).map['\$query']))
         .build();
     var conn = await userBaptisCollection.aggregateToStream(pipeline).toList();
 
@@ -586,7 +582,7 @@ class MongoDatabase {
               as: 'UserKrisma'),
         )
         .addStage(
-            Match(where.eq('idUser', idUser).eq('status', '0').map['\$query']))
+            Match(where.eq('idUser', idUser).eq('status', 0).map['\$query']))
         .build();
     var conn = await userKrismaCollection.aggregateToStream(pipeline).toList();
 
@@ -620,7 +616,7 @@ class MongoDatabase {
               as: 'UserKegiatan'),
         )
         .addStage(
-            Match(where.eq('idUser', idUser).eq('status', '0').map['\$query']))
+            Match(where.eq('idUser', idUser).eq('status', 0).map['\$query']))
         .build();
     var conn =
         await userKegiatanCollection.aggregateToStream(pipeline).toList();
@@ -656,7 +652,7 @@ class MongoDatabase {
               as: 'UserKomuni'),
         )
         .addStage(
-            Match(where.eq('idUser', idUser).eq('status', '0').map['\$query']))
+            Match(where.eq('idUser', idUser).eq('status', 0).map['\$query']))
         .build();
     var conn = await userBaptisCollection.aggregateToStream(pipeline).toList();
 
@@ -1000,6 +996,118 @@ class MongoDatabase {
     var pemberkatanCollection = db.collection(PEMBERKATAN_COLLECTION);
 
     var update = await pemberkatanCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', -1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static acceptBaptis(idKegiatan) async {
+    var baptisCollection = db.collection(USER_BAPTIS_COLLECTION);
+
+    var update = await baptisCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', 1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static rejectBaptis(idKegiatan) async {
+    var baptisCollection = db.collection(USER_BAPTIS_COLLECTION);
+
+    var update = await baptisCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', -1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static acceptKomuni(idKegiatan) async {
+    var komuniCollection = db.collection(USER_KOMUNI_COLLECTION);
+
+    var update = await komuniCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', 1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static rejectKomuni(idKegiatan) async {
+    var komuniCollection = db.collection(USER_KOMUNI_COLLECTION);
+
+    var update = await komuniCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', -1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static acceptKrisma(idKegiatan) async {
+    var krismaCollection = db.collection(USER_KRISMA_COLLECTION);
+
+    var update = await krismaCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', 1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static rejectKrisma(idKegiatan) async {
+    var krismaCollection = db.collection(USER_KRISMA_COLLECTION);
+
+    var update = await krismaCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', -1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static acceptKegiatan(idKegiatan) async {
+    var kegiatanCollection = db.collection(USER_UMUM_COLLECTION);
+
+    var update = await kegiatanCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', 1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static rejectKegiatan(idKegiatan) async {
+    var kegiatanCollection = db.collection(USER_UMUM_COLLECTION);
+
+    var update = await kegiatanCollection.updateOne(
         where.eq('_id', idKegiatan), modify.set('status', -1));
 
     if (!update.isSuccess) {
