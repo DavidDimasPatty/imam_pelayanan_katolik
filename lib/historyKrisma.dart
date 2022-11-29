@@ -1,6 +1,7 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
+import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/historyKrismaUser.dart';
 import 'package:imam_pelayanan_katolik/komuniUser.dart';
 import 'package:imam_pelayanan_katolik/krismaUser.dart';
@@ -227,17 +228,18 @@ class _HistoryKrisma extends State<HistoryKrisma> {
               ],
               onTap: (index) {
                 if (index == 1) {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => tiketSaya(names, emails, idUser)),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => History(names, idUser, idGereja)),
+                  );
                 } else if (index == 0) {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => HomePage(names, emails, idUser)),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HomePage(names, idUser, idGereja)),
+                  );
                 }
               },
             ),

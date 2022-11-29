@@ -2,6 +2,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/history.dart';
+import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
 class DetailSakramentali extends StatefulWidget {
@@ -378,17 +380,17 @@ class _DetailSakramentali extends State<DetailSakramentali> {
               ],
               onTap: (index) {
                 if (index == 1) {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => tiketSaya(names, emails, idUser)),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => History(name, idUser, idGereja)),
+                  );
                 } else if (index == 0) {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => HomePage(names, emails, idUser)),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HomePage(name, idUser, idGereja)),
+                  );
                 }
               },
             ),

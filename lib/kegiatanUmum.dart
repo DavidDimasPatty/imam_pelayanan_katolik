@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
+import 'package:imam_pelayanan_katolik/history.dart';
+import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:imam_pelayanan_katolik/komuni.dart';
 import 'package:imam_pelayanan_katolik/krisma.dart';
 import 'package:imam_pelayanan_katolik/pendalamanAlkitab.dart';
@@ -202,13 +204,20 @@ class KegiatanUmum extends StatelessWidget {
                 )
               ],
               onTap: (index) {
-                // if (index == 1) {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => tiketSaya(names, emails, iduser)),
-                //   );
-                // } else if (index == 0) {}
+                if (index == 1) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => History(names, iduser, idGereja)),
+                  );
+                } else if (index == 0) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HomePage(names, iduser, idGereja)),
+                  );
+                }
               },
             ),
           )),
