@@ -90,11 +90,14 @@ class _Retret extends State<Retret> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Retret(names, idUser, idGereja)),
-      );
+      callDb().then((result) {
+        setState(() {
+          daftarUser.clear();
+          dummyTemp.clear();
+          daftarUser.addAll(result);
+          dummyTemp.addAll(result);
+        });
+      });
     }
   }
 
@@ -254,6 +257,7 @@ class _Retret extends State<Retret> {
                                     TextButton(
                                       onPressed: () async {
                                         updateKegiatan(i["_id"]);
+                                        Navigator.pop(context);
                                       },
                                       child: const Text('Ya'),
                                     ),

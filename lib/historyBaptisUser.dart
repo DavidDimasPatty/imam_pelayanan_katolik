@@ -1,7 +1,7 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/baptis.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
-import 'package:imam_pelayanan_katolik/historyBaptis.dart';
 import 'package:imam_pelayanan_katolik/sakramentalidetail.dart';
 import 'DatabaseFolder/mongodb.dart';
 import 'homePage.dart';
@@ -68,6 +68,14 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
     }
   }
 
+  void updateReject(id) async {
+    var hasil = await MongoDatabase.rejectBaptis(id);
+  }
+
+  void updateAccept(id) async {
+    var hasil = await MongoDatabase.acceptBaptis(id);
+  }
+
   TextEditingController editingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -76,18 +84,7 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
     });
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => HistoryBaptis(names, idUser, idGereja)),
-            );
-          },
-          icon: Icon(Icons.arrow_back_ios),
-          //replace with our own icon data.
-        ),
+        automaticallyImplyLeading: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -185,9 +182,19 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
                         textAlign: TextAlign.left,
                       ),
                       Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                      if (i['status'] == "0")
+                      if (i['status'] == 0)
                         Text(
                           'Status: Menunggu',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      if (i['status'] == 1)
+                        Text(
+                          'Status: Accept',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      if (i['status'] == -1)
+                        Text(
+                          'Status: Reject',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       Padding(padding: EdgeInsets.symmetric(vertical: 5)),
@@ -195,18 +202,58 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          RaisedButton(
-                            onPressed: () {},
-                            child: Text("Accept"),
+                          Expanded(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                textColor: Colors.white,
+                                color: Colors.lightBlue,
+                                child: Text("Accept"),
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),
+                                onPressed: () async {
+                                  updateAccept(i['_id']);
+                                  callDb().then((result) {
+                                    setState(() {
+                                      daftarUser.clear();
+                                      dummyTemp.clear();
+                                      daftarUser.addAll(result);
+                                      dummyTemp.addAll(result);
+                                    });
+                                  });
+                                },
+                              ),
+                            ),
                           ),
                           Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10)),
-                          RaisedButton(
-                            onPressed: () {},
-                            child: Text("Reject"),
-                          )
+                          Expanded(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                  textColor: Colors.white,
+                                  color: Colors.lightBlue,
+                                  child: Text("Reject"),
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0),
+                                  ),
+                                  onPressed: () async {
+                                    updateReject(i['_id']);
+                                    callDb().then((result) {
+                                      setState(() {
+                                        daftarUser.clear();
+                                        dummyTemp.clear();
+                                        daftarUser.addAll(result);
+                                        dummyTemp.addAll(result);
+                                      });
+                                    });
+                                  }),
+                            ),
+                          ),
                         ],
-                      )
+                      ),
                     ])),
               ),
 

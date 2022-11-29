@@ -67,6 +67,14 @@ class _HistoryPAUser extends State<HistoryPAUser> {
     }
   }
 
+  void updateReject(id) async {
+    var hasil = await MongoDatabase.rejectKegiatan(id);
+  }
+
+  void updateAccept(id) async {
+    var hasil = await MongoDatabase.acceptKegiatan(id);
+  }
+
   TextEditingController editingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -172,9 +180,19 @@ class _HistoryPAUser extends State<HistoryPAUser> {
                         textAlign: TextAlign.left,
                       ),
                       Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                      if (i['status'] == "0")
+                      if (i['status'] == 0)
                         Text(
                           'Status: Menunggu',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      if (i['status'] == 1)
+                        Text(
+                          'Status: Accept',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      if (i['status'] == -1)
+                        Text(
+                          'Status: Reject',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       Padding(padding: EdgeInsets.symmetric(vertical: 5)),
@@ -182,18 +200,58 @@ class _HistoryPAUser extends State<HistoryPAUser> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          RaisedButton(
-                            onPressed: () {},
-                            child: Text("Accept"),
+                          Expanded(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                textColor: Colors.white,
+                                color: Colors.lightBlue,
+                                child: Text("Accept"),
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),
+                                onPressed: () async {
+                                  updateAccept(i['_id']);
+                                  callDb().then((result) {
+                                    setState(() {
+                                      daftarUser.clear();
+                                      dummyTemp.clear();
+                                      daftarUser.addAll(result);
+                                      dummyTemp.addAll(result);
+                                    });
+                                  });
+                                },
+                              ),
+                            ),
                           ),
                           Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10)),
-                          RaisedButton(
-                            onPressed: () {},
-                            child: Text("Reject"),
-                          )
+                          Expanded(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                  textColor: Colors.white,
+                                  color: Colors.lightBlue,
+                                  child: Text("Reject"),
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0),
+                                  ),
+                                  onPressed: () async {
+                                    updateReject(i['_id']);
+                                    callDb().then((result) {
+                                      setState(() {
+                                        daftarUser.clear();
+                                        dummyTemp.clear();
+                                        daftarUser.addAll(result);
+                                        dummyTemp.addAll(result);
+                                      });
+                                    });
+                                  }),
+                            ),
+                          ),
                         ],
-                      )
+                      ),
                     ])),
               ),
 

@@ -93,10 +93,14 @@ class _PA extends State<PA> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => PA(names, idUser, idGereja)),
-      );
+      callDb().then((result) {
+        setState(() {
+          daftarUser.clear();
+          dummyTemp.clear();
+          daftarUser.addAll(result);
+          dummyTemp.addAll(result);
+        });
+      });
     }
   }
 
@@ -253,6 +257,7 @@ class _PA extends State<PA> {
                                     TextButton(
                                       onPressed: () async {
                                         updateKegiatan(i["_id"]);
+                                        Navigator.pop(context);
                                       },
                                       child: const Text('Ya'),
                                     ),
