@@ -72,6 +72,18 @@ class _Sakramentali extends State<Sakramentali> {
     });
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => HomePage(names, idUser, idGereja)),
+            );
+          },
+          icon: Icon(Icons.arrow_back_ios),
+          //replace with our own icon data.
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),

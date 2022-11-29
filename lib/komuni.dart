@@ -5,6 +5,7 @@ import 'package:imam_pelayanan_katolik/addKomuni.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/komuniUser.dart';
+import 'package:imam_pelayanan_katolik/sakramen.dart';
 import 'package:imam_pelayanan_katolik/sakramentalidetail.dart';
 import 'DatabaseFolder/mongodb.dart';
 import 'homePage.dart';
@@ -105,6 +106,18 @@ class _Komuni extends State<Komuni> {
     });
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Sakramen(names, idUser, idGereja)),
+            );
+          },
+          icon: Icon(Icons.arrow_back_ios),
+          //replace with our own icon data.
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),

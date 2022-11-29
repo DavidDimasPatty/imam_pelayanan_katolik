@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/historyKrismaUser.dart';
+import 'package:imam_pelayanan_katolik/historySakramen.dart';
 import 'package:imam_pelayanan_katolik/komuniUser.dart';
 import 'package:imam_pelayanan_katolik/krismaUser.dart';
 import 'package:imam_pelayanan_katolik/sakramentalidetail.dart';
@@ -77,6 +78,19 @@ class _HistoryKrisma extends State<HistoryKrisma> {
     });
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HistorySakramen(names, idUser, idGereja)),
+            );
+          },
+          icon: Icon(Icons.arrow_back_ios),
+          //replace with our own icon data.
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
