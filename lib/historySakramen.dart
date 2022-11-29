@@ -22,18 +22,7 @@ class HistorySakramen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => History(names, iduser, idGereja)),
-            );
-          },
-          icon: Icon(Icons.arrow_back_ios),
-          //replace with our own icon data.
-        ),
+        automaticallyImplyLeading: true,
         title: Text("History Sakramen"),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
