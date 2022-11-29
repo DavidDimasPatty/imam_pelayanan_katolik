@@ -84,18 +84,7 @@ class _KrismaUser extends State<KrismaUser> {
     });
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Krisma(names, idUser, idGereja)),
-            );
-          },
-          icon: Icon(Icons.arrow_back_ios),
-          //replace with our own icon data.
-        ),
+        automaticallyImplyLeading: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),

@@ -90,11 +90,14 @@ class _Komuni extends State<Komuni> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Komuni(names, idUser, idGereja)),
-      );
+      callDb().then((result) {
+        setState(() {
+          daftarUser.clear();
+          dummyTemp.clear();
+          daftarUser.addAll(result);
+          dummyTemp.addAll(result);
+        });
+      });
     }
   }
 
@@ -106,18 +109,7 @@ class _Komuni extends State<Komuni> {
     });
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Sakramen(names, idUser, idGereja)),
-            );
-          },
-          icon: Icon(Icons.arrow_back_ios),
-          //replace with our own icon data.
-        ),
+        automaticallyImplyLeading: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -266,6 +258,7 @@ class _Komuni extends State<Komuni> {
                                     TextButton(
                                       onPressed: () async {
                                         updateKegiatan(i["_id"]);
+                                        Navigator.pop(context);
                                       },
                                       child: const Text('Ya'),
                                     ),
