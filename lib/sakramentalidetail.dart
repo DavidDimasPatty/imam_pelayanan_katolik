@@ -2,6 +2,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
 class DetailSakramentali extends StatefulWidget {
   final name;
@@ -30,34 +31,63 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     return data;
   }
 
-  // void submitForm(nama, paroki, lingkungan, notelp, alamat, jenis, tanggal,
-  //     note, context) async {
-  //   var add = await MongoDatabase.addPemberkatan(
-  //       idUser, nama, paroki, lingkungan, notelp, alamat, jenis, tanggal, note);
-  //   if (add == 'oke') {
-  //     Fluttertoast.showToast(
-  //         msg: "Berhasil Mendaftar Pemberkatan",
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.CENTER,
-  //         timeInSecForIosWeb: 2,
-  //         backgroundColor: Colors.red,
-  //         textColor: Colors.white,
-  //         fontSize: 16.0);
-  //     // Navigator.pushReplacement(
-  //     //   context,
-  //     //   MaterialPageRoute(builder: (context) => HomePage(name, email, idUser)),
-  //     // );
-  //   } else {
-  //     Fluttertoast.showToast(
-  //         msg: "Gagal Mendaftar Pemberkatan",
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.CENTER,
-  //         timeInSecForIosWeb: 2,
-  //         backgroundColor: Colors.red,
-  //         textColor: Colors.white,
-  //         fontSize: 16.0);
-  //   }
-  // }
+  void updateAccept() async {
+    var hasil = MongoDatabase.acceptPemberkatan(idPemberkatan);
+
+    if (hasil == "fail") {
+      Fluttertoast.showToast(
+          msg: "Gagal Menerima Pelayanan Pemberkatan",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Berhasil Menerima Pelayanan Pemberkatan",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Sakramentali(name, idUser, idGereja)),
+      );
+    }
+  }
+
+  void updateReject() async {
+    var hasil = MongoDatabase.rejectPemberkatan(idPemberkatan);
+
+    if (hasil == "fail") {
+      Fluttertoast.showToast(
+          msg: "Gagal Menolak Pelayanan Pemberkatan",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Berhasil Menolak Menerima Pelayanan Pemberkatan",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Sakramentali(name, idUser, idGereja)),
+      );
+    }
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -234,14 +264,78 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      RaisedButton(
-                        onPressed: () async {},
-                        child: Text('Accept'),
+                      Expanded(
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: RaisedButton(
+                              textColor: Colors.white,
+                              color: Colors.lightBlue,
+                              child: Text("Accept"),
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0),
+                              ),
+                              onPressed: () async {
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: const Text('Confirm Accept'),
+                                    content: const Text(
+                                        'Yakin ingin melakukan pelayanan pemberkatan ini?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, 'Cancel'),
+                                        child: const Text('Tidak'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          updateAccept();
+                                        },
+                                        child: const Text('Ya'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                        ),
                       ),
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-                      RaisedButton(
-                        onPressed: () async {},
-                        child: Text('Reject'),
+                      Padding(padding: EdgeInsets.symmetric(horizontal: 20)),
+                      Expanded(
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: RaisedButton(
+                              textColor: Colors.white,
+                              color: Colors.lightBlue,
+                              child: Text("Reject"),
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0),
+                              ),
+                              onPressed: () async {
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: const Text('Confirm Reject'),
+                                    content: const Text(
+                                        'Yakin ingin menolak pelayanan pemberkatan ini?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, 'Cancel'),
+                                        child: const Text('Tidak'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          updateReject();
+                                        },
+                                        child: const Text('Ya'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                        ),
                       ),
                     ],
                   ),

@@ -169,6 +169,21 @@ class _HistorySakramentali extends State<HistorySakramentali> {
                         'Tanggal: ' + i['tanggal'].toString(),
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
+                      if (i['status'] == 0)
+                        Text(
+                          'Status: Menunggu',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      if (i['status'] == 1)
+                        Text(
+                          'Status: Accept',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      if (i['status'] == -1)
+                        Text(
+                          'Status: Reject',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
                       // FutureBuilder(
                       //     future: jarak(i['GerejaKomuni'][0]['lat'],
                       //         i['GerejaKomuni'][0]['lng']),

@@ -982,6 +982,34 @@ class MongoDatabase {
     }
   }
 
+  static acceptPemberkatan(idKegiatan) async {
+    var pemberkatanCollection = db.collection(PEMBERKATAN_COLLECTION);
+
+    var update = await pemberkatanCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', 1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
+  static rejectPemberkatan(idKegiatan) async {
+    var pemberkatanCollection = db.collection(PEMBERKATAN_COLLECTION);
+
+    var update = await pemberkatanCollection.updateOne(
+        where.eq('_id', idKegiatan), modify.set('status', -1));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
+    }
+  }
+
   static updateStatusBaptis(idKegiatan) async {
     var baptisCollection = db.collection(BAPTIS_COLLECTION);
 
