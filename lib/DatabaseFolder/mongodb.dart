@@ -28,6 +28,21 @@ class MongoDatabase {
     }
   }
 
+  static callAdmin(idUser) async {
+    userCollection = db.collection(IMAM_COLLECTION);
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'Gereja',
+            localField: 'idGereja',
+            foreignField: '_id',
+            as: 'userGereja'))
+        .addStage(Match(where.eq('_id', idUser).map['\$query']))
+        .build();
+    var conn = await userCollection.aggregateToStream(pipeline).toList();
+    print(conn);
+    return conn;
+  }
+
   static getDataUser(id) async {
     userCollection = db.collection(USER_COLLECTION);
     var conn = await userCollection.find({'_id': id}).toList();
