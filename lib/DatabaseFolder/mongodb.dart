@@ -1282,7 +1282,7 @@ class MongoDatabase {
   }
 
   static updateProfilePicture(id, path) async {
-    userCollection = db.collection(USER_COLLECTION);
+    userCollection = db.collection(IMAM_COLLECTION);
     var conn = await userCollection.updateOne(
         where.eq('_id', id), modify.set('picture', path));
     if (conn.isSuccess) {

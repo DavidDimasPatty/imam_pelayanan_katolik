@@ -15,6 +15,10 @@ class HomePage extends StatelessWidget {
 
   HomePage(this.names, this.iduser, this.idGereja);
   @override
+  Future callDb() async {
+    return await MongoDatabase.callAdmin(iduser);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -52,10 +56,49 @@ class HomePage extends StatelessWidget {
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
           children: <Widget>[
-            /////////
-
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Halo, " + names,
+                  style: TextStyle(color: Colors.black, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(width: 8),
+                FutureBuilder(
+                    future: callDb(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      try {
+                        return Column(children: <Widget>[
+                          if (snapshot.data[0]['picture'] != null)
+                            CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(snapshot.data[0]['picture']),
+                              backgroundColor: Colors.greenAccent,
+                              radius: 30.0,
+                            ),
+                          if (snapshot.data[0]['picture'] == null)
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(''),
+                              backgroundColor: Colors.greenAccent,
+                              radius: 30.0,
+                            ),
+                        ]);
+                      } catch (e) {
+                        print(e);
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }),
+              ],
+            ),
+            SizedBox(
+              height: 40,
+            ),
             InkWell(
-              borderRadius: new BorderRadius.circular(24),
               onTap: () {
                 Navigator.push(
                   context,
@@ -64,7 +107,8 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                  height: 120,
+                  margin: EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topRight,
@@ -76,18 +120,44 @@ class HomePage extends StatelessWidget {
                     border: Border.all(
                       color: Colors.lightBlue,
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
-
-                    Text(
-                      "Pendaftaran Sakramen",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
+                  child: Row(children: <Widget>[
+                    Container(
+                      height: 119,
+                      width: 120,
+                      child: Image.network(
+                        'https://cdn.pixabay.com/photo/2018/08/21/11/18/priest-3621038_960_720.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          "Pendaftaran Sakramen",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w300),
+                          textAlign: TextAlign.right,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Buat kegiatan pelayanan sakramen baru, \n active/ deactive kegiatan  \n pelayanan sakramen, \n Konfirmasi pendaftaran user",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.0,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ],
                     ),
                   ])),
             ),
@@ -103,7 +173,8 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                  height: 120,
+                  margin: EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topRight,
@@ -115,18 +186,44 @@ class HomePage extends StatelessWidget {
                     border: Border.all(
                       color: Colors.lightBlue,
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
-
-                    Text(
-                      "Pendaftaran Sakramentali",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
+                  child: Row(children: <Widget>[
+                    Column(
+                      children: [
+                        Text(
+                          "Pendaftaran Sakramentali",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w300),
+                          textAlign: TextAlign.right,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          " Konfirmasi pendaftaran user yang \n mendaftarkan pelayanan pemberkatan \npada gereja",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.0,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      height: 119,
+                      width: 123,
+                      child: Image.network(
+                        'https://cdn.pixabay.com/photo/2013/02/09/04/33/church-79607_960_720.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ),
                     ),
                   ])),
             ),
@@ -142,7 +239,8 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                  height: 120,
+                  margin: EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topRight,
@@ -154,18 +252,44 @@ class HomePage extends StatelessWidget {
                     border: Border.all(
                       color: Colors.lightBlue,
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
-
-                    Text(
-                      "Pendaftaran Kegiatan Umum",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
+                  child: Row(children: <Widget>[
+                    Container(
+                      height: 119,
+                      width: 120,
+                      child: Image.network(
+                        'https://cdn.pixabay.com/photo/2019/07/01/07/25/last-supper-4309347_960_720.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          "Pendaftaran Kegiatan Umum",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w300),
+                          textAlign: TextAlign.right,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Buat kegiatan umum gereja, active/ \n  deactive kegiatan  \n umum gereja,  Konfirmasi \n pendaftaran user",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.0,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ],
                     ),
                   ])),
             ),

@@ -1,11 +1,15 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/DatabaseFolder/fireBase.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
 import 'package:imam_pelayanan_katolik/sakramen.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
-
+import 'package:file_picker/file_picker.dart';
 import 'DatabaseFolder/mongodb.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class Profile extends StatelessWidget {
   var names;
@@ -18,6 +22,37 @@ class Profile extends StatelessWidget {
   @override
   Future<List> callDb() async {
     return await MongoDatabase.callAdmin(iduser);
+  }
+
+  Future selectFile(context) async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result == null) return;
+    File file;
+    final path = result.files.single.path;
+    file = File(path!);
+    uploadFile(file, context);
+  }
+
+  Future uploadFile(File file, context) async {
+    if (file == null) return;
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(
+        now.year, now.month, now.day, now.hour, now.minute, now.second);
+    final filename = date.toString();
+    final destination = 'files/$filename';
+    UploadTask? task = FirebaseApi.uploadFile(destination, file);
+    final snapshot = await task!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    await MongoDatabase.updateProfilePicture(iduser, urlDownload).then((value) {
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Profile(names, iduser, idGereja)),
+      );
+    });
+
+    //print('Download-Link: $urlDownload');
   }
 
   Widget build(BuildContext context) {
@@ -94,17 +129,13 @@ class Profile extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      if (snapshot.data[0]['userGereja'][0]
-                                              ['picture'] ==
-                                          null)
+                                      if (snapshot.data[0]['picture'] == null)
                                         CircleAvatar(
                                           backgroundImage: AssetImage(''),
                                           backgroundColor: Colors.greenAccent,
                                           radius: 80.0,
                                         ),
-                                      if (snapshot.data[0]['userGereja'][0]
-                                              ['picture'] !=
-                                          null)
+                                      if (snapshot.data[0]['picture'] != null)
                                         CircleAvatar(
                                           backgroundImage: NetworkImage(
                                               snapshot.data[0]['picture']),
@@ -263,9 +294,9 @@ class Profile extends StatelessWidget {
                         width: 300.00,
                         child: RaisedButton(
                             onPressed: () async {
-                              // await ImagePicker()
-                              //     .pickImage(source: ImageSource.gallery);
-                              // await selectFile(context);
+                              await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              await selectFile(context);
                             },
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(80.0)),
@@ -328,7 +359,7 @@ class Profile extends StatelessWidget {
                                     maxWidth: 300.0, minHeight: 50.0),
                                 alignment: Alignment.center,
                                 child: Text(
-                                  "Edit Profile Gereja",
+                                  "Edit Informasi Gereja",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 26.0,
@@ -363,7 +394,7 @@ class Profile extends StatelessWidget {
               unselectedItemColor: Colors.blue,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.home, color: Color.fromARGB(255, 0, 0, 0)),
                   label: "Home",
                 ),
                 BottomNavigationBarItem(

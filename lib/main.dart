@@ -1,4 +1,5 @@
 //import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
@@ -12,9 +13,9 @@ import 'package:imam_pelayanan_katolik/login.dart';
 // }
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   await MongoDatabase.connect();
   //LocationPermission permission = await Geolocator.checkPermission();
   //print(permission);
