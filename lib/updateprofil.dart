@@ -34,11 +34,11 @@ class _UpdateProfile extends State<UpdateProfile> {
   String _rangeCount = '';
   String tanggalBuka = "";
   String tanggalTutup = "";
-  TextEditingController nama = new TextEditingController();
-  TextEditingController address = new TextEditingController();
-  TextEditingController paroki = new TextEditingController();
-  TextEditingController lingkungan = new TextEditingController();
-  TextEditingController deskripsi = new TextEditingController();
+  TextEditingController nama = new TextEditingController(text: "");
+  TextEditingController address = new TextEditingController(text: "");
+  TextEditingController paroki = new TextEditingController(text: "");
+  TextEditingController lingkungan = new TextEditingController(text: "");
+  TextEditingController deskripsi = new TextEditingController(text: "");
 
   _UpdateProfile(this.names, this.idUser, this.idGereja);
 
@@ -112,12 +112,12 @@ class _UpdateProfile extends State<UpdateProfile> {
           FutureBuilder(
               future: callDb(),
               builder: (context, AsyncSnapshot snapshot) {
-                nama.text = snapshot.data[0]['nama'];
-                address.text = snapshot.data[0]['address'];
-                paroki.text = snapshot.data[0]['paroki'];
-                lingkungan.text = snapshot.data[0]['lingkungan'];
-                deskripsi.text = snapshot.data[0]['deskripsi'];
                 try {
+                  nama.text = snapshot.data[0]['nama'];
+                  address.text = snapshot.data[0]['address'];
+                  paroki.text = snapshot.data[0]['paroki'];
+                  lingkungan.text = snapshot.data[0]['lingkungan'];
+                  deskripsi.text = snapshot.data[0]['deskripsi'];
                   return Column(children: <Widget>[
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
