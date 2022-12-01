@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/historyRetretUser.dart';
+import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/rekoleksiUser.dart';
 import 'package:imam_pelayanan_katolik/retretUser.dart';
 import 'package:imam_pelayanan_katolik/sakramentalidetail.dart';
@@ -85,11 +86,11 @@ class _HistoryRetret extends State<HistoryRetret> {
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Profile(names, emails, idUser)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Profile(names, idUser, idGereja)),
+              );
             },
           ),
           IconButton(

@@ -7,6 +7,7 @@ import 'package:imam_pelayanan_katolik/baptis.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:imam_pelayanan_katolik/pendalamanAlkitab.dart';
+import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/rekoleksi.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
@@ -109,11 +110,11 @@ class _addPA extends State<addPA> {
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Profile(names, emails, iduser)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Profile(names, idUser, idGereja)),
+              );
             },
           ),
           IconButton(

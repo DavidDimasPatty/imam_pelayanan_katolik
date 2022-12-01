@@ -6,6 +6,7 @@ import 'package:imam_pelayanan_katolik/baptisUser.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/komuniUser.dart';
 import 'package:imam_pelayanan_katolik/krismaUser.dart';
+import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/sakramen.dart';
 import 'package:imam_pelayanan_katolik/sakramentalidetail.dart';
 import 'DatabaseFolder/mongodb.dart';
@@ -119,11 +120,11 @@ class _Krisma extends State<Krisma> {
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Profile(names, emails, idUser)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Profile(names, idUser, idGereja)),
+              );
             },
           ),
           IconButton(

@@ -1,6 +1,7 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
+import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/sakramentalidetail.dart';
 import 'DatabaseFolder/mongodb.dart';
 import 'homePage.dart';
@@ -93,11 +94,11 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Profile(names, emails, idUser)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Profile(names, idUser, idGereja)),
+              );
             },
           ),
           IconButton(

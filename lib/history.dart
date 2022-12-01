@@ -4,6 +4,7 @@ import 'package:imam_pelayanan_katolik/historySakramen.dart';
 import 'package:imam_pelayanan_katolik/historySakramentali.dart';
 import 'package:imam_pelayanan_katolik/homepage.dart';
 import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
+import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/sakramen.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
@@ -29,11 +30,11 @@ class History extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Profile(names, emails, iduser)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Profile(names, iduser, idGereja)),
+              );
             },
           ),
           IconButton(

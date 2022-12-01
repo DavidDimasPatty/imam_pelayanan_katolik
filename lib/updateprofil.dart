@@ -88,11 +88,11 @@ class _UpdateProfile extends State<UpdateProfile> {
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Profile(names, emails, iduser)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Profile(names, idUser, idGereja)),
+              );
             },
           ),
           IconButton(

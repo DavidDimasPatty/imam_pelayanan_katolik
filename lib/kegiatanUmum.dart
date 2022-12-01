@@ -5,6 +5,7 @@ import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:imam_pelayanan_katolik/komuni.dart';
 import 'package:imam_pelayanan_katolik/krisma.dart';
 import 'package:imam_pelayanan_katolik/pendalamanAlkitab.dart';
+import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/rekoleksi.dart';
 import 'package:imam_pelayanan_katolik/retret.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
@@ -31,11 +32,11 @@ class KegiatanUmum extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Profile(names, emails, iduser)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Profile(names, iduser, idGereja)),
+              );
             },
           ),
           IconButton(

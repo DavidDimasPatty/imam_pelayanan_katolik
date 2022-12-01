@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
+import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
 class DetailSakramentali extends StatefulWidget {
@@ -103,11 +104,11 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Profile(name, email, idUser)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Profile(name, idUser, idGereja)),
+              );
             },
           ),
           IconButton(
