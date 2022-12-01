@@ -55,6 +55,18 @@ class MongoDatabase {
     }
   }
 
+  static getDataGereja(id) async {
+    var gerejaCollection = db.collection(GEREJA_COLLECTION);
+    var conn = await gerejaCollection.find({'_id': id}).toList();
+    try {
+      if (conn[0]['id'] != "") {
+        return conn;
+      }
+    } catch (e) {
+      return "failed";
+    }
+  }
+
   static totalGereja(id) async {
     var jadwalCollection = db.collection(TIKET_COLLECTION);
     var conn = await jadwalCollection.find({'idUser': id}).length;
@@ -990,6 +1002,27 @@ class MongoDatabase {
       }
     } catch (e) {
       return 'failed';
+    }
+  }
+
+  static updateGereja(
+      idGereja, name, address, paroki, lingkungan, deskripsi) async {
+    var gerejaCollection = db.collection(GEREJA_COLLECTION);
+
+    var update = await gerejaCollection.updateOne(
+        where.eq('_id', idGereja),
+        modify
+            .set('nama', name)
+            .set('address', address)
+            .set('paroki', paroki)
+            .set('lingkungan', lingkungan)
+            .set('deskripsi', deskripsi));
+
+    if (!update.isSuccess) {
+      print('Error detected in record insertion');
+      return 'fail';
+    } else {
+      return 'oke';
     }
   }
 

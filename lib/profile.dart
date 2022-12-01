@@ -7,6 +7,7 @@ import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
 import 'package:imam_pelayanan_katolik/sakramen.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:imam_pelayanan_katolik/updateprofil.dart';
 import 'DatabaseFolder/mongodb.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -332,12 +333,12 @@ class Profile extends StatelessWidget {
                         width: 300.00,
                         child: RaisedButton(
                             onPressed: () async {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) =>
-                              //           history(name, email, idUser)),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        UpdateProfile(names, iduser, idGereja)),
+                              );
                             },
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(80.0)),
