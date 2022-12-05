@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPencarian.dart';
 import 'package:imam_pelayanan_katolik/login.dart';
 
 //import 'package:geolocator/geolocator.dart';
@@ -25,9 +27,10 @@ void main() async {
   //   print(permission2);
   // }
   //await MongoDatabase.showUser();
-
-  runApp(MaterialApp(
-    title: 'Navigation Basics',
-    home: Login(),
-  ));
+  AgenPage("ready", null);
+  AgenPencarian("ready", null);
+  // runApp(MaterialApp(
+  //   title: 'Navigation Basics',
+  //   home: Login(),
+  // ));
 }
