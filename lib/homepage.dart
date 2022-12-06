@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
             height: 10,
           ),
           Container(
-              height: 325,
+              height: 305,
               width: 100,
               decoration: BoxDecoration(
                 color: Colors.indigo[100],
@@ -531,7 +531,6 @@ class HomePage extends StatelessWidget {
             },
             child: Container(
                 height: 120,
-                margin: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topRight,
