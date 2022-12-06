@@ -401,7 +401,6 @@ class HomePage extends StatelessWidget {
             },
             child: Container(
                 height: 120,
-                margin: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topRight,
@@ -467,7 +466,6 @@ class HomePage extends StatelessWidget {
             },
             child: Container(
                 height: 120,
-                margin: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topRight,
