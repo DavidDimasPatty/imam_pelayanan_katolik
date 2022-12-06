@@ -610,6 +610,108 @@ class MongoDatabase {
     ];
   }
 
+  static callJumlahTotal(idGereja) async {
+    var userKrismaCollection = db.collection(KRISMA_COLLECTION);
+    var userBaptisCollection = db.collection(BAPTIS_COLLECTION);
+    var userKomuniCollection = db.collection(KOMUNI_COLLECTION);
+    var userPemberkatanCollection = db.collection(PEMBERKATAN_COLLECTION);
+    var userKegiatanCollection = db.collection(UMUM_COLLECTION);
+    var count = 0;
+
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'userBaptis',
+            localField: '_id',
+            foreignField: 'idBaptis',
+            as: 'userBaptis'))
+        .addStage(Match(where.eq('idGereja', idGereja).map['\$query']))
+        .build();
+    var countB =
+        await userBaptisCollection.aggregateToStream(pipeline).toList();
+
+    final pipeline2 = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'userKomuni',
+            localField: '_id',
+            foreignField: 'idKomuni',
+            as: 'userKomuni'))
+        .addStage(Match(where.eq('idGereja', idGereja).map['\$query']))
+        .build();
+    var countKo =
+        await userKomuniCollection.aggregateToStream(pipeline2).toList();
+
+    final pipeline3 = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'userKrisma',
+            localField: '_id',
+            foreignField: 'idKrisma',
+            as: 'userKrisma'))
+        .addStage(Match(where.eq('idGereja', idGereja).map['\$query']))
+        .build();
+    var countKr =
+        await userKrismaCollection.aggregateToStream(pipeline3).toList();
+
+    final pipeline4 = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'userUmum',
+            localField: '_id',
+            foreignField: 'idKegiatan',
+            as: 'userKegiatan'))
+        .addStage(Match(where.eq('idGereja', idGereja).map['\$query']))
+        .build();
+    var countU =
+        await userKegiatanCollection.aggregateToStream(pipeline4).toList();
+
+    var countP =
+        await userPemberkatanCollection.find({'idGereja': idGereja}).length;
+
+    var totalB = 0;
+    var totalKo = 0;
+    var totalKr = 0;
+    var totalU = 0;
+    for (var i = 0; i < countB.length; i++) {
+      if (countB[i]['userBaptis'] != null) {
+        for (var j = 0; j < countB[i]['userBaptis'].length; j++) {
+          if (countB[i]['userBaptis'][j]['status'] != null) {
+            totalB++;
+          }
+        }
+      }
+    }
+
+    for (var i = 0; i < countKo.length; i++) {
+      if (countKo[i]['userKomuni'] != null) {
+        for (var j = 0; j < countKo[i]['userKomuni'].length; j++) {
+          if (countKo[i]['userKomuni'][j]['status'] != null) {
+            totalKo++;
+          }
+        }
+      }
+    }
+
+    for (var i = 0; i < countKr.length; i++) {
+      if (countKr[i]['userKrisma'] != null) {
+        for (var j = 0; j < countKr[i]['userKrisma'].length; j++) {
+          if (countKr[i]['userKrisma'][j]['status'] != null) {
+            totalKr++;
+          }
+        }
+      }
+    }
+
+    for (var i = 0; i < countU.length; i++) {
+      if (countU[i]['userKegiatan'] != null) {
+        for (var j = 0; j < countU[i]['userKegiatan'].length; j++) {
+          if (countU[i]['userKegiatan'][j]['status'] != null) {
+            totalU++;
+          }
+        }
+      }
+    }
+    print(totalB + totalKo + countP + totalKr + totalU);
+    return [totalB + totalKo + countP + totalKr + totalU];
+  }
+
   static latestJadwal(userId) async {
     print("masuk");
     var userKrismaCollection = db.collection(USER_KRISMA_COLLECTION);

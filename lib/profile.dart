@@ -25,6 +25,10 @@ class Profile extends StatelessWidget {
     return await MongoDatabase.callAdmin(iduser);
   }
 
+  Future<List> calljumlahTotal() async {
+    return await MongoDatabase.callJumlahTotal(idGereja);
+  }
+
   Future selectFile(context) async {
     final result = await FilePicker.platform.pickFiles(allowMultiple: false);
     if (result == null) return;
@@ -184,6 +188,37 @@ class Profile extends StatelessWidget {
                                                             FontWeight.bold,
                                                       ),
                                                     ),
+                                                    SizedBox(
+                                                      height: 5.0,
+                                                    ),
+                                                    FutureBuilder(
+                                                        future:
+                                                            calljumlahTotal(),
+                                                        builder: (context,
+                                                            AsyncSnapshot
+                                                                snapshot) {
+                                                          try {
+                                                            return Text(
+                                                              snapshot.data[0]
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                color:
+                                                                    Colors.blue,
+                                                                fontSize: 20.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            );
+                                                          } catch (e) {
+                                                            print(e);
+                                                            return SizedBox(
+                                                                height: 10,
+                                                                width: 10,
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          }
+                                                        }),
                                                     SizedBox(
                                                       height: 5.0,
                                                     ),
