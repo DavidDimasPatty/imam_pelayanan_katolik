@@ -4,16 +4,14 @@ import 'package:imam_pelayanan_katolik/agen/agenPencarian.dart';
 import 'package:imam_pelayanan_katolik/login.dart';
 
 class AgenPage {
-  String Messages = "";
   var Data;
 
-  AgenPage(message, data) {
-    this.Messages = message;
+  AgenPage(data) {
     this.Data = data;
-    if (message == "ready") {
+    if (data == "ready") {
       ReadyBehaviour();
     }
-    if (message == "Done") {
+    if (data == "Done") {
       ResponsBehaviour();
     } else {
       SendBehaviour();
@@ -22,8 +20,8 @@ class AgenPage {
 
   void SendBehaviour() {
     void action() {
-      if (this.Messages == "Cari Baptis") {
-        AgenPencarian(this.Messages, this.Data);
+      if (this.Data == "Cari Baptis") {
+        AgenPencarian(this.Data);
       }
     }
 
@@ -32,7 +30,7 @@ class AgenPage {
 
   void ResponsBehaviour() {
     void action() async {
-      if (this.Messages == "Done") {
+      if (this.Data == "Done") {
         return this.Data;
       }
     }

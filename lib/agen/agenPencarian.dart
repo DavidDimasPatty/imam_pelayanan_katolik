@@ -4,13 +4,11 @@ import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class AgenPencarian {
-  String Messages = "";
   var Data;
 
-  AgenPencarian(message, data) {
-    this.Messages = message;
+  AgenPencarian(data) {
     this.Data = data;
-    if (message == "ready") {
+    if (Data == "ready") {
       ReadyBehaviour();
     } else {
       ResponsBehaviour();
@@ -21,13 +19,13 @@ class AgenPencarian {
     var db = await MongoDatabase.connect();
 
     void action() async {
-      if (this.Messages == "Cari baptis") {
+      if (this.Data == "Cari baptis") {
         var userBaptisCollection = db.collection(BAPTIS_COLLECTION);
         var conn = await userBaptisCollection
             .find({'idGereja': this.Data[0], 'status': 0}).toList();
-        AgenPage("Done", conn);
+        AgenPage(conn);
       } else {
-        AgenPage("Reject", null);
+        AgenPage(null);
       }
     }
 
