@@ -1,31 +1,23 @@
-import 'package:imam_pelayanan_katolik/DatabaseFolder/data.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
-import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:mongo_dart/mongo_dart.dart';
+import 'messages.dart';
 
 class AgenPencarian {
-  var Data;
-
-  AgenPencarian(data) {
-    this.Data = data;
-    if (Data == "ready") {
-      ReadyBehaviour();
-    } else {
-      ResponsBehaviour();
-    }
+  AgenPencarian() {
+    ResponsBehaviour();
+    ReadyBehaviour();
   }
 
   void ResponsBehaviour() async {
-    var db = await MongoDatabase.connect();
+    Messages msg = Messages();
 
-    void action() async {
-      if (this.Data == "Cari baptis") {
-        var userBaptisCollection = db.collection(BAPTIS_COLLECTION);
-        var conn = await userBaptisCollection
-            .find({'idGereja': this.Data[0], 'status': 0}).toList();
-        AgenPage(conn);
-      } else {
-        AgenPage(null);
+    var data = msg.receive();
+
+    action() async {
+      if (data[0] == "Cari baptis") {
+        // var userBaptisCollection = db.collection(BAPTIS_COLLECTION);
+        // var conn = await userBaptisCollection
+        //     .find({'idGereja': data[0], 'status': 0}).toList();
+        // msg.addReceiver("agenPage");
+        // msg.setContent("done" + conn);
       }
     }
 
@@ -33,9 +25,12 @@ class AgenPencarian {
   }
 
   void ReadyBehaviour() {
-    String action() {
-      print("Agen Pencarian Ready");
-      return "Ready";
+    Messages msg = Messages();
+    var data = msg.receive();
+    void action() {
+      if (data == "ready") {
+        print("Agen Pencarian Ready");
+      }
     }
 
     action();

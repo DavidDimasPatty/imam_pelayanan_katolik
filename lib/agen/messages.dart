@@ -1,24 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
-import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/agenPencarian.dart';
-import 'package:imam_pelayanan_katolik/login.dart';
+import 'agenPage.dart';
+import 'agenPencarian.dart';
 
 class Messages {
   String Agen = "";
-  var Data;
+  static var Data;
 
-  void receiver(agen) {
+  void addReceiver(agen) {
     this.Agen = agen;
   }
 
   void setContent(data) {
-    this.Data = data;
+    Data = data;
   }
 
   void send() {
     if (this.Agen == "agenPencarian") {
-      AgenPencarian(this.Data);
+      AgenPencarian();
     }
+    if (this.Agen == "agenPage") {
+      AgenPage();
+    }
+  }
+
+  receive() {
+    return Data;
   }
 }

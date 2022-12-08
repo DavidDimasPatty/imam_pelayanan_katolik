@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
-import 'package:imam_pelayanan_katolik/agen/agenPencarian.dart';
 import 'package:imam_pelayanan_katolik/login.dart';
 
-class AgenPage {
-  var Data;
+import 'messages.dart';
 
-  AgenPage(data) {
-    this.Data = data;
-    if (data == "ready") {
-      ReadyBehaviour();
-    }
-    if (data == "Done") {
-      ResponsBehaviour();
-    } else {
-      SendBehaviour();
-    }
+class AgenPage {
+  AgenPage() {
+    SendBehaviour();
+    ResponsBehaviour();
+    ReadyBehaviour();
   }
 
   void SendBehaviour() {
+    Messages msg = Messages();
+    var data = msg.receive();
+
     void action() {
-      if (this.Data == "Cari Baptis") {
-        AgenPencarian(this.Data);
+      if (data[0] != null) {
+        msg.addReceiver("agenPencarian");
+        msg.setContent("cariBaptis" + data[0]);
       }
     }
 
@@ -29,9 +25,11 @@ class AgenPage {
   }
 
   void ResponsBehaviour() {
-    void action() async {
-      if (this.Data == "Done") {
-        return this.Data;
+    Messages msg = Messages();
+    var data = msg.receive();
+    action() async {
+      if (data == "Done") {
+        return data;
       }
     }
 
@@ -39,13 +37,16 @@ class AgenPage {
   }
 
   void ReadyBehaviour() {
+    Messages msg = Messages();
+    var data = msg.receive();
     void action() {
-      print("Agen Page Ready");
-
-      runApp(MaterialApp(
-        title: 'Navigation Basics',
-        home: Login(),
-      ));
+      if (data == "ready") {
+        runApp(MaterialApp(
+          title: 'Navigation Basics',
+          home: Login(),
+        ));
+        print("Agen Page Ready");
+      }
     }
 
     action();
