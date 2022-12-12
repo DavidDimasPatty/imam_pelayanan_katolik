@@ -7,6 +7,7 @@ import 'package:imam_pelayanan_katolik/baptis.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
+import 'package:imam_pelayanan_katolik/setting.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
@@ -108,11 +109,11 @@ class _addBaptis extends State<addBaptis> {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Settings(names, emails, iduser)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Settings(names, idUser, idGereja)),
+              );
             },
           ),
         ],

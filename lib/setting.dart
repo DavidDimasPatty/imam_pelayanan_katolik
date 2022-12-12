@@ -39,13 +39,7 @@ class Settings extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Settings(names, emails, iduser)),
-              // );
-            },
+            onPressed: () {},
           ),
         ],
       ),
