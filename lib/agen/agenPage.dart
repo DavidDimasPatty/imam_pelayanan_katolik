@@ -14,10 +14,14 @@ class AgenPage {
     Messages msg = Messages();
     var data = msg.receive();
 
-    void action() {
-      if (data[0] != null) {
-        msg.addReceiver("agenPencarian");
-        msg.setContent("cariBaptis" + data[0]);
+    action() {
+      try {
+        if (data[0] != null) {
+          msg.addReceiver("agenPencarian");
+          msg.setContent("cariBaptis" + data[0]);
+        }
+      } catch (error) {
+        return 0;
       }
     }
 
@@ -28,8 +32,12 @@ class AgenPage {
     Messages msg = Messages();
     var data = msg.receive();
     action() async {
-      if (data == "Done") {
-        return data;
+      try {
+        if (data == "Done") {
+          return data;
+        }
+      } catch (error) {
+        return 0;
       }
     }
 
