@@ -47,13 +47,21 @@ class AgenPage {
   void ReadyBehaviour() {
     Messages msg = Messages();
     var data = msg.receive();
-    void action() {
-      if (data == "ready") {
-        runApp(MaterialApp(
-          title: 'Navigation Basics',
-          home: Login(),
-        ));
-        print("Agen Page Ready");
+    action() {
+      try {
+        if (data == "Done") {
+          return data;
+        }
+
+        if (data == "ready") {
+          runApp(MaterialApp(
+            title: 'Navigation Basics',
+            home: Login(),
+          ));
+          print("Agen Page Ready");
+        }
+      } catch (error) {
+        return 0;
       }
     }
 
