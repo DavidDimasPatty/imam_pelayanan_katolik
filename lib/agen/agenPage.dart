@@ -5,9 +5,10 @@ import 'messages.dart';
 
 class AgenPage {
   AgenPage() {
+    //measure
+    ReadyBehaviour();
     SendBehaviour();
     ResponsBehaviour();
-    ReadyBehaviour();
   }
 
   void SendBehaviour() {
@@ -16,9 +17,10 @@ class AgenPage {
 
     action() {
       try {
-        if (data[0] != null) {
+        if (data.runtimeType == List) {
           msg.addReceiver("agenPencarian");
           msg.setContent("cariBaptis" + data[0]);
+          print("masuk1");
         }
       } catch (error) {
         return 0;
@@ -59,6 +61,7 @@ class AgenPage {
             home: Login(),
           ));
           print("Agen Page Ready");
+          print("masuk2");
         }
       } catch (error) {
         return 0;
