@@ -4,39 +4,48 @@ import 'package:imam_pelayanan_katolik/login.dart';
 import 'messages.dart';
 
 class AgenPage {
+  static var dataTampilan;
   AgenPage() {
     //measure
     ReadyBehaviour();
-    SendBehaviour();
+    //SendBehaviour();
     ResponsBehaviour();
   }
 
-  void SendBehaviour() {
-    Messages msg = Messages();
-    var data = msg.receive();
+  // void SendBehaviour() {
+  //   Messages msg = Messages();
+  //   var data = msg.receive();
+  //   print("ini22");
+  //   action() async {
+  //     try {
+  //       if (data.runtimeType == List) {
+  //         msg.addReceiver("agenPencarian");
+  //         msg.setContent("cariBaptis" + data[0]);
+  //       }
+  //     } catch (error) {
+  //       return 0;
+  //     }
+  //   }
 
-    action() {
-      try {
-        if (data.runtimeType == List) {
-          msg.addReceiver("agenPencarian");
-          msg.setContent("cariBaptis" + data[0]);
-          print("masuk1");
-        }
-      } catch (error) {
-        return 0;
-      }
-    }
-
-    action();
+  //   action();
+  // }
+  setDataTampilan(data) {
+    dataTampilan = data;
   }
 
-  void ResponsBehaviour() {
+  receiverTampilan() {
+    return dataTampilan;
+  }
+
+  ResponsBehaviour() async {
     Messages msg = Messages();
     var data = msg.receive();
+
     action() async {
       try {
-        if (data == "Done") {
-          return data;
+        if (data.runtimeType == List<Map<String, Object?>>) {
+          print("tes12345");
+          setDataTampilan(data);
         }
       } catch (error) {
         return 0;
@@ -46,7 +55,7 @@ class AgenPage {
     action();
   }
 
-  void ReadyBehaviour() {
+  ReadyBehaviour() {
     Messages msg = Messages();
     var data = msg.receive();
     action() {
@@ -56,6 +65,8 @@ class AgenPage {
         }
 
         if (data == "ready") {
+          print("masuklo");
+          print("masuksss");
           runApp(MaterialApp(
             title: 'Navigation Basics',
             home: Login(),

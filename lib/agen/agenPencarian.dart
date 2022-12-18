@@ -1,26 +1,42 @@
+import 'dart:developer';
+
+import 'package:imam_pelayanan_katolik/DatabaseFolder/data.dart';
+import 'package:mongo_dart/mongo_dart.dart';
+import '../DatabaseFolder/mongodb.dart';
 import 'messages.dart';
 
 class AgenPencarian {
   AgenPencarian() {
-    ResponsBehaviour();
     ReadyBehaviour();
+    ResponsBehaviour();
   }
 
-  void ResponsBehaviour() async {
+  ResponsBehaviour() {
     Messages msg = Messages();
 
     var data = msg.receive();
-
     action() async {
       try {
-        if (data[0] == "Cari baptis") {
-          // var userBaptisCollection = db.collection(BAPTIS_COLLECTION);
-          // var conn = await userBaptisCollection
-          //     .find({'idGereja': data[0], 'status': 0}).toList();
-          // msg.addReceiver("agenPage");
-          // msg.setContent("done" + conn);
+        if (data.runtimeType == List<List<dynamic>>) {
+          if (data[0][0] == "cari Baptis") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(BAPTIS_COLLECTION);
+            print("masuk222");
+            await userBaptisCollection
+                .find({'idGereja': data[1][0], 'status': 0})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                  print("send");
+                });
+
+            print("end");
+          }
         }
       } catch (e) {
+        print("masuk");
         return 0;
       }
     }
@@ -28,7 +44,7 @@ class AgenPencarian {
     action();
   }
 
-  void ReadyBehaviour() {
+  ReadyBehaviour() {
     Messages msg = Messages();
     var data = msg.receive();
     action() {

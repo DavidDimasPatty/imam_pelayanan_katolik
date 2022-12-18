@@ -4,6 +4,7 @@ import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/sakramen.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
+import 'package:imam_pelayanan_katolik/setting.dart';
 
 import 'DatabaseFolder/mongodb.dart';
 
@@ -45,11 +46,11 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Settings(names, emails, iduser)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Settings(names, iduser, idGereja)),
+              );
             },
           ),
         ],

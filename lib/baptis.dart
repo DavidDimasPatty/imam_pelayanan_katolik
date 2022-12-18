@@ -1,7 +1,10 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/addBaptis.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
@@ -31,7 +34,21 @@ class _Baptis extends State<Baptis> {
   _Baptis(this.names, this.idUser, this.idGereja);
 
   Future<List> callDb() async {
-    return await MongoDatabase.BaptisGerejaTerdaftar(idGereja);
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["cari Baptis"],
+      [idGereja]
+    ]);
+    List k = [];
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    k = await AgenPage().receiverTampilan();
+
+    return k;
   }
 
   void updateKegiatan(idKegiatan) async {

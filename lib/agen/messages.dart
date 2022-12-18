@@ -5,20 +5,20 @@ class Messages {
   String Agen = "";
   static var Data;
 
-  void addReceiver(agen) {
+  addReceiver(agen) async {
     this.Agen = agen;
   }
 
-  void setContent(data) {
+  setContent(data) async {
     Data = data;
   }
 
-  void send() {
+  send() async {
     if (this.Agen == "agenPencarian") {
-      AgenPencarian();
+      await AgenPencarian();
     }
     if (this.Agen == "agenPage") {
-      AgenPage();
+      await AgenPage();
     }
   }
 
