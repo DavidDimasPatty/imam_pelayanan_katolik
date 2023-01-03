@@ -96,13 +96,7 @@ class _HistoryPA extends State<HistoryPA> {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => Settings(names, emails, idUser)),
-              // );
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -173,31 +167,8 @@ class _HistoryPA extends State<HistoryPA> {
                         'Tanggal: ' + i['tanggal'].toString(),
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
-                      // Text(
-                      //   'Tanggal: ' + i['tanggal'].toString(),
-                      //   style: TextStyle(color: Colors.white, fontSize: 12),
-                      // ),
-                      // FutureBuilder(
-                      //     future: jarak(i['GerejaKomuni'][0]['lat'],
-                      //         i['GerejaKomuni'][0]['lng']),
-                      //     builder: (context, AsyncSnapshot snapshot) {
-                      //       try {
-                      //         return Column(children: <Widget>[
-                      //           Text(
-                      //             snapshot.data,
-                      //             style: TextStyle(
-                      //                 color: Colors.white, fontSize: 12),
-                      //           )
-                      //         ]);
-                      //       } catch (e) {
-                      //         print(e);
-                      //         return Center(child: CircularProgressIndicator());
-                      //       }
-                      //     }),
                     ])),
               ),
-
-            /////////
           ],
         ),
       ]),
@@ -247,13 +218,6 @@ class _HistoryPA extends State<HistoryPA> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

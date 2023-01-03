@@ -1232,7 +1232,7 @@ class MongoDatabase {
             .set('deskripsi', deskripsi));
 
     if (!update.isSuccess) {
-      print('Error detected in record insertion');
+      print('Error detected');
       return 'fail';
     } else {
       return 'oke';

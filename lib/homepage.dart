@@ -1,3 +1,4 @@
+//import
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
@@ -8,6 +9,7 @@ import 'package:imam_pelayanan_katolik/setting.dart';
 
 import 'DatabaseFolder/mongodb.dart';
 
+//stateless dan class
 class HomePage extends StatelessWidget {
   var names;
   var iduser;
@@ -16,7 +18,10 @@ class HomePage extends StatelessWidget {
 
   HomePage(this.names, this.iduser, this.idGereja);
   @override
+
+  //function
   Future callDb() async {
+    //async
     return await MongoDatabase.callAdmin(iduser);
   }
 
@@ -113,8 +118,10 @@ class HomePage extends StatelessWidget {
                                           future: callDb(),
                                           builder: (context,
                                               AsyncSnapshot snapshot) {
+                                            //exception
                                             try {
                                               return Column(children: <Widget>[
+                                                //control flow statement
                                                 if (snapshot.data[0]
                                                         ['picture'] !=
                                                     null)
@@ -585,7 +592,6 @@ class HomePage extends StatelessWidget {
                 ])),
           ),
           /////////
-          ///
         ],
       ),
       bottomNavigationBar: Container(
