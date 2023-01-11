@@ -11,24 +11,6 @@ class AgenPage {
     //SendBehaviour();
     ResponsBehaviour();
   }
-
-  // void SendBehaviour() {
-  //   Messages msg = Messages();
-  //   var data = msg.receive();
-  //   print("ini22");
-  //   action() async {
-  //     try {
-  //       if (data.runtimeType == List) {
-  //         msg.addReceiver("agenPencarian");
-  //         msg.setContent("cariBaptis" + data[0]);
-  //       }
-  //     } catch (error) {
-  //       return 0;
-  //     }
-  //   }
-
-  //   action();
-  // }
   setDataTampilan(data) {
     dataTampilan = data;
   }
@@ -44,7 +26,6 @@ class AgenPage {
     action() async {
       try {
         if (data.runtimeType == List<Map<String, Object?>>) {
-          print("tes12345");
           setDataTampilan(data);
         }
       } catch (error) {
@@ -65,14 +46,10 @@ class AgenPage {
         }
 
         if (data == "ready") {
-          print("masuklo");
-          print("masuksss");
           runApp(MaterialApp(
             title: 'Navigation Basics',
             home: Login(),
           ));
-          print("Agen Page Ready");
-          print("masuk2");
         }
       } catch (error) {
         return 0;

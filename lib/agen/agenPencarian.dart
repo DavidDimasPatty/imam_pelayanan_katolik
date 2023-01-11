@@ -21,7 +21,6 @@ class AgenPencarian {
           if (data[0][0] == "cari Baptis") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(BAPTIS_COLLECTION);
-            print("masuk222");
             await userBaptisCollection
                 .find({'idGereja': data[1][0], 'status': 0})
                 .toList()
@@ -29,14 +28,10 @@ class AgenPencarian {
                   msg.addReceiver("agenPage");
                   msg.setContent(result);
                   await msg.send();
-                  print("send");
                 });
-
-            print("end");
           }
         }
       } catch (e) {
-        print("masuk");
         return 0;
       }
     }
