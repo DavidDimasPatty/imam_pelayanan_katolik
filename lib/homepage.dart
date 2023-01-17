@@ -402,7 +402,7 @@ class _HomePage extends State<HomePage> {
                                                                 height: 5.0,
                                                               ),
                                                               Text(
-                                                                hasil[2]
+                                                                hasil[3]
                                                                     .toString(),
                                                                 style:
                                                                     TextStyle(
