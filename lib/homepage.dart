@@ -27,6 +27,7 @@ class _HomePage extends State<HomePage> {
   var dataUser;
 
   _HomePage(this.names, this.iduser, this.idGereja);
+
   @override
   List hasil = [];
   //function

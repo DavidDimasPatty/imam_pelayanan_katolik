@@ -279,6 +279,7 @@ class MongoDatabase {
   }
 
   static UserBaptisTerdaftar(idBaptis) async {
+    print(idBaptis);
     var userBaptisCollection = db.collection(USER_BAPTIS_COLLECTION);
     final pipeline = AggregationPipelineBuilder()
         .addStage(Lookup(

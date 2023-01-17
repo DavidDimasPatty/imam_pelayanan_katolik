@@ -51,6 +51,21 @@ class _Baptis extends State<Baptis> {
     return k;
   }
 
+  Future pullRefresh() async {
+    setState(() {
+      callDb().then((result) {
+        setState(() {
+          daftarUser.clear();
+          dummyTemp.clear();
+          daftarUser.addAll(result);
+          dummyTemp.addAll(result);
+          filterSearchResults(editingController.text);
+        });
+      });
+      ;
+    });
+  }
+
   void updateKegiatan(idKegiatan) async {
     var hasil = await MongoDatabase.updateStatusBaptis(idKegiatan);
 
@@ -78,6 +93,7 @@ class _Baptis extends State<Baptis> {
           dummyTemp.clear();
           daftarUser.addAll(result);
           dummyTemp.addAll(result);
+          filterSearchResults(editingController.text);
         });
       });
     }
@@ -154,8 +170,9 @@ class _Baptis extends State<Baptis> {
           ),
         ],
       ),
-      body: ListView(children: [
-        ListView(
+      body: RefreshIndicator(
+        onRefresh: pullRefresh,
+        child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
           children: <Widget>[
@@ -203,113 +220,114 @@ class _Baptis extends State<Baptis> {
             ),
             Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             /////////
-            for (var i in daftarUser)
-              InkWell(
-                borderRadius: new BorderRadius.circular(24),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            BaptisUser(names, idUser, idGereja, i['_id'])),
-                  );
-                },
-                child: Container(
-                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.lightBlue,
-                          ]),
-                      border: Border.all(
-                        color: Colors.lightBlue,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Column(children: <Widget>[
-                      //Color(Colors.blue);
-
-                      Text(
-                        "Baptis " + i['jadwalBuka'].toString().substring(0, 10),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w300),
-                        textAlign: TextAlign.left,
-                      ),
-                      Text(
-                        'Kapasitas: ' + i['kapasitas'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      Text(
-                        'Jadwal Tutup: ' + i['jadwalTutup'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: RaisedButton(
-                            textColor: Colors.white,
-                            color: Colors.lightBlue,
-                            child: Text("Deactive Kegiatan"),
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
-                            ),
-                            onPressed: () async {
-                              showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Confirm Deactive'),
-                                  content: const Text(
-                                      'Yakin ingin mendeactive kegiatan ini?'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'Cancel'),
-                                      child: const Text('Tidak'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () async {
-                                        updateKegiatan(i["_id"]);
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Ya'),
-                                    ),
-                                  ],
+            FutureBuilder(
+                future: callDb(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  try {
+                    return Column(children: [
+                      for (var i in daftarUser)
+                        InkWell(
+                          borderRadius: new BorderRadius.circular(24),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BaptisUser(
+                                      names, idUser, idGereja, i['_id'])),
+                            );
+                          },
+                          child: Container(
+                              margin: EdgeInsets.only(
+                                  right: 15, left: 15, bottom: 20),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.topLeft,
+                                    colors: [
+                                      Colors.blueGrey,
+                                      Colors.lightBlue,
+                                    ]),
+                                border: Border.all(
+                                  color: Colors.lightBlue,
                                 ),
-                              );
-                            }),
-                      ),
-                      // Text(
-                      //   'Tanggal: ' + i['tanggal'].toString(),
-                      //   style: TextStyle(color: Colors.white, fontSize: 12),
-                      // ),
-                      // FutureBuilder(
-                      //     future: jarak(i['GerejaKomuni'][0]['lat'],
-                      //         i['GerejaKomuni'][0]['lng']),
-                      //     builder: (context, AsyncSnapshot snapshot) {
-                      //       try {
-                      //         return Column(children: <Widget>[
-                      //           Text(
-                      //             snapshot.data,
-                      //             style: TextStyle(
-                      //                 color: Colors.white, fontSize: 12),
-                      //           )
-                      //         ]);
-                      //       } catch (e) {
-                      //         print(e);
-                      //         return Center(child: CircularProgressIndicator());
-                      //       }
-                      //     }),
-                    ])),
-              ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: Column(children: <Widget>[
+                                //Color(Colors.blue);
+
+                                Text(
+                                  "Baptis " +
+                                      i['jadwalBuka']
+                                          .toString()
+                                          .substring(0, 10),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w300),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Text(
+                                  'Kapasitas: ' + i['kapasitas'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                                Text(
+                                  'Jadwal Tutup: ' +
+                                      i['jadwalTutup'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: RaisedButton(
+                                      textColor: Colors.white,
+                                      color: Colors.lightBlue,
+                                      child: Text("Deactive Kegiatan"),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0),
+                                      ),
+                                      onPressed: () async {
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title:
+                                                const Text('Confirm Deactive'),
+                                            content: const Text(
+                                                'Yakin ingin mendeactive kegiatan ini?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, 'Cancel'),
+                                                child: const Text('Tidak'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () async {
+                                                  updateKegiatan(i["_id"]);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('Ya'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                ),
+                              ])),
+                        )
+                    ]);
+                  } catch (e) {
+                    print(e);
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }),
 
             /////////
           ],
         ),
-      ]),
+      ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
