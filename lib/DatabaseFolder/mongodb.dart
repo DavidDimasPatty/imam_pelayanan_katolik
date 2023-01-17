@@ -39,7 +39,7 @@ class MongoDatabase {
         .addStage(Match(where.eq('_id', idUser).map['\$query']))
         .build();
     var conn = await userCollection.aggregateToStream(pipeline).toList();
-    print(conn);
+
     return conn;
   }
 
