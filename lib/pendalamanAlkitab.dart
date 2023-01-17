@@ -2,6 +2,8 @@ import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/addPA.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/paUser.dart';
@@ -33,7 +35,21 @@ class _PA extends State<PA> {
   _PA(this.names, this.idUser, this.idGereja);
 
   Future<List> callDb() async {
-    return await MongoDatabase.PATerdaftar(idGereja);
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["cari PA"],
+      [idGereja]
+    ]);
+    List k = [];
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    k = await AgenPage().receiverTampilan();
+
+    return k;
   }
 
   @override
@@ -100,9 +116,25 @@ class _PA extends State<PA> {
           dummyTemp.clear();
           daftarUser.addAll(result);
           dummyTemp.addAll(result);
+          filterSearchResults(editingController.text);
         });
       });
     }
+  }
+
+  Future pullRefresh() async {
+    setState(() {
+      callDb().then((result) {
+        setState(() {
+          daftarUser.clear();
+          dummyTemp.clear();
+          daftarUser.addAll(result);
+          dummyTemp.addAll(result);
+          filterSearchResults(editingController.text);
+        });
+      });
+      ;
+    });
   }
 
   @override
@@ -139,8 +171,9 @@ class _PA extends State<PA> {
           ),
         ],
       ),
-      body: ListView(children: [
-        ListView(
+      body: RefreshIndicator(
+        onRefresh: pullRefresh,
+        child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
           children: <Widget>[
@@ -188,113 +221,129 @@ class _PA extends State<PA> {
             ),
             Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             /////////
-            for (var i in daftarUser)
-              InkWell(
-                borderRadius: new BorderRadius.circular(24),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            PAUser(names, idUser, idGereja, i['_id'])),
-                  );
-                },
-                child: Container(
-                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.lightBlue,
-                          ]),
-                      border: Border.all(
-                        color: Colors.lightBlue,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Column(children: <Widget>[
-                      //Color(Colors.blue);
-
-                      Text(
-                        i['namaKegiatan'].toString(),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w300),
-                        textAlign: TextAlign.left,
-                      ),
-                      Text(
-                        'Kapasitas: ' + i['kapasitas'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      Text(
-                        'Tanggal: ' + i['tanggal'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: RaisedButton(
-                            textColor: Colors.white,
-                            color: Colors.lightBlue,
-                            child: Text("Deactive Kegiatan"),
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
-                            ),
-                            onPressed: () async {
-                              showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Confirm Deactive'),
-                                  content: const Text(
-                                      'Yakin ingin mendeactive kegiatan ini?'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'Cancel'),
-                                      child: const Text('Tidak'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () async {
-                                        updateKegiatan(i["_id"]);
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Ya'),
-                                    ),
-                                  ],
+            FutureBuilder(
+                future: callDb(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  try {
+                    return Column(children: [
+                      for (var i in daftarUser)
+                        InkWell(
+                          borderRadius: new BorderRadius.circular(24),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PAUser(
+                                      names, idUser, idGereja, i['_id'])),
+                            );
+                          },
+                          child: Container(
+                              margin: EdgeInsets.only(
+                                  right: 15, left: 15, bottom: 20),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.topLeft,
+                                    colors: [
+                                      Colors.blueGrey,
+                                      Colors.lightBlue,
+                                    ]),
+                                border: Border.all(
+                                  color: Colors.lightBlue,
                                 ),
-                              );
-                            }),
-                      ),
-                      // Text(
-                      //   'Tanggal: ' + i['tanggal'].toString(),
-                      //   style: TextStyle(color: Colors.white, fontSize: 12),
-                      // ),
-                      // FutureBuilder(
-                      //     future: jarak(i['GerejaKomuni'][0]['lat'],
-                      //         i['GerejaKomuni'][0]['lng']),
-                      //     builder: (context, AsyncSnapshot snapshot) {
-                      //       try {
-                      //         return Column(children: <Widget>[
-                      //           Text(
-                      //             snapshot.data,
-                      //             style: TextStyle(
-                      //                 color: Colors.white, fontSize: 12),
-                      //           )
-                      //         ]);
-                      //       } catch (e) {
-                      //         print(e);
-                      //         return Center(child: CircularProgressIndicator());
-                      //       }
-                      //     }),
-                    ])),
-              ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: Column(children: <Widget>[
+                                //Color(Colors.blue);
 
-            /////////
+                                Text(
+                                  i['namaKegiatan'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w300),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Text(
+                                  'Kapasitas: ' + i['kapasitas'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                                Text(
+                                  'Tanggal: ' + i['tanggal'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: RaisedButton(
+                                      textColor: Colors.white,
+                                      color: Colors.lightBlue,
+                                      child: Text("Deactive Kegiatan"),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0),
+                                      ),
+                                      onPressed: () async {
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title:
+                                                const Text('Confirm Deactive'),
+                                            content: const Text(
+                                                'Yakin ingin mendeactive kegiatan ini?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, 'Cancel'),
+                                                child: const Text('Tidak'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () async {
+                                                  updateKegiatan(i["_id"]);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('Ya'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                ),
+                                // Text(
+                                //   'Tanggal: ' + i['tanggal'].toString(),
+                                //   style: TextStyle(color: Colors.white, fontSize: 12),
+                                // ),
+                                // FutureBuilder(
+                                //     future: jarak(i['GerejaKomuni'][0]['lat'],
+                                //         i['GerejaKomuni'][0]['lng']),
+                                //     builder: (context, AsyncSnapshot snapshot) {
+                                //       try {
+                                //         return Column(children: <Widget>[
+                                //           Text(
+                                //             snapshot.data,
+                                //             style: TextStyle(
+                                //                 color: Colors.white, fontSize: 12),
+                                //           )
+                                //         ]);
+                                //       } catch (e) {
+                                //         print(e);
+                                //         return Center(child: CircularProgressIndicator());
+                                //       }
+                                //     }),
+                              ])),
+                        ),
+                    ]);
+                  } catch (e) {
+                    print(e);
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }),
           ],
         ),
-      ]),
+      ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
