@@ -28,6 +28,15 @@ class AgenPage {
         if (data.runtimeType == List<Map<String, Object?>>) {
           setDataTampilan(data);
         }
+        if (data.runtimeType == String) {
+          setDataTampilan(data);
+        }
+        if (data.runtimeType == List<dynamic>) {
+          setDataTampilan(data);
+        }
+        if (data.runtimeType == List<List<dynamic>>) {
+          setDataTampilan(data);
+        }
       } catch (error) {
         return 0;
       }
