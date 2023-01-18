@@ -32,6 +32,30 @@ class AgenPencarian {
                 });
           }
 
+          if (data[0][0] == "cari Baptis User") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userBaptis'))
+                .addStage(Match(where
+                    .eq('idBaptis', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userBaptisCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari Komuni") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(KOMUNI_COLLECTION);
@@ -43,6 +67,30 @@ class AgenPencarian {
                   msg.setContent(result);
                   await msg.send();
                 });
+          }
+
+          if (data[0][0] == "cari Komuni User") {
+            var userKomuniCollection =
+                MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userKomuni'))
+                .addStage(Match(where
+                    .eq('idKomuni', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userKomuniCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
           }
 
           if (data[0][0] == "cari Krisma") {

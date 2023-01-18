@@ -1,5 +1,7 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/komuni.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
@@ -31,7 +33,21 @@ class _KomuniUser extends State<KomuniUser> {
   _KomuniUser(this.names, this.idUser, this.idGereja, this.idKomuni);
 
   Future<List> callDb() async {
-    return await MongoDatabase.UserKomuniTerdaftar(idKomuni);
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["cari Komuni User"],
+      [idKomuni]
+    ]);
+    List k = [];
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    k = await AgenPage().receiverTampilan();
+
+    return k;
   }
 
   @override
@@ -77,6 +93,21 @@ class _KomuniUser extends State<KomuniUser> {
     var hasil = await MongoDatabase.acceptKomuni(id);
   }
 
+  Future pullRefresh() async {
+    setState(() {
+      callDb().then((result) {
+        setState(() {
+          daftarUser.clear();
+          dummyTemp.clear();
+          daftarUser.addAll(result);
+          dummyTemp.addAll(result);
+          filterSearchResults(editingController.text);
+        });
+      });
+      ;
+    });
+  }
+
   TextEditingController editingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -113,8 +144,9 @@ class _KomuniUser extends State<KomuniUser> {
           ),
         ],
       ),
-      body: ListView(children: [
-        ListView(
+      body: RefreshIndicator(
+        onRefresh: pullRefresh,
+        child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
           children: <Widget>[
@@ -135,123 +167,145 @@ class _KomuniUser extends State<KomuniUser> {
             ),
 
             /////////
-            for (var i in daftarUser)
-              InkWell(
-                borderRadius: new BorderRadius.circular(24),
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => DetailSakramentali(
-                  //           names, idUser, idGereja, i['_id'])),
-                  // );
-                },
-                child: Container(
-                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.lightBlue,
-                          ]),
-                      border: Border.all(
-                        color: Colors.lightBlue,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Column(children: <Widget>[
-                      //Color(Colors.blue);
-
-                      Text(
-                        "Nama :" + i['userKomuni'][0]['name'].toString(),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w300),
-                        textAlign: TextAlign.left,
-                      ),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                      Text(
-                        "Tanggal Daftar :" +
-                            i['tanggalDaftar'].toString().substring(0, 10),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.w300),
-                        textAlign: TextAlign.left,
-                      ),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                      if (i['status'] == "0")
-                        Text(
-                          'Status: Menunggu',
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        ),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: RaisedButton(
-                                textColor: Colors.white,
-                                color: Colors.lightBlue,
-                                child: Text("Accept"),
-                                shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(30.0),
-                                ),
-                                onPressed: () async {
-                                  updateAccept(i['_id']);
-                                  callDb().then((result) {
-                                    setState(() {
-                                      daftarUser.clear();
-                                      dummyTemp.clear();
-                                      daftarUser.addAll(result);
-                                      dummyTemp.addAll(result);
-                                    });
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10)),
-                          Expanded(
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: RaisedButton(
-                                  textColor: Colors.white,
+            FutureBuilder(
+                future: callDb(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  try {
+                    return Column(children: [
+                      for (var i in daftarUser)
+                        InkWell(
+                          borderRadius: new BorderRadius.circular(24),
+                          onTap: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => DetailSakramentali(
+                            //           names, idUser, idGereja, i['_id'])),
+                            // );
+                          },
+                          child: Container(
+                              margin: EdgeInsets.only(
+                                  right: 15, left: 15, bottom: 20),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.topLeft,
+                                    colors: [
+                                      Colors.blueGrey,
+                                      Colors.lightBlue,
+                                    ]),
+                                border: Border.all(
                                   color: Colors.lightBlue,
-                                  child: Text("Reject"),
-                                  shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(30.0),
-                                  ),
-                                  onPressed: () async {
-                                    updateReject(i['_id']);
-                                    callDb().then((result) {
-                                      setState(() {
-                                        daftarUser.clear();
-                                        dummyTemp.clear();
-                                        daftarUser.addAll(result);
-                                        dummyTemp.addAll(result);
-                                      });
-                                    });
-                                  }),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ])),
-              ),
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: Column(children: <Widget>[
+                                //Color(Colors.blue);
 
+                                Text(
+                                  "Nama :" +
+                                      i['userKomuni'][0]['name'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w300),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 5)),
+                                Text(
+                                  "Tanggal Daftar :" +
+                                      i['tanggalDaftar']
+                                          .toString()
+                                          .substring(0, 10),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w300),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 5)),
+                                if (i['status'] == "0")
+                                  Text(
+                                    'Status: Menunggu',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
+                                Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 5)),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: RaisedButton(
+                                          textColor: Colors.white,
+                                          color: Colors.lightBlue,
+                                          child: Text("Accept"),
+                                          shape: new RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(30.0),
+                                          ),
+                                          onPressed: () async {
+                                            updateAccept(i['_id']);
+                                            callDb().then((result) {
+                                              setState(() {
+                                                daftarUser.clear();
+                                                dummyTemp.clear();
+                                                daftarUser.addAll(result);
+                                                dummyTemp.addAll(result);
+                                              });
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10)),
+                                    Expanded(
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: RaisedButton(
+                                            textColor: Colors.white,
+                                            color: Colors.lightBlue,
+                                            child: Text("Reject"),
+                                            shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      30.0),
+                                            ),
+                                            onPressed: () async {
+                                              updateReject(i['_id']);
+                                              callDb().then((result) {
+                                                setState(() {
+                                                  daftarUser.clear();
+                                                  dummyTemp.clear();
+                                                  daftarUser.addAll(result);
+                                                  dummyTemp.addAll(result);
+                                                });
+                                              });
+                                            }),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ])),
+                        ),
+                    ]);
+                  } catch (e) {
+                    print(e);
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }),
             /////////
           ],
         ),
-      ]),
+      ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
