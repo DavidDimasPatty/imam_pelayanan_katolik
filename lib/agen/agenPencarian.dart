@@ -123,6 +123,30 @@ class AgenPencarian {
                 });
           }
 
+          if (data[0][0] == "cari Rekoleksi User") {
+            var userUmumCollection =
+                MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userRekoleksi'))
+                .addStage(Match(where
+                    .eq('idKegiatan', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userUmumCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari Retret") {
             var rekoleksiCollection =
                 MongoDatabase.db.collection(UMUM_COLLECTION);
@@ -140,6 +164,30 @@ class AgenPencarian {
                 });
           }
 
+          if (data[0][0] == "cari Retret User") {
+            var userUmumCollection =
+                MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userRetret'))
+                .addStage(Match(where
+                    .eq('idKegiatan', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userUmumCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari PA") {
             var rekoleksiCollection =
                 MongoDatabase.db.collection(UMUM_COLLECTION);
@@ -155,6 +203,30 @@ class AgenPencarian {
                   msg.setContent(result);
                   await msg.send();
                 });
+          }
+
+          if (data[0][0] == "cari PA User") {
+            var userUmumCollection =
+                MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userPA'))
+                .addStage(Match(where
+                    .eq('idKegiatan', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userUmumCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
           }
 
 /////cari jumlah
