@@ -229,6 +229,42 @@ class AgenPencarian {
             });
           }
 
+          if (data[0][0] == "cari Sakramentali") {
+            var PemberkatanCollection =
+                MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userDaftar'))
+                .addStage(Match(where
+                    .eq('idGereja', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await PemberkatanCollection.aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
+          if (data[0][0] == "cari Sakramentali Detail") {
+            var pemberkatanCollection =
+                MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+            var conn = await pemberkatanCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
 /////cari jumlah
           if (data[0][0] == "cari jumlah") {
             var userKrismaCollection =

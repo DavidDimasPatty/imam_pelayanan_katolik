@@ -2,6 +2,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
@@ -30,8 +32,20 @@ class _DetailSakramentali extends State<DetailSakramentali> {
       this.name, this.idUser, this.idGereja, this.idPemberkatan);
   @override
   Future<List> callDb() async {
-    var data = await MongoDatabase.pemberkatanSpec(idPemberkatan);
-    return data;
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["cari Sakramentali Detail"],
+      [idPemberkatan]
+    ]);
+    List k = [];
+    await msg.send().then((res) async {
+      print("masuk");
+    });
+    await Future.delayed(Duration(seconds: 1));
+    k = await AgenPage().receiverTampilan();
+
+    return k;
   }
 
   void updateAccept() async {
@@ -92,6 +106,12 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     }
   }
 
+  Future pullRefresh() async {
+    setState(() {
+      callDb();
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -117,242 +137,247 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           ),
         ],
       ),
-      body: FutureBuilder<List>(
-          future: callDb(),
-          builder: (context, AsyncSnapshot snapshot) {
-            try {
-              return ListView(
-                shrinkWrap: true,
-                padding: EdgeInsets.only(right: 15, left: 15),
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 11),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Nama Lengkap",
-                        textAlign: TextAlign.left,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                      ),
-                      Text(snapshot.data[0]["namaLengkap"])
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 11),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Paroki",
-                        textAlign: TextAlign.left,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                      ),
-                      Text(snapshot.data[0]["paroki"])
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 11),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Lingkungan",
-                        textAlign: TextAlign.left,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                      ),
-                      Text(snapshot.data[0]["lingkungan"])
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 11),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Nomor Telephone",
-                        textAlign: TextAlign.left,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                      ),
-                      Text(snapshot.data[0]["notelp"])
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 11),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Alamat Lengkap",
-                        textAlign: TextAlign.left,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                      ),
-                      Text(snapshot.data[0]["alamat"])
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 11),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Jenis Pemberkatan",
-                        textAlign: TextAlign.left,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                      ),
-                      Text(snapshot.data[0]["jenis"])
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 11),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Tanggal",
-                        textAlign: TextAlign.left,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                      ),
-                      Text(snapshot.data[0]["tanggal"].toString())
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 11),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Note Tambahan",
-                        textAlign: TextAlign.left,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                      ),
-                      Text(snapshot.data[0]["note"])
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 11),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+      body: RefreshIndicator(
+          onRefresh: pullRefresh,
+          child: FutureBuilder<List>(
+              future: callDb(),
+              builder: (context, AsyncSnapshot snapshot) {
+                try {
+                  return ListView(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(right: 15, left: 15),
                     children: <Widget>[
-                      Expanded(
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: RaisedButton(
-                              textColor: Colors.white,
-                              color: Colors.lightBlue,
-                              child: Text("Accept"),
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0),
-                              ),
-                              onPressed: () async {
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    title: const Text('Confirm Accept'),
-                                    content: const Text(
-                                        'Yakin ingin melakukan pelayanan pemberkatan ini?'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Tidak'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          updateAccept();
-                                        },
-                                        child: const Text('Ya'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }),
-                        ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
                       ),
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 20)),
-                      Expanded(
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: RaisedButton(
-                              textColor: Colors.white,
-                              color: Colors.lightBlue,
-                              child: Text("Reject"),
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0),
-                              ),
-                              onPressed: () async {
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    title: const Text('Confirm Reject'),
-                                    content: const Text(
-                                        'Yakin ingin menolak pelayanan pemberkatan ini?'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Tidak'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          updateReject();
-                                        },
-                                        child: const Text('Ya'),
-                                      ),
-                                    ],
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Nama Lengkap",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          Text(snapshot.data[0]["namaLengkap"])
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Paroki",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          Text(snapshot.data[0]["paroki"])
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Lingkungan",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          Text(snapshot.data[0]["lingkungan"])
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Nomor Telephone",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          Text(snapshot.data[0]["notelp"])
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Alamat Lengkap",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          Text(snapshot.data[0]["alamat"])
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Jenis Pemberkatan",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          Text(snapshot.data[0]["jenis"])
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Tanggal",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          Text(snapshot.data[0]["tanggal"].toString())
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Note Tambahan",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          Text(snapshot.data[0]["note"])
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                  textColor: Colors.white,
+                                  color: Colors.lightBlue,
+                                  child: Text("Accept"),
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0),
                                   ),
-                                );
-                              }),
-                        ),
+                                  onPressed: () async {
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        title: const Text('Confirm Accept'),
+                                        content: const Text(
+                                            'Yakin ingin melakukan pelayanan pemberkatan ini?'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                context, 'Cancel'),
+                                            child: const Text('Tidak'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              updateAccept();
+                                            },
+                                            child: const Text('Ya'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20)),
+                          Expanded(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                  textColor: Colors.white,
+                                  color: Colors.lightBlue,
+                                  child: Text("Reject"),
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0),
+                                  ),
+                                  onPressed: () async {
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        title: const Text('Confirm Reject'),
+                                        content: const Text(
+                                            'Yakin ingin menolak pelayanan pemberkatan ini?'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                context, 'Cancel'),
+                                            child: const Text('Tidak'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              updateReject();
+                                            },
+                                            child: const Text('Ya'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15),
                       ),
                     ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                  ),
-                ],
-              );
-            } catch (e) {
-              print(e);
-              return Center(child: CircularProgressIndicator());
-            }
-          }),
+                  );
+                } catch (e) {
+                  print(e);
+                  return Center(child: CircularProgressIndicator());
+                }
+              })),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
