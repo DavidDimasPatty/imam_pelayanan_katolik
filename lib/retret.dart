@@ -87,8 +87,20 @@ class _Retret extends State<Retret> {
   }
 
   void updateKegiatan(idKegiatan) async {
-    var hasil = await MongoDatabase.updateStatusKegiatan(idKegiatan);
-
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["update Kegiatan"],
+      [idKegiatan],
+      [1]
+    ]);
+    var hasil;
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = await AgenPage().receiverTampilan();
     if (hasil == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Deactive Kegiatan Retret",

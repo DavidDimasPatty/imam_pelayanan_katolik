@@ -626,6 +626,56 @@ class AgenPencarian {
             await msg.send();
           }
         }
+
+        if (data[0][0] == "update Kegiatan") {
+          var umumCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
+          try {
+            var update = await umumCollection
+                .updateOne(where.eq('_id', data[1][0]),
+                    modify.set('status', data[2][0]))
+                .then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
+
+        if (data[0][0] == "update Kegiatan User") {
+          var kegiatanCollection =
+              MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+
+          try {
+            var update = await kegiatanCollection
+                .updateOne(where.eq('_id', data[1][0]),
+                    modify.set('status', data[2][0]))
+                .then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
       } catch (e) {
         return 0;
       }

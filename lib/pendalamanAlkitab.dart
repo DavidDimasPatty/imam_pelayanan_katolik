@@ -90,7 +90,20 @@ class _PA extends State<PA> {
   TextEditingController editingController = TextEditingController();
 
   void updateKegiatan(idKegiatan) async {
-    var hasil = await MongoDatabase.updateStatusKegiatan(idKegiatan);
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["update Kegiatan"],
+      [idKegiatan],
+      [1]
+    ]);
+    var hasil;
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = await AgenPage().receiverTampilan();
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
@@ -312,27 +325,6 @@ class _PA extends State<PA> {
                                         );
                                       }),
                                 ),
-                                // Text(
-                                //   'Tanggal: ' + i['tanggal'].toString(),
-                                //   style: TextStyle(color: Colors.white, fontSize: 12),
-                                // ),
-                                // FutureBuilder(
-                                //     future: jarak(i['GerejaKomuni'][0]['lat'],
-                                //         i['GerejaKomuni'][0]['lng']),
-                                //     builder: (context, AsyncSnapshot snapshot) {
-                                //       try {
-                                //         return Column(children: <Widget>[
-                                //           Text(
-                                //             snapshot.data,
-                                //             style: TextStyle(
-                                //                 color: Colors.white, fontSize: 12),
-                                //           )
-                                //         ]);
-                                //       } catch (e) {
-                                //         print(e);
-                                //         return Center(child: CircularProgressIndicator());
-                                //       }
-                                //     }),
                               ])),
                         ),
                     ]);

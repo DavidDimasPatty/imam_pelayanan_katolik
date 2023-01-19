@@ -87,11 +87,24 @@ class _Rekoleksi extends State<Rekoleksi> {
   }
 
   void updateKegiatan(idKegiatan) async {
-    var hasil = await MongoDatabase.updateStatusKegiatan(idKegiatan);
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["update Kegiatan"],
+      [idKegiatan],
+      [1]
+    ]);
+    var hasil;
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = await AgenPage().receiverTampilan();
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
-          msg: "Gagal Deactive Kegiatan Rekoleksi",
+          msg: "Gagal Deactive Kegiatan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -100,7 +113,7 @@ class _Rekoleksi extends State<Rekoleksi> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
-          msg: "Berhasil Deactive Kegiatan Rekoleksi",
+          msg: "Berhasil Deactive Kegiatan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
