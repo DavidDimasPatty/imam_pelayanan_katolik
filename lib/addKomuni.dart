@@ -96,7 +96,7 @@ class _addKomuni extends State<addKomuni> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pushReplacement(
+      Navigator.pop(
         context,
         MaterialPageRoute(
             builder: (context) => Komuni(names, idUser, idGereja)),

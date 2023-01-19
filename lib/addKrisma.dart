@@ -96,7 +96,7 @@ class _addKrisma extends State<addKrisma> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pushReplacement(
+      Navigator.pop(
         context,
         MaterialPageRoute(
             builder: (context) => Krisma(names, idUser, idGereja)),

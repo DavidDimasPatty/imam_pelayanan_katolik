@@ -758,6 +758,38 @@ class AgenPencarian {
             await msg.send();
           }
         }
+
+        if (data[0][0] == "add Kegiatan") {
+          var umumCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
+          try {
+            var hasil = await umumCollection.insertOne({
+              'idGereja': data[1][0],
+              'namaKegiatan': data[2][0],
+              'temaKegiatan': data[3][0],
+              'jenisKegiatan': data[4][0],
+              'deskripsiKegiatan': data[5][0],
+              'tamu': data[6][0],
+              'tanggal': DateTime.parse(data[7][0]),
+              'kapasitas': int.parse(data[8][0]),
+              'lokasi': data[9][0],
+              'status': 0
+            }).then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
       } catch (e) {
         return 0;
       }

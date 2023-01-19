@@ -3,6 +3,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
@@ -65,17 +67,29 @@ class _addRetret extends State<addRetret> {
   }
 
   void submit() async {
-    var hasil = await MongoDatabase.addRetret(
-        idGereja,
-        namaKegiatan.text,
-        temaKegiatan.text,
-        deskripsiKegiatan.text,
-        tamuKegiatan.text,
-        kapasitas.text,
-        lokasi.text,
-        _selectedDate.toString());
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["add Kegiatan"],
+      [idGereja],
+      [namaKegiatan.text],
+      [temaKegiatan.text],
+      ["Retret"],
+      [deskripsiKegiatan.text],
+      [tamuKegiatan.text],
+      [_selectedDate.toString()],
+      [kapasitas.text],
+      [lokasi.text],
+    ]);
+    var hasil;
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = await AgenPage().receiverTampilan();
 
-    if (hasil == "fail") {
+    if (hasil == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Mendaftarkan Retret",
           toastLength: Toast.LENGTH_SHORT,
@@ -93,7 +107,7 @@ class _addRetret extends State<addRetret> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pushReplacement(
+      Navigator.pop(
         context,
         MaterialPageRoute(
             builder: (context) => Retret(names, idUser, idGereja)),
