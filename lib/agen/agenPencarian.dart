@@ -241,7 +241,7 @@ class AgenPencarian {
             var userBaptisCollection =
                 MongoDatabase.db.collection(KOMUNI_COLLECTION);
             await userBaptisCollection
-                .find({'idGereja': data[1][0], 'status': 1})
+                .find({'idGereja': data[1][0]})
                 .toList()
                 .then((result) async {
                   msg.addReceiver("agenPage");
@@ -283,10 +283,8 @@ class AgenPencarian {
                     localField: 'idUser',
                     foreignField: '_id',
                     as: 'userKomuni'))
-                .addStage(Match(where
-                    .eq('idKomuni', data[1][0])
-                    .ne('status', 0)
-                    .map['\$query']))
+                .addStage(
+                    Match(where.eq('idKomuni', data[1][0]).map['\$query']))
                 .build();
             var conn = await userKomuniCollection
                 .aggregateToStream(pipeline)
@@ -315,7 +313,7 @@ class AgenPencarian {
             var userBaptisCollection =
                 MongoDatabase.db.collection(KRISMA_COLLECTION);
             await userBaptisCollection
-                .find({'idGereja': data[1][0], 'status': 0})
+                .find({'idGereja': data[1][0]})
                 .toList()
                 .then((result) async {
                   msg.addReceiver("agenPage");
@@ -357,10 +355,8 @@ class AgenPencarian {
                     localField: 'idUser',
                     foreignField: '_id',
                     as: 'userKrisma'))
-                .addStage(Match(where
-                    .eq('idKrisma', data[1][0])
-                    .ne('status', 0)
-                    .map['\$query']))
+                .addStage(
+                    Match(where.eq('idKrisma', data[1][0]).map['\$query']))
                 .build();
             var conn = await userKrismaCollection
                 .aggregateToStream(pipeline)
