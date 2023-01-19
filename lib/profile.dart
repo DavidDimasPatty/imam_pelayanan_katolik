@@ -1,6 +1,8 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/fireBase.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
@@ -23,11 +25,22 @@ class Profile extends StatelessWidget {
   Profile(this.names, this.iduser, this.idGereja);
   @override
   Future<List> callDb() async {
-    return await MongoDatabase.callAdmin(iduser);
-  }
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["cari Profile"],
+      [idGereja],
+      [iduser]
+    ]);
+    List k = [];
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    k = await AgenPage().receiverTampilan();
 
-  Future<List> calljumlahTotal() async {
-    return await MongoDatabase.callJumlahTotal(idGereja);
+    return k;
   }
 
   Future selectFile(context) async {
@@ -98,6 +111,7 @@ class Profile extends StatelessWidget {
             future: callDb(),
             builder: (context, AsyncSnapshot snapshot) {
               try {
+                print(snapshot.data[1][0]);
                 return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -135,16 +149,18 @@ class Profile extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      if (snapshot.data[0]['picture'] == null)
+                                      if (snapshot.data[0][0][0]['picture'] ==
+                                          null)
                                         CircleAvatar(
                                           backgroundImage: AssetImage(''),
                                           backgroundColor: Colors.greenAccent,
                                           radius: 80.0,
                                         ),
-                                      if (snapshot.data[0]['picture'] != null)
+                                      if (snapshot.data[0][0][0]['picture'] !=
+                                          null)
                                         CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              snapshot.data[0]['picture']),
+                                          backgroundImage: NetworkImage(snapshot
+                                              .data[0][0][0]['picture']),
                                           backgroundColor: Colors.greenAccent,
                                           radius: 80.0,
                                         ),
@@ -152,7 +168,7 @@ class Profile extends StatelessWidget {
                                         height: 10.0,
                                       ),
                                       Text(
-                                        snapshot.data[0]['name'],
+                                        snapshot.data[0][0][0]['name'],
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 24.0,
@@ -192,34 +208,16 @@ class Profile extends StatelessWidget {
                                                     SizedBox(
                                                       height: 5.0,
                                                     ),
-                                                    FutureBuilder(
-                                                        future:
-                                                            calljumlahTotal(),
-                                                        builder: (context,
-                                                            AsyncSnapshot
-                                                                snapshot) {
-                                                          try {
-                                                            return Text(
-                                                              snapshot.data[0]
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                color:
-                                                                    Colors.blue,
-                                                                fontSize: 20.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                            );
-                                                          } catch (e) {
-                                                            print(e);
-                                                            return SizedBox(
-                                                                height: 10,
-                                                                width: 10,
-                                                                child:
-                                                                    CircularProgressIndicator());
-                                                          }
-                                                        }),
+                                                    Text(
+                                                      snapshot.data[1][0]
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                        color: Colors.blue,
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
                                                     SizedBox(
                                                       height: 5.0,
                                                     ),
@@ -277,7 +275,7 @@ class Profile extends StatelessWidget {
                                             children: <Widget>[
                                               Text(
                                                 "Nama Gereja : " +
-                                                    snapshot.data[0]
+                                                    snapshot.data[0][0][0]
                                                             ['userGereja'][0]
                                                         ['nama'],
                                                 style: TextStyle(
@@ -286,7 +284,7 @@ class Profile extends StatelessWidget {
                                               ),
                                               Text(
                                                 "Nama Paroki : " +
-                                                    snapshot.data[0]
+                                                    snapshot.data[0][0][0]
                                                             ['userGereja'][0]
                                                         ['paroki'],
                                                 style: TextStyle(
@@ -295,7 +293,7 @@ class Profile extends StatelessWidget {
                                               ),
                                               Text(
                                                 "Alamat : " +
-                                                    snapshot.data[0]
+                                                    snapshot.data[0][0][0]
                                                             ['userGereja'][0]
                                                         ['address'],
                                                 style: TextStyle(
@@ -304,7 +302,7 @@ class Profile extends StatelessWidget {
                                               ),
                                               Text(
                                                 "Deskripsi : " +
-                                                    snapshot.data[0]
+                                                    snapshot.data[0][0][0]
                                                             ['userGereja'][0]
                                                         ['deskripsi'],
                                                 style: TextStyle(
