@@ -106,6 +106,30 @@ class AgenPencarian {
                 });
           }
 
+          if (data[0][0] == "cari Krisma User") {
+            var userKrismaCollection =
+                MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userKrisma'))
+                .addStage(Match(where
+                    .eq('idKrisma', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userKrismaCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari Rekoleksi") {
             var rekoleksiCollection =
                 MongoDatabase.db.collection(UMUM_COLLECTION);
@@ -474,9 +498,61 @@ class AgenPencarian {
             }
           }
 
+          if (data[0][0] == "update Baptis User") {
+            var baptisCollection =
+                MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
+
+            try {
+              var update = await baptisCollection
+                  .updateOne(where.eq('_id', data[1][0]),
+                      modify.set('status', data[2][0]))
+                  .then((result) async {
+                if (result.isSuccess) {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('oke');
+                  await msg.send();
+                } else {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('failed');
+                  await msg.send();
+                }
+              });
+            } catch (e) {
+              msg.addReceiver("agenPage");
+              msg.setContent('failed');
+              await msg.send();
+            }
+          }
+
           if (data[0][0] == "update Komuni") {
             var komuniCollection =
                 MongoDatabase.db.collection(KOMUNI_COLLECTION);
+            try {
+              var update = await komuniCollection
+                  .updateOne(where.eq('_id', data[1][0]),
+                      modify.set('status', data[2][0]))
+                  .then((result) async {
+                if (result.isSuccess) {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('oke');
+                  await msg.send();
+                } else {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('failed');
+                  await msg.send();
+                }
+              });
+            } catch (e) {
+              msg.addReceiver("agenPage");
+              msg.setContent('failed');
+              await msg.send();
+            }
+          }
+
+          if (data[0][0] == "update Komuni User") {
+            var komuniCollection =
+                MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
+
             try {
               var update = await komuniCollection
                   .updateOne(where.eq('_id', data[1][0]),
@@ -522,6 +598,32 @@ class AgenPencarian {
               msg.setContent('failed');
               await msg.send();
             }
+          }
+        }
+
+        if (data[0][0] == "update Krisma User") {
+          var krismaCollection =
+              MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
+
+          try {
+            var update = await krismaCollection
+                .updateOne(where.eq('_id', data[1][0]),
+                    modify.set('status', data[2][0]))
+                .then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
           }
         }
       } catch (e) {
