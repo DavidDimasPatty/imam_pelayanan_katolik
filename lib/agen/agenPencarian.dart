@@ -449,12 +449,13 @@ class AgenPencarian {
                 });
           }
 
-          if (data[0][0] == "update user") {
-            var userCollection = MongoDatabase.db.collection(USER_COLLECTION);
+          if (data[0][0] == "update Baptis") {
+            var baptisCollection =
+                MongoDatabase.db.collection(BAPTIS_COLLECTION);
             try {
-              var update = await userCollection
+              var update = await baptisCollection
                   .updateOne(where.eq('_id', data[1][0]),
-                      modify.set('banned', data[2][0]))
+                      modify.set('status', data[2][0]))
                   .then((result) async {
                 if (result.isSuccess) {
                   msg.addReceiver("agenPage");
@@ -468,7 +469,57 @@ class AgenPencarian {
               });
             } catch (e) {
               msg.addReceiver("agenPage");
-              msg.setContent('fail');
+              msg.setContent('failed');
+              await msg.send();
+            }
+          }
+
+          if (data[0][0] == "update Komuni") {
+            var komuniCollection =
+                MongoDatabase.db.collection(KOMUNI_COLLECTION);
+            try {
+              var update = await komuniCollection
+                  .updateOne(where.eq('_id', data[1][0]),
+                      modify.set('status', data[2][0]))
+                  .then((result) async {
+                if (result.isSuccess) {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('oke');
+                  await msg.send();
+                } else {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('failed');
+                  await msg.send();
+                }
+              });
+            } catch (e) {
+              msg.addReceiver("agenPage");
+              msg.setContent('failed');
+              await msg.send();
+            }
+          }
+
+          if (data[0][0] == "update Krisma") {
+            var krismaCollection =
+                MongoDatabase.db.collection(KRISMA_COLLECTION);
+            try {
+              var update = await krismaCollection
+                  .updateOne(where.eq('_id', data[1][0]),
+                      modify.set('status', data[2][0]))
+                  .then((result) async {
+                if (result.isSuccess) {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('oke');
+                  await msg.send();
+                } else {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('failed');
+                  await msg.send();
+                }
+              });
+            } catch (e) {
+              msg.addReceiver("agenPage");
+              msg.setContent('failed');
               await msg.send();
             }
           }

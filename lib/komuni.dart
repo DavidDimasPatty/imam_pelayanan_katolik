@@ -86,8 +86,21 @@ class _Komuni extends State<Komuni> {
     }
   }
 
-  void updateKegiatan(idKegiatan) async {
-    var hasil = await MongoDatabase.updateStatusKomuni(idKegiatan);
+  void updateKegiatan(idKegiatan, status) async {
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["update Komuni"],
+      [idKegiatan],
+      [status]
+    ]);
+    var hasil;
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = await AgenPage().receiverTampilan();
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
@@ -307,7 +320,7 @@ class _Komuni extends State<Komuni> {
                                               ),
                                               TextButton(
                                                 onPressed: () async {
-                                                  updateKegiatan(i["_id"]);
+                                                  updateKegiatan(i["_id"], 1);
                                                   Navigator.pop(context);
                                                 },
                                                 child: const Text('Ya'),
