@@ -3,6 +3,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
@@ -59,8 +61,22 @@ class _addKrisma extends State<addKrisma> {
   }
 
   void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
-    var hasil = await MongoDatabase.addKrisma(
-        idGereja, kapasitas, tanggalbuka.toString(), tanggaltutup.toString());
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["add Krisma"],
+      [idGereja],
+      [kapasitas],
+      [tanggalbuka.toString()],
+      [tanggaltutup.toString()]
+    ]);
+    var hasil;
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = await AgenPage().receiverTampilan();
 
     if (hasil == "fail") {
       Fluttertoast.showToast(

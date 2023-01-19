@@ -676,6 +676,88 @@ class AgenPencarian {
             await msg.send();
           }
         }
+
+        if (data[0][0] == "add Baptis") {
+          var baptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
+
+          try {
+            var hasil = await baptisCollection.insertOne({
+              'idGereja': data[1][0],
+              'kapasitas': int.parse(data[2][0]),
+              'jadwalBuka': DateTime.parse(data[3][0]),
+              'jadwalTutup': DateTime.parse(data[4][0]),
+              'status': 0
+            }).then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
+
+        if (data[0][0] == "add Komuni") {
+          var komuniCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
+          try {
+            var hasil = await komuniCollection.insertOne({
+              'idGereja': data[1][0],
+              'kapasitas': int.parse(data[2][0]),
+              'jadwalBuka': DateTime.parse(data[3][0]),
+              'jadwalTutup': DateTime.parse(data[4][0]),
+              'status': 0
+            }).then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
+
+        if (data[0][0] == "add Krisma") {
+          var krismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
+          try {
+            var hasil = await krismaCollection.insertOne({
+              'idGereja': data[1][0],
+              'kapasitas': int.parse(data[2][0]),
+              'jadwalBuka': DateTime.parse(data[3][0]),
+              'jadwalTutup': DateTime.parse(data[4][0]),
+              'status': 0
+            }).then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
       } catch (e) {
         return 0;
       }
