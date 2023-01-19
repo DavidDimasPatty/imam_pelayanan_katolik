@@ -1,5 +1,7 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/historyPAUser.dart';
@@ -33,7 +35,21 @@ class _HistoryPA extends State<HistoryPA> {
   _HistoryPA(this.names, this.idUser, this.idGereja);
 
   Future<List> callDb() async {
-    return await MongoDatabase.HistoryPATerdaftar(idGereja);
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["cari PA History"],
+      [idGereja]
+    ]);
+    List k = [];
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    k = await AgenPage().receiverTampilan();
+
+    return k;
   }
 
   @override
@@ -71,6 +87,21 @@ class _HistoryPA extends State<HistoryPA> {
     }
   }
 
+  Future pullRefresh() async {
+    setState(() {
+      callDb().then((result) {
+        setState(() {
+          daftarUser.clear();
+          dummyTemp.clear();
+          daftarUser.addAll(result);
+          dummyTemp.addAll(result);
+          filterSearchResults(editingController.text);
+        });
+      });
+      ;
+    });
+  }
+
   TextEditingController editingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -100,8 +131,9 @@ class _HistoryPA extends State<HistoryPA> {
           ),
         ],
       ),
-      body: ListView(children: [
-        ListView(
+      body: RefreshIndicator(
+        onRefresh: pullRefresh,
+        child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
           children: <Widget>[
@@ -122,56 +154,71 @@ class _HistoryPA extends State<HistoryPA> {
             ),
 
             /////////
-            for (var i in daftarUser)
-              InkWell(
-                borderRadius: new BorderRadius.circular(24),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            HistoryPAUser(names, idUser, idGereja, i['_id'])),
-                  );
-                },
-                child: Container(
-                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.lightBlue,
-                          ]),
-                      border: Border.all(
-                        color: Colors.lightBlue,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Column(children: <Widget>[
-                      //Color(Colors.blue);
+            FutureBuilder(
+                future: callDb(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  try {
+                    return Column(children: [
+                      for (var i in daftarUser)
+                        InkWell(
+                          borderRadius: new BorderRadius.circular(24),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HistoryPAUser(
+                                      names, idUser, idGereja, i['_id'])),
+                            );
+                          },
+                          child: Container(
+                              margin: EdgeInsets.only(
+                                  right: 15, left: 15, bottom: 20),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.topLeft,
+                                    colors: [
+                                      Colors.blueGrey,
+                                      Colors.lightBlue,
+                                    ]),
+                                border: Border.all(
+                                  color: Colors.lightBlue,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: Column(children: <Widget>[
+                                //Color(Colors.blue);
 
-                      Text(
-                        i['namaKegiatan'].toString(),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w300),
-                        textAlign: TextAlign.left,
-                      ),
-                      Text(
-                        'Kapasitas: ' + i['kapasitas'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      Text(
-                        'Tanggal: ' + i['tanggal'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ])),
-              ),
+                                Text(
+                                  i['namaKegiatan'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w300),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Text(
+                                  'Kapasitas: ' + i['kapasitas'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                                Text(
+                                  'Tanggal: ' + i['tanggal'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                              ])),
+                        ),
+                    ]);
+                  } catch (e) {
+                    print(e);
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }),
           ],
         ),
-      ]),
+      ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(

@@ -392,7 +392,6 @@ class AgenPencarian {
                 .find({
                   'idGereja': data[1][0],
                   'jenisKegiatan': "Rekoleksi",
-                  'status': 1
                 })
                 .toList()
                 .then((result) async {
@@ -435,10 +434,8 @@ class AgenPencarian {
                     localField: 'idUser',
                     foreignField: '_id',
                     as: 'userRekoleksi'))
-                .addStage(Match(where
-                    .eq('idKegiatan', data[1][0])
-                    .ne('status', 0)
-                    .map['\$query']))
+                .addStage(
+                    Match(where.eq('idKegiatan', data[1][0]).map['\$query']))
                 .build();
             var conn = await userUmumCollection
                 .aggregateToStream(pipeline)
@@ -474,7 +471,6 @@ class AgenPencarian {
                 .find({
                   'idGereja': data[1][0],
                   'jenisKegiatan': "Retret",
-                  'status': 1
                 })
                 .toList()
                 .then((result) async {
@@ -517,10 +513,8 @@ class AgenPencarian {
                     localField: 'idUser',
                     foreignField: '_id',
                     as: 'userRetret'))
-                .addStage(Match(where
-                    .eq('idKegiatan', data[1][0])
-                    .ne('status', 0)
-                    .map['\$query']))
+                .addStage(
+                    Match(where.eq('idKegiatan', data[1][0]).map['\$query']))
                 .build();
             var conn = await userUmumCollection
                 .aggregateToStream(pipeline)
@@ -556,7 +550,6 @@ class AgenPencarian {
                 .find({
                   'idGereja': data[1][0],
                   'jenisKegiatan': "Pendalaman Alkitab",
-                  'status': 1
                 })
                 .toList()
                 .then((result) async {
@@ -599,10 +592,8 @@ class AgenPencarian {
                     localField: 'idUser',
                     foreignField: '_id',
                     as: 'userPA'))
-                .addStage(Match(where
-                    .eq('idKegiatan', data[1][0])
-                    .ne('status', 0)
-                    .map['\$query']))
+                .addStage(
+                    Match(where.eq('idKegiatan', data[1][0]).map['\$query']))
                 .build();
             var conn = await userUmumCollection
                 .aggregateToStream(pipeline)
@@ -646,10 +637,8 @@ class AgenPencarian {
                     localField: 'idUser',
                     foreignField: '_id',
                     as: 'userDaftar'))
-                .addStage(Match(where
-                    .eq('idGereja', data[1][0])
-                    .ne('status', 0)
-                    .map['\$query']))
+                .addStage(
+                    Match(where.eq('idGereja', data[1][0]).map['\$query']))
                 .build();
             var conn = await PemberkatanCollection.aggregateToStream(pipeline)
                 .toList()
