@@ -183,7 +183,8 @@ class MongoDatabase {
 
   static HistoryBaptisGerejaTerdaftar(idGereja) async {
     var userBaptisCollection = db.collection(BAPTIS_COLLECTION);
-    var conn = await userBaptisCollection.find({'idGereja': idGereja}).toList();
+    var conn = await userBaptisCollection
+        .find({'idGereja': idGereja, 'status': 1}).toList();
 
     print(conn);
     return conn;

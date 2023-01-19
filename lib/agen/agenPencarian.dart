@@ -165,6 +165,19 @@ class AgenPencarian {
                 });
           }
 
+          if (data[0][0] == "cari Baptis History") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(BAPTIS_COLLECTION);
+            var conn = await userBaptisCollection
+                .find({'idGereja': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
           if (data[0][0] == "cari Baptis User") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
@@ -189,11 +202,46 @@ class AgenPencarian {
             });
           }
 
+          if (data[0][0] == "cari Baptis User History") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userBaptis'))
+                .addStage(
+                    Match(where.eq('idBaptis', data[1][0]).map['\$query']))
+                .build();
+            var conn = await userBaptisCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari Komuni") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(KOMUNI_COLLECTION);
             await userBaptisCollection
                 .find({'idGereja': data[1][0], 'status': 0})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari Komuni History") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(KOMUNI_COLLECTION);
+            await userBaptisCollection
+                .find({'idGereja': data[1][0], 'status': 1})
                 .toList()
                 .then((result) async {
                   msg.addReceiver("agenPage");
@@ -226,7 +274,44 @@ class AgenPencarian {
             });
           }
 
+          if (data[0][0] == "cari Komuni User History") {
+            var userKomuniCollection =
+                MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userKomuni'))
+                .addStage(Match(where
+                    .eq('idKomuni', data[1][0])
+                    .ne('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userKomuniCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari Krisma") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(KRISMA_COLLECTION);
+            await userBaptisCollection
+                .find({'idGereja': data[1][0], 'status': 0})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari Krisma History") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(KRISMA_COLLECTION);
             await userBaptisCollection
@@ -263,6 +348,30 @@ class AgenPencarian {
             });
           }
 
+          if (data[0][0] == "cari Krisma User History") {
+            var userKrismaCollection =
+                MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userKrisma'))
+                .addStage(Match(where
+                    .eq('idKrisma', data[1][0])
+                    .ne('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userKrismaCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari Rekoleksi") {
             var rekoleksiCollection =
                 MongoDatabase.db.collection(UMUM_COLLECTION);
@@ -271,6 +380,23 @@ class AgenPencarian {
                   'idGereja': data[1][0],
                   'jenisKegiatan': "Rekoleksi",
                   'status': 0
+                })
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari Rekoleksi History") {
+            var rekoleksiCollection =
+                MongoDatabase.db.collection(UMUM_COLLECTION);
+            var conn = await rekoleksiCollection
+                .find({
+                  'idGereja': data[1][0],
+                  'jenisKegiatan': "Rekoleksi",
+                  'status': 1
                 })
                 .toList()
                 .then((result) async {
@@ -304,6 +430,30 @@ class AgenPencarian {
             });
           }
 
+          if (data[0][0] == "cari Rekoleksi User History") {
+            var userUmumCollection =
+                MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userRekoleksi'))
+                .addStage(Match(where
+                    .eq('idKegiatan', data[1][0])
+                    .ne('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userUmumCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari Retret") {
             var rekoleksiCollection =
                 MongoDatabase.db.collection(UMUM_COLLECTION);
@@ -312,6 +462,23 @@ class AgenPencarian {
                   'idGereja': data[1][0],
                   'jenisKegiatan': "Retret",
                   'status': 0
+                })
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari Retret History") {
+            var rekoleksiCollection =
+                MongoDatabase.db.collection(UMUM_COLLECTION);
+            var conn = await rekoleksiCollection
+                .find({
+                  'idGereja': data[1][0],
+                  'jenisKegiatan': "Retret",
+                  'status': 1
                 })
                 .toList()
                 .then((result) async {
@@ -345,6 +512,30 @@ class AgenPencarian {
             });
           }
 
+          if (data[0][0] == "cari Retret User History") {
+            var userUmumCollection =
+                MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userRetret'))
+                .addStage(Match(where
+                    .eq('idKegiatan', data[1][0])
+                    .ne('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userUmumCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari PA") {
             var rekoleksiCollection =
                 MongoDatabase.db.collection(UMUM_COLLECTION);
@@ -353,6 +544,23 @@ class AgenPencarian {
                   'idGereja': data[1][0],
                   'jenisKegiatan': "Pendalaman Alkitab",
                   'status': 0
+                })
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari PA History") {
+            var rekoleksiCollection =
+                MongoDatabase.db.collection(UMUM_COLLECTION);
+            var conn = await rekoleksiCollection
+                .find({
+                  'idGereja': data[1][0],
+                  'jenisKegiatan': "Pendalaman Alkitab",
+                  'status': 1
                 })
                 .toList()
                 .then((result) async {
@@ -386,6 +594,30 @@ class AgenPencarian {
             });
           }
 
+          if (data[0][0] == "cari PA User History") {
+            var userUmumCollection =
+                MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userPA'))
+                .addStage(Match(where
+                    .eq('idKegiatan', data[1][0])
+                    .ne('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await userUmumCollection
+                .aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari Sakramentali") {
             var PemberkatanCollection =
                 MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
@@ -398,6 +630,29 @@ class AgenPencarian {
                 .addStage(Match(where
                     .eq('idGereja', data[1][0])
                     .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await PemberkatanCollection.aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
+          if (data[0][0] == "cari Sakramentali History") {
+            var PemberkatanCollection =
+                MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userDaftar'))
+                .addStage(Match(where
+                    .eq('idGereja', data[1][0])
+                    .ne('status', 0)
                     .map['\$query']))
                 .build();
             var conn = await PemberkatanCollection.aggregateToStream(pipeline)
