@@ -1050,6 +1050,32 @@ class AgenPencarian {
           }
         }
 
+        if (data[0][0] == "update Sakramentali") {
+          var baptisCollection =
+              MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+
+          try {
+            var update = await baptisCollection
+                .updateOne(where.eq('_id', data[1][0]),
+                    modify.set('status', data[2][0]))
+                .then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
+
         if (data[0][0] == "add Baptis") {
           var baptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
 

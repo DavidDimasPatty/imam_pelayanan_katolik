@@ -49,7 +49,20 @@ class _DetailSakramentali extends State<DetailSakramentali> {
   }
 
   void updateAccept() async {
-    var hasil = MongoDatabase.acceptPemberkatan(idPemberkatan);
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["update Sakramentali"],
+      [idPemberkatan],
+      [1]
+    ]);
+    var hasil;
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = await AgenPage().receiverTampilan();
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
@@ -69,16 +82,24 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Sakramentali(name, idUser, idGereja)),
-      );
     }
   }
 
   void updateReject() async {
-    var hasil = MongoDatabase.rejectPemberkatan(idPemberkatan);
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["update Sakramentali"],
+      [idPemberkatan],
+      [-1]
+    ]);
+    var hasil;
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = await AgenPage().receiverTampilan();
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
@@ -98,11 +119,6 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Sakramentali(name, idUser, idGereja)),
-      );
     }
   }
 
@@ -323,6 +339,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                                               TextButton(
                                                 onPressed: () {
                                                   updateAccept();
+                                                  Navigator.pop(context);
                                                 },
                                                 child: const Text('Ya'),
                                               ),
@@ -363,6 +380,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                                               TextButton(
                                                 onPressed: () {
                                                   updateReject();
+                                                  Navigator.pop(context);
                                                 },
                                                 child: const Text('Ya'),
                                               ),
