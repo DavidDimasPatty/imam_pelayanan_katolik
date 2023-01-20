@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
@@ -12,13 +14,49 @@ import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
 import 'DatabaseFolder/mongodb.dart';
 
-class KegiatanUmum extends StatelessWidget {
+class KegiatanUmum extends StatefulWidget {
+  var names;
+  var iduser;
+  var idGereja;
+  KegiatanUmum(this.names, this.iduser, this.idGereja);
+  _KegiatanUmum createState() =>
+      _KegiatanUmum(this.names, this.iduser, this.idGereja);
+}
+
+class _KegiatanUmum extends State<KegiatanUmum> {
   var names;
   var iduser;
   var idGereja;
   var dataUser;
 
-  KegiatanUmum(this.names, this.iduser, this.idGereja);
+  _KegiatanUmum(this.names, this.iduser, this.idGereja);
+
+  List hasil = [];
+
+  Future callJumlah() async {
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["cari jumlah Umum"],
+      [idGereja],
+      [iduser]
+    ]);
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = AgenPage().receiverTampilan();
+
+    return hasil;
+  }
+
+  Future pullRefresh() async {
+    setState(() {
+      callJumlah();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,14 +89,235 @@ class KegiatanUmum extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(children: [
-        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-        ListView(
+      body: RefreshIndicator(
+        onRefresh: pullRefresh,
+        child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
           children: <Widget>[
             /////////
+            FutureBuilder(
+                future: callJumlah(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  //exception
 
+                  try {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          clipBehavior: Clip.antiAlias,
+                          color: Colors.white,
+                          elevation: 20.0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 7.0, vertical: 22.0),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        "Total Pendaftaran Kegiatan Umum :",
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text(
+                                        hasil[0].toString(),
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 17.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(children: <Widget>[
+                                        Expanded(
+                                          child: Card(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 5.0, vertical: 5.0),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            color: Colors.white,
+                                            elevation: 20.0,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                      Text(
+                                                        "Rekoleksi",
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          fontSize: 15.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                      Text(
+                                                        hasil[1].toString(),
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Card(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 5.0, vertical: 5.0),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            color: Colors.white,
+                                            elevation: 20.0,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                      Text(
+                                                        "Retret",
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          fontSize: 15.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 10.0,
+                                                      ),
+                                                      Text(
+                                                        hasil[2].toString(),
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Card(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 5.0, vertical: 5.0),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            color: Colors.white,
+                                            elevation: 20.0,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                      Text(
+                                                        "Pendalaman Alkitab",
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          fontSize: 9.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                      Text(
+                                                        hasil[3].toString(),
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ])
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                      ],
+                    );
+                  } catch (e) {
+                    print(e);
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }),
             InkWell(
               borderRadius: new BorderRadius.circular(24),
               onTap: () {
@@ -176,7 +435,7 @@ class KegiatanUmum extends StatelessWidget {
             ///
           ],
         ),
-      ]),
+      ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(

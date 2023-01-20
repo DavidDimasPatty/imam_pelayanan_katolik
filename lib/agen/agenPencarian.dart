@@ -807,6 +807,248 @@ class AgenPencarian {
               await msg.send();
             });
           }
+
+          if (data[0][0] == "cari jumlah Sakramen") {
+            var userKrismaCollection =
+                MongoDatabase.db.collection(KRISMA_COLLECTION);
+            var userBaptisCollection =
+                MongoDatabase.db.collection(BAPTIS_COLLECTION);
+            var userKomuniCollection =
+                MongoDatabase.db.collection(KOMUNI_COLLECTION);
+
+            var count = 0;
+
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'userBaptis',
+                    localField: '_id',
+                    foreignField: 'idBaptis',
+                    as: 'userBaptis'))
+                .addStage(Match(where
+                    .eq('idGereja', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var countB =
+                await userBaptisCollection.aggregateToStream(pipeline).toList();
+
+            final pipeline2 = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'userKomuni',
+                    localField: '_id',
+                    foreignField: 'idKomuni',
+                    as: 'userKomuni'))
+                .addStage(Match(where
+                    .eq('idGereja', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var countKo = await userKomuniCollection
+                .aggregateToStream(pipeline2)
+                .toList();
+
+            final pipeline3 = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'userKrisma',
+                    localField: '_id',
+                    foreignField: 'idKrisma',
+                    as: 'userKrisma'))
+                .addStage(Match(where
+                    .eq('idGereja', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var countKr = await userKrismaCollection
+                .aggregateToStream(pipeline3)
+                .toList();
+
+            var totalB = 0;
+            var totalKo = 0;
+            var totalKr = 0;
+            var totalU = 0;
+            for (var i = 0; i < countB.length; i++) {
+              if (countB[i]['userBaptis'] != null) {
+                for (var j = 0; j < countB[i]['userBaptis'].length; j++) {
+                  if (countB[i]['userBaptis'][j]['status'] == 0) {
+                    totalB++;
+                  }
+                }
+              }
+            }
+
+            for (var i = 0; i < countKo.length; i++) {
+              if (countKo[i]['userKomuni'] != null) {
+                for (var j = 0; j < countKo[i]['userKomuni'].length; j++) {
+                  if (countKo[i]['userKomuni'][j]['status'] == 0) {
+                    totalKo++;
+                  }
+                }
+              }
+            }
+
+            for (var i = 0; i < countKr.length; i++) {
+              if (countKr[i]['userKrisma'] != null) {
+                for (var j = 0; j < countKr[i]['userKrisma'].length; j++) {
+                  if (countKr[i]['userKrisma'][j]['status'] == 0) {
+                    totalKr++;
+                  }
+                }
+              }
+            }
+
+            var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+
+            final pipeliner = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'Gereja',
+                    localField: 'idGereja',
+                    foreignField: '_id',
+                    as: 'userGereja'))
+                .addStage(Match(where.eq('_id', data[2][0]).map['\$query']))
+                .build();
+            var conn = await userCollection
+                .aggregateToStream(pipeliner)
+                .toList()
+                .then((res) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(
+                  [totalB + totalKo + totalKr, totalB, totalKo, totalKr, res]);
+              await msg.send();
+            });
+          }
+
+          if (data[0][0] == "cari jumlah Umum") {
+            var userKegiatanCollection =
+                MongoDatabase.db.collection(UMUM_COLLECTION);
+            var count = 0;
+
+            final pipeline1 = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'userUmum',
+                    localField: '_id',
+                    foreignField: 'idKegiatan',
+                    as: 'userKegiatan'))
+                .addStage(Match(where
+                    .eq('idGereja', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var countU = await userKegiatanCollection
+                .aggregateToStream(pipeline1)
+                .toList();
+
+            final pipeline2 = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'userUmum',
+                    localField: '_id',
+                    foreignField: 'idKegiatan',
+                    as: 'userKegiatan'))
+                .addStage(Match(where
+                    .eq('idGereja', data[1][0])
+                    .eq('status', 0)
+                    .eq('jenisKegiatan', "Rekoleksi")
+                    .map['\$query']))
+                .build();
+            var countU2 = await userKegiatanCollection
+                .aggregateToStream(pipeline2)
+                .toList();
+
+            final pipeline3 = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'userUmum',
+                    localField: '_id',
+                    foreignField: 'idKegiatan',
+                    as: 'userKegiatan'))
+                .addStage(Match(where
+                    .eq('idGereja', data[1][0])
+                    .eq('status', 0)
+                    .eq('jenisKegiatan', "Retret")
+                    .map['\$query']))
+                .build();
+            var countU3 = await userKegiatanCollection
+                .aggregateToStream(pipeline3)
+                .toList();
+
+            final pipeline4 = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'userUmum',
+                    localField: '_id',
+                    foreignField: 'idKegiatan',
+                    as: 'userKegiatan'))
+                .addStage(Match(where
+                    .eq('idGereja', data[1][0])
+                    .eq('status', 0)
+                    .eq('jenisKegiatan', "Pendalaman Alkitab")
+                    .map['\$query']))
+                .build();
+            var countU4 = await userKegiatanCollection
+                .aggregateToStream(pipeline4)
+                .toList();
+
+            var totalU1 = 0;
+            var totalU2 = 0;
+            var totalU3 = 0;
+            var totalU4 = 0;
+
+            for (var i = 0; i < countU.length; i++) {
+              if (countU[i]['userKegiatan'] != null) {
+                for (var j = 0; j < countU[i]['userKegiatan'].length; j++) {
+                  if (countU[i]['userKegiatan'][j]['status'] == 0) {
+                    totalU1++;
+                  }
+                }
+              }
+            }
+
+            for (var i = 0; i < countU2.length; i++) {
+              if (countU2[i]['userKegiatan'] != null) {
+                for (var j = 0; j < countU2[i]['userKegiatan'].length; j++) {
+                  if (countU2[i]['userKegiatan'][j]['status'] == 0) {
+                    totalU2++;
+                  }
+                }
+              }
+            }
+
+            for (var i = 0; i < countU3.length; i++) {
+              if (countU3[i]['userKegiatan'] != null) {
+                for (var j = 0; j < countU3[i]['userKegiatan'].length; j++) {
+                  if (countU3[i]['userKegiatan'][j]['status'] == 0) {
+                    totalU3++;
+                  }
+                }
+              }
+            }
+
+            for (var i = 0; i < countU4.length; i++) {
+              if (countU4[i]['userKegiatan'] != null) {
+                for (var j = 0; j < countU4[i]['userKegiatan'].length; j++) {
+                  if (countU4[i]['userKegiatan'][j]['status'] == 0) {
+                    totalU4++;
+                  }
+                }
+              }
+            }
+
+            var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+
+            final pipeliner = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'Gereja',
+                    localField: 'idGereja',
+                    foreignField: '_id',
+                    as: 'userGereja'))
+                .addStage(Match(where.eq('_id', data[2][0]).map['\$query']))
+                .build();
+            var conn = await userCollection
+                .aggregateToStream(pipeliner)
+                .toList()
+                .then((res) async {
+              msg.addReceiver("agenPage");
+              msg.setContent([totalU1, totalU2, totalU3, totalU4, res]);
+              await msg.send();
+            });
+          }
         }
       } catch (e) {
         return 0;
