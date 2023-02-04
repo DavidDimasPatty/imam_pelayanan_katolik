@@ -2,7 +2,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
+import 'package:imam_pelayanan_katolik/login.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
 import 'DatabaseFolder/fireBase.dart';
 import 'homePage.dart';
@@ -15,6 +19,31 @@ class Settings extends StatelessWidget {
   var idGereja;
   var dataUser;
   var data;
+
+  Future LogOut() async {
+    Messages msg = new Messages();
+    msg.addReceiver("agenSetting");
+    msg.setContent([
+      ["log out"]
+    ]);
+    var k;
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    k = await AgenPage().receiverTampilan();
+    if (k == 'oke') {
+      Fluttertoast.showToast(
+          msg: "Berhasil Log Out",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
 
   Settings(this.names, this.iduser, this.idGereja);
   @override
@@ -229,11 +258,12 @@ class Settings extends StatelessWidget {
                 )),
             Padding(padding: EdgeInsets.symmetric(vertical: 14)),
             RaisedButton(
-                onPressed: () {
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Login()),
-                  // );
+                onPressed: () async {
+                  await LogOut();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                  );
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
