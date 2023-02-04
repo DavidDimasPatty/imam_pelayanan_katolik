@@ -1,3 +1,4 @@
+import 'package:imam_pelayanan_katolik/agen/agenAkun.dart';
 import 'package:imam_pelayanan_katolik/agen/agenSetting.dart';
 
 import 'agenPage.dart';
@@ -24,6 +25,9 @@ class Messages {
     }
     if (this.Agen == "agenSetting") {
       await AgenSetting();
+    }
+    if (this.Agen == "agenAkun") {
+      await AgenAkun();
     }
   }
 

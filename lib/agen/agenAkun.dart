@@ -36,23 +36,25 @@ class AgenAkun {
                     final directory = await getApplicationDocumentsDirectory();
                     var path = directory.path;
 
-                    if (await File('$path/login.txt').exists()) {
+                    if (await File('$path/loginImam.txt').exists()) {
                       final file = await File('$path/loginImam.txt');
                       print("found file");
                       print(result[0]['name']);
                       await file.writeAsString(result[0]['name']);
-                      await file.writeAsString('\n' + result[0]['email'],
-                          mode: FileMode.append);
-
                       await file.writeAsString(
                           '\n' + result[0]['_id'].toString(),
                           mode: FileMode.append);
+
+                      await file.writeAsString(
+                          '\n' + result[0]['idGereja'].toString(),
+                          mode: FileMode.append);
                     } else {
                       print("file not found");
-                      final file =
-                          await File('$path/login.txt').create(recursive: true);
+                      final file = await File('$path/loginImam.txt')
+                          .create(recursive: true);
                       await file.writeAsString(result[0]['name']);
-                      await file.writeAsString('\n' + result[0]['_id'],
+                      await file.writeAsString(
+                          '\n' + result[0]['_id'].toString(),
                           mode: FileMode.append);
 
                       await file.writeAsString(

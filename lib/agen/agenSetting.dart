@@ -67,7 +67,7 @@ class AgenSetting {
           final directory = await getApplicationDocumentsDirectory();
           var path = directory.path;
 
-          final file = await File('$path/login.txt');
+          final file = await File('$path/loginImam.txt');
           await file.writeAsString("");
           msg.addReceiver("agenPage");
           msg.setContent("oke");

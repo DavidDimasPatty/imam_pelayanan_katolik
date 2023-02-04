@@ -13,7 +13,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class Login extends StatelessWidget {
   login(id, password) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenAkun");
     msg.setContent([
       ["cari user"],
       [id],
