@@ -62,7 +62,7 @@ class _addKomuni extends State<addKomuni> {
 
   void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["add Komuni"],
       [idGereja],

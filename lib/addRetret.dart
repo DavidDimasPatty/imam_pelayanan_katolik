@@ -68,7 +68,7 @@ class _addRetret extends State<addRetret> {
 
   void submit() async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["add Kegiatan"],
       [idGereja],

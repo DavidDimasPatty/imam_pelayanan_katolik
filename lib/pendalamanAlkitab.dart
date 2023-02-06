@@ -91,7 +91,7 @@ class _PA extends State<PA> {
 
   void updateKegiatan(idKegiatan) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Kegiatan"],
       [idKegiatan],

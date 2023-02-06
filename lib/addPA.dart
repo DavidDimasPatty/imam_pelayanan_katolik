@@ -67,7 +67,7 @@ class _addPA extends State<addPA> {
 
   void submit() async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["add Kegiatan"],
       [idGereja],

@@ -61,7 +61,7 @@ class _addBaptis extends State<addBaptis> {
 
   void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["add Baptis"],
       [idGereja],

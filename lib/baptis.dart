@@ -68,7 +68,7 @@ class _Baptis extends State<Baptis> {
 
   void updateKegiatan(idKegiatan, status) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Baptis"],
       [idKegiatan],

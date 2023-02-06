@@ -62,7 +62,7 @@ class _addKrisma extends State<addKrisma> {
 
   void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["add Krisma"],
       [idGereja],

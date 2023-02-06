@@ -87,7 +87,7 @@ class _RetretUser extends State<RetretUser> {
 
   void updateReject(id) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Kegiatan User"],
       [id],
@@ -133,7 +133,7 @@ class _RetretUser extends State<RetretUser> {
 
   void updateAccept(id) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Kegiatan User"],
       [id],

@@ -88,7 +88,7 @@ class _KrismaUser extends State<KrismaUser> {
 
   void updateReject(id) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Krisma User"],
       [id],
@@ -134,7 +134,7 @@ class _KrismaUser extends State<KrismaUser> {
 
   void updateAccept(id) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Krisma User"],
       [id],

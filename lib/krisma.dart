@@ -89,7 +89,7 @@ class _Krisma extends State<Krisma> {
 
   void updateKegiatan(idKegiatan, status) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Krisma"],
       [idKegiatan],

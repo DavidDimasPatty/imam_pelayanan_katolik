@@ -88,7 +88,7 @@ class _KomuniUser extends State<KomuniUser> {
 
   void updateReject(id) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Komuni User"],
       [id],
@@ -134,7 +134,7 @@ class _KomuniUser extends State<KomuniUser> {
 
   void updateAccept(id) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Komuni User"],
       [id],

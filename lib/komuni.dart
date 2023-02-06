@@ -88,7 +88,7 @@ class _Komuni extends State<Komuni> {
 
   void updateKegiatan(idKegiatan, status) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Komuni"],
       [idKegiatan],

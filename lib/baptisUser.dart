@@ -88,7 +88,7 @@ class _BaptisUser extends State<BaptisUser> {
 
   void updateReject(id) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Baptis User"],
       [id],
@@ -134,7 +134,7 @@ class _BaptisUser extends State<BaptisUser> {
 
   void updateAccept(id) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
+    msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Baptis User"],
       [id],
