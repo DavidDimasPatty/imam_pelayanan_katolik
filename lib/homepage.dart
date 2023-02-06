@@ -31,10 +31,10 @@ class _HomePage extends State<HomePage> {
   @override
   List hasil = [];
   //function
-  Future callDb() async {
-    //async
-    return await MongoDatabase.callAdmin(iduser);
-  }
+  // Future callDb() async {
+  //   //async
+  //   return await MongoDatabase.callAdmin(iduser);
+  // }
 
   Future callJumlah() async {
     Messages msg = new Messages();

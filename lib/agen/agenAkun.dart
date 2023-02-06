@@ -133,7 +133,27 @@ class AgenAkun {
                   msg.setContent(result);
                   await msg.send();
                 });
-            ;
+          }
+
+          if (data[0][0] == "change Picture") {
+            DateTime now = new DateTime.now();
+            DateTime date = new DateTime(
+                now.year, now.month, now.day, now.hour, now.minute, now.second);
+            final filename = date.toString();
+            final destination = 'files/$filename';
+            UploadTask? task = FirebaseApi.uploadFile(destination, data[2][0]);
+            final snapshot = await task!.whenComplete(() {});
+            final urlDownload = await snapshot.ref.getDownloadURL();
+
+            var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+            var conn = await userCollection
+                .updateOne(where.eq('_id', data[1][0]),
+                    modify.set('picture', urlDownload))
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent("oke");
+              await msg.send();
+            });
           }
         }
       } catch (e) {

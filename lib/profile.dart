@@ -100,25 +100,36 @@ class _Profile extends State<Profile> {
   }
 
   Future uploadFile(File file, context) async {
-    if (file == null) return;
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(
-        now.year, now.month, now.day, now.hour, now.minute, now.second);
-    final filename = date.toString();
-    final destination = 'files/$filename';
-    UploadTask? task = FirebaseApi.uploadFile(destination, file);
-    final snapshot = await task!.whenComplete(() {});
-    final urlDownload = await snapshot.ref.getDownloadURL();
-    await MongoDatabase.updateProfilePicture(iduser, urlDownload).then((value) {
-      Navigator.pop(context);
+    Messages msg = new Messages();
+    msg.addReceiver("agenAkun");
+    msg.setContent([
+      ["change Picture"],
+      [iduser],
+      [file]
+    ]);
+    var k;
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    k = await AgenPage().receiverTampilan();
+
+    if (k == 'oke') {
+      Fluttertoast.showToast(
+          msg: "Berhasil Ganti Profile Picture",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => Profile(names, iduser, idGereja)),
       );
-    });
-
-    //print('Download-Link: $urlDownload');
+    }
   }
 
   Future pullRefresh() async {
@@ -396,8 +407,8 @@ class _Profile extends State<Profile> {
                             width: 300.00,
                             child: RaisedButton(
                                 onPressed: () async {
-                                  await ImagePicker()
-                                      .pickImage(source: ImageSource.gallery);
+                                  // await ImagePicker()
+                                  //     .pickImage(source: ImageSource.gallery);
                                   await selectFile(context);
                                 },
                                 shape: RoundedRectangleBorder(
