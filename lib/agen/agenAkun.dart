@@ -100,6 +100,41 @@ class AgenAkun {
               await msg.send();
             }
           }
+
+          if (data[0][0] == "edit Profile") {
+            var gerejaCollection =
+                MongoDatabase.db.collection(GEREJA_COLLECTION);
+
+            var update = await gerejaCollection
+                .updateOne(
+                    where.eq('_id', data[1][0]),
+                    modify
+                        .set('nama', data[2][0])
+                        .set('address', data[3][0])
+                        .set('paroki', data[4][0])
+                        .set('lingkungan', data[5][0])
+                        .set('deskripsi', data[6][0]))
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent("oke");
+              await msg.send();
+            });
+            ;
+          }
+
+          if (data[0][0] == "data Gereja") {
+            var gerejaCollection =
+                MongoDatabase.db.collection(GEREJA_COLLECTION);
+            var conn = await gerejaCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+            ;
+          }
         }
       } catch (e) {
         return 0;

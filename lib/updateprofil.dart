@@ -3,6 +3,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptis.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
@@ -43,9 +45,29 @@ class _UpdateProfile extends State<UpdateProfile> {
   _UpdateProfile(this.names, this.idUser, this.idGereja);
 
   void submit() async {
-    var hasil = await MongoDatabase.updateGereja(idGereja, nama.text,
-        address.text, paroki.text, lingkungan.text, deskripsi.text);
+    // var hasil = await MongoDatabase.updateGereja(idGereja, nama.text,
+    //     address.text, paroki.text, lingkungan.text, deskripsi.text);
 
+    Messages msg = new Messages();
+    msg.addReceiver("agenAkun");
+    msg.setContent(
+      [
+        ["edit Profile"],
+        [idGereja],
+        [nama.text],
+        [address.text],
+        [paroki.text],
+        [lingkungan.text],
+        [deskripsi.text]
+      ],
+    );
+
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    var hasil = await AgenPage().receiverTampilan();
     if (hasil == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Update Informasi Gereja",
@@ -73,7 +95,22 @@ class _UpdateProfile extends State<UpdateProfile> {
   }
 
   Future callDb() async {
-    return await MongoDatabase.getDataGereja(idGereja);
+    Messages msg = new Messages();
+    msg.addReceiver("agenAkun");
+    msg.setContent(
+      [
+        ["data Gereja"],
+        [idGereja],
+      ],
+    );
+
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    var hasil = await AgenPage().receiverTampilan();
+    return hasil;
   }
 
   Widget build(BuildContext context) {
