@@ -59,6 +59,7 @@ class _Profile extends State<Profile> {
 
   Future gantiStatus(status) async {
     Messages msg = new Messages();
+
     msg.addReceiver("agenAkun");
     msg.setContent([
       ["ganti Status"],
@@ -474,7 +475,15 @@ class _Profile extends State<Profile> {
                             width: 300.00,
                             child: RaisedButton(
                                 onPressed: () async {
-                                  await gantiStatus(snapshot.data[0][0][0]);
+                                  var temp;
+                                  if (snapshot.data[0][0][0]
+                                          ['statusPemberkatan'] ==
+                                      0) {
+                                    temp = 1;
+                                  } else {
+                                    temp = 0;
+                                  }
+                                  await gantiStatus(temp);
                                   setState(() {
                                     // callDb();
 
@@ -515,7 +524,7 @@ class _Profile extends State<Profile> {
                                           style: TextStyle(
                                               color: Colors.green,
                                               fontSize: 22.0,
-                                              fontWeight: FontWeight.w300),
+                                              fontWeight: FontWeight.w600),
                                         ),
                                       if (statusPem == 1)
                                         Text(
@@ -523,7 +532,7 @@ class _Profile extends State<Profile> {
                                           style: TextStyle(
                                               color: Colors.red,
                                               fontSize: 22.0,
-                                              fontWeight: FontWeight.w300),
+                                              fontWeight: FontWeight.w600),
                                         )
                                     ]),
                                   ),
