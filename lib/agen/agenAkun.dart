@@ -135,6 +135,64 @@ class AgenAkun {
                 });
           }
 
+          if (data[0][0] == "cari data user") {
+            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+            var conn = await imamCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "update Notif") {
+            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+            var conn = await imamCollection
+                .updateOne(where.eq('_id', data[1][0]),
+                    modify.set('notif', data[2][0]))
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent("oke");
+              await msg.send();
+            });
+          }
+
+          if (data[0][0] == "find Password") {
+            var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+            var conn = await userCollection
+                .find({'_id': data[1][0], 'password': data[2][0]}).toList();
+            try {
+              print(conn[0]['_id']);
+              if (conn[0]['_id'] == null) {
+                msg.addReceiver("agenPage");
+                msg.setContent("not");
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent("found");
+                await msg.send();
+              }
+            } catch (e) {
+              msg.addReceiver("agenPage");
+              msg.setContent("not");
+              await msg.send();
+            }
+          }
+
+          if (data[0][0] == "ganti Password") {
+            var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+            var conn = await userCollection
+                .updateOne(where.eq('_id', data[1][0]),
+                    modify.set('password', data[2][0]))
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent("oke");
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "change Picture") {
             DateTime now = new DateTime.now();
             DateTime date = new DateTime(

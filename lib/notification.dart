@@ -54,13 +54,13 @@ class _notifClass extends State<notification> {
     return checknotif;
   }
 
-  Future updateNotifPg(notifPg) async {
+  Future updateNotif(notif) async {
     Messages msg = new Messages();
     msg.addReceiver("agenAkun");
     msg.setContent([
-      ["update NotifPG"],
+      ["update Notif"],
       [idUser],
-      [notifPg]
+      [notif]
     ]);
 
     await msg.send().then((res) async {
@@ -82,33 +82,33 @@ class _notifClass extends State<notification> {
     }
   }
 
-  Future updateNotifGd(notifGD) async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenAkun");
-    msg.setContent([
-      ["update NotifGD"],
-      [idUser],
-      [notifGD]
-    ]);
+  // Future updateNotifGd(notifGD) async {
+  //   Messages msg = new Messages();
+  //   msg.addReceiver("agenAkun");
+  //   msg.setContent([
+  //     ["update NotifGD"],
+  //     [idUser],
+  //     [notifGD]
+  //   ]);
 
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    var daftarmisa = await AgenPage().receiverTampilan();
+  //   await msg.send().then((res) async {
+  //     print("masuk");
+  //     print(await AgenPage().receiverTampilan());
+  //   });
+  //   await Future.delayed(Duration(seconds: 1));
+  //   var daftarmisa = await AgenPage().receiverTampilan();
 
-    if (daftarmisa == 'oke') {
-      Fluttertoast.showToast(
-          msg: "Berhasil Update Notif",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    }
-  }
+  //   if (daftarmisa == 'oke') {
+  //     Fluttertoast.showToast(
+  //         msg: "Berhasil Update Notif",
+  //         toastLength: Toast.LENGTH_SHORT,
+  //         gravity: ToastGravity.CENTER,
+  //         timeInSecForIosWeb: 2,
+  //         backgroundColor: Colors.green,
+  //         textColor: Colors.white,
+  //         fontSize: 16.0);
+  //   }
+  // }
 
   // void initState() {
   //   super.initState();
@@ -156,8 +156,7 @@ class _notifClass extends State<notification> {
                 future: callDb(),
                 builder: (context, AsyncSnapshot snapshot) {
                   try {
-                    switch1 = checknotif[0]['notifPG'];
-                    switch2 = checknotif[0]['notifGD'];
+                    switch1 = checknotif[0]['notif'];
 
                     return Column(
                       children: <Widget>[
@@ -195,10 +194,10 @@ class _notifClass extends State<notification> {
                               onChanged: (value) {
                                 setState(() async {
                                   switch1 = value;
-                                  await updateNotifPg(switch1);
+                                  await updateNotif(switch1);
                                   // await callDb();
                                   setState(() {
-                                    switch1 = checknotif[0]['notifPG'];
+                                    switch1 = checknotif[0]['notif'];
                                   });
                                 });
                               },
@@ -208,52 +207,52 @@ class _notifClass extends State<notification> {
                           ],
                         ),
                         Padding(padding: EdgeInsets.symmetric(vertical: 8)),
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 6)),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    'Misa di Gereja Terdekat',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 3)),
-                                  Text(
-                                    'Pemberitahuan Misa di Gereja Terdekat',
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.grey),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Switch(
-                              value: switch2,
-                              onChanged: (value) {
-                                setState(() async {
-                                  switch2 = value;
-                                  await updateNotifGd(switch2);
+                        // Row(
+                        //   children: <Widget>[
+                        //     Padding(
+                        //         padding: EdgeInsets.symmetric(horizontal: 6)),
+                        //     Expanded(
+                        //       child: Column(
+                        //         mainAxisAlignment: MainAxisAlignment.start,
+                        //         crossAxisAlignment: CrossAxisAlignment.stretch,
+                        //         mainAxisSize: MainAxisSize.min,
+                        //         children: [
+                        //           Text(
+                        //             'Misa di Gereja Terdekat',
+                        //             style: TextStyle(
+                        //               fontSize: 15,
+                        //               fontWeight: FontWeight.bold,
+                        //             ),
+                        //           ),
+                        //           Padding(
+                        //               padding:
+                        //                   EdgeInsets.symmetric(vertical: 3)),
+                        //           Text(
+                        //             'Pemberitahuan Misa di Gereja Terdekat',
+                        //             style: TextStyle(
+                        //                 fontSize: 12, color: Colors.grey),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     Switch(
+                        //       value: switch2,
+                        //       onChanged: (value) {
+                        //         setState(() async {
+                        //           switch2 = value;
+                        //           await updateNotifGd(switch2);
 
-                                  // await callDb();
-                                  setState(() {
-                                    switch2 = checknotif[0]['notifGD'];
-                                  });
-                                });
-                              },
-                              activeTrackColor: Colors.lightGreenAccent,
-                              activeColor: Colors.green,
-                            ),
-                          ],
-                        )
+                        //           // await callDb();
+                        //           setState(() {
+                        //             switch2 = checknotif[0]['notifGD'];
+                        //           });
+                        //         });
+                        //       },
+                        //       activeTrackColor: Colors.lightGreenAccent,
+                        //       activeColor: Colors.green,
+                        //     ),
+                        //   ],
+                        // )
                       ],
                     );
                   } catch (e) {

@@ -9,6 +9,7 @@ import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/customerService.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/login.dart';
+import 'package:imam_pelayanan_katolik/privacySafety.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/termsCondition.dart';
 import 'DatabaseFolder/fireBase.dart';
@@ -83,11 +84,11 @@ class Settings extends StatelessWidget {
           children: <Widget>[
             RaisedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => privacySafety(
-                  //             this.name, this.email, this.idUser)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => privacySafety(
+                              this.names, this.iduser, this.idGereja)));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
