@@ -3,11 +3,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:imam_pelayanan_katolik/aboutus.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/agen/messages.dart';
+import 'package:imam_pelayanan_katolik/customerService.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/login.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
+import 'package:imam_pelayanan_katolik/termsCondition.dart';
 import 'DatabaseFolder/fireBase.dart';
 import 'homePage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -117,11 +120,11 @@ class Settings extends StatelessWidget {
             Padding(padding: EdgeInsets.symmetric(vertical: 14)),
             RaisedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //     // context,
-                  //     // MaterialPageRoute(
-                  //     //     builder: (context) => termsCondition(
-                  //     //         this.name, this.email, this.idUser)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => termsCondition(
+                              this.names, this.iduser, this.idGereja)));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
@@ -154,11 +157,11 @@ class Settings extends StatelessWidget {
             Padding(padding: EdgeInsets.symmetric(vertical: 14)),
             RaisedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) =>
-                  //             aboutus(this.name, this.email, this.idUser)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              aboutus(this.names, this.iduser, this.idGereja)));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
@@ -189,44 +192,14 @@ class Settings extends StatelessWidget {
                   ),
                 )),
             Padding(padding: EdgeInsets.symmetric(vertical: 14)),
-            RaisedButton(
-                onPressed: () {},
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(80.0)),
-                elevation: 10.0,
-                padding: EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueAccent,
-                          Colors.lightBlue,
-                        ]),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Container(
-                    constraints: BoxConstraints(
-                        maxWidth: double.maxFinite, minHeight: 50.0),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Giver Rating and Review",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                    ),
-                  ),
-                )),
-            Padding(padding: EdgeInsets.symmetric(vertical: 14)),
+
             RaisedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => customerService(
-                  //             this.name, this.email, this.idUser)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => customerService(
+                              this.names, this.iduser, this.idGereja)));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
