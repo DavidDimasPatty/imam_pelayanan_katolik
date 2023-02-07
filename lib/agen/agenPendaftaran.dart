@@ -251,6 +251,71 @@ class AgenPendaftaran {
           }
         }
 
+        if (data[0][0] == "edit Pengumuman") {
+          var pengumumanCollection =
+              MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
+
+          if (data[5][0] == true) {
+            DateTime now = new DateTime.now();
+            DateTime date = new DateTime(
+                now.year, now.month, now.day, now.hour, now.minute, now.second);
+            final filename = date.toString();
+            final destination = 'files/$filename';
+            UploadTask? task = FirebaseApi.uploadFile(destination, data[4][0]);
+            final snapshot = await task!.whenComplete(() {});
+            final urlDownload = await snapshot.ref.getDownloadURL();
+
+            try {
+              var update = await pengumumanCollection
+                  .updateOne(
+                      where.eq('_id', data[1][0]),
+                      modify
+                          .set('title', data[2][0])
+                          .set("caption", data[3][0])
+                          .set("gambar", urlDownload))
+                  .then((result) async {
+                if (result.isSuccess) {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('oke');
+                  await msg.send();
+                } else {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('failed');
+                  await msg.send();
+                }
+              });
+            } catch (e) {
+              msg.addReceiver("agenPage");
+              msg.setContent('failed');
+              await msg.send();
+            }
+          } else {
+            try {
+              var update = await pengumumanCollection
+                  .updateOne(
+                      where.eq('_id', data[1][0]),
+                      modify
+                          .set('title', data[2][0])
+                          .set("caption", data[3][0]))
+                  .then((result) async {
+                if (result.isSuccess) {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('oke');
+                  await msg.send();
+                } else {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('failed');
+                  await msg.send();
+                }
+              });
+            } catch (e) {
+              msg.addReceiver("agenPage");
+              msg.setContent('failed');
+              await msg.send();
+            }
+          }
+        }
+
         if (data[0][0] == "add Baptis") {
           var baptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
 
@@ -317,6 +382,31 @@ class AgenPendaftaran {
           }
         }
 
+        if (data[0][0] == "update Pengumuman") {
+          var pengumumanCollection =
+              MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
+
+          try {
+            var update = await pengumumanCollection
+                .updateOne(where.eq('_id', data[1][0]),
+                    modify.set('status', data[2][0]))
+                .then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
         if (data[0][0] == "add Komuni") {
           var komuniCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
           try {

@@ -9,6 +9,7 @@ import 'package:imam_pelayanan_katolik/addPengumuman.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
+import 'package:imam_pelayanan_katolik/editPengumuman.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/sakramen.dart';
@@ -70,7 +71,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
     });
   }
 
-  void updateKegiatan(idKegiatan, status) async {
+  Future updatePengumuman(idKegiatan, status) async {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
@@ -88,7 +89,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
-          msg: "Gagal Deactive Pengumuman Gereja",
+          msg: "Gagal Update Status Pengumuman Gereja",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -97,7 +98,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
-          msg: "Berhasil Deactive Pengumuman Gereja",
+          msg: "Berhasil Update Status Pengumuman Gereja",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -291,8 +292,8 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                                       "Status: Deactive",
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w300),
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.w600),
                                       textAlign: TextAlign.left,
                                     ),
                                   ),
@@ -333,54 +334,105 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                                 //   style: TextStyle(
                                 //       color: Colors.white, fontSize: 12),
                                 // ),
+                                if (i['status'] == 0)
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: RaisedButton(
+                                        textColor: Colors.white,
+                                        color: Colors.lightBlue,
+                                        child: Text("Deactive Pengumuman"),
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(30.0),
+                                        ),
+                                        onPressed: () async {
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                              title: const Text(
+                                                  'Confirm Deactive'),
+                                              content: const Text(
+                                                  'Yakin ingin mendeactive pengumuman ini?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          context, 'Cancel'),
+                                                  child: const Text('Tidak'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    await updatePengumuman(
+                                                        i["_id"], 1);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Ya'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                                if (i['status'] == 1)
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: RaisedButton(
+                                        textColor: Colors.white,
+                                        color: Colors.lightBlue,
+                                        child: Text("Activate Pengumuman"),
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(30.0),
+                                        ),
+                                        onPressed: () async {
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                              title:
+                                                  const Text('Confirm Active'),
+                                              content: const Text(
+                                                  'Yakin ingin mengaktifasikan pengumuman ini?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          context, 'Cancel'),
+                                                  child: const Text('Tidak'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    await updatePengumuman(
+                                                        i["_id"], 0);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Ya'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                  ),
                                 SizedBox(
                                   width: double.infinity,
                                   child: RaisedButton(
                                       textColor: Colors.white,
-                                      color: Colors.lightBlue,
-                                      child: Text("Deactive Pengumuman"),
-                                      shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0),
-                                      ),
-                                      onPressed: () async {
-                                        showDialog<String>(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              AlertDialog(
-                                            title:
-                                                const Text('Confirm Deactive'),
-                                            content: const Text(
-                                                'Yakin ingin mendeactive kegiatan ini?'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    context, 'Cancel'),
-                                                child: const Text('Tidak'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () async {
-                                                  updateKegiatan(i["_id"], 1);
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('Ya'),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: RaisedButton(
-                                      textColor: Colors.white,
-                                      color: Colors.lightBlue,
+                                      color: Color.fromARGB(255, 33, 64, 78),
                                       child: Text("Edit Pengumuman"),
                                       shape: new RoundedRectangleBorder(
                                         borderRadius:
                                             new BorderRadius.circular(30.0),
                                       ),
-                                      onPressed: () async {}),
+                                      onPressed: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  editPengumuman(names, idUser,
+                                                      idGereja, i['_id'])),
+                                        );
+                                      }),
                                 ),
                               ])),
                         )
