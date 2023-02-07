@@ -4,6 +4,7 @@ import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
+import 'package:imam_pelayanan_katolik/pengumumanGereja.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/sakramen.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
@@ -635,6 +636,70 @@ class _HomePage extends State<HomePage> {
                             textAlign: TextAlign.right,
                           ),
                         ],
+                      ),
+                    ])),
+              ),
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            PengumumanGereja(names, iduser, idGereja)),
+                  );
+                },
+                child: Container(
+                    height: 120,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                    ),
+                    child: Row(children: <Widget>[
+                      Column(
+                        children: [
+                          Text(
+                            "Buat Pengumuman Gereja",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w300),
+                            textAlign: TextAlign.right,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "Buat Pengumuman untuk para Umat \n Katolik mengenai Gereja",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        height: 119,
+                        width: 123,
+                        child: Image.network(
+                          'https://cdn.pixabay.com/photo/2013/02/09/04/33/church-79607_960_720.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                        ),
                       ),
                     ])),
               ),

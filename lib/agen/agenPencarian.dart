@@ -152,6 +152,19 @@ class AgenPencarian {
             });
           }
 
+          if (data[0][0] == "cari Pengumuman") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
+            await userBaptisCollection
+                .find({'idGereja': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
           if (data[0][0] == "cari Baptis") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(BAPTIS_COLLECTION);
