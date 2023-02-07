@@ -131,7 +131,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['caption']
+        if (item['title']
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase())) {
@@ -274,7 +274,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                                 //Color(Colors.blue);
                                 Center(
                                   child: Text(
-                                    "Caption: " + i['caption'].toString(),
+                                    "Judul: " + i['title'].toString(),
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20.0,

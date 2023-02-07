@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/data.dart';
+import 'package:imam_pelayanan_katolik/DatabaseFolder/fireBase.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import '../DatabaseFolder/mongodb.dart';
 import 'messages.dart';
@@ -259,6 +261,44 @@ class AgenPendaftaran {
               'jadwalBuka': DateTime.parse(data[3][0]),
               'jadwalTutup': DateTime.parse(data[4][0]),
               'status': 0
+            }).then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
+
+        if (data[0][0] == "add Pengumuman") {
+          var PengumumanCollection =
+              MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
+          DateTime now = new DateTime.now();
+          DateTime date = new DateTime(
+              now.year, now.month, now.day, now.hour, now.minute, now.second);
+          final filename = date.toString();
+          final destination = 'files/$filename';
+          UploadTask? task = FirebaseApi.uploadFile(destination, data[2][0]);
+          final snapshot = await task!.whenComplete(() {});
+          final urlDownload = await snapshot.ref.getDownloadURL();
+
+          try {
+            var hasil = await PengumumanCollection.insertOne({
+              'idGereja': data[1][0],
+              'gambar': urlDownload,
+              'caption': data[3][0],
+              'tanggal': DateTime.now(),
+              'status': 0,
+              'title': data[4][0]
             }).then((result) async {
               if (result.isSuccess) {
                 msg.addReceiver("agenPage");

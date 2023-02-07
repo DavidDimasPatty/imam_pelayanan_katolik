@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -31,17 +34,32 @@ class _addPengumuman extends State<addPengumuman> {
   final idUser;
   final idGereja;
 
+  _addPengumuman(this.names, this.idUser, this.idGereja);
   TextEditingController caption = new TextEditingController();
   TextEditingController title = new TextEditingController();
-  _addPengumuman(this.names, this.idUser, this.idGereja);
 
-  void submit(idGereja, kapasitas) async {
+  var fileImage;
+
+  Future selectFile(context) async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result == null) return;
+    File file;
+    final path = result.files.single.path;
+    file = File(path!);
+    setState(() {
+      fileImage = file;
+    });
+  }
+
+  void submit() async {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["add Pengumuman"],
       [idGereja],
-      [kapasitas],
+      [fileImage],
+      [caption.text],
+      [title.text]
     ]);
     var hasil;
     await msg.send().then((res) async {
@@ -69,7 +87,7 @@ class _addPengumuman extends State<addPengumuman> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pop(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => PengumumanGereja(names, idUser, idGereja)),
@@ -187,6 +205,58 @@ class _addPengumuman extends State<addPengumuman> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 5),
             ),
+            Container(
+              child: RaisedButton(
+                  onPressed: () async {
+                    await selectFile(context);
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(80.0)),
+                  elevation: 0.0,
+                  padding: EdgeInsets.all(0.0),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueAccent,
+                            Colors.lightBlue,
+                          ]),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: Container(
+                      constraints:
+                          BoxConstraints(maxWidth: 170.0, minHeight: 50.0),
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.upload,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "Upload Image",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w600),
+                          )
+                        ],
+                      ),
+                    ),
+                  )),
+            ),
+            SizedBox(height: 10),
+            if (fileImage != null)
+              Text(
+                "File Image Path: \n" + fileImage.toString(),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w400),
+              )
           ],
         ),
         Padding(
@@ -202,7 +272,7 @@ class _addPengumuman extends State<addPengumuman> {
                 borderRadius: new BorderRadius.circular(30.0),
               ),
               onPressed: () async {
-                submit(idGereja, caption.text);
+                submit();
               }),
         ),
       ]),
