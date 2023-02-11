@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/data.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/fireBase.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import '../DatabaseFolder/mongodb.dart';
 import 'messages.dart';
+import 'package:http/http.dart' as http;
 
 class AgenPendaftaran {
   AgenPendaftaran() {
@@ -47,13 +50,49 @@ class AgenPendaftaran {
           }
 
           if (data[0][0] == "update Baptis User") {
+            print(data[3][0].runtimeType);
             var baptisCollection =
                 MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
 
             try {
+              String constructFCMPayload(String token) {
+                return jsonEncode({
+                  // 'token': dotenv.env['token_firebase'],
+                  'to': token,
+                  'data': {
+                    'via': 'FlutterFire Cloud Messaging!!!',
+                    // 'id': data[3][0].toString(),
+                  },
+                  'notification': {
+                    'title': 'Hello FlutterFire!',
+                    'body': 'This',
+                  },
+                });
+              }
+
+              try {
+                await http
+                    .post(
+                  Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                  headers: <String, String>{
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Authorization':
+                        'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+                  },
+                  body: constructFCMPayload(data[2][0]),
+                )
+                    .then((value) {
+                  print(value.statusCode);
+                  print(value.body);
+                });
+              } catch (e) {
+                print(e);
+              }
+
+              print('FCM request for device sent!');
               var update = await baptisCollection
                   .updateOne(where.eq('_id', data[1][0]),
-                      modify.set('status', data[2][0]))
+                      modify.set('status', data[4][0]))
                   .then((result) async {
                 if (result.isSuccess) {
                   msg.addReceiver("agenPage");
