@@ -678,12 +678,19 @@ class AgenPencarian {
           if (data[0][0] == "cari Sakramentali Detail") {
             var pemberkatanCollection =
                 MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
-            var conn = await pemberkatanCollection
-                .find({'_id': data[1][0]})
+            var conn =
+                await pemberkatanCollection.find({'_id': data[1][0]}).toList();
+
+            var userCollection = MongoDatabase.db.collection(USER_COLLECTION);
+            var conn2 = await userCollection
+                .find({'_id': conn[0]['idUser']})
                 .toList()
                 .then((result) async {
                   msg.addReceiver("agenPage");
-                  msg.setContent(result);
+                  msg.setContent([
+                    [conn],
+                    [result]
+                  ]);
                   await msg.send();
                 });
           }

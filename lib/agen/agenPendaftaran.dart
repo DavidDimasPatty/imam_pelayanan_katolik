@@ -53,7 +53,15 @@ class AgenPendaftaran {
             print(data[3][0].runtimeType);
             var baptisCollection =
                 MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
-
+            String status = "";
+            String body = "";
+            if (data[4][0] == 1) {
+              status = "Permintaan Baptis Diterima";
+              body = "Ada permintaan baptis yang telah di konfirmasi";
+            } else {
+              status = "Permintaan Baptis Ditolak";
+              body = "Maaf, permintaan baptis anda ditolak";
+            }
             try {
               String constructFCMPayload(String token) {
                 return jsonEncode({
@@ -64,8 +72,8 @@ class AgenPendaftaran {
                     // 'id': data[3][0].toString(),
                   },
                   'notification': {
-                    'title': 'Hello FlutterFire!',
-                    'body': 'This',
+                    'title': status,
+                    'body': body,
                   },
                 });
               }
@@ -139,11 +147,54 @@ class AgenPendaftaran {
           if (data[0][0] == "update Komuni User") {
             var komuniCollection =
                 MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
+            String status = "";
+            String body = "";
+            if (data[4][0] == 1) {
+              status = "Permintaan Komuni Diterima";
+              body = "Ada permintaan komuni yang telah di konfirmasi";
+            } else {
+              status = "Permintaan Komuni Ditolak";
+              body = "Maaf, permintaan komuni anda ditolak";
+            }
+
+            String constructFCMPayload(String token) {
+              return jsonEncode({
+                // 'token': dotenv.env['token_firebase'],
+                'to': token,
+                'data': {
+                  'via': 'FlutterFire Cloud Messaging!!!',
+                  // 'id': data[3][0].toString(),
+                },
+                'notification': {
+                  'title': status,
+                  'body': body,
+                },
+              });
+            }
+
+            try {
+              await http
+                  .post(
+                Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                headers: <String, String>{
+                  'Content-Type': 'application/json; charset=UTF-8',
+                  'Authorization':
+                      'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+                },
+                body: constructFCMPayload(data[2][0]),
+              )
+                  .then((value) {
+                print(value.statusCode);
+                print(value.body);
+              });
+            } catch (e) {
+              print(e);
+            }
 
             try {
               var update = await komuniCollection
                   .updateOne(where.eq('_id', data[1][0]),
-                      modify.set('status', data[2][0]))
+                      modify.set('status', data[4][0]))
                   .then((result) async {
                 if (result.isSuccess) {
                   msg.addReceiver("agenPage");
@@ -191,11 +242,54 @@ class AgenPendaftaran {
         if (data[0][0] == "update Krisma User") {
           var krismaCollection =
               MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
+          String status = "";
+          String body = "";
+          if (data[4][0] == 1) {
+            status = "Permintaan Krisma Diterima";
+            body = "Ada permintaan krisma yang telah di konfirmasi";
+          } else {
+            status = "Permintaan Krisma Ditolak";
+            body = "Maaf, permintaan krisma anda ditolak";
+          }
+
+          String constructFCMPayload(String token) {
+            return jsonEncode({
+              // 'token': dotenv.env['token_firebase'],
+              'to': token,
+              'data': {
+                'via': 'FlutterFire Cloud Messaging!!!',
+                // 'id': data[3][0].toString(),
+              },
+              'notification': {
+                'title': status,
+                'body': body,
+              },
+            });
+          }
+
+          try {
+            await http
+                .post(
+              Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization':
+                    'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+              },
+              body: constructFCMPayload(data[2][0]),
+            )
+                .then((value) {
+              print(value.statusCode);
+              print(value.body);
+            });
+          } catch (e) {
+            print(e);
+          }
 
           try {
             var update = await krismaCollection
                 .updateOne(where.eq('_id', data[1][0]),
-                    modify.set('status', data[2][0]))
+                    modify.set('status', data[4][0]))
                 .then((result) async {
               if (result.isSuccess) {
                 msg.addReceiver("agenPage");
@@ -241,11 +335,54 @@ class AgenPendaftaran {
         if (data[0][0] == "update Kegiatan User") {
           var kegiatanCollection =
               MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+          String status = "";
+          String body = "";
+          if (data[4][0] == 1) {
+            status = "Permintaan Kegiatan Diterima";
+            body = "Ada permintaan kegiatan yang telah di konfirmasi";
+          } else {
+            status = "Permintaan Kegiatan Ditolak";
+            body = "Maaf, permintaan kegiatan anda ditolak";
+          }
+
+          String constructFCMPayload(String token) {
+            return jsonEncode({
+              // 'token': dotenv.env['token_firebase'],
+              'to': token,
+              'data': {
+                'via': 'FlutterFire Cloud Messaging!!!',
+                // 'id': data[3][0].toString(),
+              },
+              'notification': {
+                'title': status,
+                'body': body,
+              },
+            });
+          }
+
+          try {
+            await http
+                .post(
+              Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization':
+                    'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+              },
+              body: constructFCMPayload(data[2][0]),
+            )
+                .then((value) {
+              print(value.statusCode);
+              print(value.body);
+            });
+          } catch (e) {
+            print(e);
+          }
 
           try {
             var update = await kegiatanCollection
                 .updateOne(where.eq('_id', data[1][0]),
-                    modify.set('status', data[2][0]))
+                    modify.set('status', data[4][0]))
                 .then((result) async {
               if (result.isSuccess) {
                 msg.addReceiver("agenPage");
@@ -268,10 +405,54 @@ class AgenPendaftaran {
           var baptisCollection =
               MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
 
+          String status = "";
+          String body = "";
+          if (data[4][0] == 1) {
+            status = "Permintaan Pemberkatan Diterima";
+            body = "Ada permintaan pemberkatan yang telah di konfirmasi";
+          } else {
+            status = "Permintaan Pemberkatan Ditolak";
+            body = "Maaf, permintaan pemberkatan anda ditolak";
+          }
+
+          String constructFCMPayload(String token) {
+            return jsonEncode({
+              // 'token': dotenv.env['token_firebase'],
+              'to': token,
+              'data': {
+                'via': 'FlutterFire Cloud Messaging!!!',
+                // 'id': data[3][0].toString(),
+              },
+              'notification': {
+                'title': status,
+                'body': body,
+              },
+            });
+          }
+
+          try {
+            await http
+                .post(
+              Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization':
+                    'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+              },
+              body: constructFCMPayload(data[2][0]),
+            )
+                .then((value) {
+              print(value.statusCode);
+              print(value.body);
+            });
+          } catch (e) {
+            print(e);
+          }
+
           try {
             var update = await baptisCollection
                 .updateOne(where.eq('_id', data[1][0]),
-                    modify.set('status', data[2][0]))
+                    modify.set('status', data[4][0]))
                 .then((result) async {
               if (result.isSuccess) {
                 msg.addReceiver("agenPage");

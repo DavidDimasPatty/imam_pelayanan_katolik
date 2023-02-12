@@ -85,12 +85,14 @@ class _RekoleksiUser extends State<RekoleksiUser> {
     }
   }
 
-  void updateReject(id) async {
+  void updateReject(id, token, idTarget) async {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Kegiatan User"],
       [id],
+      [token],
+      [idTarget],
       [-1]
     ]);
     var hasil;
@@ -131,12 +133,14 @@ class _RekoleksiUser extends State<RekoleksiUser> {
     }
   }
 
-  void updateAccept(id) async {
+  void updateAccept(id, token, idTarget) async {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Kegiatan User"],
       [id],
+      [token],
+      [idTarget],
       [1]
     ]);
     var hasil;
@@ -334,7 +338,10 @@ class _RekoleksiUser extends State<RekoleksiUser> {
                                                 new BorderRadius.circular(30.0),
                                           ),
                                           onPressed: () async {
-                                            updateAccept(i['_id']);
+                                            updateAccept(
+                                                i['_id'],
+                                                i['userRekoleksi'][0]['token'],
+                                                i['userRekoleksi'][0]['_id']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -363,7 +370,11 @@ class _RekoleksiUser extends State<RekoleksiUser> {
                                                       30.0),
                                             ),
                                             onPressed: () async {
-                                              updateReject(i['_id']);
+                                              updateReject(
+                                                  i['_id'],
+                                                  i['userRekoleksi'][0]
+                                                      ['token'],
+                                                  i['userRekoleksi'][0]['_id']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();

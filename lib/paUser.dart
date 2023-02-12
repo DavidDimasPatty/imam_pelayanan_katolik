@@ -85,12 +85,14 @@ class _PAUser extends State<PAUser> {
     }
   }
 
-  void updateReject(id) async {
+  void updateReject(id, token, idTarget) async {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Kegiatan User"],
       [id],
+      [token],
+      [idTarget],
       [-1]
     ]);
     var hasil;
@@ -131,12 +133,14 @@ class _PAUser extends State<PAUser> {
     }
   }
 
-  void updateAccept(id) async {
+  void updateAccept(id, token, idTarget) async {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Kegiatan User"],
       [id],
+      [token],
+      [idTarget],
       [1]
     ]);
     var hasil;
@@ -333,7 +337,10 @@ class _PAUser extends State<PAUser> {
                                                 new BorderRadius.circular(30.0),
                                           ),
                                           onPressed: () async {
-                                            updateAccept(i['_id']);
+                                            updateAccept(
+                                                i['_id'],
+                                                i['userPA'][0]['token'],
+                                                i['userPA'][0]['_id']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -362,7 +369,10 @@ class _PAUser extends State<PAUser> {
                                                       30.0),
                                             ),
                                             onPressed: () async {
-                                              updateReject(i['_id']);
+                                              updateReject(
+                                                  i['_id'],
+                                                  i['userPA'][0]['token'],
+                                                  i['userPA'][0]['_id']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();
