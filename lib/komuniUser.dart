@@ -343,7 +343,7 @@ class _KomuniUser extends State<KomuniUser> {
                                             updateAccept(
                                                 i['_id'],
                                                 i['userKomuni'][0]['token'],
-                                                i['userKomuni'][0]['_id']);
+                                                i['idKomuni']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -375,7 +375,7 @@ class _KomuniUser extends State<KomuniUser> {
                                               updateReject(
                                                   i['_id'],
                                                   i['userKomuni'][0]['token'],
-                                                  i['userKomuni'][0]['_id']);
+                                                  i['idKomuni']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();

@@ -138,6 +138,7 @@ class _RetretUser extends State<RetretUser> {
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
       ["update Kegiatan User"],
+      [id],
       [token],
       [idTarget],
       [1]
@@ -340,7 +341,7 @@ class _RetretUser extends State<RetretUser> {
                                             updateAccept(
                                                 i['_id'],
                                                 i['userRetret'][0]['token'],
-                                                i['userRetret'][0]['_id']);
+                                                i['idKegiatan']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -372,7 +373,7 @@ class _RetretUser extends State<RetretUser> {
                                               updateReject(
                                                   i['_id'],
                                                   i['userRetret'][0]['token'],
-                                                  i['userRetret'][0]['_id']);
+                                                  i['idKegiatan']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();

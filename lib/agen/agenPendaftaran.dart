@@ -53,14 +53,26 @@ class AgenPendaftaran {
             print(data[3][0].runtimeType);
             var baptisCollection =
                 MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
+
+            var baptisCollection2 =
+                MongoDatabase.db.collection(BAPTIS_COLLECTION);
+
+            //Find date baptis
+            var conn2 =
+                await baptisCollection2.find({'_id': data[3][0]}).toList();
+            print(conn2);
             String status = "";
             String body = "";
             if (data[4][0] == 1) {
               status = "Permintaan Baptis Diterima";
-              body = "Ada permintaan baptis yang telah di konfirmasi";
+              body = "Permintaan baptis pada tanggal " +
+                  conn2[0]['jadwalBuka'].toString().substring(0, 10) +
+                  " telah dikonfirmasi";
             } else {
               status = "Permintaan Baptis Ditolak";
-              body = "Maaf, permintaan baptis anda ditolak";
+              body = "Maaf, permintaan baptis pada tanggal " +
+                  conn2[0]['jadwalBuka'].toString().substring(0, 10) +
+                  " ditolak";
             }
             try {
               String constructFCMPayload(String token) {
@@ -147,14 +159,25 @@ class AgenPendaftaran {
           if (data[0][0] == "update Komuni User") {
             var komuniCollection =
                 MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
+            var komuniCollection2 =
+                MongoDatabase.db.collection(KOMUNI_COLLECTION);
+
+            //Find date baptis
+            var conn2 =
+                await komuniCollection2.find({'_id': data[3][0]}).toList();
+            print(conn2);
             String status = "";
             String body = "";
             if (data[4][0] == 1) {
               status = "Permintaan Komuni Diterima";
-              body = "Ada permintaan komuni yang telah di konfirmasi";
+              body = "Permintaan komuni pada tanggal " +
+                  conn2[0]['jadwalBuka'].toString().substring(0, 10) +
+                  " telah dikonfirmasi";
             } else {
               status = "Permintaan Komuni Ditolak";
-              body = "Maaf, permintaan komuni anda ditolak";
+              body = "Maaf, permintaan komuni pada tanggal " +
+                  conn2[0]['jadwalBuka'].toString().substring(0, 10) +
+                  " ditolak";
             }
 
             String constructFCMPayload(String token) {
@@ -242,14 +265,25 @@ class AgenPendaftaran {
         if (data[0][0] == "update Krisma User") {
           var krismaCollection =
               MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
+          var krismaCollection2 =
+              MongoDatabase.db.collection(KRISMA_COLLECTION);
+
+          //Find date baptis
+          var conn2 =
+              await krismaCollection2.find({'_id': data[3][0]}).toList();
+          print(conn2);
           String status = "";
           String body = "";
           if (data[4][0] == 1) {
             status = "Permintaan Krisma Diterima";
-            body = "Ada permintaan krisma yang telah di konfirmasi";
+            body = "Permintaan krisma pada tanggal " +
+                conn2[0]['jadwalBuka'].toString().substring(0, 10) +
+                " telah dikonfirmasi";
           } else {
             status = "Permintaan Krisma Ditolak";
-            body = "Maaf, permintaan krisma anda ditolak";
+            body = "Maaf, permintaan krisma pada tanggal " +
+                conn2[0]['jadwalBuka'].toString().substring(0, 10) +
+                " ditolak";
           }
 
           String constructFCMPayload(String token) {
@@ -335,14 +369,29 @@ class AgenPendaftaran {
         if (data[0][0] == "update Kegiatan User") {
           var kegiatanCollection =
               MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+          var kegiatanCollection2 =
+              MongoDatabase.db.collection(UMUM_COLLECTION);
+          print(data[3][0]);
+          //Find date baptis
+          var conn2 =
+              await kegiatanCollection2.find({'_id': data[3][0]}).toList();
+          print(conn2);
           String status = "";
           String body = "";
           if (data[4][0] == 1) {
             status = "Permintaan Kegiatan Diterima";
-            body = "Ada permintaan kegiatan yang telah di konfirmasi";
+            body = "Permintaan kegiatan " +
+                conn2[0]['jenisKegiatan'] +
+                " " +
+                conn2[0]['namaKegiatan'] +
+                " telah dikonfirmasi";
           } else {
             status = "Permintaan Kegiatan Ditolak";
-            body = "Maaf, permintaan kegiatan anda ditolak";
+            body = "Permintaan kegiatan " +
+                conn2[0]['jenisKegiatan'] +
+                " " +
+                conn2[0]['namaKegiatan'] +
+                " ditolak";
           }
 
           String constructFCMPayload(String token) {

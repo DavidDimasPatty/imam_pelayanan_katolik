@@ -340,7 +340,7 @@ class _PAUser extends State<PAUser> {
                                             updateAccept(
                                                 i['_id'],
                                                 i['userPA'][0]['token'],
-                                                i['userPA'][0]['_id']);
+                                                i['idKegiatan']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -372,7 +372,7 @@ class _PAUser extends State<PAUser> {
                                               updateReject(
                                                   i['_id'],
                                                   i['userPA'][0]['token'],
-                                                  i['userPA'][0]['_id']);
+                                                  i['idKegiatan']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();

@@ -341,7 +341,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
                                             updateAccept(
                                                 i['_id'],
                                                 i['userRekoleksi'][0]['token'],
-                                                i['userRekoleksi'][0]['_id']);
+                                                i['idKegiatan']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -374,7 +374,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
                                                   i['_id'],
                                                   i['userRekoleksi'][0]
                                                       ['token'],
-                                                  i['userRekoleksi'][0]['_id']);
+                                                  i['idKegiatan']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();

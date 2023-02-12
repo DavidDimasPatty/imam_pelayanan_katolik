@@ -343,7 +343,7 @@ class _KrismaUser extends State<KrismaUser> {
                                             updateAccept(
                                                 i['_id'],
                                                 i['userKrisma'][0]['token'],
-                                                i['userKrisma'][0]['_id']);
+                                                i['idKrisma']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -375,7 +375,7 @@ class _KrismaUser extends State<KrismaUser> {
                                               updateReject(
                                                   i['_id'],
                                                   i['userKrisma'][0]['token'],
-                                                  i['userKrisma'][0]['_id']);
+                                                  i['idKrisma']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();
