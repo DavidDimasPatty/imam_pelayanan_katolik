@@ -151,7 +151,18 @@ class AgenPencarian {
               await msg.send();
             });
           }
-
+          if (data[0][0] == "tampilan edit Profile") {
+            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+            var conn = await imamCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+            ;
+          }
           if (data[0][0] == "cari Pengumuman") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);

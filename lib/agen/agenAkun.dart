@@ -122,6 +122,24 @@ class AgenAkun {
             ;
           }
 
+          if (data[0][0] == "edit Profile Imam") {
+            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+
+            var update = await imamCollection
+                .updateOne(
+                    where.eq('_id', data[1][0]),
+                    modify
+                        .set('name', data[2][0])
+                        .set('email', data[3][0])
+                        .set('notelp', data[4][0]))
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent("oke");
+              await msg.send();
+            });
+            ;
+          }
+
           if (data[0][0] == "data Gereja") {
             var gerejaCollection =
                 MongoDatabase.db.collection(GEREJA_COLLECTION);

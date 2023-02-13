@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/fireBase.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/agen/messages.dart';
+import 'package:imam_pelayanan_katolik/editprofile.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:imam_pelayanan_katolik/kegiatanUmum.dart';
@@ -473,6 +474,47 @@ class _Profile extends State<Profile> {
                                     alignment: Alignment.center,
                                     child: Text(
                                       "Edit Informasi Gereja",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 26.0,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ),
+                                )),
+                          ),
+                          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                          Container(
+                            width: 300.00,
+                            child: RaisedButton(
+                                onPressed: () async {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditProfile(
+                                            names, iduser, idGereja)),
+                                  );
+                                },
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                elevation: 0.0,
+                                padding: EdgeInsets.all(0.0),
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topRight,
+                                        end: Alignment.topLeft,
+                                        colors: [
+                                          Colors.blueAccent,
+                                          Colors.lightBlue,
+                                        ]),
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                  child: Container(
+                                    constraints: BoxConstraints(
+                                        maxWidth: 300.0, minHeight: 50.0),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Edit Profile Imam",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 26.0,
