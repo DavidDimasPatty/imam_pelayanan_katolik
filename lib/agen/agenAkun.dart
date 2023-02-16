@@ -26,7 +26,8 @@ class AgenAkun {
           if (data[0][0] == "cari user") {
             var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
             var conn = await userCollection
-                .find({'email': data[1][0], 'password': data[2][0]})
+                .find(
+                    {'email': data[1][0], 'password': data[2][0], 'banned': 0})
                 .toList()
                 .then((result) async {
                   if (result != 0) {
