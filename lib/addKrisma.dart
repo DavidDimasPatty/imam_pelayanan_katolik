@@ -61,46 +61,57 @@ class _addKrisma extends State<addKrisma> {
   }
 
   void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPendaftaran");
-    msg.setContent([
-      ["add Krisma"],
-      [idGereja],
-      [kapasitas],
-      [tanggalbuka.toString()],
-      [tanggaltutup.toString()]
-    ]);
-    var hasil;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
+    if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "") {
+      Messages msg = new Messages();
+      msg.addReceiver("agenPendaftaran");
+      msg.setContent([
+        ["add Krisma"],
+        [idGereja],
+        [kapasitas],
+        [tanggalbuka.toString()],
+        [tanggaltutup.toString()]
+      ]);
+      var hasil;
+      await msg.send().then((res) async {
+        print("masuk");
+        print(await AgenPage().receiverTampilan());
+      });
+      await Future.delayed(Duration(seconds: 1));
+      hasil = await AgenPage().receiverTampilan();
 
-    if (hasil == "fail") {
+      if (hasil == "fail") {
+        Fluttertoast.showToast(
+            msg: "Gagal Mendaftarkan Krisma",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Berhasil Mendaftarkan Krisma",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Navigator.pop(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Krisma(names, idUser, idGereja)),
+        );
+      }
+    } else {
       Fluttertoast.showToast(
-          msg: "Gagal Mendaftarkan Krisma",
+          msg: "Isi semua bidang",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
-    } else {
-      Fluttertoast.showToast(
-          msg: "Berhasil Mendaftarkan Krisma",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      Navigator.pop(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Krisma(names, idUser, idGereja)),
-      );
     }
   }
 

@@ -586,6 +586,7 @@ class AgenPendaftaran {
         }
 
         if (data[0][0] == "add Baptis") {
+          print(DateTime.parse(data[3][0]));
           var baptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
 
           try {
@@ -607,6 +608,7 @@ class AgenPendaftaran {
               }
             });
           } catch (e) {
+            print(e);
             msg.addReceiver("agenPage");
             msg.setContent('failed');
             await msg.send();

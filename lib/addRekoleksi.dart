@@ -66,51 +66,68 @@ class _addRekoleksi extends State<addRekoleksi> {
   }
 
   void submit() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPendaftaran");
-    msg.setContent([
-      ["add Kegiatan"],
-      [idGereja],
-      [namaKegiatan.text],
-      [temaKegiatan.text],
-      ["Rekoleksi"],
-      [deskripsiKegiatan.text],
-      [tamuKegiatan.text],
-      [_selectedDate.toString()],
-      [kapasitas.text],
-      [lokasi.text],
-    ]);
-    var hasil;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
+    if (namaKegiatan.text != "" &&
+        temaKegiatan.text != "" &&
+        deskripsiKegiatan.text != "" &&
+        tamuKegiatan.text != "" &&
+        _selectedDate != "" &&
+        kapasitas.text != "" &&
+        lokasi.text != "") {
+      Messages msg = new Messages();
+      msg.addReceiver("agenPendaftaran");
+      msg.setContent([
+        ["add Kegiatan"],
+        [idGereja],
+        [namaKegiatan.text],
+        [temaKegiatan.text],
+        ["Rekoleksi"],
+        [deskripsiKegiatan.text],
+        [tamuKegiatan.text],
+        [_selectedDate.toString()],
+        [kapasitas.text],
+        [lokasi.text],
+      ]);
+      var hasil;
+      await msg.send().then((res) async {
+        print("masuk");
+        print(await AgenPage().receiverTampilan());
+      });
+      await Future.delayed(Duration(seconds: 1));
+      hasil = await AgenPage().receiverTampilan();
 
-    if (hasil == "failed") {
+      if (hasil == "failed") {
+        Fluttertoast.showToast(
+            msg: "Gagal Mendaftarkan Rekoleksi",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Berhasil Mendaftarkan Rekoleksi",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Navigator.pop(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Rekoleksi(names, idUser, idGereja)),
+        );
+      }
+    } else {
       Fluttertoast.showToast(
-          msg: "Gagal Mendaftarkan Rekoleksi",
+          msg: "Isi semua bidang",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
-    } else {
-      Fluttertoast.showToast(
-          msg: "Berhasil Mendaftarkan Rekoleksi",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      Navigator.pop(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Rekoleksi(names, idUser, idGereja)),
-      );
     }
   }
 

@@ -60,46 +60,59 @@ class _addBaptis extends State<addBaptis> {
   }
 
   void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPendaftaran");
-    msg.setContent([
-      ["add Baptis"],
-      [idGereja],
-      [kapasitas],
-      [tanggalbuka.toString()],
-      [tanggaltutup.toString()]
-    ]);
-    var hasil;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
+    if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "") {
+      print(tanggalbuka);
+      print(tanggaltutup);
+      Messages msg = new Messages();
+      msg.addReceiver("agenPendaftaran");
+      msg.setContent([
+        ["add Baptis"],
+        [idGereja],
+        [kapasitas],
+        [tanggalbuka.toString()],
+        [tanggaltutup.toString()]
+      ]);
+      var hasil;
+      await msg.send().then((res) async {
+        print("masuk");
+        print(await AgenPage().receiverTampilan());
+      });
+      await Future.delayed(Duration(seconds: 1));
+      hasil = await AgenPage().receiverTampilan();
 
-    if (hasil == "failed") {
+      if (hasil == "failed") {
+        Fluttertoast.showToast(
+            msg: "Gagal Mendaftarkan Baptis",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Berhasil Mendaftarkan Baptis",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Navigator.pop(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Baptis(names, idUser, idGereja)),
+        );
+      }
+    } else {
       Fluttertoast.showToast(
-          msg: "Gagal Mendaftarkan Baptis",
+          msg: "Isi semua bidang",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
-    } else {
-      Fluttertoast.showToast(
-          msg: "Berhasil Mendaftarkan Baptis",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      Navigator.pop(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Baptis(names, idUser, idGereja)),
-      );
     }
   }
 

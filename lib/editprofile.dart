@@ -58,40 +58,51 @@ class _EditProfile extends State<EditProfile> {
   }
 
   submitForm(nama, email, notelp, context) async {
-    // var add = await MongoDatabase.addPemberkatan(idUser, nama, paroki,
-    //     lingkungan, notelp, alamat, jenis, tanggal, idGereja, note, idImam);
+    if (notelp != "" && email != "" && nama != "") {
+      // var add = await MongoDatabase.addPemberkatan(idUser, nama, paroki,
+      //     lingkungan, notelp, alamat, jenis, tanggal, idGereja, note, idImam);
 
-    Messages msg = new Messages();
-    msg.addReceiver("agenAkun");
-    msg.setContent([
-      ["edit Profile Imam"],
-      [iduser],
-      [nama],
-      [email],
-      [notelp],
-    ]);
+      Messages msg = new Messages();
+      msg.addReceiver("agenAkun");
+      msg.setContent([
+        ["edit Profile Imam"],
+        [iduser],
+        [nama],
+        [email],
+        [notelp],
+      ]);
 
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    var daftarmisa = await AgenPage().receiverTampilan();
+      await msg.send().then((res) async {
+        print("masuk");
+        print(await AgenPage().receiverTampilan());
+      });
+      await Future.delayed(Duration(seconds: 1));
+      var daftarmisa = await AgenPage().receiverTampilan();
 
-    if (daftarmisa == 'oke') {
+      if (daftarmisa == 'oke') {
+        Fluttertoast.showToast(
+            msg: "Berhasil Edit Profile Imam",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Profile(name, iduser, idGereja)),
+        );
+      }
+    } else {
       Fluttertoast.showToast(
-          msg: "Berhasil Edit Profile Imam",
+          msg: "Isi semua bidang",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Profile(name, iduser, idGereja)),
-      );
     }
   }
 
