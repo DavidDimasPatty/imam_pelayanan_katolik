@@ -280,15 +280,22 @@ class _EditProfile extends State<EditProfile> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 11),
                         ),
-                        RaisedButton(
-                          onPressed: () async {
-                            await submitForm(
-                                namaController.text,
-                                emailController.text,
-                                notelpController.text,
-                                context);
-                          },
-                          child: Text('Submit'),
+                        SizedBox(
+                          width: double.infinity,
+                          child: RaisedButton(
+                              textColor: Colors.white,
+                              color: Colors.lightBlue,
+                              child: Text("Edit Profile"),
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0),
+                              ),
+                              onPressed: () async {
+                                await submitForm(
+                                    namaController.text,
+                                    emailController.text,
+                                    notelpController.text,
+                                    context);
+                              }),
                         ),
                         Padding(padding: EdgeInsets.symmetric(vertical: 15))
                       ]);

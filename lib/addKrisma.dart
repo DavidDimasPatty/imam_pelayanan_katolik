@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -162,6 +163,9 @@ class _addKrisma extends State<addKrisma> {
               padding: EdgeInsets.symmetric(vertical: 5),
             ),
             TextField(
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+              ],
               controller: kapasitas,
               style: TextStyle(color: Colors.black),
               decoration: InputDecoration(

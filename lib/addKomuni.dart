@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -163,6 +164,9 @@ class _addKomuni extends State<addKomuni> {
             ),
             TextField(
               controller: kapasitas,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+              ],
               style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
