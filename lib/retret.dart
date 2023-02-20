@@ -5,6 +5,7 @@ import 'package:imam_pelayanan_katolik/addRetret.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
+import 'package:imam_pelayanan_katolik/editRetret.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/rekoleksiUser.dart';
@@ -286,6 +287,28 @@ class _Retret extends State<Retret> {
                                   'Tanggal: ' + i['tanggal'].toString(),
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: RaisedButton(
+                                      textColor: Colors.white,
+                                      color: Colors.lightBlue,
+                                      child: Text("Edit Kegiatan"),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0),
+                                      ),
+                                      onPressed: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => editRetret(
+                                                  names,
+                                                  idUser,
+                                                  idGereja,
+                                                  i['_id'])),
+                                        );
+                                      }),
                                 ),
                                 SizedBox(
                                   width: double.infinity,

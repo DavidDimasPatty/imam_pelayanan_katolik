@@ -5,6 +5,7 @@ import 'package:imam_pelayanan_katolik/addKomuni.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
+import 'package:imam_pelayanan_katolik/editKomuni.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/komuniUser.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
@@ -292,6 +293,28 @@ class _Komuni extends State<Komuni> {
                                       i['jadwalTutup'].toString(),
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: RaisedButton(
+                                      textColor: Colors.white,
+                                      color: Colors.lightBlue,
+                                      child: Text("Edit Komuni"),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0),
+                                      ),
+                                      onPressed: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => editKomuni(
+                                                  names,
+                                                  idUser,
+                                                  idGereja,
+                                                  i['_id'])),
+                                        );
+                                      }),
                                 ),
                                 SizedBox(
                                   width: double.infinity,

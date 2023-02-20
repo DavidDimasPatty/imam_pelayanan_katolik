@@ -64,15 +64,21 @@ class _editKomuni extends State<editKomuni> {
   }
 
   void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
+    if (tanggalBuka == "") {
+      tanggalBuka = tanggalbuka;
+    }
+    if (tanggalTutup == "") {
+      tanggalTutup = tanggaltutup;
+    }
     if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "") {
       Messages msg = new Messages();
       msg.addReceiver("agenPendaftaran");
       msg.setContent([
         ["edit Komuni"],
-        [idGereja],
+        [idKomuni],
         [kapasitas],
-        [tanggalbuka.toString()],
-        [tanggaltutup.toString()]
+        [tanggalBuka.toString()],
+        [tanggalTutup.toString()]
       ]);
       var hasil;
       await msg.send().then((res) async {
@@ -118,6 +124,30 @@ class _editKomuni extends State<editKomuni> {
     }
   }
 
+  var hasil = [];
+  Future callDb() async {
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["cari edit Komuni"],
+      [idKomuni]
+    ]);
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = AgenPage().receiverTampilan();
+
+    return hasil;
+  }
+
+  Future pullRefresh() async {
+    setState(() {
+      callDb();
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -149,89 +179,112 @@ class _editKomuni extends State<editKomuni> {
           ),
         ],
       ),
-      body: ListView(children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: RefreshIndicator(
+        onRefresh: pullRefresh,
+        child: ListView(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-            ),
-            Text(
-              "Kapasitas",
-              textAlign: TextAlign.left,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-            ),
-            TextField(
-              controller: kapasitas,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
-              ],
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  hintText: "Kapasitas Pendaftaran",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-            ),
-          ],
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Tanggal Buka dan Tutup Pendaftaran",
-              textAlign: TextAlign.left,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-            ),
-            SfDateRangePicker(
-              view: DateRangePickerView.month,
+            FutureBuilder(
+                future: callDb(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  try {
+                    kapasitas.text = snapshot.data[0]['kapasitas'].toString();
 
-              onSelectionChanged: _onSelectionChanged,
-              selectionMode: DateRangePickerSelectionMode.range,
-              monthViewSettings:
-                  DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
-              // initialSelectedRange: PickerDateRange(
-              //     DateTime.now().subtract(const Duration(days: 4)),
-              //     DateTime.now().add(const Duration(days: 3))),
-            )
+                    return Column(children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          Text(
+                            "Kapasitas",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          TextField(
+                            controller: kapasitas,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9]")),
+                            ],
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "Kapasitas Pendaftaran",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Tanggal Buka dan Tutup Pendaftaran",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          SfDateRangePicker(
+                            view: DateRangePickerView.month,
+                            onSelectionChanged: _onSelectionChanged,
+                            selectionMode: DateRangePickerSelectionMode.range,
+                            monthViewSettings: DateRangePickerMonthViewSettings(
+                                firstDayOfWeek: 1),
+                            initialSelectedRange: PickerDateRange(
+                                snapshot.data[0]['jadwalBuka'],
+                                snapshot.data[0]['jadwalTutup']),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: RaisedButton(
+                            textColor: Colors.white,
+                            color: Colors.lightBlue,
+                            child: Text("Submit Kegiatan"),
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            onPressed: () async {
+                              submit(
+                                  idGereja,
+                                  kapasitas.text,
+                                  snapshot.data[0]['jadwalBuka'].toString(),
+                                  snapshot.data[0]['jadwalTutup'].toString());
+                            }),
+                      ),
+                    ]);
+                  } catch (e) {
+                    print(e);
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }),
+            /////////
           ],
         ),
-        SizedBox(
-          width: double.infinity,
-          child: RaisedButton(
-              textColor: Colors.white,
-              color: Colors.lightBlue,
-              child: Text("Submit Kegiatan"),
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0),
-              ),
-              onPressed: () async {
-                submit(idGereja, kapasitas.text, tanggalBuka, tanggalTutup);
-              }),
-        ),
-      ]),
+      ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(

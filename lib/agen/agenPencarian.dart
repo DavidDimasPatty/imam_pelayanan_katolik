@@ -202,6 +202,58 @@ class AgenPencarian {
                 });
           }
 
+          if (data[0][0] == "cari edit Baptis") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(BAPTIS_COLLECTION);
+            await userBaptisCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari edit Komuni") {
+            var komuniCollection =
+                MongoDatabase.db.collection(KOMUNI_COLLECTION);
+            await komuniCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari edit Krisma") {
+            var krismaCollection =
+                MongoDatabase.db.collection(KRISMA_COLLECTION);
+            await krismaCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari edit Kegiatan") {
+            var kegiatanCollection =
+                MongoDatabase.db.collection(UMUM_COLLECTION);
+            await kegiatanCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
           if (data[0][0] == "cari Baptis History") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(BAPTIS_COLLECTION);

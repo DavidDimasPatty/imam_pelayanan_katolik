@@ -5,6 +5,8 @@ import 'package:imam_pelayanan_katolik/addKrisma.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
+import 'package:imam_pelayanan_katolik/editKomuni.dart';
+import 'package:imam_pelayanan_katolik/editKrisma.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/komuniUser.dart';
 import 'package:imam_pelayanan_katolik/krismaUser.dart';
@@ -291,6 +293,28 @@ class _Krisma extends State<Krisma> {
                                       i['jadwalTutup'].toString(),
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: RaisedButton(
+                                      textColor: Colors.white,
+                                      color: Colors.lightBlue,
+                                      child: Text("Edit Krisma"),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0),
+                                      ),
+                                      onPressed: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => editKrisma(
+                                                  names,
+                                                  idUser,
+                                                  idGereja,
+                                                  i['_id'])),
+                                        );
+                                      }),
                                 ),
                                 SizedBox(
                                   width: double.infinity,

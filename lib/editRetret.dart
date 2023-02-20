@@ -69,7 +69,10 @@ class _editRetret extends State<editRetret> {
     });
   }
 
-  void submit() async {
+  void submit(tanggal) async {
+    if (_selectedDate == "") {
+      _selectedDate = tanggal;
+    }
     if (namaKegiatan.text != "" &&
         temaKegiatan.text != "" &&
         deskripsiKegiatan.text != "" &&
@@ -81,7 +84,7 @@ class _editRetret extends State<editRetret> {
       msg.addReceiver("agenPendaftaran");
       msg.setContent([
         ["edit Kegiatan"],
-        [idGereja],
+        [idRetret],
         [namaKegiatan.text],
         [temaKegiatan.text],
         ["Retret"],
@@ -135,6 +138,30 @@ class _editRetret extends State<editRetret> {
     }
   }
 
+  var hasil = [];
+  Future callDb() async {
+    Messages msg = new Messages();
+    msg.addReceiver("agenPencarian");
+    msg.setContent([
+      ["cari edit Kegiatan"],
+      [idRetret]
+    ]);
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    hasil = AgenPage().receiverTampilan();
+
+    return hasil;
+  }
+
+  Future pullRefresh() async {
+    setState(() {
+      callDb();
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -166,291 +193,313 @@ class _editRetret extends State<editRetret> {
           ),
         ],
       ),
-      body: ListView(children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: RefreshIndicator(
+        onRefresh: pullRefresh,
+        child: ListView(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-            ),
-            Text(
-              "Nama Kegiatan",
-              textAlign: TextAlign.left,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-            ),
-            TextField(
-              controller: namaKegiatan,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  hintText: "Nama Kegiatan",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-            ),
+            FutureBuilder(
+                future: callDb(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  try {
+                    kapasitas.text = snapshot.data[0]['kapasitas'].toString();
+                    namaKegiatan.text = snapshot.data[0]['namaKegiatan'];
+                    temaKegiatan.text = snapshot.data[0]['temaKegiatan'];
+                    deskripsiKegiatan.text =
+                        snapshot.data[0]['deskripsiKegiatan'];
+                    tamuKegiatan.text = snapshot.data[0]['tamu'];
+                    lokasi.text = snapshot.data[0]['lokasi'];
+                    return Column(children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          Text(
+                            "Nama Kegiatan",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          TextField(
+                            controller: namaKegiatan,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "Nama Kegiatan",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          Text(
+                            "Tema Kegiatan",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          TextField(
+                            controller: temaKegiatan,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "Tema Kegiatan",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          Text(
+                            "Deskripsi Kegiatan",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          TextField(
+                            controller: deskripsiKegiatan,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "Deskripsi Kegiatan",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          Text(
+                            "Tamu Kegiatan",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          TextField(
+                            controller: tamuKegiatan,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "Tamu Kegiatan",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          Text(
+                            "Kapasitas",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          TextField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9]")),
+                            ],
+                            controller: kapasitas,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "Kapasitas Kegiatan",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          Text(
+                            "Lokasi Kegiatan",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          TextField(
+                            controller: lokasi,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "Lokasi Kegiatan",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Tanggal Kegiatan",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          SfDateRangePicker(
+                            view: DateRangePickerView.month,
+                            onSelectionChanged: _onSelectionChanged,
+                            selectionMode: DateRangePickerSelectionMode.single,
+                            monthViewSettings: DateRangePickerMonthViewSettings(
+                                firstDayOfWeek: 1),
+                            initialSelectedDate: snapshot.data[0]['tanggal'],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: RaisedButton(
+                            textColor: Colors.white,
+                            color: Colors.lightBlue,
+                            child: Text("Submit Kegiatan"),
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            onPressed: () async {
+                              submit(snapshot.data[0]['tanggal'].toString());
+                            }),
+                      ),
+                    ]);
+                  } catch (e) {
+                    print(e);
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }),
+            /////////
           ],
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-            ),
-            Text(
-              "Tema Kegiatan",
-              textAlign: TextAlign.left,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-            ),
-            TextField(
-              controller: temaKegiatan,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  hintText: "Tema Kegiatan",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-            ),
-          ],
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-            ),
-            Text(
-              "Deskripsi Kegiatan",
-              textAlign: TextAlign.left,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-            ),
-            TextField(
-              controller: deskripsiKegiatan,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  hintText: "Deskripsi Kegiatan",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-            ),
-          ],
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-            ),
-            Text(
-              "Tamu Kegiatan",
-              textAlign: TextAlign.left,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-            ),
-            TextField(
-              controller: tamuKegiatan,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  hintText: "Tamu Kegiatan",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-            ),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-            ),
-            Text(
-              "Kapasitas",
-              textAlign: TextAlign.left,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-            ),
-            TextField(
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
-              ],
-              controller: kapasitas,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  hintText: "Kapasitas Kegiatan",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-            ),
-          ],
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-            ),
-            Text(
-              "Lokasi Kegiatan",
-              textAlign: TextAlign.left,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-            ),
-            TextField(
-              controller: lokasi,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  hintText: "Lokasi Kegiatan",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-            ),
-          ],
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Tanggal Kegiatan",
-              textAlign: TextAlign.left,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-            ),
-            SfDateRangePicker(
-              view: DateRangePickerView.month,
-
-              onSelectionChanged: _onSelectionChanged,
-              selectionMode: DateRangePickerSelectionMode.single,
-              monthViewSettings:
-                  DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
-              // initialSelectedRange: PickerDateRange(
-              //     DateTime.now().subtract(const Duration(days: 4)),
-              //     DateTime.now().add(const Duration(days: 3))),
-            )
-          ],
-        ),
-        SizedBox(
-          width: double.infinity,
-          child: RaisedButton(
-              textColor: Colors.white,
-              color: Colors.lightBlue,
-              child: Text("Submit Kegiatan"),
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0),
-              ),
-              onPressed: () async {
-                submit();
-              }),
-        ),
-      ]),
+      ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(

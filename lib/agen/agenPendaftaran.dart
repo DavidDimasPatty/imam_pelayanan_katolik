@@ -624,7 +624,6 @@ class AgenPendaftaran {
                 .updateOne(
                     where.eq('_id', data[1][0]),
                     modify
-                        .set('idGereja', data[2][0])
                         .set("kapasitas", int.parse(data[2][0]))
                         .set("jadwalBuka", DateTime.parse(data[3][0]))
                         .set("jadwalTutup", DateTime.parse(data[4][0])))
@@ -656,7 +655,6 @@ class AgenPendaftaran {
                 .updateOne(
                     where.eq('_id', data[1][0]),
                     modify
-                        .set('idGereja', data[2][0])
                         .set("kapasitas", int.parse(data[2][0]))
                         .set("jadwalBuka", DateTime.parse(data[3][0]))
                         .set("jadwalTutup", DateTime.parse(data[4][0])))
@@ -688,7 +686,6 @@ class AgenPendaftaran {
                 .updateOne(
                     where.eq('_id', data[1][0]),
                     modify
-                        .set('idGereja', data[2][0])
                         .set("kapasitas", int.parse(data[2][0]))
                         .set("jadwalBuka", DateTime.parse(data[3][0]))
                         .set("jadwalTutup", DateTime.parse(data[4][0])))
@@ -712,8 +709,7 @@ class AgenPendaftaran {
         }
 
         if (data[0][0] == "edit Kegiatan") {
-          print(DateTime.parse(data[3][0]));
-          var krismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
+          var umumCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
           // 'idGereja': data[1][0],
           //             'namaKegiatan': data[2][0],
           //             'temaKegiatan': data[3][0],
@@ -724,19 +720,18 @@ class AgenPendaftaran {
           //             'kapasitas': int.parse(data[8][0]),
           //             'lokasi': data[9][0],
           try {
-            var hasil = await krismaCollection
+            var hasil = await umumCollection
                 .updateOne(
                     where.eq('_id', data[1][0]),
                     modify
-                        .set('idGereja', data[2][0])
-                        .set('namaKegiatan', int.parse(data[2][0]))
-                        .set('temaKegiatan', DateTime.parse(data[3][0]))
-                        .set("jadwalTutup", DateTime.parse(data[4][0]))
-                        .set("jadwalTutup", DateTime.parse(data[4][0]))
-                        .set("jadwalTutup", DateTime.parse(data[4][0]))
-                        .set("jadwalTutup", DateTime.parse(data[4][0]))
-                        .set("jadwalTutup", DateTime.parse(data[4][0]))
-                        .set("jadwalTutup", DateTime.parse(data[4][0])))
+                        .set('namaKegiatan', data[2][0])
+                        .set('temaKegiatan', data[3][0])
+                        .set("jenisKegiatan", data[4][0])
+                        .set("deskripsiKegiatan", data[5][0])
+                        .set("tamu", data[6][0])
+                        .set("tanggal", DateTime.parse(data[7][0]))
+                        .set("kapasitas", int.parse(data[8][0]))
+                        .set("lokasi", data[9][0]))
                 .then((result) async {
               if (result.isSuccess) {
                 msg.addReceiver("agenPage");

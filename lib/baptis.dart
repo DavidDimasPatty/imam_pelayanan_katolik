@@ -6,6 +6,7 @@ import 'package:imam_pelayanan_katolik/addBaptis.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/baptisUser.dart';
+import 'package:imam_pelayanan_katolik/editBaptis.dart';
 import 'package:imam_pelayanan_katolik/history.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/sakramen.dart';
@@ -290,6 +291,28 @@ class _Baptis extends State<Baptis> {
                                       i['jadwalTutup'].toString(),
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: RaisedButton(
+                                      textColor: Colors.white,
+                                      color: Colors.lightBlue,
+                                      child: Text("Edit Baptis"),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0),
+                                      ),
+                                      onPressed: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => editBaptis(
+                                                  names,
+                                                  idUser,
+                                                  idGereja,
+                                                  i['_id'])),
+                                        );
+                                      }),
                                 ),
                                 SizedBox(
                                   width: double.infinity,
