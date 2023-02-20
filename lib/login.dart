@@ -137,9 +137,10 @@ class Login extends StatelessWidget {
                                               BorderSide(color: Colors.grey))),
                                   child: TextField(
                                     controller: emailController,
+                                    style: TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: "Email or Phone number",
+                                        hintText: "Email",
                                         hintStyle:
                                             TextStyle(color: Colors.grey[400])),
                                   ),
@@ -149,6 +150,7 @@ class Login extends StatelessWidget {
                                   child: TextField(
                                     obscureText: true,
                                     enableSuggestions: false,
+                                    style: TextStyle(color: Colors.black),
                                     autocorrect: false,
                                     controller: passwordController,
                                     decoration: InputDecoration(
