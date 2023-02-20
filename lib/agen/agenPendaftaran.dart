@@ -615,6 +615,147 @@ class AgenPendaftaran {
           }
         }
 
+        if (data[0][0] == "edit Baptis") {
+          print(DateTime.parse(data[3][0]));
+          var baptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
+
+          try {
+            var hasil = await baptisCollection
+                .updateOne(
+                    where.eq('_id', data[1][0]),
+                    modify
+                        .set('idGereja', data[2][0])
+                        .set("kapasitas", int.parse(data[2][0]))
+                        .set("jadwalBuka", DateTime.parse(data[3][0]))
+                        .set("jadwalTutup", DateTime.parse(data[4][0])))
+                .then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            print(e);
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
+
+        if (data[0][0] == "edit Komuni") {
+          print(DateTime.parse(data[3][0]));
+          var komuniCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
+
+          try {
+            var hasil = await komuniCollection
+                .updateOne(
+                    where.eq('_id', data[1][0]),
+                    modify
+                        .set('idGereja', data[2][0])
+                        .set("kapasitas", int.parse(data[2][0]))
+                        .set("jadwalBuka", DateTime.parse(data[3][0]))
+                        .set("jadwalTutup", DateTime.parse(data[4][0])))
+                .then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            print(e);
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
+
+        if (data[0][0] == "edit Krisma") {
+          print(DateTime.parse(data[3][0]));
+          var krismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
+
+          try {
+            var hasil = await krismaCollection
+                .updateOne(
+                    where.eq('_id', data[1][0]),
+                    modify
+                        .set('idGereja', data[2][0])
+                        .set("kapasitas", int.parse(data[2][0]))
+                        .set("jadwalBuka", DateTime.parse(data[3][0]))
+                        .set("jadwalTutup", DateTime.parse(data[4][0])))
+                .then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            print(e);
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
+
+        if (data[0][0] == "edit Kegiatan") {
+          print(DateTime.parse(data[3][0]));
+          var krismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
+          // 'idGereja': data[1][0],
+          //             'namaKegiatan': data[2][0],
+          //             'temaKegiatan': data[3][0],
+          //             'jenisKegiatan': data[4][0],
+          //             'deskripsiKegiatan': data[5][0],
+          //             'tamu': data[6][0],
+          //             'tanggal': DateTime.parse(data[7][0]),
+          //             'kapasitas': int.parse(data[8][0]),
+          //             'lokasi': data[9][0],
+          try {
+            var hasil = await krismaCollection
+                .updateOne(
+                    where.eq('_id', data[1][0]),
+                    modify
+                        .set('idGereja', data[2][0])
+                        .set('namaKegiatan', int.parse(data[2][0]))
+                        .set('temaKegiatan', DateTime.parse(data[3][0]))
+                        .set("jadwalTutup", DateTime.parse(data[4][0]))
+                        .set("jadwalTutup", DateTime.parse(data[4][0]))
+                        .set("jadwalTutup", DateTime.parse(data[4][0]))
+                        .set("jadwalTutup", DateTime.parse(data[4][0]))
+                        .set("jadwalTutup", DateTime.parse(data[4][0]))
+                        .set("jadwalTutup", DateTime.parse(data[4][0])))
+                .then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            print(e);
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
+
         if (data[0][0] == "add Pengumuman") {
           var PengumumanCollection =
               MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
