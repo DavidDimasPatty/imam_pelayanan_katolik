@@ -451,7 +451,7 @@ class AgenPendaftaran {
         }
 
         if (data[0][0] == "update Sakramentali") {
-          var baptisCollection =
+          var pemberkatanCollection =
               MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
 
           String status = "";
@@ -499,7 +499,77 @@ class AgenPendaftaran {
           }
 
           try {
-            var update = await baptisCollection
+            var update = await pemberkatanCollection
+                .updateOne(where.eq('_id', data[1][0]),
+                    modify.set('status', data[4][0]))
+                .then((result) async {
+              if (result.isSuccess) {
+                msg.addReceiver("agenPage");
+                msg.setContent('oke');
+                await msg.send();
+              } else {
+                msg.addReceiver("agenPage");
+                msg.setContent('failed');
+                await msg.send();
+              }
+            });
+          } catch (e) {
+            msg.addReceiver("agenPage");
+            msg.setContent('failed');
+            await msg.send();
+          }
+        }
+
+        if (data[0][0] == "update Perkawinan") {
+          var perkawinanCollection =
+              MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+
+          String status = "";
+          String body = "";
+          if (data[4][0] == 1) {
+            status = "Permintaan Perkawinan Diterima";
+            body = "Ada permintaan perkawinan yang telah di konfirmasi";
+          } else {
+            status = "Permintaan Perkawinan Ditolak";
+            body = "Maaf, permintaan perkawinan anda ditolak";
+          }
+
+          String constructFCMPayload(String token) {
+            return jsonEncode({
+              // 'token': dotenv.env['token_firebase'],
+              'to': token,
+              'data': {
+                'via': 'FlutterFire Cloud Messaging!!!',
+                // 'id': data[3][0].toString(),
+              },
+              'notification': {
+                'title': status,
+                'body': body,
+              },
+            });
+          }
+
+          try {
+            await http
+                .post(
+              Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization':
+                    'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+              },
+              body: constructFCMPayload(data[2][0]),
+            )
+                .then((value) {
+              print(value.statusCode);
+              print(value.body);
+            });
+          } catch (e) {
+            print(e);
+          }
+
+          try {
+            var update = await perkawinanCollection
                 .updateOne(where.eq('_id', data[1][0]),
                     modify.set('status', data[4][0]))
                 .then((result) async {

@@ -9,34 +9,33 @@ import 'package:imam_pelayanan_katolik/homePage.dart';
 import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/sakramentali.dart';
 
-class DetailSakramentali extends StatefulWidget {
+class DetailPerkawinan extends StatefulWidget {
   final name;
 
   final idUser;
   final idGereja;
-  final idPemberkatan;
+  final idPerkawinan;
 
-  DetailSakramentali(this.name, this.idUser, this.idGereja, this.idPemberkatan);
+  DetailPerkawinan(this.name, this.idUser, this.idGereja, this.idPerkawinan);
   @override
-  _DetailSakramentali createState() => _DetailSakramentali(
-      this.name, this.idUser, this.idGereja, this.idPemberkatan);
+  _DetailPerkawinan createState() => _DetailPerkawinan(
+      this.name, this.idUser, this.idGereja, this.idPerkawinan);
 }
 
-class _DetailSakramentali extends State<DetailSakramentali> {
+class _DetailPerkawinan extends State<DetailPerkawinan> {
   final name;
 
   final idUser;
   final idGereja;
-  final idPemberkatan;
-  _DetailSakramentali(
-      this.name, this.idUser, this.idGereja, this.idPemberkatan);
+  final idPerkawinan;
+  _DetailPerkawinan(this.name, this.idUser, this.idGereja, this.idPerkawinan);
   @override
   Future<List> callDb() async {
     Messages msg = new Messages();
     msg.addReceiver("agenPencarian");
     msg.setContent([
-      ["cari Sakramentali Detail"],
-      [idPemberkatan]
+      ["cari Perkawinan Detail"],
+      [idPerkawinan]
     ]);
     List k = [];
     await msg.send().then((res) async {
@@ -52,8 +51,8 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
-      ["update Sakramentali"],
-      [idPemberkatan],
+      ["update Perkawinan"],
+      [idPerkawinan],
       [token],
       [idTarget],
       [1]
@@ -68,7 +67,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
-          msg: "Gagal Menerima Pelayanan Pemberkatan",
+          msg: "Gagal Menerima Pelayanan Perkawinan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -77,7 +76,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
-          msg: "Berhasil Menerima Pelayanan Pemberkatan",
+          msg: "Berhasil Menerima Pelayanan Perkawinan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -91,8 +90,8 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
-      ["update Sakramentali"],
-      [idPemberkatan],
+      ["update Perkawinan"],
+      [idPerkawinan],
       [token],
       [idTarget],
       [-1]
@@ -107,7 +106,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
-          msg: "Gagal Menolak Pelayanan Pemberkatan",
+          msg: "Gagal Menolak Pelayanan Perkawinan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -116,7 +115,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
-          msg: "Berhasil Menolak Menerima Pelayanan Pemberkatan",
+          msg: "Berhasil Menolak Pelayanan Perkawinan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -136,7 +135,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text('Detail Pemberkatan'),
+        title: Text('Detail Perkawinan'),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -176,18 +175,18 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 11),
                           ),
-                          Column(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Nama Lengkap",
+                                "Nama Pendaftar : ",
                                 textAlign: TextAlign.left,
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0][0][0]["namaLengkap"])
+                              Text(snapshot.data[1][0][0]["name"])
                             ],
                           ),
                           Padding(
@@ -198,13 +197,15 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Paroki",
+                                "Nama Pria dan Wanita: ",
                                 textAlign: TextAlign.left,
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0][0][0]["paroki"])
+                              Text(snapshot.data[0][0][0]["namaPria"] +
+                                  " & " +
+                                  snapshot.data[0][0][0]["namaPerempuan"])
                             ],
                           ),
                           Padding(
@@ -215,24 +216,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Lingkungan",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              Text(snapshot.data[0][0][0]["lingkungan"])
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Nomor Telephone",
+                                "Nomor Telephone :",
                                 textAlign: TextAlign.left,
                               ),
                               Padding(
@@ -249,7 +233,24 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Alamat Lengkap",
+                                "Email :",
+                                textAlign: TextAlign.left,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                              ),
+                              Text(snapshot.data[0][0][0]["email"])
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 11),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Alamat Pernikahan :",
                                 textAlign: TextAlign.left,
                               ),
                               Padding(
@@ -266,24 +267,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Jenis Pemberkatan",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              Text(snapshot.data[0][0][0]["jenis"])
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Tanggal",
+                                "Tanggal Pernikahan :",
                                 textAlign: TextAlign.left,
                               ),
                               Padding(
@@ -334,7 +318,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                                               AlertDialog(
                                             title: const Text('Confirm Accept'),
                                             content: const Text(
-                                                'Yakin ingin melakukan pelayanan pemberkatan ini?'),
+                                                'Yakin ingin melakukan pelayanan perkawinan ini?'),
                                             actions: <Widget>[
                                               TextButton(
                                                 onPressed: () => Navigator.pop(
@@ -379,7 +363,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                                               AlertDialog(
                                             title: const Text('Confirm Reject'),
                                             content: const Text(
-                                                'Yakin ingin menolak pelayanan pemberkatan ini?'),
+                                                'Yakin ingin menolak pelayanan perkawinan ini?'),
                                             actions: <Widget>[
                                               TextButton(
                                                 onPressed: () => Navigator.pop(

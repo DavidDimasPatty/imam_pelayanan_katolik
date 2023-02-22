@@ -717,6 +717,29 @@ class AgenPencarian {
             });
           }
 
+          if (data[0][0] == "cari Perkawinan") {
+            var PerkawinanCollection =
+                MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+            final pipeline = AggregationPipelineBuilder()
+                .addStage(Lookup(
+                    from: 'user',
+                    localField: 'idUser',
+                    foreignField: '_id',
+                    as: 'userDaftar'))
+                .addStage(Match(where
+                    .eq('idImam', data[1][0])
+                    .eq('status', 0)
+                    .map['\$query']))
+                .build();
+            var conn = await PerkawinanCollection.aggregateToStream(pipeline)
+                .toList()
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent(result);
+              await msg.send();
+            });
+          }
+
           if (data[0][0] == "cari Sakramentali History") {
             var PemberkatanCollection =
                 MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
@@ -743,6 +766,26 @@ class AgenPencarian {
                 MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
             var conn =
                 await pemberkatanCollection.find({'_id': data[1][0]}).toList();
+
+            var userCollection = MongoDatabase.db.collection(USER_COLLECTION);
+            var conn2 = await userCollection
+                .find({'_id': conn[0]['idUser']})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent([
+                    [conn],
+                    [result]
+                  ]);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari Perkawinan Detail") {
+            var perkawinanCollection =
+                MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+            var conn =
+                await perkawinanCollection.find({'_id': data[1][0]}).toList();
 
             var userCollection = MongoDatabase.db.collection(USER_COLLECTION);
             var conn2 = await userCollection
