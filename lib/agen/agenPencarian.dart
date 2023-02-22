@@ -811,6 +811,8 @@ class AgenPencarian {
                 MongoDatabase.db.collection(KOMUNI_COLLECTION);
             var userPemberkatanCollection =
                 MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+            var perkawinanCollection =
+                MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
             var userKegiatanCollection =
                 MongoDatabase.db.collection(UMUM_COLLECTION);
             var count = 0;
@@ -920,7 +922,8 @@ class AgenPencarian {
                 }
               }
             }
-
+            var totalKa = await perkawinanCollection
+                .find({'idImam': data[2][0], 'status': 0}).length;
             var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
 
             final pipeliner = AggregationPipelineBuilder()
@@ -937,8 +940,8 @@ class AgenPencarian {
                 .then((res) async {
               msg.addReceiver("agenPage");
               msg.setContent([
-                totalB + totalKo + countP + totalKr + totalU,
-                totalB + totalKo + totalKr,
+                totalB + totalKo + countP + totalKr + totalU + totalKa,
+                totalB + totalKo + totalKr + totalKa,
                 countP,
                 totalU,
                 res
@@ -954,6 +957,8 @@ class AgenPencarian {
                 MongoDatabase.db.collection(BAPTIS_COLLECTION);
             var userKomuniCollection =
                 MongoDatabase.db.collection(KOMUNI_COLLECTION);
+            var perkawinanCollection =
+                MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
 
             var count = 0;
 
@@ -1034,7 +1039,8 @@ class AgenPencarian {
                 }
               }
             }
-
+            var totalKa = await perkawinanCollection
+                .find({'idImam': data[2][0], 'status': 0}).length;
             var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
 
             final pipeliner = AggregationPipelineBuilder()
@@ -1050,8 +1056,14 @@ class AgenPencarian {
                 .toList()
                 .then((res) async {
               msg.addReceiver("agenPage");
-              msg.setContent(
-                  [totalB + totalKo + totalKr, totalB, totalKo, totalKr, res]);
+              msg.setContent([
+                totalB + totalKo + totalKr + totalKa,
+                totalB,
+                totalKo,
+                totalKr,
+                totalKa,
+                res
+              ]);
               await msg.send();
             });
           }

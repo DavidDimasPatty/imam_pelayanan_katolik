@@ -102,6 +102,102 @@ class AgenAkun {
             }
           }
 
+          if (data[0][0] == "ganti Status Perminyakan") {
+            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+            // print("tessssssssterrr");
+            // print(data[2][0].toString());
+            // print(data[2][0].runtimeType);
+            try {
+              // if (data[2][0] == 0) {
+              //   data[2][0] = 1;
+              // } else {
+              //   data[2][0] = 0;
+              // }
+              var update = await imamCollection
+                  .updateOne(where.eq('_id', data[1][0]),
+                      modify.set('statusPerminyakan', data[2][0]))
+                  .then((result) async {
+                if (result.isSuccess) {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('oke');
+                  await msg.send();
+                } else {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('failed');
+                  await msg.send();
+                }
+              });
+            } catch (e) {
+              msg.addReceiver("agenPage");
+              msg.setContent('failed');
+              await msg.send();
+            }
+          }
+
+          if (data[0][0] == "ganti Status Tobat") {
+            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+            // print("tessssssssterrr");
+            // print(data[2][0].toString());
+            // print(data[2][0].runtimeType);
+            try {
+              // if (data[2][0] == 0) {
+              //   data[2][0] = 1;
+              // } else {
+              //   data[2][0] = 0;
+              // }
+              var update = await imamCollection
+                  .updateOne(where.eq('_id', data[1][0]),
+                      modify.set('statusTobat', data[2][0]))
+                  .then((result) async {
+                if (result.isSuccess) {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('oke');
+                  await msg.send();
+                } else {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('failed');
+                  await msg.send();
+                }
+              });
+            } catch (e) {
+              msg.addReceiver("agenPage");
+              msg.setContent('failed');
+              await msg.send();
+            }
+          }
+
+          if (data[0][0] == "ganti Status Perkawinan") {
+            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+            // print("tessssssssterrr");
+            // print(data[2][0].toString());
+            // print(data[2][0].runtimeType);
+            try {
+              // if (data[2][0] == 0) {
+              //   data[2][0] = 1;
+              // } else {
+              //   data[2][0] = 0;
+              // }
+              var update = await imamCollection
+                  .updateOne(where.eq('_id', data[1][0]),
+                      modify.set('statusPerkawinan', data[2][0]))
+                  .then((result) async {
+                if (result.isSuccess) {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('oke');
+                  await msg.send();
+                } else {
+                  msg.addReceiver("agenPage");
+                  msg.setContent('failed');
+                  await msg.send();
+                }
+              });
+            } catch (e) {
+              msg.addReceiver("agenPage");
+              msg.setContent('failed');
+              await msg.send();
+            }
+          }
+
           if (data[0][0] == "edit Profile") {
             var gerejaCollection =
                 MongoDatabase.db.collection(GEREJA_COLLECTION);

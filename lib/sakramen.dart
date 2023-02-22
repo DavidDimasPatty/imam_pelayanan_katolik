@@ -290,6 +290,56 @@ class _Sakramen extends State<Sakramen> {
                                               ],
                                             ),
                                           ),
+                                        ),
+                                        Expanded(
+                                          child: Card(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 5.0, vertical: 5.0),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            color: Colors.white,
+                                            elevation: 20.0,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                      Text(
+                                                        "Kawin",
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          fontSize: 15.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                      Text(
+                                                        hasil[4].toString(),
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         )
                                       ])
                                     ],
