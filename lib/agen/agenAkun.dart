@@ -199,24 +199,56 @@ class AgenAkun {
           }
 
           if (data[0][0] == "edit Profile") {
-            var gerejaCollection =
-                MongoDatabase.db.collection(GEREJA_COLLECTION);
+            if (data[8][0] == true) {
+              DateTime now = new DateTime.now();
+              DateTime date = new DateTime(now.year, now.month, now.day,
+                  now.hour, now.minute, now.second);
+              final filename = date.toString();
+              final destination = 'files/$filename';
+              UploadTask? task =
+                  FirebaseApi.uploadFile(destination, data[7][0]);
+              final snapshot = await task!.whenComplete(() {});
+              final urlDownload = await snapshot.ref.getDownloadURL();
 
-            var update = await gerejaCollection
-                .updateOne(
-                    where.eq('_id', data[1][0]),
-                    modify
-                        .set('nama', data[2][0])
-                        .set('address', data[3][0])
-                        .set('paroki', data[4][0])
-                        .set('lingkungan', data[5][0])
-                        .set('deskripsi', data[6][0]))
-                .then((result) async {
-              msg.addReceiver("agenPage");
-              msg.setContent("oke");
-              await msg.send();
-            });
-            ;
+              var gerejaCollection =
+                  MongoDatabase.db.collection(GEREJA_COLLECTION);
+
+              var update = await gerejaCollection
+                  .updateOne(
+                      where.eq('_id', data[1][0]),
+                      modify
+                          .set('nama', data[2][0])
+                          .set('address', data[3][0])
+                          .set('paroki', data[4][0])
+                          .set('lingkungan', data[5][0])
+                          .set('deskripsi', data[6][0])
+                          .set("gambar", urlDownload))
+                  .then((result) async {
+                msg.addReceiver("agenPage");
+                msg.setContent("oke");
+                await msg.send();
+              });
+              ;
+            } else {
+              var gerejaCollection =
+                  MongoDatabase.db.collection(GEREJA_COLLECTION);
+
+              var update = await gerejaCollection
+                  .updateOne(
+                      where.eq('_id', data[1][0]),
+                      modify
+                          .set('nama', data[2][0])
+                          .set('address', data[3][0])
+                          .set('paroki', data[4][0])
+                          .set('lingkungan', data[5][0])
+                          .set('deskripsi', data[6][0]))
+                  .then((result) async {
+                msg.addReceiver("agenPage");
+                msg.setContent("oke");
+                await msg.send();
+              });
+              ;
+            }
           }
           if (data[0][0] == "edit Aturan Pelayanan") {
             var aturanPelayananCollection =

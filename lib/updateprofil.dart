@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -31,6 +34,9 @@ class _UpdateProfile extends State<UpdateProfile> {
   final names;
   final idUser;
   final idGereja;
+  var fileImage;
+  var fileChange;
+  var imageChange = false;
   String _selectedDate = '';
   String _dateCount = '';
   String _range = '';
@@ -49,51 +55,113 @@ class _UpdateProfile extends State<UpdateProfile> {
   void submit() async {
     // var hasil = await MongoDatabase.updateGereja(idGereja, nama.text,
     //     address.text, paroki.text, lingkungan.text, deskripsi.text);
-
-    Messages msg = new Messages();
-    msg.addReceiver("agenAkun");
-    msg.setContent(
-      [
-        ["edit Profile"],
-        [idGereja],
-        [nama.text],
-        [address.text],
-        [paroki.text],
-        [lingkungan.text],
-        [deskripsi.text]
-      ],
-    );
-
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    var hasil = await AgenPage().receiverTampilan();
-    if (hasil == "fail") {
-      Fluttertoast.showToast(
-          msg: "Gagal Update Informasi Gereja",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    } else {
-      Fluttertoast.showToast(
-          msg: "Berhasil Update Informasi Gereja",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Profile(names, idUser, idGereja)),
+    if (imageChange == false) {
+      Messages msg = new Messages();
+      msg.addReceiver("agenAkun");
+      msg.setContent(
+        [
+          ["edit Profile"],
+          [idGereja],
+          [nama.text],
+          [address.text],
+          [paroki.text],
+          [lingkungan.text],
+          [deskripsi.text],
+          [fileImage],
+          [imageChange]
+        ],
       );
+
+      await msg.send().then((res) async {
+        print("masuk");
+        print(await AgenPage().receiverTampilan());
+      });
+      await Future.delayed(Duration(seconds: 1));
+      var hasil = await AgenPage().receiverTampilan();
+      if (hasil == "fail") {
+        Fluttertoast.showToast(
+            msg: "Gagal Update Informasi Gereja",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Berhasil Update Informasi Gereja",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Profile(names, idUser, idGereja)),
+        );
+      }
+    } else {
+      Messages msg = new Messages();
+      msg.addReceiver("agenAkun");
+      msg.setContent(
+        [
+          ["edit Profile"],
+          [idGereja],
+          [nama.text],
+          [address.text],
+          [paroki.text],
+          [lingkungan.text],
+          [deskripsi.text],
+          [fileChange],
+          [imageChange]
+        ],
+      );
+
+      await msg.send().then((res) async {
+        print("masuk");
+        print(await AgenPage().receiverTampilan());
+      });
+      await Future.delayed(Duration(seconds: 1));
+      var hasil = await AgenPage().receiverTampilan();
+      if (hasil == "fail") {
+        Fluttertoast.showToast(
+            msg: "Gagal Update Informasi Gereja",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Berhasil Update Informasi Gereja",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Profile(names, idUser, idGereja)),
+        );
+      }
     }
+  }
+
+  Future selectFile(context) async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result == null) return;
+    File file;
+    final path = result.files.single.path;
+    file = File(path!);
+    setState(() {
+      fileImage = file;
+      fileChange = file;
+    });
   }
 
   Future callDb() async {
@@ -157,6 +225,7 @@ class _UpdateProfile extends State<UpdateProfile> {
                   paroki.text = snapshot.data[0]['paroki'];
                   lingkungan.text = snapshot.data[0]['lingkungan'];
                   deskripsi.text = snapshot.data[0]['deskripsi'];
+                  fileImage = snapshot.data[0]['gambar'];
                   return Column(children: <Widget>[
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -411,6 +480,82 @@ class _UpdateProfile extends State<UpdateProfile> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                     ),
+                    Text(
+                      "Gambar Gereja",
+                      textAlign: TextAlign.left,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                    ),
+                    Container(
+                      child: RaisedButton(
+                          onPressed: () async {
+                            imageChange = true;
+                            await selectFile(context);
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(80.0)),
+                          elevation: 0.0,
+                          padding: EdgeInsets.all(0.0),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.topLeft,
+                                  colors: [
+                                    Colors.blueAccent,
+                                    Colors.lightBlue,
+                                  ]),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            child: Container(
+                              constraints: BoxConstraints(
+                                  maxWidth: 170.0, minHeight: 50.0),
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.upload,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    "Upload Image",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )),
+                    ),
+                    SizedBox(height: 10),
+                    if (fileImage == null ||
+                        fileImage == "" && imageChange == false)
+                      Text(
+                        "Belum ada Gambar",
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    if (fileImage != null && imageChange == false)
+                      Center(
+                        child: Image.network(
+                          fileImage,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    if (imageChange == true)
+                      Text(
+                        "File Image Path: \n" + fileChange.toString(),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w400),
+                      ),
                     SizedBox(
                       width: double.infinity,
                       child: RaisedButton(

@@ -43,6 +43,7 @@ class _editPengumuman extends State<editPengumuman> {
   TextEditingController title = new TextEditingController();
 
   var fileImage;
+  var fileChange;
 
   Future callDb() async {
     Messages msg = new Messages();
@@ -69,6 +70,7 @@ class _editPengumuman extends State<editPengumuman> {
     file = File(path!);
     setState(() {
       fileImage = file;
+      fileChange = file;
     });
   }
 
@@ -79,58 +81,116 @@ class _editPengumuman extends State<editPengumuman> {
   }
 
   void submit() async {
-    if (fileImage != null && caption.text != "" && title.text != "") {
-      Messages msg = new Messages();
-      msg.addReceiver("agenPendaftaran");
-      msg.setContent([
-        ["edit Pengumuman"],
-        [idPengumuman],
-        [title.text],
-        [caption.text],
-        [fileImage],
-        [imageChange]
-      ]);
-      var hasil;
-      await msg.send().then((res) async {
-        print("masuk");
-        print(await AgenPage().receiverTampilan());
-      });
-      await Future.delayed(Duration(seconds: 1));
-      hasil = await AgenPage().receiverTampilan();
+    if (imageChange == false) {
+      if (fileImage != null && caption.text != "" && title.text != "") {
+        Messages msg = new Messages();
+        msg.addReceiver("agenPendaftaran");
+        msg.setContent([
+          ["edit Pengumuman"],
+          [idPengumuman],
+          [title.text],
+          [caption.text],
+          [fileImage],
+          [imageChange]
+        ]);
+        var hasil;
+        await msg.send().then((res) async {
+          print("masuk");
+          print(await AgenPage().receiverTampilan());
+        });
+        await Future.delayed(Duration(seconds: 1));
+        hasil = await AgenPage().receiverTampilan();
 
-      if (hasil == "failed") {
+        if (hasil == "failed") {
+          Fluttertoast.showToast(
+              msg: "Gagal Mendaftarkan Pengumuman",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        } else {
+          Fluttertoast.showToast(
+              msg: "Berhasil Mendaftarkan Pengumuman",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    PengumumanGereja(names, idUser, idGereja)),
+          );
+        }
+      } else {
         Fluttertoast.showToast(
-            msg: "Gagal Mendaftarkan Pengumuman",
+            msg: "Isi semua bidang",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 2,
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
+      }
+    } else {
+      if (fileImage != null && caption.text != "" && title.text != "") {
+        Messages msg = new Messages();
+        msg.addReceiver("agenPendaftaran");
+        msg.setContent([
+          ["edit Pengumuman"],
+          [idPengumuman],
+          [title.text],
+          [caption.text],
+          [fileChange],
+          [imageChange]
+        ]);
+        var hasil;
+        await msg.send().then((res) async {
+          print("masuk");
+          print(await AgenPage().receiverTampilan());
+        });
+        await Future.delayed(Duration(seconds: 1));
+        hasil = await AgenPage().receiverTampilan();
+
+        if (hasil == "failed") {
+          Fluttertoast.showToast(
+              msg: "Gagal Mendaftarkan Pengumuman",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        } else {
+          Fluttertoast.showToast(
+              msg: "Berhasil Mendaftarkan Pengumuman",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    PengumumanGereja(names, idUser, idGereja)),
+          );
+        }
       } else {
         Fluttertoast.showToast(
-            msg: "Berhasil Mendaftarkan Pengumuman",
+            msg: "Isi semua bidang",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 2,
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PengumumanGereja(names, idUser, idGereja)),
-        );
       }
-    } else {
-      Fluttertoast.showToast(
-          msg: "Isi semua bidang",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
     }
   }
 
@@ -309,7 +369,7 @@ class _editPengumuman extends State<editPengumuman> {
                         ),
                       if (imageChange == true)
                         Text(
-                          "File Image Path: \n" + fileImage.toString(),
+                          "File Image Path: \n" + fileChange.toString(),
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 12.0,
