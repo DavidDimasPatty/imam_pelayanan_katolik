@@ -296,6 +296,28 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 11),
                           ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Status :",
+                                textAlign: TextAlign.left,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                              ),
+                              if (snapshot.data[0][0][0]["status"] == 0)
+                                Text("Menunggu"),
+                              if (snapshot.data[0][0][0]["status"] == 1)
+                                Text("Diterima"),
+                              if (snapshot.data[0][0][0]["status"] == -1)
+                                Text("Ditolak")
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 11),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
