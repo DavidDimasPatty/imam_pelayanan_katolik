@@ -163,6 +163,19 @@ class AgenPencarian {
                 });
             ;
           }
+          if (data[0][0] == "tampilan aturan pelayanan") {
+            var aturanPelayananCollection =
+                MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
+            var conn = await aturanPelayananCollection
+                .find({'idGereja': data[1][0]})
+                .toList()
+                .then((result) async {
+                  msg.addReceiver("agenPage");
+                  msg.setContent(result);
+                  await msg.send();
+                });
+            ;
+          }
           if (data[0][0] == "cari Pengumuman") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);

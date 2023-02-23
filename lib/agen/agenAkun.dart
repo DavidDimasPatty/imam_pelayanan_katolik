@@ -218,6 +218,30 @@ class AgenAkun {
             });
             ;
           }
+          if (data[0][0] == "edit Aturan Pelayanan") {
+            var aturanPelayananCollection =
+                MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
+
+            var update = await aturanPelayananCollection
+                .updateOne(
+                    where.eq('idGereja', data[1][0]),
+                    modify
+                        .set('baptis', data[2][0])
+                        .set('komuni', data[3][0])
+                        .set('krisma', data[4][0])
+                        .set('perkawinan', data[5][0])
+                        .set('perminyakan', data[6][0])
+                        .set('tobat', data[7][0])
+                        .set('pemberkatan', data[8][0])
+                        .set('updatedAt', DateTime.now())
+                        .set('updatedBy', data[9][0]))
+                .then((result) async {
+              msg.addReceiver("agenPage");
+              msg.setContent("oke");
+              await msg.send();
+            });
+            ;
+          }
 
           if (data[0][0] == "edit Profile Imam") {
             var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);

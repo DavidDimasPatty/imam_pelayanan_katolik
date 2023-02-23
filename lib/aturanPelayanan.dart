@@ -29,22 +29,20 @@ class _AturanPelayanan extends State<AturanPelayanan> {
   _AturanPelayanan(this.name, this.iduser, this.idGereja);
 
   @override
-  var selectedJenis;
-  String ddValue = "Gedung";
-  var dateValue;
-  TextEditingController namaController = new TextEditingController();
-  TextEditingController parokiController = new TextEditingController();
-  TextEditingController lingkunganController = new TextEditingController();
-  TextEditingController notelpController = new TextEditingController();
-  TextEditingController alamatController = new TextEditingController();
-  TextEditingController emailController = new TextEditingController();
+  TextEditingController baptisController = new TextEditingController();
+  TextEditingController komuniController = new TextEditingController();
+  TextEditingController krismaController = new TextEditingController();
+  TextEditingController perkawinanController = new TextEditingController();
+  TextEditingController perminyakanController = new TextEditingController();
+  TextEditingController tobatController = new TextEditingController();
+  TextEditingController pemberkatanController = new TextEditingController();
 
   Future<List> callDb() async {
     Messages msg = new Messages();
     msg.addReceiver("agenPencarian");
     msg.setContent([
       ["tampilan aturan pelayanan"],
-      [iduser]
+      [idGereja]
     ]);
     List k = [];
     await msg.send().then((res) async {
@@ -57,46 +55,47 @@ class _AturanPelayanan extends State<AturanPelayanan> {
     return k;
   }
 
-  submitForm(nama, email, notelp, context) async {
-    if (notelp != "" && email != "" && nama != "") {
-      // var add = await MongoDatabase.addPemberkatan(idUser, nama, paroki,
-      //     lingkungan, notelp, alamat, jenis, tanggal, idGereja, note, idImam);
+  submitForm(baptis, komuni, krisma, perkawinan, perminyakan, tobat,
+      pemberkatan, context) async {
+    Messages msg = new Messages();
+    msg.addReceiver("agenAkun");
+    msg.setContent([
+      ["edit Aturan Pelayanan"],
+      [idGereja],
+      [baptis],
+      [komuni],
+      [krisma],
+      [perkawinan],
+      [perminyakan],
+      [tobat],
+      [pemberkatan],
+      [iduser],
+    ]);
 
-      Messages msg = new Messages();
-      msg.addReceiver("agenAkun");
-      msg.setContent([
-        ["edit Profile Imam"],
-        [iduser],
-        [nama],
-        [email],
-        [notelp],
-      ]);
+    await msg.send().then((res) async {
+      print("masuk");
+      print(await AgenPage().receiverTampilan());
+    });
+    await Future.delayed(Duration(seconds: 1));
+    var daftarmisa = await AgenPage().receiverTampilan();
 
-      await msg.send().then((res) async {
-        print("masuk");
-        print(await AgenPage().receiverTampilan());
-      });
-      await Future.delayed(Duration(seconds: 1));
-      var daftarmisa = await AgenPage().receiverTampilan();
-
-      if (daftarmisa == 'oke') {
-        Fluttertoast.showToast(
-            msg: "Berhasil Edit Profile Imam",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 2,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Profile(name, iduser, idGereja)),
-        );
-      }
+    if (daftarmisa == 'oke') {
+      Fluttertoast.showToast(
+          msg: "Berhasil Edit Aturan Pelayanan Gereja",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Profile(name, iduser, idGereja)),
+      );
     } else {
       Fluttertoast.showToast(
-          msg: "Isi semua bidang",
+          msg: "Gagal Edit Aturan Pelayanan Gereja",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -115,7 +114,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile'),
+        title: Text('Edit Aturan Pelayanan'),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -144,14 +143,29 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                   future: callDb(),
                   builder: (context, AsyncSnapshot snapshot) {
                     try {
-                      if (snapshot.data[0]['name'] != null) {
-                        namaController.text = snapshot.data[0]['name'];
+                      if (snapshot.data[0]['baptis'] != null) {
+                        baptisController.text = snapshot.data[0]['baptis'];
                       }
-                      if (snapshot.data[0]['email'] != null) {
-                        emailController.text = snapshot.data[0]['email'];
+                      if (snapshot.data[0]['komuni'] != null) {
+                        komuniController.text = snapshot.data[0]['komuni'];
                       }
-                      if (snapshot.data[0]['notelp'] != null) {
-                        notelpController.text = snapshot.data[0]['notelp'];
+                      if (snapshot.data[0]['krisma'] != null) {
+                        krismaController.text = snapshot.data[0]['krisma'];
+                      }
+                      if (snapshot.data[0]['perkawinan'] != null) {
+                        perkawinanController.text =
+                            snapshot.data[0]['perkawinan'];
+                      }
+                      if (snapshot.data[0]['perminyakan'] != null) {
+                        perminyakanController.text =
+                            snapshot.data[0]['perminyakan'];
+                      }
+                      if (snapshot.data[0]['tobat'] != null) {
+                        tobatController.text = snapshot.data[0]['tobat'];
+                      }
+                      if (snapshot.data[0]['pemberkatan'] != null) {
+                        pemberkatanController.text =
+                            snapshot.data[0]['pemberkatan'];
                       }
 
                       return Column(children: <Widget>[
@@ -163,18 +177,16 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Nama Lengkap",
+                              "Aturan Baptis",
                               textAlign: TextAlign.left,
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 5),
                             ),
                             TextField(
-                              controller: namaController,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp("[a-zA-Z ]")),
-                              ],
+                              maxLines: 8,
+                              keyboardType: TextInputType.multiline,
+                              controller: baptisController,
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -189,7 +201,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  hintText: "Masukan Nama Lengkap",
+                                  hintText: "Masukan Aturan Baptis",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -205,14 +217,16 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Email",
+                              "Aturan Komuni",
                               textAlign: TextAlign.left,
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 5),
                             ),
                             TextField(
-                              controller: emailController,
+                              maxLines: 8,
+                              keyboardType: TextInputType.multiline,
+                              controller: komuniController,
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -227,7 +241,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  hintText: "Masukan Email",
+                                  hintText: "Masukan Aturan Komuni",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -243,18 +257,16 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Nomor Telephone",
+                              "Aturan Krisma",
                               textAlign: TextAlign.left,
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 5),
                             ),
                             TextField(
-                              controller: notelpController,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp("[0-9]")),
-                              ],
+                              maxLines: 8,
+                              keyboardType: TextInputType.multiline,
+                              controller: krismaController,
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -269,7 +281,167 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  hintText: "Masukan Nomor Telephone",
+                                  hintText: "Masukan Aturan Krisma",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 11),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Aturan Perkawinan",
+                              textAlign: TextAlign.left,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                            ),
+                            TextField(
+                              maxLines: 8,
+                              keyboardType: TextInputType.multiline,
+                              controller: perkawinanController,
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  hintText: "Masukan Aturan Perkawinan",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 11),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Aturan Perminyakan",
+                              textAlign: TextAlign.left,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                            ),
+                            TextField(
+                              maxLines: 8,
+                              keyboardType: TextInputType.multiline,
+                              controller: perminyakanController,
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  hintText: "Masukan Aturan Perminyakan",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 11),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Aturan Tobat",
+                              textAlign: TextAlign.left,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                            ),
+                            TextField(
+                              maxLines: 8,
+                              keyboardType: TextInputType.multiline,
+                              controller: tobatController,
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  hintText: "Masukan Aturan Tobat",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 11),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Aturan Pemberkatan",
+                              textAlign: TextAlign.left,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                            ),
+                            TextField(
+                              maxLines: 8,
+                              keyboardType: TextInputType.multiline,
+                              controller: pemberkatanController,
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  hintText: "Masukan Aturan Pemberkatan",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -285,15 +457,19 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                           child: RaisedButton(
                               textColor: Colors.white,
                               color: Colors.lightBlue,
-                              child: Text("Edit Profile"),
+                              child: Text("Edit Aturan Pelayanan"),
                               shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(30.0),
                               ),
                               onPressed: () async {
                                 await submitForm(
-                                    namaController.text,
-                                    emailController.text,
-                                    notelpController.text,
+                                    baptisController.text,
+                                    komuniController.text,
+                                    krismaController.text,
+                                    perkawinanController.text,
+                                    perminyakanController.text,
+                                    tobatController.text,
+                                    pemberkatanController.text,
                                     context);
                               }),
                         ),

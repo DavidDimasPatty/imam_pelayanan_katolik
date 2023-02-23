@@ -13,6 +13,7 @@ import 'package:imam_pelayanan_katolik/profile.dart';
 import 'package:imam_pelayanan_katolik/rekoleksi.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
+import 'package:geocode/geocode.dart';
 
 class UpdateProfile extends StatefulWidget {
   @override
@@ -41,7 +42,8 @@ class _UpdateProfile extends State<UpdateProfile> {
   TextEditingController paroki = new TextEditingController(text: "");
   TextEditingController lingkungan = new TextEditingController(text: "");
   TextEditingController deskripsi = new TextEditingController(text: "");
-
+  double? lattitude = 0;
+  double? longttitude = 0;
   _UpdateProfile(this.names, this.idUser, this.idGereja);
 
   void submit() async {
@@ -233,6 +235,54 @@ class _UpdateProfile extends State<UpdateProfile> {
                                 borderRadius: BorderRadius.circular(10),
                               )),
                         ),
+                        RaisedButton(
+                            textColor: Colors.white,
+                            color: Colors.lightBlue,
+                            child: Text("Generate Coordinate"),
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            onPressed: () async {
+                              try {
+                                GeoCode geoCode = GeoCode();
+                                Coordinates coordinates = await geoCode
+                                    .forwardGeocoding(address: address.text);
+                                print("Latitude: ${coordinates.latitude}");
+                                print("Longitude: ${coordinates.longitude}");
+                                setState(() {
+                                  lattitude = coordinates.latitude;
+                                  longttitude = coordinates.longitude;
+                                });
+                              } catch (e) {
+                                print(e);
+                              }
+                            }),
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  "Lattitude",
+                                ),
+                                Text(
+                                  lattitude.toString(),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5)),
+                            Column(
+                              children: [
+                                Text(
+                                  "Longtittude",
+                                ),
+                                Text(
+                                  longttitude.toString(),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
                       ],
                     ),
                     Padding(
