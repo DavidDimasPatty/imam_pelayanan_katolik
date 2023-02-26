@@ -63,11 +63,19 @@ class AgenPendaftaran {
             print(conn2);
             String status = "";
             String body = "";
+            String statusSoon = "";
+            String bodySoon = "";
             if (data[4][0] == 1) {
+              print(conn2[0]['jadwalBuka'].runtimeType);
               status = "Permintaan Baptis Diterima";
               body = "Permintaan baptis pada tanggal " +
                   conn2[0]['jadwalBuka'].toString().substring(0, 10) +
                   " telah dikonfirmasi";
+              statusSoon = "Baptis " +
+                  conn2[0]['jadwalBuka'].toString().substring(0, 10);
+              bodySoon = "Besok, Baptis " +
+                  conn2[0]['jadwalBuka'].toString().substring(0, 10) +
+                  " Akan Dilaksakan";
             } else {
               status = "Permintaan Baptis Ditolak";
               body = "Maaf, permintaan baptis pada tanggal " +
@@ -90,7 +98,43 @@ class AgenPendaftaran {
                 });
               }
 
+              String constructFCMPayloadSoon(String token) {
+                return jsonEncode({
+                  // 'token': dotenv.env['token_firebase'],
+                  'to': token,
+                  'data': {
+                    'via': 'FlutterFire Cloud Messaging!!!',
+                    // 'id': data[3][0].toString(),
+                  },
+                  'notification': {
+                    'title': statusSoon,
+                    'body': bodySoon,
+                    "isScheduled": "true",
+                    "scheduledTime": conn2[0]['jadwalBuka']
+                        .subtract(Duration(days: 1))
+                        .toString()
+                  },
+                });
+              }
+
               try {
+                if (data[4][0] == 1) {
+                  await http
+                      .post(
+                    Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                    headers: <String, String>{
+                      'Content-Type': 'application/json; charset=UTF-8',
+                      'Authorization':
+                          'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+                    },
+                    body: constructFCMPayloadSoon(data[2][0]),
+                  )
+                      .then((value) {
+                    print(value.statusCode);
+                    print(value.body);
+                    print("success fcm for soon!");
+                  });
+                }
                 await http
                     .post(
                   Uri.parse('https://fcm.googleapis.com/fcm/send'),
