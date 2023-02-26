@@ -60,7 +60,7 @@ class AgenPendaftaran {
             //Find date baptis
             var conn2 =
                 await baptisCollection2.find({'_id': data[3][0]}).toList();
-            print(conn2);
+
             String status = "";
             String body = "";
             String statusSoon = "";
@@ -103,17 +103,21 @@ class AgenPendaftaran {
                   // 'token': dotenv.env['token_firebase'],
                   'to': token,
                   'data': {
-                    'via': 'FlutterFire Cloud Messaging!!!',
+                    "title": statusSoon,
+                    "message": bodySoon,
                     // 'id': data[3][0].toString(),
-                  },
-                  'notification': {
-                    'title': statusSoon,
-                    'body': bodySoon,
                     "isScheduled": "true",
                     "scheduledTime": conn2[0]['jadwalBuka']
                         .subtract(Duration(days: 1))
                         .toString()
                   },
+                  // 'notification': {
+                  //   'title': statusSoon,
+                  //   'body': bodySoon,
+                  // "isScheduled": "true",
+                  // "scheduledTime": conn2[0]['jadwalBuka']
+                  //     .subtract(Duration(days: 1))
+                  //     .toString()
                 });
               }
 
@@ -209,14 +213,21 @@ class AgenPendaftaran {
             //Find date baptis
             var conn2 =
                 await komuniCollection2.find({'_id': data[3][0]}).toList();
-            print(conn2);
+
             String status = "";
             String body = "";
+            String statusSoon = "";
+            String bodySoon = "";
             if (data[4][0] == 1) {
               status = "Permintaan Komuni Diterima";
               body = "Permintaan komuni pada tanggal " +
                   conn2[0]['jadwalBuka'].toString().substring(0, 10) +
                   " telah dikonfirmasi";
+              statusSoon = "Komuni " +
+                  conn2[0]['jadwalBuka'].toString().substring(0, 10);
+              bodySoon = "Besok, Komuni " +
+                  conn2[0]['jadwalBuka'].toString().substring(0, 10) +
+                  " Akan Dilaksakan";
             } else {
               status = "Permintaan Komuni Ditolak";
               body = "Maaf, permintaan komuni pada tanggal " +
@@ -239,7 +250,47 @@ class AgenPendaftaran {
               });
             }
 
+            String constructFCMPayloadSoon(String token) {
+              return jsonEncode({
+                // 'token': dotenv.env['token_firebase'],
+                'to': token,
+                'data': {
+                  "title": statusSoon,
+                  "message": bodySoon,
+                  // 'id': data[3][0].toString(),
+                  "isScheduled": "true",
+                  "scheduledTime": conn2[0]['jadwalBuka']
+                      .subtract(Duration(days: 1))
+                      .toString()
+                },
+                // 'notification': {
+                //   'title': statusSoon,
+                //   'body': bodySoon,
+                // "isScheduled": "true",
+                // "scheduledTime": conn2[0]['jadwalBuka']
+                //     .subtract(Duration(days: 1))
+                //     .toString()
+              });
+            }
+
             try {
+              if (data[4][0] == 1) {
+                await http
+                    .post(
+                  Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                  headers: <String, String>{
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Authorization':
+                        'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+                  },
+                  body: constructFCMPayloadSoon(data[2][0]),
+                )
+                    .then((value) {
+                  print(value.statusCode);
+                  print(value.body);
+                  print("success fcm for soon!");
+                });
+              }
               await http
                   .post(
                 Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -315,14 +366,21 @@ class AgenPendaftaran {
           //Find date baptis
           var conn2 =
               await krismaCollection2.find({'_id': data[3][0]}).toList();
-          print(conn2);
+
           String status = "";
           String body = "";
+          String statusSoon = "";
+          String bodySoon = "";
           if (data[4][0] == 1) {
             status = "Permintaan Krisma Diterima";
             body = "Permintaan krisma pada tanggal " +
                 conn2[0]['jadwalBuka'].toString().substring(0, 10) +
                 " telah dikonfirmasi";
+            statusSoon =
+                "Krisma " + conn2[0]['jadwalBuka'].toString().substring(0, 10);
+            bodySoon = "Besok, Krisma " +
+                conn2[0]['jadwalBuka'].toString().substring(0, 10) +
+                " Akan Dilaksakan";
           } else {
             status = "Permintaan Krisma Ditolak";
             body = "Maaf, permintaan krisma pada tanggal " +
@@ -345,7 +403,47 @@ class AgenPendaftaran {
             });
           }
 
+          String constructFCMPayloadSoon(String token) {
+            return jsonEncode({
+              // 'token': dotenv.env['token_firebase'],
+              'to': token,
+              'data': {
+                "title": statusSoon,
+                "message": bodySoon,
+                // 'id': data[3][0].toString(),
+                "isScheduled": "true",
+                "scheduledTime": conn2[0]['jadwalBuka']
+                    .subtract(Duration(days: 1))
+                    .toString()
+              },
+              // 'notification': {
+              //   'title': statusSoon,
+              //   'body': bodySoon,
+              // "isScheduled": "true",
+              // "scheduledTime": conn2[0]['jadwalBuka']
+              //     .subtract(Duration(days: 1))
+              //     .toString()
+            });
+          }
+
           try {
+            if (data[4][0] == 1) {
+              await http
+                  .post(
+                Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                headers: <String, String>{
+                  'Content-Type': 'application/json; charset=UTF-8',
+                  'Authorization':
+                      'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+                },
+                body: constructFCMPayloadSoon(data[2][0]),
+              )
+                  .then((value) {
+                print(value.statusCode);
+                print(value.body);
+                print("success fcm for soon!");
+              });
+            }
             await http
                 .post(
               Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -415,13 +513,14 @@ class AgenPendaftaran {
               MongoDatabase.db.collection(USER_UMUM_COLLECTION);
           var kegiatanCollection2 =
               MongoDatabase.db.collection(UMUM_COLLECTION);
-          print(data[3][0]);
-          //Find date baptis
+
           var conn2 =
               await kegiatanCollection2.find({'_id': data[3][0]}).toList();
           print(conn2);
           String status = "";
           String body = "";
+          String statusSoon = "";
+          String bodySoon = "";
           if (data[4][0] == 1) {
             status = "Permintaan Kegiatan Diterima";
             body = "Permintaan kegiatan " +
@@ -429,6 +528,11 @@ class AgenPendaftaran {
                 " " +
                 conn2[0]['namaKegiatan'] +
                 " telah dikonfirmasi";
+            statusSoon = "Kegiatan " +
+                conn2[0]['namaKegiatan'].toString().substring(0, 10);
+            bodySoon = "Besok, Kegiatan " +
+                conn2[0]['namaKegiatan'].toString().substring(0, 10) +
+                " Akan Dilaksakan";
           } else {
             status = "Permintaan Kegiatan Ditolak";
             body = "Permintaan kegiatan " +
@@ -453,7 +557,46 @@ class AgenPendaftaran {
             });
           }
 
+          String constructFCMPayloadSoon(String token) {
+            return jsonEncode({
+              // 'token': dotenv.env['token_firebase'],
+              'to': token,
+              'data': {
+                "title": statusSoon,
+                "message": bodySoon,
+                // 'id': data[3][0].toString(),
+                "isScheduled": "true",
+                "scheduledTime":
+                    conn2[0]['tanggal'].subtract(Duration(days: 1)).toString()
+              },
+              // 'notification': {
+              //   'title': statusSoon,
+              //   'body': bodySoon,
+              // "isScheduled": "true",
+              // "scheduledTime": conn2[0]['jadwalBuka']
+              //     .subtract(Duration(days: 1))
+              //     .toString()
+            });
+          }
+
           try {
+            if (data[4][0] == 1) {
+              await http
+                  .post(
+                Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                headers: <String, String>{
+                  'Content-Type': 'application/json; charset=UTF-8',
+                  'Authorization':
+                      'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+                },
+                body: constructFCMPayloadSoon(data[2][0]),
+              )
+                  .then((value) {
+                print(value.statusCode);
+                print(value.body);
+                print("success fcm for soon!");
+              });
+            }
             await http
                 .post(
               Uri.parse('https://fcm.googleapis.com/fcm/send'),
