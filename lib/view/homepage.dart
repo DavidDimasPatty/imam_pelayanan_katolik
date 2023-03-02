@@ -23,7 +23,6 @@ class _HomePage extends State<HomePage> {
   var names;
   var iduser;
   var idGereja;
-  var dataUser;
 
   _HomePage(this.names, this.iduser, this.idGereja);
 

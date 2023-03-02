@@ -20,8 +20,6 @@ class Profile extends StatefulWidget {
   var names;
   var iduser;
   var idGereja;
-  var dataUser;
-  var data;
 
   Profile(this.names, this.iduser, this.idGereja);
 
@@ -32,8 +30,6 @@ class _Profile extends State<Profile> {
   var names;
   var iduser;
   var idGereja;
-  var dataUser;
-  var data;
   var statusPem;
   var statusPerm;
   var statusPerk;

@@ -36,12 +36,6 @@ class _UpdateProfile extends State<UpdateProfile> {
   var fileImage;
   var fileChange;
   var imageChange = false;
-  String _selectedDate = '';
-  String _dateCount = '';
-  String _range = '';
-  String _rangeCount = '';
-  String tanggalBuka = "";
-  String tanggalTutup = "";
   TextEditingController nama = new TextEditingController(text: "");
   TextEditingController address = new TextEditingController(text: "");
   TextEditingController paroki = new TextEditingController(text: "");

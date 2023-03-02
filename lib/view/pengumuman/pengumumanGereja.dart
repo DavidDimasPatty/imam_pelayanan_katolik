@@ -26,7 +26,6 @@ class PengumumanGereja extends StatefulWidget {
 
 class _PengumumanGereja extends State<PengumumanGereja> {
   var names;
-  var emails;
   var distance;
   List daftarUser = [];
 

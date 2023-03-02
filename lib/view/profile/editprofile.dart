@@ -29,14 +29,8 @@ class _EditProfile extends State<EditProfile> {
   _EditProfile(this.name, this.iduser, this.idGereja);
 
   @override
-  var selectedJenis;
-  String ddValue = "Gedung";
-  var dateValue;
   TextEditingController namaController = new TextEditingController();
-  TextEditingController parokiController = new TextEditingController();
-  TextEditingController lingkunganController = new TextEditingController();
   TextEditingController notelpController = new TextEditingController();
-  TextEditingController alamatController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
 
   Future<List> callDb() async {
