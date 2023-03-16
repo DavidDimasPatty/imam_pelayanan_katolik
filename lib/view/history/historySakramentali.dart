@@ -20,8 +20,6 @@ class HistorySakramentali extends StatefulWidget {
 
 class _HistorySakramentali extends State<HistorySakramentali> {
   var names;
-  var emails;
-  var distance;
   List daftarUser = [];
 
   List dummyTemp = [];

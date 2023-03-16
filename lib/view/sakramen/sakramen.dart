@@ -21,7 +21,6 @@ class _Sakramen extends State<Sakramen> {
   var names;
   var iduser;
   var idGereja;
-  var dataUser;
 
   _Sakramen(this.names, this.iduser, this.idGereja);
 

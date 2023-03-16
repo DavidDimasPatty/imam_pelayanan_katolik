@@ -23,7 +23,6 @@ class Perkawinan extends StatefulWidget {
 
 class _Perkawinan extends State<Perkawinan> {
   var names;
-  var emails;
   var distance;
   List daftarUser = [];
 

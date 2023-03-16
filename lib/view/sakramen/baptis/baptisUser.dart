@@ -21,8 +21,6 @@ class BaptisUser extends StatefulWidget {
 
 class _BaptisUser extends State<BaptisUser> {
   var names;
-  var emails;
-  var distance;
   List daftarUser = [];
 
   List dummyTemp = [];

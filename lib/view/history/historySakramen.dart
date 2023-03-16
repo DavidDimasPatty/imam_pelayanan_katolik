@@ -13,8 +13,6 @@ class HistorySakramen extends StatelessWidget {
   var names;
   var iduser;
   var idGereja;
-  var dataUser;
-
   HistorySakramen(this.names, this.iduser, this.idGereja);
   @override
   Widget build(BuildContext context) {

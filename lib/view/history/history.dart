@@ -12,7 +12,6 @@ class History extends StatelessWidget {
   var names;
   var iduser;
   var idGereja;
-  var dataUser;
 
   History(this.names, this.iduser, this.idGereja);
   @override

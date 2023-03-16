@@ -12,7 +12,6 @@ class HistoryKegiatanUmum extends StatelessWidget {
   var names;
   var iduser;
   var idGereja;
-  var dataUser;
 
   HistoryKegiatanUmum(this.names, this.iduser, this.idGereja);
   @override
