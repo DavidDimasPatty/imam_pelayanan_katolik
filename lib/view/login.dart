@@ -10,22 +10,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 
 class Login extends StatelessWidget {
-  login(id, password) async {
+  Future login(id, password) async {
     Messages msg = new Messages();
-    msg.addReceiver("agenAkun");
-    msg.setContent([
+    await msg.addReceiver("agenAkun");
+    await msg.setContent([
       ["cari user"],
       [id],
       [password]
     ]);
-    var hasil;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
-    return hasil;
+    await msg.send();
+    await Future.delayed(Duration(seconds: 2));
+    return await AgenPage().receiverTampilan();
   }
 
   @override
@@ -191,7 +186,7 @@ class Login extends StatelessWidget {
                                     emailController.clear();
                                     passwordController.clear();
                                   } else {
-                                    var ret = await login(emailController.text,
+                                    await login(emailController.text,
                                             passwordController.text)
                                         .then((ret) async {
                                       print("work");
