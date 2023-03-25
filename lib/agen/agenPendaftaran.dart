@@ -11,16 +11,42 @@ import 'messages.dart';
 import 'package:http/http.dart' as http;
 
 class AgenPendaftaran {
+  static var dataPencarian;
   AgenPendaftaran() {
     ReadyBehaviour();
+    ReceiveBehaviour();
     ResponsBehaviour();
+  }
+
+  setDataTampilan(data) {
+    dataPencarian = data;
+  }
+
+  receiverTampilan() {
+    return dataPencarian;
+  }
+
+  ReceiveBehaviour() {
+    Messages msg = Messages();
+
+    var data = msg.receive();
+    print("APAANIH DATANYA");
+    print(data.runtimeType);
+    action() async {
+      try {
+        if (data.runtimeType == List<Map<String, Object?>>) {
+          await setDataTampilan(data);
+        }
+      } catch (e) {}
+    }
+
+    action();
   }
 
   ResponsBehaviour() {
     Messages msg = Messages();
 
     var data = msg.receive();
-    print(data.runtimeType);
     action() async {
       try {
         if (data.runtimeType == List<List<dynamic>>) {
@@ -50,23 +76,28 @@ class AgenPendaftaran {
           }
 
           if (data[0][0] == "update Baptis User") {
-            print(data[3][0].runtimeType);
             var baptisCollection =
                 MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
 
             var baptisCollection2 =
                 MongoDatabase.db.collection(BAPTIS_COLLECTION);
 
-            //Find date baptis
-            var conn2 =
-                await baptisCollection2.find({'_id': data[3][0]}).toList();
+            // var conn2 =
+            //     await baptisCollection2.find({'_id': data[3][0]}).toList();
+
+            await msg.addReceiver("agenPencarian");
+            await msg.setContent([
+              ["cari Baptis Pendaftaran"],
+              [data[3][0]]
+            ]);
+            await msg.send();
+            var conn2 = await receiverTampilan();
 
             String status = "";
             String body = "";
             String statusSoon = "";
             String bodySoon = "";
             if (data[4][0] == 1) {
-              print(conn2[0]['jadwalBuka'].runtimeType);
               status = "Permintaan Baptis Diterima";
               body = "Permintaan baptis pada tanggal " +
                   conn2[0]['jadwalBuka'].toString().substring(0, 10) +
@@ -211,8 +242,16 @@ class AgenPendaftaran {
                 MongoDatabase.db.collection(KOMUNI_COLLECTION);
 
             //Find date baptis
-            var conn2 =
-                await komuniCollection2.find({'_id': data[3][0]}).toList();
+            // var conn2 =
+            //     await komuniCollection2.find({'_id': data[3][0]}).toList();
+
+            await msg.addReceiver("agenPencarian");
+            await msg.setContent([
+              ["cari Komuni Pendaftaran"],
+              [data[3][0]]
+            ]);
+            await msg.send();
+            var conn2 = await receiverTampilan();
 
             String status = "";
             String body = "";
@@ -364,9 +403,15 @@ class AgenPendaftaran {
               MongoDatabase.db.collection(KRISMA_COLLECTION);
 
           //Find date baptis
-          var conn2 =
-              await krismaCollection2.find({'_id': data[3][0]}).toList();
-
+          // var conn2 =
+          //     await krismaCollection2.find({'_id': data[3][0]}).toList();
+          await msg.addReceiver("agenPencarian");
+          await msg.setContent([
+            ["cari Krisma Pendaftaran"],
+            [data[3][0]]
+          ]);
+          await msg.send();
+          var conn2 = await receiverTampilan();
           String status = "";
           String body = "";
           String statusSoon = "";
@@ -514,14 +559,25 @@ class AgenPendaftaran {
           var kegiatanCollection2 =
               MongoDatabase.db.collection(UMUM_COLLECTION);
 
-          var conn2 =
-              await kegiatanCollection2.find({'_id': data[3][0]}).toList();
-          print(conn2);
+          // var conn2 =
+          //     await kegiatanCollection2.find({'_id': data[3][0]}).toList();
+
           String status = "";
           String body = "";
           String statusSoon = "";
           String bodySoon = "";
+
+          await msg.addReceiver("agenPencarian");
+          await msg.setContent([
+            ["cari Umum Pendaftaran"],
+            [data[3][0]]
+          ]);
+          await msg.send();
+          var conn2 = await receiverTampilan();
+
           if (data[4][0] == 1) {
+            print("lawai");
+            print(conn2);
             status = "Permintaan Kegiatan Diterima";
             body = "Permintaan kegiatan " +
                 conn2[0]['jenisKegiatan'] +
@@ -541,6 +597,8 @@ class AgenPendaftaran {
                 conn2[0]['namaKegiatan'] +
                 " ditolak";
           }
+
+          print("OVER HEREEEE");
 
           String constructFCMPayload(String token) {
             return jsonEncode({
@@ -621,12 +679,12 @@ class AgenPendaftaran {
                     modify.set('status', data[4][0]))
                 .then((result) async {
               if (result.isSuccess) {
-                msg.addReceiver("agenPage");
-                msg.setContent('oke');
+                await msg.addReceiver("agenPage");
+                await msg.setContent('oke');
                 await msg.send();
               } else {
-                msg.addReceiver("agenPage");
-                msg.setContent('failed');
+                await msg.addReceiver("agenPage");
+                await msg.setContent('failed');
                 await msg.send();
               }
             });

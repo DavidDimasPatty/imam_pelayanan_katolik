@@ -52,8 +52,6 @@ class AgenPage {
     var data = msg.receive();
     action() {
       try {
-        print("here");
-        print(data);
         if (data[0][0] == "Application Setting Ready") {
           if (data[2][0] == "pagi") {
             if (data[1][0].length != 0 && data[1][0] != "nothing") {

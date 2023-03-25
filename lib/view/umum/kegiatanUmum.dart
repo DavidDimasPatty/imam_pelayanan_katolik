@@ -32,20 +32,17 @@ class _KegiatanUmum extends State<KegiatanUmum> {
 
   Future callJumlah() async {
     Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
+    await msg.addReceiver("agenPencarian");
+    await msg.setContent([
       ["cari jumlah Umum"],
       [idGereja],
       [iduser]
     ]);
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
+    await msg.send();
     await Future.delayed(Duration(seconds: 1));
-    hasil = AgenPage().receiverTampilan();
+    hasil = await AgenPage().receiverTampilan();
 
-    return hasil;
+    return await hasil;
   }
 
   Future pullRefresh() async {

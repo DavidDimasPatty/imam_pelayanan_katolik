@@ -96,10 +96,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
       [-1]
     ]);
     var hasil;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
+    await msg.send();
     await Future.delayed(Duration(seconds: 1));
     hasil = await AgenPage().receiverTampilan();
 
@@ -144,10 +141,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
       [1]
     ]);
     var hasil;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
+    await msg.send();
     await Future.delayed(Duration(seconds: 1));
     hasil = await AgenPage().receiverTampilan();
 

@@ -27,7 +27,7 @@ class _HomePage extends State<HomePage> {
   _HomePage(this.names, this.iduser, this.idGereja);
 
   @override
-  List hasil = [];
+
   //function
   // Future callDb() async {
   //   //async
@@ -35,6 +35,7 @@ class _HomePage extends State<HomePage> {
   // }
 
   Future callJumlah() async {
+    List hasil = [];
     Messages msg = new Messages();
     await msg.addReceiver("agenPencarian");
     await msg.setContent([
@@ -152,19 +153,20 @@ class _HomePage extends State<HomePage> {
                                                   SizedBox(width: 8),
                                                   Column(children: <Widget>[
                                                     //control flow statement
-                                                    if (hasil[4][0]
+                                                    if (snapshot.data[4][0]
                                                             ['picture'] !=
                                                         null)
                                                       CircleAvatar(
                                                         backgroundImage:
-                                                            NetworkImage(hasil[
-                                                                    4][0]
-                                                                ['picture']),
+                                                            NetworkImage(
+                                                                snapshot.data[4]
+                                                                        [0][
+                                                                    'picture']),
                                                         backgroundColor:
                                                             Colors.greenAccent,
                                                         radius: 30.0,
                                                       ),
-                                                    if (hasil[4][0]
+                                                    if (snapshot.data[4][0]
                                                             ['picture'] ==
                                                         null)
                                                       CircleAvatar(
@@ -217,7 +219,7 @@ class _HomePage extends State<HomePage> {
                                                 height: 5.0,
                                               ),
                                               Text(
-                                                hasil[0].toString(),
+                                                snapshot.data[0].toString(),
                                                 style: TextStyle(
                                                   color: Colors.blue,
                                                   fontSize: 17.0,
@@ -269,7 +271,7 @@ class _HomePage extends State<HomePage> {
                                                                 height: 5.0,
                                                               ),
                                                               Text(
-                                                                hasil[1]
+                                                                snapshot.data[1]
                                                                     .toString(),
                                                                 style:
                                                                     TextStyle(
@@ -333,7 +335,7 @@ class _HomePage extends State<HomePage> {
                                                                 height: 10.0,
                                                               ),
                                                               Text(
-                                                                hasil[2]
+                                                                snapshot.data[2]
                                                                     .toString(),
                                                                 style:
                                                                     TextStyle(
@@ -397,7 +399,7 @@ class _HomePage extends State<HomePage> {
                                                                 height: 5.0,
                                                               ),
                                                               Text(
-                                                                hasil[3]
+                                                                snapshot.data[3]
                                                                     .toString(),
                                                                 style:
                                                                     TextStyle(

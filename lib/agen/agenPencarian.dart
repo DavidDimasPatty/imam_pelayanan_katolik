@@ -215,6 +215,19 @@ class AgenPencarian {
                 });
           }
 
+          if (data[0][0] == "cari Baptis Pendaftaran") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(BAPTIS_COLLECTION);
+            await userBaptisCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  await msg.addReceiver("agenPendaftaran");
+                  await msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
           if (data[0][0] == "cari edit Baptis") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(BAPTIS_COLLECTION);
@@ -341,6 +354,19 @@ class AgenPencarian {
                 });
           }
 
+          if (data[0][0] == "cari Komuni Pendaftaran") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(KOMUNI_COLLECTION);
+            await userBaptisCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  await msg.addReceiver("agenPendaftaran");
+                  await msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
           if (data[0][0] == "cari Komuni History") {
             var userBaptisCollection =
                 MongoDatabase.db.collection(KOMUNI_COLLECTION);
@@ -411,6 +437,19 @@ class AgenPencarian {
                 .then((result) async {
                   msg.addReceiver("agenPage");
                   msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari Krisma Pendaftaran") {
+            var userBaptisCollection =
+                MongoDatabase.db.collection(KRISMA_COLLECTION);
+            await userBaptisCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  await msg.addReceiver("agenPendaftaran");
+                  await msg.setContent(result);
                   await msg.send();
                 });
           }
@@ -489,6 +528,19 @@ class AgenPencarian {
                 .then((result) async {
                   msg.addReceiver("agenPage");
                   msg.setContent(result);
+                  await msg.send();
+                });
+          }
+
+          if (data[0][0] == "cari Umum Pendaftaran") {
+            var rekoleksiCollection =
+                MongoDatabase.db.collection(UMUM_COLLECTION);
+            var conn = await rekoleksiCollection
+                .find({'_id': data[1][0]})
+                .toList()
+                .then((result) async {
+                  await msg.addReceiver("agenPendaftaran");
+                  await msg.setContent(result);
                   await msg.send();
                 });
           }
