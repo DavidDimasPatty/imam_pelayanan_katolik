@@ -159,7 +159,7 @@ class _HistoryKomuni extends State<HistoryKomuni> {
                 autoFocus: false,
                 width: 400,
                 rtl: true,
-                helpText: 'Cari Gereja',
+                helpText: 'Cari Komuni',
                 textController: editingController,
                 onSuffixTap: () {
                   setState(() {

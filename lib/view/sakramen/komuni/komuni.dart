@@ -194,7 +194,7 @@ class _Komuni extends State<Komuni> {
                 autoFocus: false,
                 width: 400,
                 rtl: true,
-                helpText: 'Cari Gereja',
+                helpText: 'Cari Komuni',
                 textController: editingController,
                 onSuffixTap: () {
                   setState(() {

@@ -196,7 +196,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                 autoFocus: false,
                 width: 400,
                 rtl: true,
-                helpText: 'Cari Gereja',
+                helpText: 'Cari Pengumuman',
                 textController: editingController,
                 onSuffixTap: () {
                   setState(() {

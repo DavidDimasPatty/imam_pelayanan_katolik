@@ -44,7 +44,7 @@ class _HomePage extends State<HomePage> {
       [iduser]
     ]);
     await msg.send();
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 2));
     hasil = await AgenPage().receiverTampilan();
 
     return await hasil;

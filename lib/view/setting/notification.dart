@@ -48,7 +48,7 @@ class _notifClass extends State<notification> {
       print(await AgenPage().receiverTampilan());
     });
     await Future.delayed(Duration(seconds: 1));
-    checknotif = AgenPage().receiverTampilan();
+    checknotif = await AgenPage().receiverTampilan();
 
     return checknotif;
   }

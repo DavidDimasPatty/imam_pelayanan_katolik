@@ -85,7 +85,7 @@ class _editKomuni extends State<editKomuni> {
         print("masuk");
         print(await AgenPage().receiverTampilan());
       });
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(Duration(seconds: 2));
       hasil = await AgenPage().receiverTampilan();
 
       if (hasil == "fail") {
@@ -137,7 +137,7 @@ class _editKomuni extends State<editKomuni> {
       print(await AgenPage().receiverTampilan());
     });
     await Future.delayed(Duration(seconds: 1));
-    hasil = AgenPage().receiverTampilan();
+    hasil = await AgenPage().receiverTampilan();
 
     return hasil;
   }

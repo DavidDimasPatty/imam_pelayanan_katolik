@@ -194,7 +194,7 @@ class _Baptis extends State<Baptis> {
                 autoFocus: false,
                 width: 400,
                 rtl: true,
-                helpText: 'Cari Gereja',
+                helpText: 'Cari Baptis',
                 textController: editingController,
                 onSuffixTap: () {
                   setState(() {

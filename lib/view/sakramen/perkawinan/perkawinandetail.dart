@@ -84,6 +84,9 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           textColor: Colors.white,
           fontSize: 16.0);
     }
+    setState(() {
+      callDb();
+    });
   }
 
   void updateReject(token, idTarget) async {
@@ -123,6 +126,9 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           textColor: Colors.white,
           fontSize: 16.0);
     }
+    setState(() {
+      callDb();
+    });
   }
 
   Future pullRefresh() async {

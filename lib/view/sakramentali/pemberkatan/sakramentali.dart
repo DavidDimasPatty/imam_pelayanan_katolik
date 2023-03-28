@@ -144,7 +144,7 @@ class _Sakramentali extends State<Sakramentali> {
                 autoFocus: false,
                 width: 400,
                 rtl: true,
-                helpText: 'Cari Gereja',
+                helpText: 'Cari Umat',
                 textController: editingController,
                 onSuffixTap: () {
                   setState(() {

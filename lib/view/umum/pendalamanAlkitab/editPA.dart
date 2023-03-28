@@ -148,7 +148,7 @@ class _editPA extends State<editPA> {
       print(await AgenPage().receiverTampilan());
     });
     await Future.delayed(Duration(seconds: 1));
-    hasil = AgenPage().receiverTampilan();
+    hasil = await AgenPage().receiverTampilan();
 
     return hasil;
   }

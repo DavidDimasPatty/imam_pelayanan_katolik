@@ -150,7 +150,7 @@ class _editRetret extends State<editRetret> {
       print(await AgenPage().receiverTampilan());
     });
     await Future.delayed(Duration(seconds: 1));
-    hasil = AgenPage().receiverTampilan();
+    hasil = await AgenPage().receiverTampilan();
 
     return hasil;
   }

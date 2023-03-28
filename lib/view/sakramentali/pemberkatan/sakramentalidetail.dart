@@ -65,7 +65,9 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     });
     await Future.delayed(Duration(seconds: 1));
     hasil = await AgenPage().receiverTampilan();
-
+    setState(() {
+      callDb();
+    });
     if (hasil == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Menerima Pelayanan Pemberkatan",
@@ -104,7 +106,9 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     });
     await Future.delayed(Duration(seconds: 1));
     hasil = await AgenPage().receiverTampilan();
-
+    setState(() {
+      callDb();
+    });
     if (hasil == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Menolak Pelayanan Pemberkatan",
@@ -307,6 +311,28 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
                               Text(snapshot.data[0][0][0]["note"])
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 11),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Status",
+                                textAlign: TextAlign.left,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                              ),
+                              if (snapshot.data[0][0][0]["status"] == 0)
+                                Text("Menunggu Konfirmasi"),
+                              if (snapshot.data[0][0][0]["status"] == 1)
+                                Text("Diterima"),
+                              if (snapshot.data[0][0][0]["status"] == -1)
+                                Text("Ditolak")
                             ],
                           ),
                           Padding(

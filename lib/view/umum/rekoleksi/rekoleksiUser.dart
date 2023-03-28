@@ -85,7 +85,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
     }
   }
 
-  void updateReject(id, token, idTarget) async {
+  Future updateReject(id, token, idTarget) async {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
@@ -130,7 +130,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
     }
   }
 
-  void updateAccept(id, token, idTarget) async {
+  Future updateAccept(id, token, idTarget) async {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
@@ -237,7 +237,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
                 autoFocus: false,
                 width: 400,
                 rtl: true,
-                helpText: 'Cari Gereja',
+                helpText: 'Cari Umat',
                 textController: editingController,
                 onSuffixTap: () {
                   setState(() {

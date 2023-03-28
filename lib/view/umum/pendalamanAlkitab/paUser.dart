@@ -84,7 +84,7 @@ class _PAUser extends State<PAUser> {
     }
   }
 
-  void updateReject(id, token, idTarget) async {
+  Future updateReject(id, token, idTarget) async {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
@@ -132,7 +132,7 @@ class _PAUser extends State<PAUser> {
     }
   }
 
-  void updateAccept(id, token, idTarget) async {
+  Future updateAccept(id, token, idTarget) async {
     Messages msg = new Messages();
     msg.addReceiver("agenPendaftaran");
     msg.setContent([
