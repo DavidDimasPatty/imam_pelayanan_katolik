@@ -1,11 +1,14 @@
 //import 'package:firebase_core/firebase_core.dart';
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPencarian.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/login.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -18,13 +21,22 @@ import 'package:mongo_dart/mongo_dart.dart';
 // }
 
 Future callDb() async {
-  Messages msg = new Messages();
-  await msg.addReceiver("agenSetting");
-  await msg.setContent([
-    ["setting User"]
-  ]);
-  await msg.send().then((res) async {});
-  await Future.delayed(Duration(seconds: 1));
+  // Messages msg = new Messages();
+  // await msg.addReceiver("agenSetting");
+  // await msg.setContent([
+  //   ["setting User"]
+  // ]);
+  // await msg.send().then((res) async {});
+  // await Future.delayed(Duration(seconds: 1));
+  Completer<void> completer = Completer<void>();
+  Message message =
+      Message('View', 'Agent Setting', "REQUEST", Task('setting user', null));
+
+  MessagePassing messagePassing = MessagePassing();
+  var data = await messagePassing.sendMessage(message);
+  completer.complete();
+  var hasil = await messagePassing.messageGetToView();
+  return hasil;
 }
 
 void main() async {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -6,8 +7,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/history/history.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
@@ -45,20 +48,31 @@ class _editPengumuman extends State<editPengumuman> {
   var fileChange;
 
   Future callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
-      ["cari Pengumuman Edit"],
-      [idPengumuman],
-    ]);
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    var hasil = AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPencarian");
+    // msg.setContent([
+    //   ["cari Pengumuman Edit"],
+    //   [idPengumuman],
+    // ]);
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // var hasil = AgenPage().receiverTampilan();
 
-    return hasil;
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('cari history pelayanan', [idPengumuman]));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var result = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    return result;
   }
 
   Future selectFile(context) async {
@@ -82,23 +96,42 @@ class _editPengumuman extends State<editPengumuman> {
   void submit() async {
     if (imageChange == false) {
       if (fileImage != null && caption.text != "" && title.text != "") {
-        Messages msg = new Messages();
-        msg.addReceiver("agenPendaftaran");
-        msg.setContent([
-          ["edit Pengumuman"],
-          [idPengumuman],
-          [title.text],
-          [caption.text],
-          [fileImage],
-          [imageChange]
-        ]);
-        var hasil;
-        await msg.send().then((res) async {
-          print("masuk");
-          print(await AgenPage().receiverTampilan());
-        });
-        await Future.delayed(Duration(seconds: 1));
-        hasil = await AgenPage().receiverTampilan();
+        //   Messages msg = new Messages();
+        //   msg.addReceiver("agenPendaftaran");
+        //   msg.setContent([
+        //     ["edit Pengumuman"],
+        //     [idPengumuman],
+        //     [title.text],
+        //     [caption.text],
+        //     [fileImage],
+        //     [imageChange]
+        //   ]);
+        //   var hasil;
+        //   await msg.send().then((res) async {
+        //     print("masuk");
+        //     print(await AgenPage().receiverTampilan());
+        //   });
+        //   await Future.delayed(Duration(seconds: 1));
+        //   hasil = await AgenPage().receiverTampilan();
+        Completer<void> completer = Completer<void>();
+        Message message = Message(
+            'View',
+            'Agent Pendaftaran',
+            "REQUEST",
+            Tasks('edit pengumuman', [
+              idPengumuman,
+              title.text,
+              caption.text,
+              fileImage,
+              imageChange
+            ]));
+
+        MessagePassing messagePassing = MessagePassing();
+        var data = await messagePassing.sendMessage(message);
+        completer.complete();
+        var hasil = await messagePassing.messageGetToView();
+
+        await completer.future;
 
         if (hasil == "failed") {
           Fluttertoast.showToast(
@@ -137,23 +170,42 @@ class _editPengumuman extends State<editPengumuman> {
       }
     } else {
       if (fileImage != null && caption.text != "" && title.text != "") {
-        Messages msg = new Messages();
-        msg.addReceiver("agenPendaftaran");
-        msg.setContent([
-          ["edit Pengumuman"],
-          [idPengumuman],
-          [title.text],
-          [caption.text],
-          [fileChange],
-          [imageChange]
-        ]);
-        var hasil;
-        await msg.send().then((res) async {
-          print("masuk");
-          print(await AgenPage().receiverTampilan());
-        });
-        await Future.delayed(Duration(seconds: 1));
-        hasil = await AgenPage().receiverTampilan();
+        // Messages msg = new Messages();
+        // msg.addReceiver("agenPendaftaran");
+        // msg.setContent([
+        //   ["edit Pengumuman"],
+        //   [idPengumuman],
+        //   [title.text],
+        //   [caption.text],
+        //   [fileChange],
+        //   [imageChange]
+        // ]);
+        // var hasil;
+        // await msg.send().then((res) async {
+        //   print("masuk");
+        //   print(await AgenPage().receiverTampilan());
+        // });
+        // await Future.delayed(Duration(seconds: 1));
+        // hasil = await AgenPage().receiverTampilan();
+        Completer<void> completer = Completer<void>();
+        Message message = Message(
+            'View',
+            'Agent Pendaftaran',
+            "REQUEST",
+            Tasks('edit pengumuman', [
+              idPengumuman,
+              title.text,
+              caption.text,
+              fileImage,
+              imageChange
+            ]));
+
+        MessagePassing messagePassing = MessagePassing();
+        var data = await messagePassing.sendMessage(message);
+        completer.complete();
+        var hasil = await messagePassing.messageGetToView();
+
+        await completer.future;
 
         if (hasil == "failed") {
           Fluttertoast.showToast(

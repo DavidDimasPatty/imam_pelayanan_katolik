@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/history/history.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
@@ -38,48 +42,81 @@ class _AturanPelayanan extends State<AturanPelayanan> {
   TextEditingController pemberkatanController = new TextEditingController();
 
   Future<List> callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
-      ["tampilan aturan pelayanan"],
-      [idGereja]
-    ]);
-    List k = [];
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPencarian");
+    // msg.setContent([
+    //   ["tampilan aturan pelayanan"],
+    //   [idGereja]
+    // ]);
+    // List k = [];
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // k = await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('cari aturan pelayanan', [idGereja]));
 
-    return k;
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var result = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    return result;
   }
 
   submitForm(baptis, komuni, krisma, perkawinan, perminyakan, tobat,
       pemberkatan, context) async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenAkun");
-    msg.setContent([
-      ["edit Aturan Pelayanan"],
-      [idGereja],
-      [baptis],
-      [komuni],
-      [krisma],
-      [perkawinan],
-      [perminyakan],
-      [tobat],
-      [pemberkatan],
-      [iduser],
-    ]);
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenAkun");
+    // msg.setContent([
+    //   ["edit Aturan Pelayanan"],
+    //   [idGereja],
+    //   [baptis],
+    //   [komuni],
+    //   [krisma],
+    //   [perkawinan],
+    //   [perminyakan],
+    //   [tobat],
+    //   [pemberkatan],
+    //   [iduser],
+    // ]);
 
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    var daftarmisa = await AgenPage().receiverTampilan();
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // var daftarmisa = await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('edit aturan pelayanan', [
+          idGereja,
+          baptis,
+          komuni,
+          krisma,
+          perkawinan,
+          perminyakan,
+          tobat,
+          pemberkatan,
+          iduser
+        ]));
 
-    if (daftarmisa == 'oke') {
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    if (hasil == 'oke') {
       Fluttertoast.showToast(
           msg: "Berhasil Edit Aturan Pelayanan Gereja",
           toastLength: Toast.LENGTH_SHORT,

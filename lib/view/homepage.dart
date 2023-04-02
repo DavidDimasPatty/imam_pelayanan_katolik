@@ -1,7 +1,11 @@
 //import
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/history/history.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
@@ -35,19 +39,29 @@ class _HomePage extends State<HomePage> {
   // }
 
   Future callJumlah() async {
-    List hasil = [];
-    Messages msg = new Messages();
-    await msg.addReceiver("agenPencarian");
-    await msg.setContent([
-      ["cari jumlah"],
-      [idGereja],
-      [iduser]
-    ]);
-    await msg.send();
-    await Future.delayed(Duration(seconds: 2));
-    hasil = await AgenPage().receiverTampilan();
+    // List hasil = [];
+    // Messages msg = new Messages();
+    // await msg.addReceiver("agenPencarian");
+    // await msg.setContent([
+    //   ["cari jumlah"],
+    //   [idGereja],
+    //   [iduser]
+    // ]);
+    // await msg.send();
+    // await Future.delayed(Duration(seconds: 2));
+    // hasil = await AgenPage().receiverTampilan();
 
-    return await hasil;
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Akun', "REQUEST",
+        Tasks('cari user', [idGereja, iduser]));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
+    return hasil;
   }
 
   Future pullRefresh() async {

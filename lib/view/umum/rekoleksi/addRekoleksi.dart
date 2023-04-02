@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/umum/rekoleksi/rekoleksi.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -74,27 +78,51 @@ class _addRekoleksi extends State<addRekoleksi> {
         _selectedDate != "" &&
         kapasitas.text != "" &&
         lokasi.text != "") {
-      Messages msg = new Messages();
-      msg.addReceiver("agenPendaftaran");
-      msg.setContent([
-        ["add Kegiatan"],
-        [idGereja],
-        [namaKegiatan.text],
-        [temaKegiatan.text],
-        ["Rekoleksi"],
-        [deskripsiKegiatan.text],
-        [tamuKegiatan.text],
-        [_selectedDate.toString()],
-        [kapasitas.text],
-        [lokasi.text],
-      ]);
-      var hasil;
-      await msg.send().then((res) async {
-        print("masuk");
-        print(await AgenPage().receiverTampilan());
-      });
-      await Future.delayed(Duration(seconds: 1));
-      hasil = await AgenPage().receiverTampilan();
+      // Messages msg = new Messages();
+      // msg.addReceiver("agenPendaftaran");
+      // msg.setContent([
+      //   ["add Kegiatan"],
+      //   [idGereja],
+      //   [namaKegiatan.text],
+      //   [temaKegiatan.text],
+      //   ["Rekoleksi"],
+      //   [deskripsiKegiatan.text],
+      //   [tamuKegiatan.text],
+      //   [_selectedDate.toString()],
+      //   [kapasitas.text],
+      //   [lokasi.text],
+      // ]);
+      // var hasil;
+      // await msg.send().then((res) async {
+      //   print("masuk");
+      //   print(await AgenPage().receiverTampilan());
+      // });
+      // await Future.delayed(Duration(seconds: 1));
+      // hasil = await AgenPage().receiverTampilan();
+
+      Completer<void> completer = Completer<void>();
+      Message message = Message(
+          'View',
+          'Agent Pendaftaran',
+          "REQUEST",
+          Tasks('add kegiatan umum', [
+            idGereja,
+            namaKegiatan.text,
+            temaKegiatan.text,
+            "Rekoleksi",
+            deskripsiKegiatan.text,
+            tamuKegiatan.text,
+            _selectedDate.toString(),
+            kapasitas.text,
+            lokasi.text
+          ]));
+
+      MessagePassing messagePassing = MessagePassing();
+      await messagePassing.sendMessage(message);
+      completer.complete();
+      var hasil = await messagePassing.messageGetToView();
+
+      await completer.future;
 
       if (hasil == "failed") {
         Fluttertoast.showToast(

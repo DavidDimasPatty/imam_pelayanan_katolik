@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/krisma/addKrisma.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/krisma/editKrisma.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/krisma/krismaUser.dart';
@@ -34,21 +38,33 @@ class _Krisma extends State<Krisma> {
   _Krisma(this.names, this.idUser, this.idGereja);
 
   Future<List> callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
-      ["cari Krisma"],
-      [idGereja]
-    ]);
-    List k = [];
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPencarian");
+    // msg.setContent([
+    //   ["cari Krisma"],
+    //   [idGereja]
+    // ]);
+    // List k = [];
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // k = await AgenPage().receiverTampilan();
 
-    return k;
+    // return k;
+
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('cari pelayanan', [idGereja, "krisma"]));
+
+    MessagePassing messagePassing = MessagePassing();
+    await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
+    return await hasil;
   }
 
   @override
@@ -87,21 +103,28 @@ class _Krisma extends State<Krisma> {
   }
 
   void updateKegiatan(idKegiatan, status) async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPendaftaran");
-    msg.setContent([
-      ["update Krisma"],
-      [idKegiatan],
-      [status]
-    ]);
-    var hasil;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPendaftaran");
+    // msg.setContent([
+    //   ["update Krisma"],
+    //   [idKegiatan],
+    //   [status]
+    // ]);
+    // var hasil;
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // hasil = await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
+        Tasks('update pelayanan', [idKegiatan, status, "krisma", "current"]));
 
+    MessagePassing messagePassing = MessagePassing();
+    await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
     if (hasil == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Deactive Kegiatan Krisma",

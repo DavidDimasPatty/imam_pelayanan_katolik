@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/history/history.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
@@ -28,20 +32,32 @@ class _HistorySakramentali extends State<HistorySakramentali> {
   _HistorySakramentali(this.names, this.idUser, this.idGereja);
 
   Future<List> callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
-      ["cari Sakramentali History"],
-      [idGereja]
-    ]);
-    List k = [];
-    await msg.send().then((res) async {
-      print("masuk");
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPencarian");
+    // msg.setContent([
+    //   ["cari Sakramentali History"],
+    //   [idGereja]
+    // ]);
+    // List k = [];
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // k = await AgenPage().receiverTampilan();
 
-    return k;
+    // return k;
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('cari history pelayanan', [idGereja]));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var result = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    return result;
   }
 
   @override

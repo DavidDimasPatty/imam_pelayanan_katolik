@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/login.dart';
@@ -25,19 +29,30 @@ class Settings extends StatelessWidget {
   var data;
 
   Future LogOut() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenSetting");
-    msg.setContent([
-      ["log out"]
-    ]);
-    var k;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
-    if (k == 'oke') {
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenSetting");
+    // msg.setContent([
+    //   ["log out"]
+    // ]);
+    // var k;
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // k = await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message =
+        Message('View', 'Agent Akun', "REQUEST", Tasks('log out', null));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    if (hasil == 'oke') {
       Fluttertoast.showToast(
           msg: "Berhasil Log Out",
           toastLength: Toast.LENGTH_SHORT,

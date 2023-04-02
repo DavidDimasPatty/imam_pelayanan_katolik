@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -6,8 +7,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
@@ -49,28 +52,51 @@ class _UpdateProfile extends State<UpdateProfile> {
     // var hasil = await MongoDatabase.updateGereja(idGereja, nama.text,
     //     address.text, paroki.text, lingkungan.text, deskripsi.text);
     if (imageChange == false) {
-      Messages msg = new Messages();
-      msg.addReceiver("agenAkun");
-      msg.setContent(
-        [
-          ["edit Profile"],
-          [idGereja],
-          [nama.text],
-          [address.text],
-          [paroki.text],
-          [lingkungan.text],
-          [deskripsi.text],
-          [fileImage],
-          [imageChange]
-        ],
-      );
+      //   Messages msg = new Messages();
+      //   msg.addReceiver("agenAkun");
+      //   msg.setContent(
+      //     [
+      //       ["edit Profile"],
+      //       [idGereja],
+      //       [nama.text],
+      //       [address.text],
+      //       [paroki.text],
+      //       [lingkungan.text],
+      //       [deskripsi.text],
+      //       [fileImage],
+      //       [imageChange]
+      //     ],
+      //   );
 
-      await msg.send().then((res) async {
-        print("masuk");
-        print(await AgenPage().receiverTampilan());
-      });
-      await Future.delayed(Duration(seconds: 1));
-      var hasil = await AgenPage().receiverTampilan();
+      //   await msg.send().then((res) async {
+      //     print("masuk");
+      //     print(await AgenPage().receiverTampilan());
+      //   });
+      //   await Future.delayed(Duration(seconds: 1));
+      //   var hasil = await AgenPage().receiverTampilan();
+      Completer<void> completer = Completer<void>();
+      Message message = Message(
+          'View',
+          'Agent Akun',
+          "REQUEST",
+          Tasks('edit profile gereja', [
+            idGereja,
+            nama.text,
+            address.text,
+            paroki.text,
+            lingkungan.text,
+            deskripsi.text,
+            fileImage,
+            imageChange
+          ]));
+
+      MessagePassing messagePassing = MessagePassing();
+      var data = await messagePassing.sendMessage(message);
+      completer.complete();
+      var hasil = await messagePassing.messageGetToView();
+
+      await completer.future;
+
       if (hasil == "fail") {
         Fluttertoast.showToast(
             msg: "Gagal Update Informasi Gereja",
@@ -96,28 +122,50 @@ class _UpdateProfile extends State<UpdateProfile> {
         );
       }
     } else {
-      Messages msg = new Messages();
-      msg.addReceiver("agenAkun");
-      msg.setContent(
-        [
-          ["edit Profile"],
-          [idGereja],
-          [nama.text],
-          [address.text],
-          [paroki.text],
-          [lingkungan.text],
-          [deskripsi.text],
-          [fileChange],
-          [imageChange]
-        ],
-      );
+      // Messages msg = new Messages();
+      // msg.addReceiver("agenAkun");
+      // msg.setContent(
+      //   [
+      //     ["edit Profile"],
+      //     [idGereja],
+      //     [nama.text],
+      //     [address.text],
+      //     [paroki.text],
+      //     [lingkungan.text],
+      //     [deskripsi.text],
+      //     [fileChange],
+      //     [imageChange]
+      //   ],
+      // );
 
-      await msg.send().then((res) async {
-        print("masuk");
-        print(await AgenPage().receiverTampilan());
-      });
-      await Future.delayed(Duration(seconds: 1));
-      var hasil = await AgenPage().receiverTampilan();
+      // await msg.send().then((res) async {
+      //   print("masuk");
+      //   print(await AgenPage().receiverTampilan());
+      // });
+      // await Future.delayed(Duration(seconds: 1));
+      // var hasil = await AgenPage().receiverTampilan();
+      Completer<void> completer = Completer<void>();
+      Message message = Message(
+          'View',
+          'Agent Akun',
+          "REQUEST",
+          Tasks('edit profile gereja', [
+            idGereja,
+            nama.text,
+            address.text,
+            paroki.text,
+            lingkungan.text,
+            deskripsi.text,
+            fileImage,
+            imageChange
+          ]));
+
+      MessagePassing messagePassing = MessagePassing();
+      var data = await messagePassing.sendMessage(message);
+      completer.complete();
+      var hasil = await messagePassing.messageGetToView();
+
+      await completer.future;
       if (hasil == "fail") {
         Fluttertoast.showToast(
             msg: "Gagal Update Informasi Gereja",
@@ -158,21 +206,31 @@ class _UpdateProfile extends State<UpdateProfile> {
   }
 
   Future callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenAkun");
-    msg.setContent(
-      [
-        ["data Gereja"],
-        [idGereja],
-      ],
-    );
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenAkun");
+    // msg.setContent(
+    //   [
+    //     ["data Gereja"],
+    //     [idGereja],
+    //   ],
+    // );
 
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    var hasil = await AgenPage().receiverTampilan();
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // var hasil = await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message = Message(
+        'View', 'Agent Pencarian', "REQUEST", Tasks('cari gereja', [idGereja]));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
     return hasil;
   }
 

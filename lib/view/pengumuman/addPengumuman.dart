@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -6,8 +7,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -51,24 +54,39 @@ class _addPengumuman extends State<addPengumuman> {
     });
   }
 
-  void submit() async {
+  Future submit() async {
     if (fileImage != null && caption.text != "" && title.text != "") {
-      Messages msg = new Messages();
-      msg.addReceiver("agenPendaftaran");
-      msg.setContent([
-        ["add Pengumuman"],
-        [idGereja],
-        [fileImage],
-        [caption.text],
-        [title.text]
-      ]);
-      var hasil;
-      await msg.send().then((res) async {
-        print("masuk");
-        print(await AgenPage().receiverTampilan());
-      });
-      await Future.delayed(Duration(seconds: 1));
-      hasil = await AgenPage().receiverTampilan();
+      // Messages msg = new Messages();
+      // msg.addReceiver("agenPendaftaran");
+      // msg.setContent([
+      //   ["add Pengumuman"],
+      //   [idGereja],
+      //   [fileImage],
+      //   [caption.text],
+      //   [title.text]
+      // ]);
+      // var hasil;
+      // await msg.send().then((res) async {
+      //   print("masuk");
+      //   print(await AgenPage().receiverTampilan());
+      // });
+      // await Future.delayed(Duration(seconds: 1));
+      // hasil = await AgenPage().receiverTampilan();
+
+      Completer<void> completer = Completer<void>();
+      Message message = Message(
+          'View',
+          'Agent Pendaftaran',
+          "REQUEST",
+          Tasks("add pengumuman",
+              [idGereja, fileImage, caption.text, title.text]));
+
+      MessagePassing messagePassing = MessagePassing();
+      var data = await messagePassing.sendMessage(message);
+      completer.complete();
+      var hasil = await messagePassing.messageGetToView();
+
+      await completer.future;
 
       if (hasil == "failed") {
         Fluttertoast.showToast(

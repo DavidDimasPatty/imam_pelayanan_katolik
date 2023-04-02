@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/history/history.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
@@ -34,21 +38,33 @@ class _EditProfile extends State<EditProfile> {
   TextEditingController emailController = new TextEditingController();
 
   Future<List> callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
-      ["tampilan edit Profile"],
-      [iduser]
-    ]);
-    List k = [];
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPencarian");
+    // msg.setContent([
+    //   ["tampilan edit Profile"],
+    //   [iduser]
+    // ]);
+    // List k = [];
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // k = await AgenPage().receiverTampilan();
 
-    return k;
+    // return k;
+    Completer<void> completer = Completer<void>();
+    Message message = Message(
+        'View', 'Agent Pencarian', "REQUEST", Tasks('edit profile', [iduser]));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var result = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    return result;
   }
 
   submitForm(nama, email, notelp, context) async {
@@ -56,24 +72,35 @@ class _EditProfile extends State<EditProfile> {
       // var add = await MongoDatabase.addPemberkatan(idUser, nama, paroki,
       //     lingkungan, notelp, alamat, jenis, tanggal, idGereja, note, idImam);
 
-      Messages msg = new Messages();
-      msg.addReceiver("agenAkun");
-      msg.setContent([
-        ["edit Profile Imam"],
-        [iduser],
-        [nama],
-        [email],
-        [notelp],
-      ]);
+      // Messages msg = new Messages();
+      // msg.addReceiver("agenAkun");
+      // msg.setContent([
+      //   ["edit Profile Imam"],
+      //   [iduser],
+      //   [nama],
+      //   [email],
+      //   [notelp],
+      // ]);
 
-      await msg.send().then((res) async {
-        print("masuk");
-        print(await AgenPage().receiverTampilan());
-      });
-      await Future.delayed(Duration(seconds: 1));
-      var daftarmisa = await AgenPage().receiverTampilan();
+      // await msg.send().then((res) async {
+      //   print("masuk");
+      //   print(await AgenPage().receiverTampilan());
+      // });
+      // await Future.delayed(Duration(seconds: 1));
+      // var daftarmisa = await AgenPage().receiverTampilan();
 
-      if (daftarmisa == 'oke') {
+      Completer<void> completer = Completer<void>();
+      Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
+          Tasks('edit profile imam', [iduser, nama, email, notelp]));
+
+      MessagePassing messagePassing = MessagePassing();
+      var data = await messagePassing.sendMessage(message);
+      completer.complete();
+      var hasil = await messagePassing.messageGetToView();
+
+      await completer.future;
+
+      if (hasil == 'oke') {
         Fluttertoast.showToast(
             msg: "Berhasil Edit Profile Imam",
             toastLength: Toast.LENGTH_SHORT,

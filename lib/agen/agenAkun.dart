@@ -1,393 +1,809 @@
-import 'dart:developer';
-import 'dart:io';
+// import 'dart:developer';
+// import 'dart:io';
+
+// import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:imam_pelayanan_katolik/DatabaseFolder/data.dart';
+// import 'package:imam_pelayanan_katolik/DatabaseFolder/fireBase.dart';
+// import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+// import 'package:mongo_dart/mongo_dart.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'messages.dart';
+
+// class AgenAkun {
+//   AgenAkun() {
+//     ReadyBehaviour();
+//     ResponsBehaviour();
+//   }
+
+//   ResponsBehaviour() {
+//     Messages msg = Messages();
+
+//     var data = msg.receive();
+//     print(data.runtimeType);
+//     action() async {
+//       try {
+//         if (data.runtimeType == List<List<dynamic>>) {
+//           if (data[0][0] == "cari user") {
+//             var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+//             await userCollection
+//                 .find(
+//                     {'email': data[1][0], 'password': data[2][0], 'banned': 0})
+//                 .toList()
+//                 .then((result) async {
+//                   if (result != 0) {
+//                     await msg.addReceiver("agenSetting");
+//                     await msg.setContent([
+//                       ["save data"],
+//                       [result]
+//                     ]);
+//                     await msg.send();
+
+//                     await Future.delayed(Duration(seconds: 2))
+//                         .then((value) async {
+//                       await msg.addReceiver("agenPage");
+//                       await msg.setContent(result);
+//                       await msg.send();
+//                     });
+//                   } else {
+//                     msg.addReceiver("agenPage");
+//                     msg.setContent(result);
+//                     await msg.send();
+//                   }
+//                 });
+//           }
+
+//           if (data[0][0] == "ganti Status") {
+//             var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+//             // print("tessssssssterrr");
+//             // print(data[2][0].toString());
+//             // print(data[2][0].runtimeType);
+//             try {
+//               // if (data[2][0] == 0) {
+//               //   data[2][0] = 1;
+//               // } else {
+//               //   data[2][0] = 0;
+//               // }
+//               var update = await imamCollection
+//                   .updateOne(where.eq('_id', data[1][0]),
+//                       modify.set('statusPemberkatan', data[2][0]))
+//                   .then((result) async {
+//                 if (result.isSuccess) {
+//                   msg.addReceiver("agenPage");
+//                   msg.setContent('oke');
+//                   await msg.send();
+//                 } else {
+//                   msg.addReceiver("agenPage");
+//                   msg.setContent('failed');
+//                   await msg.send();
+//                 }
+//               });
+//             } catch (e) {
+//               msg.addReceiver("agenPage");
+//               msg.setContent('failed');
+//               await msg.send();
+//             }
+//           }
+
+//           if (data[0][0] == "ganti Status Perminyakan") {
+//             var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+//             // print("tessssssssterrr");
+//             // print(data[2][0].toString());
+//             // print(data[2][0].runtimeType);
+//             try {
+//               // if (data[2][0] == 0) {
+//               //   data[2][0] = 1;
+//               // } else {
+//               //   data[2][0] = 0;
+//               // }
+//               var update = await imamCollection
+//                   .updateOne(where.eq('_id', data[1][0]),
+//                       modify.set('statusPerminyakan', data[2][0]))
+//                   .then((result) async {
+//                 if (result.isSuccess) {
+//                   msg.addReceiver("agenPage");
+//                   msg.setContent('oke');
+//                   await msg.send();
+//                 } else {
+//                   msg.addReceiver("agenPage");
+//                   msg.setContent('failed');
+//                   await msg.send();
+//                 }
+//               });
+//             } catch (e) {
+//               msg.addReceiver("agenPage");
+//               msg.setContent('failed');
+//               await msg.send();
+//             }
+//           }
+
+//           if (data[0][0] == "ganti Status Tobat") {
+//             var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+//             // print("tessssssssterrr");
+//             // print(data[2][0].toString());
+//             // print(data[2][0].runtimeType);
+//             try {
+//               // if (data[2][0] == 0) {
+//               //   data[2][0] = 1;
+//               // } else {
+//               //   data[2][0] = 0;
+//               // }
+//               var update = await imamCollection
+//                   .updateOne(where.eq('_id', data[1][0]),
+//                       modify.set('statusTobat', data[2][0]))
+//                   .then((result) async {
+//                 if (result.isSuccess) {
+//                   msg.addReceiver("agenPage");
+//                   msg.setContent('oke');
+//                   await msg.send();
+//                 } else {
+//                   msg.addReceiver("agenPage");
+//                   msg.setContent('failed');
+//                   await msg.send();
+//                 }
+//               });
+//             } catch (e) {
+//               msg.addReceiver("agenPage");
+//               msg.setContent('failed');
+//               await msg.send();
+//             }
+//           }
+
+//           if (data[0][0] == "ganti Status Perkawinan") {
+//             var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+//             // print("tessssssssterrr");
+//             // print(data[2][0].toString());
+//             // print(data[2][0].runtimeType);
+//             try {
+//               // if (data[2][0] == 0) {
+//               //   data[2][0] = 1;
+//               // } else {
+//               //   data[2][0] = 0;
+//               // }
+//               var update = await imamCollection
+//                   .updateOne(where.eq('_id', data[1][0]),
+//                       modify.set('statusPerkawinan', data[2][0]))
+//                   .then((result) async {
+//                 if (result.isSuccess) {
+//                   msg.addReceiver("agenPage");
+//                   msg.setContent('oke');
+//                   await msg.send();
+//                 } else {
+//                   msg.addReceiver("agenPage");
+//                   msg.setContent('failed');
+//                   await msg.send();
+//                 }
+//               });
+//             } catch (e) {
+//               msg.addReceiver("agenPage");
+//               msg.setContent('failed');
+//               await msg.send();
+//             }
+//           }
+
+//           if (data[0][0] == "edit Profile") {
+//             if (data[8][0] == true) {
+//               DateTime now = new DateTime.now();
+//               DateTime date = new DateTime(now.year, now.month, now.day,
+//                   now.hour, now.minute, now.second);
+//               final filename = date.toString();
+//               final destination = 'files/$filename';
+//               UploadTask? task =
+//                   FirebaseApi.uploadFile(destination, data[7][0]);
+//               final snapshot = await task!.whenComplete(() {});
+//               final urlDownload = await snapshot.ref.getDownloadURL();
+
+//               var gerejaCollection =
+//                   MongoDatabase.db.collection(GEREJA_COLLECTION);
+
+//               var update = await gerejaCollection
+//                   .updateOne(
+//                       where.eq('_id', data[1][0]),
+//                       modify
+//                           .set('nama', data[2][0])
+//                           .set('address', data[3][0])
+//                           .set('paroki', data[4][0])
+//                           .set('lingkungan', data[5][0])
+//                           .set('deskripsi', data[6][0])
+//                           .set("gambar", urlDownload))
+//                   .then((result) async {
+//                 msg.addReceiver("agenPage");
+//                 msg.setContent("oke");
+//                 await msg.send();
+//               });
+//               ;
+//             } else {
+//               var gerejaCollection =
+//                   MongoDatabase.db.collection(GEREJA_COLLECTION);
+
+//               var update = await gerejaCollection
+//                   .updateOne(
+//                       where.eq('_id', data[1][0]),
+//                       modify
+//                           .set('nama', data[2][0])
+//                           .set('address', data[3][0])
+//                           .set('paroki', data[4][0])
+//                           .set('lingkungan', data[5][0])
+//                           .set('deskripsi', data[6][0]))
+//                   .then((result) async {
+//                 msg.addReceiver("agenPage");
+//                 msg.setContent("oke");
+//                 await msg.send();
+//               });
+//               ;
+//             }
+//           }
+//           if (data[0][0] == "edit Aturan Pelayanan") {
+//             var aturanPelayananCollection =
+//                 MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
+
+//             var update = await aturanPelayananCollection
+//                 .updateOne(
+//                     where.eq('idGereja', data[1][0]),
+//                     modify
+//                         .set('baptis', data[2][0])
+//                         .set('komuni', data[3][0])
+//                         .set('krisma', data[4][0])
+//                         .set('perkawinan', data[5][0])
+//                         .set('perminyakan', data[6][0])
+//                         .set('tobat', data[7][0])
+//                         .set('pemberkatan', data[8][0])
+//                         .set('updatedAt', DateTime.now())
+//                         .set('updatedBy', data[9][0]))
+//                 .then((result) async {
+//               msg.addReceiver("agenPage");
+//               msg.setContent("oke");
+//               await msg.send();
+//             });
+//             ;
+//           }
+
+//           if (data[0][0] == "edit Profile Imam") {
+//             var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+
+//             var update = await imamCollection
+//                 .updateOne(
+//                     where.eq('_id', data[1][0]),
+//                     modify
+//                         .set('name', data[2][0])
+//                         .set('email', data[3][0])
+//                         .set('notelp', data[4][0]))
+//                 .then((result) async {
+//               msg.addReceiver("agenPage");
+//               msg.setContent("oke");
+//               await msg.send();
+//             });
+//             ;
+//           }
+
+//           if (data[0][0] == "data Gereja") {
+//             var gerejaCollection =
+//                 MongoDatabase.db.collection(GEREJA_COLLECTION);
+//             var conn = await gerejaCollection
+//                 .find({'_id': data[1][0]})
+//                 .toList()
+//                 .then((result) async {
+//                   msg.addReceiver("agenPage");
+//                   msg.setContent(result);
+//                   await msg.send();
+//                 });
+//           }
+
+//           if (data[0][0] == "cari data user") {
+//             var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+//             var conn = await imamCollection
+//                 .find({'_id': data[1][0]})
+//                 .toList()
+//                 .then((result) async {
+//                   msg.addReceiver("agenPage");
+//                   msg.setContent(result);
+//                   await msg.send();
+//                 });
+//           }
+
+//           if (data[0][0] == "update Notif") {
+//             var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+//             var conn = await imamCollection
+//                 .updateOne(where.eq('_id', data[1][0]),
+//                     modify.set('notif', data[2][0]))
+//                 .then((result) async {
+//               msg.addReceiver("agenPage");
+//               msg.setContent("oke");
+//               await msg.send();
+//             });
+//           }
+
+//           if (data[0][0] == "find Password") {
+//             var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+//             var conn = await userCollection
+//                 .find({'_id': data[1][0], 'password': data[2][0]}).toList();
+//             try {
+//               print(conn[0]['_id']);
+//               if (conn[0]['_id'] == null) {
+//                 msg.addReceiver("agenPage");
+//                 msg.setContent("not");
+//                 await msg.send();
+//               } else {
+//                 msg.addReceiver("agenPage");
+//                 msg.setContent("found");
+//                 await msg.send();
+//               }
+//             } catch (e) {
+//               msg.addReceiver("agenPage");
+//               msg.setContent("not");
+//               await msg.send();
+//             }
+//           }
+
+//           if (data[0][0] == "ganti Password") {
+//             var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+//             var conn = await userCollection
+//                 .updateOne(where.eq('_id', data[1][0]),
+//                     modify.set('password', data[2][0]))
+//                 .then((result) async {
+//               msg.addReceiver("agenPage");
+//               msg.setContent("oke");
+//               await msg.send();
+//             });
+//           }
+
+//           if (data[0][0] == "change Picture") {
+//             DateTime now = new DateTime.now();
+//             DateTime date = new DateTime(
+//                 now.year, now.month, now.day, now.hour, now.minute, now.second);
+//             final filename = date.toString();
+//             final destination = 'files/$filename';
+//             UploadTask? task = FirebaseApi.uploadFile(destination, data[2][0]);
+//             final snapshot = await task!.whenComplete(() {});
+//             final urlDownload = await snapshot.ref.getDownloadURL();
+
+//             var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+//             var conn = await userCollection
+//                 .updateOne(where.eq('_id', data[1][0]),
+//                     modify.set('picture', urlDownload))
+//                 .then((result) async {
+//               msg.addReceiver("agenPage");
+//               msg.setContent("oke");
+//               await msg.send();
+//             });
+//           }
+//         }
+//       } catch (e) {
+//         return 0;
+//       }
+//     }
+
+//     action();
+//   }
+
+//   ReadyBehaviour() {
+//     Messages msg = Messages();
+//     var data = msg.receive();
+//     action() {
+//       try {
+//         if (data == "ready") {
+//           print("Agen Akun Ready");
+//         }
+//       } catch (e) {
+//         return 0;
+//       }
+//     }
+
+//     action();
+//   }
+// }
+
+// import 'dart:developer';
+
+// import 'package:admin_pelayanan_katolik/DatabaseFolder/data.dart';
+// import 'package:mongo_dart/mongo_dart.dart';
+// import '../DatabaseFolder/mongodb.dart';
+// import 'messages.dart';
+
+// class AgenAkun {
+//   AgenAkun() {
+//     ResponsBehaviour();
+//   }
+
+//   ResponsBehaviour() async {
+//     Messages msg = Messages();
+
+//     var data = await msg.receive();
+//     action() async {
+//       try {
+//         if (data.runtimeType == List<List<dynamic>>) {
+//           if (await data[0][0] == "cari admin") {
+//             // var userCollection =
+//             //     await MongoDatabase.db.collection(ADMIN_COLLECTION);
+
+//             await MongoDatabase.db
+//                 .collection(ADMIN_COLLECTION)
+//                 .find({'user': data[1][0], 'password': data[2][0]})
+//                 .toList()
+//                 .then((result) async {
+//                   if (await result != 0) {
+//                     msg.addReceiver("agenPage");
+//                     msg.setContent(result);
+//                     msg.send();
+//                   } else {
+//                     msg.addReceiver("agenPage");
+//                     msg.setContent(result);
+//                     msg.send();
+//                   }
+//                 });
+//           }
+//         }
+//       } catch (e) {
+//         return 0;
+//       }
+//     }
+
+//     action();
+//   }
+
+//   ReadyBehaviour() {
+//     Messages msg = Messages();
+//     var data = msg.receive();
+//     action() {
+//       try {
+//         if (data == "ready") {
+//           print("Agen Pencarian Ready");
+//         }
+//       } catch (e) {
+//         return 0;
+//       }
+//     }
+
+//     action();
+//   }
+// }
+import 'dart:async';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/data.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/fireBase.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-import 'package:path_provider/path_provider.dart';
-import 'messages.dart';
 
-class AgenAkun {
-  AgenAkun() {
-    ReadyBehaviour();
-    ResponsBehaviour();
+import '../DatabaseFolder/data.dart';
+import '../DatabaseFolder/mongodb.dart';
+import 'Agent.dart';
+import 'Goals.dart';
+import 'MessagePassing.dart';
+import 'Plan.dart';
+
+class AgentAkun extends Agent {
+  AgentAkun() {
+    _initAgent();
+  }
+  List<Plan> _plan = [];
+  List<Goals> _goals = [];
+  List<dynamic> pencarianData = [];
+
+  bool stop = false;
+  int _estimatedTime = 5;
+
+  bool canPerformTask(dynamic message) {
+    for (var p in _plan) {
+      if (p.goals == message.task.action && p.protocol == message.protocol) {
+        return true;
+      }
+    }
+    return false;
   }
 
-  ResponsBehaviour() {
-    Messages msg = Messages();
+  Future<dynamic> performTask(Message msg, String sender) async {
+    print('Agent Akun received message from $sender');
+    dynamic task = msg.task;
+    for (var p in _plan) {
+      if (p.goals == task.action) {
+        Timer timer = Timer.periodic(Duration(seconds: p.time), (timer) {
+          stop = true;
+          timer.cancel();
 
-    var data = msg.receive();
-    print(data.runtimeType);
-    action() async {
-      try {
-        if (data.runtimeType == List<List<dynamic>>) {
-          if (data[0][0] == "cari user") {
-            var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-            await userCollection
-                .find(
-                    {'email': data[1][0], 'password': data[2][0], 'banned': 0})
-                .toList()
-                .then((result) async {
-                  if (result != 0) {
-                    await msg.addReceiver("agenSetting");
-                    await msg.setContent([
-                      ["save data"],
-                      [result]
-                    ]);
-                    await msg.send();
+          MessagePassing messagePassing = MessagePassing();
+          Message msg = rejectTask(task, sender);
+          messagePassing.sendMessage(msg);
+        });
 
-                    await Future.delayed(Duration(seconds: 2))
-                        .then((value) async {
-                      await msg.addReceiver("agenPage");
-                      await msg.setContent(result);
-                      await msg.send();
-                    });
-                  } else {
-                    msg.addReceiver("agenPage");
-                    msg.setContent(result);
-                    await msg.send();
-                  }
-                });
-          }
+        Message message = await action(p.goals, task, sender);
 
-          if (data[0][0] == "ganti Status") {
-            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-            // print("tessssssssterrr");
-            // print(data[2][0].toString());
-            // print(data[2][0].runtimeType);
-            try {
-              // if (data[2][0] == 0) {
-              //   data[2][0] = 1;
-              // } else {
-              //   data[2][0] = 0;
-              // }
-              var update = await imamCollection
-                  .updateOne(where.eq('_id', data[1][0]),
-                      modify.set('statusPemberkatan', data[2][0]))
-                  .then((result) async {
-                if (result.isSuccess) {
-                  msg.addReceiver("agenPage");
-                  msg.setContent('oke');
-                  await msg.send();
-                } else {
-                  msg.addReceiver("agenPage");
-                  msg.setContent('failed');
-                  await msg.send();
-                }
-              });
-            } catch (e) {
-              msg.addReceiver("agenPage");
-              msg.setContent('failed');
-              await msg.send();
-            }
-          }
-
-          if (data[0][0] == "ganti Status Perminyakan") {
-            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-            // print("tessssssssterrr");
-            // print(data[2][0].toString());
-            // print(data[2][0].runtimeType);
-            try {
-              // if (data[2][0] == 0) {
-              //   data[2][0] = 1;
-              // } else {
-              //   data[2][0] = 0;
-              // }
-              var update = await imamCollection
-                  .updateOne(where.eq('_id', data[1][0]),
-                      modify.set('statusPerminyakan', data[2][0]))
-                  .then((result) async {
-                if (result.isSuccess) {
-                  msg.addReceiver("agenPage");
-                  msg.setContent('oke');
-                  await msg.send();
-                } else {
-                  msg.addReceiver("agenPage");
-                  msg.setContent('failed');
-                  await msg.send();
-                }
-              });
-            } catch (e) {
-              msg.addReceiver("agenPage");
-              msg.setContent('failed');
-              await msg.send();
-            }
-          }
-
-          if (data[0][0] == "ganti Status Tobat") {
-            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-            // print("tessssssssterrr");
-            // print(data[2][0].toString());
-            // print(data[2][0].runtimeType);
-            try {
-              // if (data[2][0] == 0) {
-              //   data[2][0] = 1;
-              // } else {
-              //   data[2][0] = 0;
-              // }
-              var update = await imamCollection
-                  .updateOne(where.eq('_id', data[1][0]),
-                      modify.set('statusTobat', data[2][0]))
-                  .then((result) async {
-                if (result.isSuccess) {
-                  msg.addReceiver("agenPage");
-                  msg.setContent('oke');
-                  await msg.send();
-                } else {
-                  msg.addReceiver("agenPage");
-                  msg.setContent('failed');
-                  await msg.send();
-                }
-              });
-            } catch (e) {
-              msg.addReceiver("agenPage");
-              msg.setContent('failed');
-              await msg.send();
-            }
-          }
-
-          if (data[0][0] == "ganti Status Perkawinan") {
-            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-            // print("tessssssssterrr");
-            // print(data[2][0].toString());
-            // print(data[2][0].runtimeType);
-            try {
-              // if (data[2][0] == 0) {
-              //   data[2][0] = 1;
-              // } else {
-              //   data[2][0] = 0;
-              // }
-              var update = await imamCollection
-                  .updateOne(where.eq('_id', data[1][0]),
-                      modify.set('statusPerkawinan', data[2][0]))
-                  .then((result) async {
-                if (result.isSuccess) {
-                  msg.addReceiver("agenPage");
-                  msg.setContent('oke');
-                  await msg.send();
-                } else {
-                  msg.addReceiver("agenPage");
-                  msg.setContent('failed');
-                  await msg.send();
-                }
-              });
-            } catch (e) {
-              msg.addReceiver("agenPage");
-              msg.setContent('failed');
-              await msg.send();
-            }
-          }
-
-          if (data[0][0] == "edit Profile") {
-            if (data[8][0] == true) {
-              DateTime now = new DateTime.now();
-              DateTime date = new DateTime(now.year, now.month, now.day,
-                  now.hour, now.minute, now.second);
-              final filename = date.toString();
-              final destination = 'files/$filename';
-              UploadTask? task =
-                  FirebaseApi.uploadFile(destination, data[7][0]);
-              final snapshot = await task!.whenComplete(() {});
-              final urlDownload = await snapshot.ref.getDownloadURL();
-
-              var gerejaCollection =
-                  MongoDatabase.db.collection(GEREJA_COLLECTION);
-
-              var update = await gerejaCollection
-                  .updateOne(
-                      where.eq('_id', data[1][0]),
-                      modify
-                          .set('nama', data[2][0])
-                          .set('address', data[3][0])
-                          .set('paroki', data[4][0])
-                          .set('lingkungan', data[5][0])
-                          .set('deskripsi', data[6][0])
-                          .set("gambar", urlDownload))
-                  .then((result) async {
-                msg.addReceiver("agenPage");
-                msg.setContent("oke");
-                await msg.send();
-              });
-              ;
+        if (stop == false) {
+          if (timer.isActive) {
+            timer.cancel();
+            bool checkGoals = false;
+            if (message.task.data.runtimeType == String &&
+                message.task.data == "failed") {
+              MessagePassing messagePassing = MessagePassing();
+              Message msg = rejectTask(task, sender);
+              messagePassing.sendMessage(msg);
             } else {
-              var gerejaCollection =
-                  MongoDatabase.db.collection(GEREJA_COLLECTION);
-
-              var update = await gerejaCollection
-                  .updateOne(
-                      where.eq('_id', data[1][0]),
-                      modify
-                          .set('nama', data[2][0])
-                          .set('address', data[3][0])
-                          .set('paroki', data[4][0])
-                          .set('lingkungan', data[5][0])
-                          .set('deskripsi', data[6][0]))
-                  .then((result) async {
-                msg.addReceiver("agenPage");
-                msg.setContent("oke");
-                await msg.send();
-              });
-              ;
-            }
-          }
-          if (data[0][0] == "edit Aturan Pelayanan") {
-            var aturanPelayananCollection =
-                MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
-
-            var update = await aturanPelayananCollection
-                .updateOne(
-                    where.eq('idGereja', data[1][0]),
-                    modify
-                        .set('baptis', data[2][0])
-                        .set('komuni', data[3][0])
-                        .set('krisma', data[4][0])
-                        .set('perkawinan', data[5][0])
-                        .set('perminyakan', data[6][0])
-                        .set('tobat', data[7][0])
-                        .set('pemberkatan', data[8][0])
-                        .set('updatedAt', DateTime.now())
-                        .set('updatedBy', data[9][0]))
-                .then((result) async {
-              msg.addReceiver("agenPage");
-              msg.setContent("oke");
-              await msg.send();
-            });
-            ;
-          }
-
-          if (data[0][0] == "edit Profile Imam") {
-            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-
-            var update = await imamCollection
-                .updateOne(
-                    where.eq('_id', data[1][0]),
-                    modify
-                        .set('name', data[2][0])
-                        .set('email', data[3][0])
-                        .set('notelp', data[4][0]))
-                .then((result) async {
-              msg.addReceiver("agenPage");
-              msg.setContent("oke");
-              await msg.send();
-            });
-            ;
-          }
-
-          if (data[0][0] == "data Gereja") {
-            var gerejaCollection =
-                MongoDatabase.db.collection(GEREJA_COLLECTION);
-            var conn = await gerejaCollection
-                .find({'_id': data[1][0]})
-                .toList()
-                .then((result) async {
-                  msg.addReceiver("agenPage");
-                  msg.setContent(result);
-                  await msg.send();
-                });
-          }
-
-          if (data[0][0] == "cari data user") {
-            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-            var conn = await imamCollection
-                .find({'_id': data[1][0]})
-                .toList()
-                .then((result) async {
-                  msg.addReceiver("agenPage");
-                  msg.setContent(result);
-                  await msg.send();
-                });
-          }
-
-          if (data[0][0] == "update Notif") {
-            var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-            var conn = await imamCollection
-                .updateOne(where.eq('_id', data[1][0]),
-                    modify.set('notif', data[2][0]))
-                .then((result) async {
-              msg.addReceiver("agenPage");
-              msg.setContent("oke");
-              await msg.send();
-            });
-          }
-
-          if (data[0][0] == "find Password") {
-            var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-            var conn = await userCollection
-                .find({'_id': data[1][0], 'password': data[2][0]}).toList();
-            try {
-              print(conn[0]['_id']);
-              if (conn[0]['_id'] == null) {
-                msg.addReceiver("agenPage");
-                msg.setContent("not");
-                await msg.send();
-              } else {
-                msg.addReceiver("agenPage");
-                msg.setContent("found");
-                await msg.send();
+              for (var g in _goals) {
+                if (g.request == p.goals &&
+                    g.goals == message.task.data.runtimeType) {
+                  checkGoals = true;
+                }
               }
-            } catch (e) {
-              msg.addReceiver("agenPage");
-              msg.setContent("not");
-              await msg.send();
+              if (checkGoals == true) {
+                print('Agent Akun returning data to ${message.receiver}');
+                MessagePassing messagePassing = MessagePassing();
+                messagePassing.sendMessage(message);
+                break;
+              } else {
+                rejectTask(task, sender);
+              }
+              break;
             }
-          }
-
-          if (data[0][0] == "ganti Password") {
-            var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-            var conn = await userCollection
-                .updateOne(where.eq('_id', data[1][0]),
-                    modify.set('password', data[2][0]))
-                .then((result) async {
-              msg.addReceiver("agenPage");
-              msg.setContent("oke");
-              await msg.send();
-            });
-          }
-
-          if (data[0][0] == "change Picture") {
-            DateTime now = new DateTime.now();
-            DateTime date = new DateTime(
-                now.year, now.month, now.day, now.hour, now.minute, now.second);
-            final filename = date.toString();
-            final destination = 'files/$filename';
-            UploadTask? task = FirebaseApi.uploadFile(destination, data[2][0]);
-            final snapshot = await task!.whenComplete(() {});
-            final urlDownload = await snapshot.ref.getDownloadURL();
-
-            var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-            var conn = await userCollection
-                .updateOne(where.eq('_id', data[1][0]),
-                    modify.set('picture', urlDownload))
-                .then((result) async {
-              msg.addReceiver("agenPage");
-              msg.setContent("oke");
-              await msg.send();
-            });
           }
         }
-      } catch (e) {
-        return 0;
       }
     }
-
-    action();
   }
 
-  ReadyBehaviour() {
-    Messages msg = Messages();
-    var data = msg.receive();
-    action() {
-      try {
-        if (data == "ready") {
-          print("Agen Akun Ready");
-        }
-      } catch (e) {
-        return 0;
-      }
-    }
+  messageSetData(task) {
+    pencarianData.add(task);
+  }
 
-    action();
+  Future<List> getDataPencarian() async {
+    return pencarianData;
+  }
+
+  Future<Message> action(String goals, dynamic data, String sender) async {
+    switch (goals) {
+      case "login":
+        return login(data.data, sender);
+      case "ganti status":
+        return changeStatus(data, sender);
+      case "edit profile gereja":
+        return EditProfileGereja(data, sender);
+      case "edit profile imam":
+        return EditProfileImam(data, sender);
+      case "edit aturan pelayanan":
+        return EditAturanPelayanan(data, sender);
+      case "cari data imam":
+        return cariDataImam(data, sender);
+      case "update notification":
+        return updateNotification(data, sender);
+      case "find password":
+        return cariPassword(data, sender);
+      case "change password":
+        return gantiPassword(data, sender);
+      case "change profile picture":
+        return changeProfilePicture(data, sender);
+
+      default:
+        return rejectTask(data, data.sender);
+    }
+  }
+
+  Future<Message> login(dynamic data, String sender) async {
+    var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+    var conn = await imamCollection
+        .find({'email': data[0], 'password': data[1], 'banned': 0}).toList();
+
+    Message message =
+        Message('Agent Akun', sender, "INFORM", Tasks('cari', conn));
+    return message;
+  }
+
+  Future<Message> changeStatus(dynamic data, String sender) async {
+    var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+
+    var update = await imamCollection.updateOne(
+        where.eq('_id', data[0]), modify.set('statusPemberkatan', data[1]));
+
+    Message message =
+        Message('Agent Akun', sender, "INFORM", Tasks('cari', update));
+    return message;
+  }
+
+  Future<Message> EditProfileGereja(dynamic data, String sender) async {
+    if (data[8][0] == true) {
+      DateTime now = new DateTime.now();
+      DateTime date = new DateTime(
+          now.year, now.month, now.day, now.hour, now.minute, now.second);
+      final filename = date.toString();
+      final destination = 'files/$filename';
+      UploadTask? task = FirebaseApi.uploadFile(destination, data[7][0]);
+      final snapshot = await task!.whenComplete(() {});
+      final urlDownload = await snapshot.ref.getDownloadURL();
+
+      var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
+
+      var update = await gerejaCollection.updateOne(
+          where.eq('_id', data[0]),
+          modify
+              .set('nama', data[1])
+              .set('address', data[2])
+              .set('paroki', data[3])
+              .set('lingkungan', data[4])
+              .set('deskripsi', data[5])
+              .set("gambar", urlDownload));
+
+      Message message =
+          Message('Agent Akun', sender, "INFORM", Tasks('cari', "oke"));
+      return message;
+    } else {
+      var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
+
+      var update = await gerejaCollection.updateOne(
+          where.eq('_id', data[0]),
+          modify
+              .set('nama', data[1])
+              .set('address', data[2])
+              .set('paroki', data[3])
+              .set('lingkungan', data[4])
+              .set('deskripsi', data[5]));
+
+      Message message =
+          Message('Agent Akun', sender, "INFORM", Tasks('cari', "oke"));
+      return message;
+    }
+  }
+
+  Future<Message> EditAturanPelayanan(dynamic data, String sender) async {
+    var aturanPelayananCollection =
+        MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
+
+    var update = await aturanPelayananCollection.updateOne(
+        where.eq('idGereja', data[0]),
+        modify
+            .set('baptis', data[1])
+            .set('komuni', data[2])
+            .set('krisma', data[3])
+            .set('perkawinan', data[4])
+            .set('perminyakan', data[5])
+            .set('tobat', data[6])
+            .set('pemberkatan', data[7])
+            .set('updatedAt', DateTime.now())
+            .set('updatedBy', data[8]));
+    Message message =
+        Message('Agent Akun', sender, "INFORM", Tasks('cari', "oke"));
+    return message;
+  }
+
+  Future<Message> cariEditProfileImam(dynamic data, String sender) async {
+    var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+    var conn = await imamCollection.find({'_id': data[1][0]});
+    Message message =
+        Message('Agent Akun', sender, "INFORM", Tasks('cari', conn));
+    return message;
+  }
+
+  Future<Message> EditProfileImam(dynamic data, String sender) async {
+    var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+
+    var update = await imamCollection.updateOne(
+        where.eq('_id', data[0]),
+        modify
+            .set('name', data[1])
+            .set('email', data[2])
+            .set('notelp', data[3]));
+
+    Message message =
+        Message('Agent Akun', sender, "INFORM", Tasks('cari', "oke"));
+    return message;
+  }
+
+  Future<Message> cariDataImam(dynamic data, String sender) async {
+    var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+    var conn = await imamCollection.find({'_id': data[0]}).toList();
+    Message message =
+        Message('Agent Akun', sender, "INFORM", Tasks('cari', conn));
+    return message;
+  }
+
+  Future<Message> updateNotification(dynamic data, String sender) async {
+    var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+    var conn = await imamCollection.updateOne(
+        where.eq('_id', data[0]), modify.set('notif', data[1]));
+    Message message =
+        Message('Agent Akun', sender, "INFORM", Tasks('cari', conn));
+    return message;
+  }
+
+  Future<Message> cariPassword(dynamic data, String sender) async {
+    var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+    var conn = await userCollection
+        .find({'_id': data[0], 'password': data[1]}).toList();
+
+    if (conn[0]['_id'] == null) {
+      Message message =
+          Message('Agent Akun', sender, "INFORM", Tasks('cari', "not"));
+      return message;
+    } else {
+      Message message =
+          Message('Agent Akun', sender, "INFORM", Tasks('cari', "found"));
+      return message;
+    }
+  }
+
+  Future<Message> gantiPassword(dynamic data, String sender) async {
+    var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+    var conn = await userCollection.updateOne(
+        where.eq('_id', data[0]), modify.set('password', data[1]));
+    if (conn.isSuccess) {
+      Message message =
+          Message('Agent Akun', sender, "INFORM", Tasks('cari', "not"));
+      return message;
+    } else {
+      Message message =
+          Message('Agent Akun', sender, "INFORM", Tasks('cari', "found"));
+      return message;
+    }
+  }
+
+  Future<Message> changeProfilePicture(dynamic data, String sender) async {
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(
+        now.year, now.month, now.day, now.hour, now.minute, now.second);
+    final filename = date.toString();
+    final destination = 'files/$filename';
+    UploadTask? task = FirebaseApi.uploadFile(destination, data[1]);
+    final snapshot = await task!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+
+    var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+    var conn = await userCollection.updateOne(
+        where.eq('_id', data[0]), modify.set('picture', urlDownload));
+    if (conn.isSuccess) {
+      Message message =
+          Message('Agent Akun', sender, "INFORM", Tasks('cari', "not"));
+      return message;
+    } else {
+      Message message =
+          Message('Agent Akun', sender, "INFORM", Tasks('cari', "found"));
+      return message;
+    }
+  }
+
+  Message rejectTask(dynamic task, sender) {
+    Message message = Message(
+        "Agent Akun",
+        sender,
+        "INFORM",
+        Tasks('error', [
+          ['failed']
+        ]));
+
+    print('Task rejected $sender: $task');
+    return message;
+  }
+
+  Message overTime(sender) {
+    Message message = Message(
+        sender,
+        "Agent Akun",
+        "INFORM",
+        Tasks('error', [
+          ['reject over time']
+        ]));
+    return message;
+  }
+
+  void _initAgent() {
+    _plan = [
+      Plan("login", "REQUEST", _estimatedTime),
+      Plan("ganti status", "REQUEST", _estimatedTime),
+      Plan("edit profile gereja", "REQUEST", _estimatedTime),
+      Plan("edit profile imam", "REQUEST", _estimatedTime),
+      Plan("edit aturan pelayanan", "REQUEST", _estimatedTime),
+      Plan("cari data imam", "REQUEST", _estimatedTime),
+      Plan("update notification", "REQUEST", _estimatedTime),
+      Plan("find password", "REQUEST", _estimatedTime),
+      Plan("change password", "REQUEST", _estimatedTime),
+      Plan("change profile picture", "REQUEST", _estimatedTime),
+    ];
+    _goals = [
+      Goals("login", List<Map<String, Object?>>, 2),
+      Goals("ganti status", String, 2),
+      Goals("edit profile gereja", String, 2),
+      Goals("edit profile imam", String, 2),
+      Goals("edit aturan pelayanan", String, 2),
+      Goals("cari data imam", List<Map<String, Object?>>, 2),
+      Goals("update notification", String, 2),
+      Goals("find password", List<Map<String, Object?>>, 2),
+      Goals("change password", String, 2),
+      Goals("change profile picture", String, 2),
+    ];
   }
 }

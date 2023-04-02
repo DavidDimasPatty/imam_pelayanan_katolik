@@ -1,11 +1,14 @@
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/addPengumuman.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/editPengumuman.dart';
@@ -35,21 +38,34 @@ class _PengumumanGereja extends State<PengumumanGereja> {
   _PengumumanGereja(this.names, this.idUser, this.idGereja);
 
   Future<List> callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
-      ["cari Pengumuman"],
-      [idGereja]
-    ]);
-    List k = [];
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPencarian");
+    // msg.setContent([
+    //   ["cari Pengumuman"],
+    //   [idGereja]
+    // ]);
+    // List k = [];
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // k = await AgenPage().receiverTampilan();
 
-    return k;
+    // return k;
+
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('cari pengumuman', [idGereja]));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var result = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    return result;
   }
 
   Future pullRefresh() async {
@@ -68,21 +84,31 @@ class _PengumumanGereja extends State<PengumumanGereja> {
   }
 
   Future updatePengumuman(idKegiatan, status) async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPendaftaran");
-    msg.setContent([
-      ["update Pengumuman"],
-      [idKegiatan],
-      [status]
-    ]);
-    var hasil;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPendaftaran");
+    // msg.setContent([
+    //   ["update Pengumuman"],
+    //   [idKegiatan],
+    //   [status]
+    // ]);
+    // var hasil;
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // hasil = await AgenPage().receiverTampilan();
 
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
+        Tasks('edit pengumuman', [idKegiatan, status]));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
     if (hasil == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Update Status Pengumuman Gereja",

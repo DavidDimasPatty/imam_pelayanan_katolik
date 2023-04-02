@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import '../history/history.dart';
@@ -37,39 +41,59 @@ class _notifClass extends State<notification> {
   }
 
   Future callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenAkun");
-    msg.setContent([
-      ["cari data user"],
-      [idUser]
-    ]);
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    checknotif = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenAkun");
+    // msg.setContent([
+    //   ["cari data user"],
+    //   [idUser]
+    // ]);
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // checknotif = await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('cari data user', [idUser]));
 
-    return checknotif;
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var result = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    return result;
   }
 
   Future updateNotif(notif) async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenAkun");
-    msg.setContent([
-      ["update Notif"],
-      [idUser],
-      [notif]
-    ]);
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenAkun");
+    // msg.setContent([
+    //   ["update Notif"],
+    //   [idUser],
+    //   [notif]
+    // ]);
 
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    var daftarmisa = await AgenPage().receiverTampilan();
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // var daftarmisa = await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Akun', "REQUEST",
+        Tasks('update notif', [idUser, notif]));
 
-    if (daftarmisa == 'oke') {
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    if (hasil == 'oke') {
       Fluttertoast.showToast(
           msg: "Berhasil Update Notif",
           toastLength: Toast.LENGTH_SHORT,

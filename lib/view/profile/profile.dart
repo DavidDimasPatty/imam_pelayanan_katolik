@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/fireBase.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/aturanPelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/profile/editprofile.dart';
@@ -38,42 +42,64 @@ class _Profile extends State<Profile> {
   _Profile(this.names, this.iduser, this.idGereja);
   @override
   Future callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
-      ["cari Profile"],
-      [idGereja],
-      [iduser]
-    ]);
-    List k = [];
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPencarian");
+    // msg.setContent([
+    //   ["cari Profile"],
+    //   [idGereja],
+    //   [iduser]
+    // ]);
+    // List k = [];
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // k = await AgenPage().receiverTampilan();
 
-    return k;
+    // return k;
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('cari profile', [idGereja, iduser]));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var result = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    return result;
   }
 
-  Future gantiStatus(status) async {
-    Messages msg = new Messages();
+  Future gantiStatus(pelayanan, status) async {
+    // Messages msg = new Messages();
 
-    msg.addReceiver("agenAkun");
-    msg.setContent([
-      ["ganti Status"],
-      [iduser],
-      [status]
-    ]);
-    var k;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+    // msg.addReceiver("agenAkun");
+    // msg.setContent([
+    //   ["ganti Status"],
+    //   [iduser],
+    //   [status]
+    // ]);
+    // var k;
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // k = await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Akun', "REQUEST",
+        Tasks('ganti status', [pelayanan, iduser, status]));
 
-    if (k == 'oke') {
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var result = await messagePassing.messageGetToView();
+
+    await completer.future;
+
+    if (result == 'oke') {
       Fluttertoast.showToast(
           msg: "Berhasil Ganti Status Pelayanan",
           toastLength: Toast.LENGTH_SHORT,
@@ -89,104 +115,104 @@ class _Profile extends State<Profile> {
     }
   }
 
-  Future gantiStatusPerminyakan(status) async {
-    Messages msg = new Messages();
+  // Future gantiStatusPerminyakan(status) async {
+  //   Messages msg = new Messages();
 
-    msg.addReceiver("agenAkun");
-    msg.setContent([
-      ["ganti Status Perminyakan"],
-      [iduser],
-      [status]
-    ]);
-    var k;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+  //   msg.addReceiver("agenAkun");
+  //   msg.setContent([
+  //     ["ganti Status Perminyakan"],
+  //     [iduser],
+  //     [status]
+  //   ]);
+  //   var k;
+  //   await msg.send().then((res) async {
+  //     print("masuk");
+  //     print(await AgenPage().receiverTampilan());
+  //   });
+  //   await Future.delayed(Duration(seconds: 1));
+  //   k = await AgenPage().receiverTampilan();
 
-    if (k == 'oke') {
-      Fluttertoast.showToast(
-          msg: "Berhasil Ganti Status Pelayanan",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => Profile(name, email, idUser)),
-      // );
-    }
-  }
+  //   if (k == 'oke') {
+  //     Fluttertoast.showToast(
+  //         msg: "Berhasil Ganti Status Pelayanan",
+  //         toastLength: Toast.LENGTH_SHORT,
+  //         gravity: ToastGravity.CENTER,
+  //         timeInSecForIosWeb: 2,
+  //         backgroundColor: Colors.green,
+  //         textColor: Colors.white,
+  //         fontSize: 16.0);
+  //     // Navigator.pushReplacement(
+  //     //   context,
+  //     //   MaterialPageRoute(builder: (context) => Profile(name, email, idUser)),
+  //     // );
+  //   }
+  // }
 
-  Future gantiStatusTobat(status) async {
-    Messages msg = new Messages();
+  // Future gantiStatusTobat(status) async {
+  //   Messages msg = new Messages();
 
-    msg.addReceiver("agenAkun");
-    msg.setContent([
-      ["ganti Status Tobat"],
-      [iduser],
-      [status]
-    ]);
-    var k;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+  //   msg.addReceiver("agenAkun");
+  //   msg.setContent([
+  //     ["ganti Status Tobat"],
+  //     [iduser],
+  //     [status]
+  //   ]);
+  //   var k;
+  //   await msg.send().then((res) async {
+  //     print("masuk");
+  //     print(await AgenPage().receiverTampilan());
+  //   });
+  //   await Future.delayed(Duration(seconds: 1));
+  //   k = await AgenPage().receiverTampilan();
 
-    if (k == 'oke') {
-      Fluttertoast.showToast(
-          msg: "Berhasil Ganti Status Pelayanan",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => Profile(name, email, idUser)),
-      // );
-    }
-  }
+  //   if (k == 'oke') {
+  //     Fluttertoast.showToast(
+  //         msg: "Berhasil Ganti Status Pelayanan",
+  //         toastLength: Toast.LENGTH_SHORT,
+  //         gravity: ToastGravity.CENTER,
+  //         timeInSecForIosWeb: 2,
+  //         backgroundColor: Colors.green,
+  //         textColor: Colors.white,
+  //         fontSize: 16.0);
+  //     // Navigator.pushReplacement(
+  //     //   context,
+  //     //   MaterialPageRoute(builder: (context) => Profile(name, email, idUser)),
+  //     // );
+  //   }
+  // }
 
-  Future gantiStatusPerkawinan(status) async {
-    Messages msg = new Messages();
+  // Future gantiStatusPerkawinan(status) async {
+  //   Messages msg = new Messages();
 
-    msg.addReceiver("agenAkun");
-    msg.setContent([
-      ["ganti Status Perkawinan"],
-      [iduser],
-      [status]
-    ]);
-    var k;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+  //   msg.addReceiver("agenAkun");
+  //   msg.setContent([
+  //     ["ganti Status Perkawinan"],
+  //     [iduser],
+  //     [status]
+  //   ]);
+  //   var k;
+  //   await msg.send().then((res) async {
+  //     print("masuk");
+  //     print(await AgenPage().receiverTampilan());
+  //   });
+  //   await Future.delayed(Duration(seconds: 1));
+  //   k = await AgenPage().receiverTampilan();
 
-    if (k == 'oke') {
-      Fluttertoast.showToast(
-          msg: "Berhasil Ganti Status Pelayanan",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => Profile(name, email, idUser)),
-      // );
-    }
-  }
+  //   if (k == 'oke') {
+  //     Fluttertoast.showToast(
+  //         msg: "Berhasil Ganti Status Pelayanan",
+  //         toastLength: Toast.LENGTH_SHORT,
+  //         gravity: ToastGravity.CENTER,
+  //         timeInSecForIosWeb: 2,
+  //         backgroundColor: Colors.green,
+  //         textColor: Colors.white,
+  //         fontSize: 16.0);
+  //     // Navigator.pushReplacement(
+  //     //   context,
+  //     //   MaterialPageRoute(builder: (context) => Profile(name, email, idUser)),
+  //     // );
+  //   }
+  // }
 
   Future selectFile(context) async {
     final result = await FilePicker.platform.pickFiles(allowMultiple: false);
@@ -198,22 +224,32 @@ class _Profile extends State<Profile> {
   }
 
   Future uploadFile(File file, context) async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenAkun");
-    msg.setContent([
-      ["change Picture"],
-      [iduser],
-      [file]
-    ]);
-    var k;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenAkun");
+    // msg.setContent([
+    //   ["change Picture"],
+    //   [iduser],
+    //   [file]
+    // ]);
+    // var k;
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // k = await AgenPage().receiverTampilan();
 
-    if (k == 'oke') {
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Akun', "REQUEST",
+        Tasks('change profile picture', [iduser, file]));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
+    if (hasil == 'oke') {
       Fluttertoast.showToast(
           msg: "Berhasil Ganti Profile Picture",
           toastLength: Toast.LENGTH_SHORT,
@@ -677,7 +713,7 @@ class _Profile extends State<Profile> {
                                   } else {
                                     temp = 0;
                                   }
-                                  await gantiStatus(temp);
+                                  await gantiStatus("pemberkatan", temp);
                                   setState(() {
                                     // callDb();
 
@@ -745,7 +781,7 @@ class _Profile extends State<Profile> {
                                   } else {
                                     temp = 0;
                                   }
-                                  await gantiStatusPerminyakan(temp);
+                                  await gantiStatus("perminyakan", temp);
                                   setState(() {
                                     // callDb();
 
@@ -812,7 +848,7 @@ class _Profile extends State<Profile> {
                                   } else {
                                     temp = 0;
                                   }
-                                  await gantiStatusTobat(temp);
+                                  await gantiStatus("tobat", temp);
                                   setState(() {
                                     // callDb();
 
@@ -880,7 +916,7 @@ class _Profile extends State<Profile> {
                                   } else {
                                     temp = 0;
                                   }
-                                  await gantiStatusPerkawinan(temp);
+                                  await gantiStatus("perkawinan", temp);
                                   setState(() {
                                     // callDb();
 

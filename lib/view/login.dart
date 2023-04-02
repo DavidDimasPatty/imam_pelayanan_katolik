@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/FadeAnimation.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 //import 'package:pelayanan_iman_katolik/forgetPassword.dart';
 //import 'package:pelayanan_iman_katolik/singup.dart';
 //import 'package:pelayanan_iman_katolik/homePage.dart';
@@ -11,16 +15,27 @@ import 'package:imam_pelayanan_katolik/view/homepage.dart';
 
 class Login extends StatelessWidget {
   Future login(id, password) async {
-    Messages msg = new Messages();
-    await msg.addReceiver("agenAkun");
-    await msg.setContent([
-      ["cari user"],
-      [id],
-      [password]
-    ]);
-    await msg.send();
-    await Future.delayed(Duration(seconds: 2));
-    return await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // await msg.addReceiver("agenAkun");
+    // await msg.setContent([
+    //   ["cari user"],
+    //   [id],
+    //   [password]
+    // ]);
+    // await msg.send();
+    // await Future.delayed(Duration(seconds: 2));
+    // return await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message = Message(
+        'View', 'Agent Akun', "REQUEST", Tasks('cari user', [id, password]));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
+    return hasil;
   }
 
   @override
