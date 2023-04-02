@@ -121,7 +121,7 @@ class _KomuniUser extends State<KomuniUser> {
         'View',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan', [
+        Tasks('update pelayanan user', [
           id,
           token,
           idTarget,
@@ -183,7 +183,7 @@ class _KomuniUser extends State<KomuniUser> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [id, token, idTarget, 1, "komuni"]));
+        Tasks('update pelayanan user', [id, token, idTarget, 1, "komuni"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

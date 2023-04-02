@@ -117,7 +117,7 @@ class _BaptisUser extends State<BaptisUser> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [id, token, idTarget, -1, "baptis"]));
+        Tasks('update pelayanan user', [id, token, idTarget, -1, "baptis"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -173,7 +173,7 @@ class _BaptisUser extends State<BaptisUser> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [id, token, idTarget, 1, "baptis"]));
+        Tasks('update pelayanan user', [id, token, idTarget, 1, "baptis"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

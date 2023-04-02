@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/umum/pendalamanAlkitab/pendalamanAlkitab.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -78,27 +82,50 @@ class _editPA extends State<editPA> {
         _selectedDate != "" &&
         kapasitas.text != "" &&
         lokasi.text != "") {
-      Messages msg = new Messages();
-      msg.addReceiver("agenPendaftaran");
-      msg.setContent([
-        ["edit Kegiatan"],
-        [idPA],
-        [namaKegiatan.text],
-        [temaKegiatan.text],
-        ["Pendalaman Alkitab"],
-        [deskripsiKegiatan.text],
-        [tamuKegiatan.text],
-        [_selectedDate.toString()],
-        [kapasitas.text],
-        [lokasi.text],
-      ]);
-      var hasil;
-      await msg.send().then((res) async {
-        print("masuk");
-        print(await AgenPage().receiverTampilan());
-      });
-      await Future.delayed(Duration(seconds: 1));
-      hasil = await AgenPage().receiverTampilan();
+      // Messages msg = new Messages();
+      // msg.addReceiver("agenPendaftaran");
+      // msg.setContent([
+      //   ["edit Kegiatan"],
+      //   [idPA],
+      //   [namaKegiatan.text],
+      //   [temaKegiatan.text],
+      //   ["Pendalaman Alkitab"],
+      //   [deskripsiKegiatan.text],
+      //   [tamuKegiatan.text],
+      //   [_selectedDate.toString()],
+      //   [kapasitas.text],
+      //   [lokasi.text],
+      // ]);
+      // var hasil;
+      // await msg.send().then((res) async {
+      //   print("masuk");
+      //   print(await AgenPage().receiverTampilan());
+      // });
+      // await Future.delayed(Duration(seconds: 1));
+      // hasil = await AgenPage().receiverTampilan();
+      Completer<void> completer = Completer<void>();
+      Message message = Message(
+          'View',
+          'Agent Pendaftaran',
+          "REQUEST",
+          Tasks('edit pelayanan', [
+            idPA,
+            namaKegiatan.text,
+            temaKegiatan.text,
+            temaKegiatan.text,
+            "Pendalaman Alkitab",
+            deskripsiKegiatan.text,
+            tamuKegiatan.text,
+            _selectedDate.toString(),
+            kapasitas.text,
+            lokasi.text,
+            "umum",
+          ]));
+
+      MessagePassing messagePassing = MessagePassing();
+      await messagePassing.sendMessage(message);
+      completer.complete();
+      var hasil = await messagePassing.messageGetToView();
 
       if (hasil == "failed") {
         Fluttertoast.showToast(
@@ -137,20 +164,31 @@ class _editPA extends State<editPA> {
 
   var hasil = [];
   Future callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
-      ["cari edit Kegiatan"],
-      [idPA]
-    ]);
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPencarian");
+    // msg.setContent([
+    //   ["cari edit Kegiatan"],
+    //   [idPA]
+    // ]);
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // hasil = await AgenPage().receiverTampilan();
 
-    return hasil;
+    // return hasil;
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('data edit pelayanan', [idPA, "umum"]));
+
+    MessagePassing messagePassing = MessagePassing();
+    await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
+    return await hasil;
   }
 
   Future pullRefresh() async {

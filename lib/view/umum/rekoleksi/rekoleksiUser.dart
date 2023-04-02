@@ -116,7 +116,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [id, token, idTarget, -1, "umum"]));
+        Tasks('update pelayanan user', [id, token, idTarget, -1, "umum"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -169,7 +169,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [id, token, idTarget, 1, "umum"]));
+        Tasks('update pelayanan user', [id, token, idTarget, 1, "umum"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

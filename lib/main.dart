@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPencarian.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
@@ -30,7 +31,7 @@ Future callDb() async {
   // await Future.delayed(Duration(seconds: 1));
   Completer<void> completer = Completer<void>();
   Message message =
-      Message('View', 'Agent Setting', "REQUEST", Task('setting user', null));
+      Message('View', 'Agent Setting', "REQUEST", Tasks('setting user', null));
 
   MessagePassing messagePassing = MessagePassing();
   var data = await messagePassing.sendMessage(message);

@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/komuni/komuni.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -71,22 +75,39 @@ class _editKomuni extends State<editKomuni> {
       tanggalTutup = tanggaltutup;
     }
     if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "") {
-      Messages msg = new Messages();
-      msg.addReceiver("agenPendaftaran");
-      msg.setContent([
-        ["edit Komuni"],
-        [idKomuni],
-        [kapasitas],
-        [tanggalBuka.toString()],
-        [tanggalTutup.toString()]
-      ]);
-      var hasil;
-      await msg.send().then((res) async {
-        print("masuk");
-        print(await AgenPage().receiverTampilan());
-      });
-      await Future.delayed(Duration(seconds: 2));
-      hasil = await AgenPage().receiverTampilan();
+      // Messages msg = new Messages();
+      // msg.addReceiver("agenPendaftaran");
+      // msg.setContent([
+      //   ["edit Komuni"],
+      //   [idKomuni],
+      //   [kapasitas],
+      //   [tanggalBuka.toString()],
+      //   [tanggalTutup.toString()]
+      // ]);
+      // var hasil;
+      // await msg.send().then((res) async {
+      //   print("masuk");
+      //   print(await AgenPage().receiverTampilan());
+      // });
+      // await Future.delayed(Duration(seconds: 2));
+      // hasil = await AgenPage().receiverTampilan();
+      Completer<void> completer = Completer<void>();
+      Message message = Message(
+          'View',
+          'Agent Pendaftaran',
+          "REQUEST",
+          Tasks('edit pelayanan', [
+            idKomuni,
+            kapasitas,
+            tanggalBuka.toString(),
+            tanggalTutup.toString(),
+            "komuni"
+          ]));
+
+      MessagePassing messagePassing = MessagePassing();
+      await messagePassing.sendMessage(message);
+      completer.complete();
+      var hasil = await messagePassing.messageGetToView();
 
       if (hasil == "fail") {
         Fluttertoast.showToast(
@@ -126,20 +147,31 @@ class _editKomuni extends State<editKomuni> {
 
   var hasil = [];
   Future callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
-      ["cari edit Komuni"],
-      [idKomuni]
-    ]);
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPencarian");
+    // msg.setContent([
+    //   ["cari edit Komuni"],
+    //   [idKomuni]
+    // ]);
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // hasil = await AgenPage().receiverTampilan();
 
-    return hasil;
+    // return hasil;
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('data edit pelayanan', [idKomuni, "komuni"]));
+
+    MessagePassing messagePassing = MessagePassing();
+    await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
+    return await hasil;
   }
 
   Future pullRefresh() async {

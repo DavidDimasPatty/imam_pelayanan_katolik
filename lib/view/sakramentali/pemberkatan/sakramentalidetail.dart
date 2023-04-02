@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import '../../history/history.dart';
@@ -32,39 +36,67 @@ class _DetailSakramentali extends State<DetailSakramentali> {
       this.name, this.idUser, this.idGereja, this.idPemberkatan);
   @override
   Future<List> callDb() async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPencarian");
-    msg.setContent([
-      ["cari Sakramentali Detail"],
-      [idPemberkatan]
-    ]);
-    List k = [];
-    await msg.send().then((res) async {
-      print("masuk");
-    });
-    await Future.delayed(Duration(seconds: 1));
-    k = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPencarian");
+    // msg.setContent([
+    //   ["cari Sakramentali Detail"],
+    //   [idPemberkatan]
+    // ]);
+    // List k = [];
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // k = await AgenPage().receiverTampilan();
 
-    return k;
+    // return k;
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('cari pelayanan', [idPemberkatan, "sakramentali", "detail"]));
+
+    MessagePassing messagePassing = MessagePassing();
+    await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
+    return await hasil;
   }
 
   void updateAccept(token, idTarget) async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPendaftaran");
-    msg.setContent([
-      ["update Sakramentali"],
-      [idPemberkatan],
-      [token],
-      [idTarget],
-      [1]
-    ]);
-    var hasil;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPendaftaran");
+    // msg.setContent([
+    //   ["update Sakramentali"],
+    //   [idPemberkatan],
+    //   [token],
+    //   [idTarget],
+    //   [1]
+    // ]);
+    // var hasil;
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // hasil = await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user', [
+          idPemberkatan,
+          token,
+          idTarget,
+          1,
+          "sakramentali",
+        ]));
+
+    MessagePassing messagePassing = MessagePassing();
+    await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
     setState(() {
       callDb();
     });
@@ -90,22 +122,39 @@ class _DetailSakramentali extends State<DetailSakramentali> {
   }
 
   void updateReject(token, idTarget) async {
-    Messages msg = new Messages();
-    msg.addReceiver("agenPendaftaran");
-    msg.setContent([
-      ["update Sakramentali"],
-      [idPemberkatan],
-      [token],
-      [idTarget],
-      [-1]
-    ]);
-    var hasil;
-    await msg.send().then((res) async {
-      print("masuk");
-      print(await AgenPage().receiverTampilan());
-    });
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // msg.addReceiver("agenPendaftaran");
+    // msg.setContent([
+    //   ["update Sakramentali"],
+    //   [idPemberkatan],
+    //   [token],
+    //   [idTarget],
+    //   [-1]
+    // ]);
+    // var hasil;
+    // await msg.send().then((res) async {
+    //   print("masuk");
+    //   print(await AgenPage().receiverTampilan());
+    // });
+    // await Future.delayed(Duration(seconds: 1));
+    // hasil = await AgenPage().receiverTampilan();
+    Completer<void> completer = Completer<void>();
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user', [
+          idPemberkatan,
+          token,
+          idTarget,
+          -1,
+          "sakramentali",
+        ]));
+
+    MessagePassing messagePassing = MessagePassing();
+    await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
     setState(() {
       callDb();
     });

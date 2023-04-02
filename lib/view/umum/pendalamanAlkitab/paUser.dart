@@ -53,7 +53,7 @@ class _PAUser extends State<PAUser> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan user', [idPA, "umum"]));
+        Tasks('cari pelayanan user', [idPA, "umum", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -119,7 +119,7 @@ class _PAUser extends State<PAUser> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [id, token, idTarget, -1, "umum"]));
+        Tasks('update pelayanan user', [id, token, idTarget, -1, "umum"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:imam_pelayanan_katolik/agen/Message.dart';
+import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
+import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/agen/messages.dart';
 import 'package:imam_pelayanan_katolik/view/history/history.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
@@ -27,17 +31,28 @@ class _Sakramen extends State<Sakramen> {
   List hasil = [];
 
   Future callJumlah() async {
-    Messages msg = new Messages();
-    await msg.addReceiver("agenPencarian");
-    await msg.setContent([
-      ["cari jumlah Sakramen"],
-      [idGereja],
-      [iduser]
-    ]);
-    await msg.send();
-    await Future.delayed(Duration(seconds: 1));
-    hasil = await AgenPage().receiverTampilan();
+    // Messages msg = new Messages();
+    // await msg.addReceiver("agenPencarian");
+    // await msg.setContent([
+    //   ["cari jumlah Sakramen"],
+    //   [idGereja],
+    //   [iduser]
+    // ]);
+    // await msg.send();
+    // await Future.delayed(Duration(seconds: 1));
+    // hasil = await AgenPage().receiverTampilan();
 
+    // return await hasil;
+    Completer<void> completer = Completer<void>();
+    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+        Tasks('cari jumlah sakramen', [idGereja, iduser]));
+
+    MessagePassing messagePassing = MessagePassing();
+    await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await messagePassing.messageGetToView();
+
+    await completer.future;
     return await hasil;
   }
 
