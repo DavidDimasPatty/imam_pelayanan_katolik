@@ -552,7 +552,7 @@ class AgentAkun extends Agent {
     switch (goals) {
       case "login":
         return login(data, sender);
-      case "ganti status":
+      case "edit status":
         return changeStatus(data, sender);
       case "cari profile":
         return cariProfile(data, sender);
@@ -602,13 +602,31 @@ class AgentAkun extends Agent {
 
   Future<Message> changeStatus(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+    String change = "";
+    if (data[2] == "sakramentali") {
+      change = "statusPemberkatan";
+    }
+    if (data[2] == "perminyakan") {
+      change = "statusPerminyakan";
+    }
+    if (data[2] == "tobat") {
+      change = "statusTobat";
+    }
+    if (data[2] == "perkawinan") {
+      change = "statusPerkawinan";
+    }
 
-    var update = await imamCollection.updateOne(
-        where.eq('_id', data[0]), modify.set('statusPemberkatan', data[1]));
-
-    Message message =
-        Message('Agent Akun', sender, "INFORM", Tasks('cari', update));
-    return message;
+    var update = await imamCollection.updateOne(where.eq('_id', data[0]),
+        modify.set(change, data[1]).set("updatedAt", DateTime.now()));
+    if (update.isSuccess) {
+      Message message =
+          Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+      return message;
+    } else {
+      Message message =
+          Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+      return message;
+    }
   }
 
   Future<Message> cariProfile(dynamic data, String sender) async {
@@ -752,13 +770,13 @@ class AgentAkun extends Agent {
   }
 
   Future<Message> EditProfileGereja(dynamic data, String sender) async {
-    if (data[8][0] == true) {
+    if (data[7] == true) {
       DateTime now = new DateTime.now();
       DateTime date = new DateTime(
           now.year, now.month, now.day, now.hour, now.minute, now.second);
       final filename = date.toString();
       final destination = 'files/$filename';
-      UploadTask? task = FirebaseApi.uploadFile(destination, data[7][0]);
+      UploadTask? task = FirebaseApi.uploadFile(destination, data[6]);
       final snapshot = await task!.whenComplete(() {});
       final urlDownload = await snapshot.ref.getDownloadURL();
 
@@ -774,9 +792,15 @@ class AgentAkun extends Agent {
               .set('deskripsi', data[5])
               .set("gambar", urlDownload));
 
-      Message message =
-          Message('Agent Akun', sender, "INFORM", Tasks('cari', "oke"));
-      return message;
+      if (update.isSuccess) {
+        Message message =
+            Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+        return message;
+      } else {
+        Message message =
+            Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+        return message;
+      }
     } else {
       var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
 
@@ -789,9 +813,15 @@ class AgentAkun extends Agent {
               .set('lingkungan', data[4])
               .set('deskripsi', data[5]));
 
-      Message message =
-          Message('Agent Akun', sender, "INFORM", Tasks('cari', "oke"));
-      return message;
+      if (update.isSuccess) {
+        Message message =
+            Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+        return message;
+      } else {
+        Message message =
+            Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+        return message;
+      }
     }
   }
 
@@ -811,9 +841,15 @@ class AgentAkun extends Agent {
             .set('pemberkatan', data[7])
             .set('updatedAt', DateTime.now())
             .set('updatedBy', data[8]));
-    Message message =
-        Message('Agent Akun', sender, "INFORM", Tasks('cari', "oke"));
-    return message;
+    if (update.isSuccess) {
+      Message message =
+          Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+      return message;
+    } else {
+      Message message =
+          Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+      return message;
+    }
   }
 
   Future<Message> cariEditProfileImam(dynamic data, String sender) async {
@@ -834,9 +870,15 @@ class AgentAkun extends Agent {
             .set('email', data[2])
             .set('notelp', data[3]));
 
-    Message message =
-        Message('Agent Akun', sender, "INFORM", Tasks('cari', "oke"));
-    return message;
+    if (update.isSuccess) {
+      Message message =
+          Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+      return message;
+    } else {
+      Message message =
+          Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+      return message;
+    }
   }
 
   Future<Message> cariDataImam(dynamic data, String sender) async {
@@ -939,7 +981,7 @@ class AgentAkun extends Agent {
     this.agentName = "Agent Akun";
     _plan = [
       Plan("login", "REQUEST", _estimatedTime),
-      Plan("ganti status", "REQUEST", _estimatedTime),
+      Plan("edit status", "REQUEST", _estimatedTime),
       Plan("edit profile gereja", "REQUEST", _estimatedTime),
       Plan("edit profile imam", "REQUEST", _estimatedTime),
       Plan("edit aturan pelayanan", "REQUEST", _estimatedTime),
@@ -954,7 +996,7 @@ class AgentAkun extends Agent {
     ];
     _goals = [
       Goals("login", List<Map<String, Object?>>, 5),
-      Goals("ganti status", String, 2),
+      Goals("edit status", String, 2),
       Goals("edit profile gereja", String, 2),
       Goals("edit profile imam", String, 2),
       Goals("edit aturan pelayanan", String, 2),

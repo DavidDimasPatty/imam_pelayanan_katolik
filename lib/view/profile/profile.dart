@@ -90,7 +90,7 @@ class _Profile extends State<Profile> {
     // k = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Akun', "REQUEST",
-        Tasks('ganti status', [pelayanan, iduser, status]));
+        Tasks('edit status', [iduser, status, pelayanan]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
@@ -711,7 +711,7 @@ class _Profile extends State<Profile> {
                                   } else {
                                     temp = 0;
                                   }
-                                  await gantiStatus("pemberkatan", temp);
+                                  await gantiStatus("sakramentali", temp);
                                   setState(() {
                                     // callDb();
 

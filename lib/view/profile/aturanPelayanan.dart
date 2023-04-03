@@ -95,7 +95,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'View',
-        'Agent Pendaftaran',
+        'Agent Akun',
         "REQUEST",
         Tasks('edit aturan pelayanan', [
           idGereja,

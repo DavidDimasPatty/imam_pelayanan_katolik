@@ -90,7 +90,7 @@ class _EditProfile extends State<EditProfile> {
       // var daftarmisa = await AgenPage().receiverTampilan();
 
       Completer<void> completer = Completer<void>();
-      Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
+      Message message = Message('View', 'Agent Akun', "REQUEST",
           Tasks('edit profile imam', [iduser, nama, email, notelp]));
 
       MessagePassing messagePassing = MessagePassing();

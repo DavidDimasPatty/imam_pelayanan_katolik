@@ -54,17 +54,17 @@ class _notifClass extends State<notification> {
     // await Future.delayed(Duration(seconds: 1));
     // checknotif = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari data user', [idUser]));
+    Message message = Message(
+        'View', 'Agent Akun', "REQUEST", Tasks('cari data imam', idUser));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var result = await messagePassing.messageGetToView();
+    var checknotif = await messagePassing.messageGetToView();
 
     await completer.future;
 
-    return result;
+    return checknotif;
   }
 
   Future updateNotif(notif) async {
@@ -179,7 +179,8 @@ class _notifClass extends State<notification> {
                 future: callDb(),
                 builder: (context, AsyncSnapshot snapshot) {
                   try {
-                    switch1 = checknotif[0]['notif'];
+                    print(snapshot.data);
+                    switch1 = snapshot.data[0]['notif'];
 
                     return Column(
                       children: <Widget>[
@@ -220,7 +221,7 @@ class _notifClass extends State<notification> {
                                   await updateNotif(switch1);
                                   // await callDb();
                                   setState(() {
-                                    switch1 = checknotif[0]['notif'];
+                                    switch1 = snapshot.data[0]['notif'];
                                   });
                                 });
                               },
