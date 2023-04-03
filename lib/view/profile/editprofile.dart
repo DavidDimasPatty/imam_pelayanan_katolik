@@ -55,7 +55,7 @@ class _EditProfile extends State<EditProfile> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View', 'Agent Pencarian', "REQUEST", Tasks('edit profile', [iduser]));
+        'View', 'Agent Akun', "REQUEST", Tasks('cari data imam', iduser));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);

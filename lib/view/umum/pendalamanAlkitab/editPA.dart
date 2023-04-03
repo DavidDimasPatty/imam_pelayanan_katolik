@@ -180,7 +180,7 @@ class _editPA extends State<editPA> {
     // return hasil;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('data edit pelayanan', [idPA, "umum"]));
+        Tasks('cari data edit pelayanan', [idPA, "umum"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

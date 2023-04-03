@@ -53,8 +53,12 @@ class _PA extends State<PA> {
 
     // return k;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan', [idGereja, "umum", "pendalaman alkitab"]));
+    Message message = Message(
+        'View',
+        'Agent Pencarian',
+        "REQUEST",
+        Tasks('cari pelayanan',
+            [idGereja, "umum", "current", "Pendalaman Alkitab"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -118,8 +122,12 @@ class _PA extends State<PA> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [idKegiatan, -1, "umum", "current"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan',
+            [idKegiatan, -1, "umum", "current", "pendalaman alkitab"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

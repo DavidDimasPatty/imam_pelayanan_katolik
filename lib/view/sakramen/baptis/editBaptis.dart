@@ -87,7 +87,7 @@ class _editBaptis extends State<editBaptis> {
     // return hasil;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('data edit pelayanan', [idBaptis, "baptis"]));
+        Tasks('cari data edit pelayanan', [idBaptis, "baptis"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

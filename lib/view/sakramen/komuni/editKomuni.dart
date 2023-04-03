@@ -163,7 +163,7 @@ class _editKomuni extends State<editKomuni> {
     // return hasil;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('data edit pelayanan', [idKomuni, "komuni"]));
+        Tasks('cari data edit pelayanan', [idKomuni, "komuni"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

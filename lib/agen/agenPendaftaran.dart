@@ -1262,7 +1262,7 @@ class AgentPendaftaran extends Agent {
   List<Plan> _plan = [];
   List<Goals> _goals = [];
   List<dynamic> pencarianData = [];
-
+  String agentName = "";
   bool stop = false;
   int _estimatedTime = 5;
 
@@ -1691,7 +1691,7 @@ class AgentPendaftaran extends Agent {
           ['failed']
         ]));
 
-    print('Task rejected $sender: $task');
+    print(this.agentName + ' rejected task form $sender: ${task.action}');
     return message;
   }
 
@@ -1707,6 +1707,7 @@ class AgentPendaftaran extends Agent {
   }
 
   void _initAgent() {
+    this.agentName = "Agent Pendaftaran";
     _plan = [
       Plan("update user", "REQUEST", _estimatedTime),
       Plan("update imam", "REQUEST", _estimatedTime),

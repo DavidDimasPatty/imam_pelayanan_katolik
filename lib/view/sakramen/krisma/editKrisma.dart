@@ -163,7 +163,7 @@ class _editKrisma extends State<editKrisma> {
     // return hasil;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('data edit pelayanan', [idKrisma, "krisma"]));
+        Tasks('cari data edit pelayanan', [idKrisma, "krisma"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

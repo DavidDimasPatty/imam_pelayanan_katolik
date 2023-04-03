@@ -54,7 +54,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan user', [idRekoleksi, "umum"]));
+        Tasks('cari pelayanan user', [idRekoleksi, "rekoleksi", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

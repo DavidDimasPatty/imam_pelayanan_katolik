@@ -63,7 +63,7 @@ class _editPengumuman extends State<editPengumuman> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari history pelayanan', [idPengumuman]));
+        Tasks('cari pengumuman edit', [idPengumuman]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);

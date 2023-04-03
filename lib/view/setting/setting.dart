@@ -43,7 +43,7 @@ class Settings extends StatelessWidget {
     // k = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message =
-        Message('View', 'Agent Akun', "REQUEST", Tasks('log out', null));
+        Message('View', 'Agent Setting', "REQUEST", Tasks('log out', null));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);

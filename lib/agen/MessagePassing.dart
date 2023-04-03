@@ -31,7 +31,12 @@ class MessagePassing {
   }
 
   messageSetToView(message) {
-    return data.add(message.data);
+    if (data.isEmpty) {
+      data.add(message.data);
+    } else {
+      data.add(message.data);
+      data.removeAt(0);
+    }
   }
 
   Future messageGetToView() async {

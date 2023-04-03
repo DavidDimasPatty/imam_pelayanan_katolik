@@ -478,6 +478,7 @@ class AgentAkun extends Agent {
   List<Plan> _plan = [];
   List<Goals> _goals = [];
   List<dynamic> pencarianData = [];
+  String agentName = "";
 
   bool stop = false;
   int _estimatedTime = 5;
@@ -505,7 +506,7 @@ class AgentAkun extends Agent {
           messagePassing.sendMessage(msg);
         });
 
-        Message message = await action(p.goals, task, sender);
+        Message message = await action(p.goals, task.data, sender);
 
         if (stop == false) {
           if (timer.isActive) {
@@ -550,9 +551,15 @@ class AgentAkun extends Agent {
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
       case "login":
-        return login(data.data, sender);
+        return login(data, sender);
       case "ganti status":
         return changeStatus(data, sender);
+      case "cari profile":
+        return cariProfile(data, sender);
+      case "cari data gereja":
+        return cariProfileGereja(data, sender);
+      case "cari data aturan pelayanan":
+        return cariDataAturanPelayanan(data, sender);
       case "edit profile gereja":
         return EditProfileGereja(data, sender);
       case "edit profile imam":
@@ -580,9 +587,17 @@ class AgentAkun extends Agent {
     var conn = await imamCollection
         .find({'email': data[0], 'password': data[1], 'banned': 0}).toList();
 
+    sendToAgenSetting(conn, agentName);
     Message message =
-        Message('Agent Akun', sender, "INFORM", Tasks('cari', conn));
+        Message('Agent Akun', sender, "REQUEST", Tasks('save data', conn));
     return message;
+  }
+
+  void sendToAgenSetting(dynamic data, String sender) async {
+    Message message =
+        Message(sender, "Agent Setting", "REQUEST", Tasks('save data', data));
+    MessagePassing messagePassing = MessagePassing();
+    messagePassing.sendMessage(message);
   }
 
   Future<Message> changeStatus(dynamic data, String sender) async {
@@ -593,6 +608,146 @@ class AgentAkun extends Agent {
 
     Message message =
         Message('Agent Akun', sender, "INFORM", Tasks('cari', update));
+    return message;
+  }
+
+  Future<Message> cariProfile(dynamic data, String sender) async {
+    var userKrismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
+    var userBaptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
+    var userKomuniCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
+    var userPemberkatanCollection =
+        MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+    var userKegiatanCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
+    var count = 0;
+
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'userBaptis',
+            localField: '_id',
+            foreignField: 'idBaptis',
+            as: 'userBaptis'))
+        .addStage(Match(where.eq('idGereja', data[0]).map['\$query']))
+        .build();
+    var countB =
+        await userBaptisCollection.aggregateToStream(pipeline).toList();
+
+    final pipeline2 = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'userKomuni',
+            localField: '_id',
+            foreignField: 'idKomuni',
+            as: 'userKomuni'))
+        .addStage(Match(where.eq('idGereja', data[0]).map['\$query']))
+        .build();
+    var countKo =
+        await userKomuniCollection.aggregateToStream(pipeline2).toList();
+
+    final pipeline3 = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'userKrisma',
+            localField: '_id',
+            foreignField: 'idKrisma',
+            as: 'userKrisma'))
+        .addStage(Match(where.eq('idGereja', data[0]).map['\$query']))
+        .build();
+    var countKr =
+        await userKrismaCollection.aggregateToStream(pipeline3).toList();
+
+    final pipeline4 = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'userUmum',
+            localField: '_id',
+            foreignField: 'idKegiatan',
+            as: 'userKegiatan'))
+        .addStage(Match(where.eq('idGereja', data[0]).map['\$query']))
+        .build();
+    var countU =
+        await userKegiatanCollection.aggregateToStream(pipeline4).toList();
+
+    var countP =
+        await userPemberkatanCollection.find({'idGereja': data[0]}).length;
+
+    var totalB = 0;
+    var totalKo = 0;
+    var totalKr = 0;
+    var totalU = 0;
+    for (var i = 0; i < countB.length; i++) {
+      if (countB[i]['userBaptis'] != null) {
+        for (var j = 0; j < countB[i]['userBaptis'].length; j++) {
+          if (countB[i]['userBaptis'][j]['status'] != null) {
+            totalB++;
+          }
+        }
+      }
+    }
+
+    for (var i = 0; i < countKo.length; i++) {
+      if (countKo[i]['userKomuni'] != null) {
+        for (var j = 0; j < countKo[i]['userKomuni'].length; j++) {
+          if (countKo[i]['userKomuni'][j]['status'] != null) {
+            totalKo++;
+          }
+        }
+      }
+    }
+
+    for (var i = 0; i < countKr.length; i++) {
+      if (countKr[i]['userKrisma'] != null) {
+        for (var j = 0; j < countKr[i]['userKrisma'].length; j++) {
+          if (countKr[i]['userKrisma'][j]['status'] != null) {
+            totalKr++;
+          }
+        }
+      }
+    }
+
+    for (var i = 0; i < countU.length; i++) {
+      if (countU[i]['userKegiatan'] != null) {
+        for (var j = 0; j < countU[i]['userKegiatan'].length; j++) {
+          if (countU[i]['userKegiatan'][j]['status'] != null) {
+            totalU++;
+          }
+        }
+      }
+    }
+
+    var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
+    final pipeline5 = AggregationPipelineBuilder()
+        .addStage(Lookup(
+            from: 'Gereja',
+            localField: 'idGereja',
+            foreignField: '_id',
+            as: 'userGereja'))
+        .addStage(Match(where.eq('_id', data[1]).map['\$query']))
+        .build();
+    var conn = await userCollection.aggregateToStream(pipeline5).toList();
+
+    Message message = Message(
+        'Agent Pencarian',
+        sender,
+        "INFORM",
+        Tasks('data pencarian gereja',
+            [conn, totalB + totalKo + countP + totalKr + totalU]));
+    return message;
+  }
+
+  Future<Message> cariProfileGereja(dynamic data, String sender) async {
+    var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
+    var conn = await gerejaCollection.find({'_id': data}).toList();
+    Message message = Message('Agent Pencarian', sender, "INFORM",
+        Tasks('data pencarian gereja', conn));
+
+    return message;
+  }
+
+  Future<Message> cariDataAturanPelayanan(dynamic data, String sender) async {
+    var aturanPelayananCollection =
+        MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
+    var conn =
+        await aturanPelayananCollection.find({'idGereja': data}).toList();
+    Message message = Message('Agent Pencarian', sender, "INFORM",
+        Tasks('data pencarian gereja', conn));
+
     return message;
   }
 
@@ -686,7 +841,7 @@ class AgentAkun extends Agent {
 
   Future<Message> cariDataImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-    var conn = await imamCollection.find({'_id': data[0]}).toList();
+    var conn = await imamCollection.find({'_id': data}).toList();
     Message message =
         Message('Agent Akun', sender, "INFORM", Tasks('cari', conn));
     return message;
@@ -765,7 +920,7 @@ class AgentAkun extends Agent {
           ['failed']
         ]));
 
-    print('Task rejected $sender: $task');
+    print(this.agentName + ' rejected task form $sender: ${task.action}');
     return message;
   }
 
@@ -781,6 +936,7 @@ class AgentAkun extends Agent {
   }
 
   void _initAgent() {
+    this.agentName = "Agent Akun";
     _plan = [
       Plan("login", "REQUEST", _estimatedTime),
       Plan("ganti status", "REQUEST", _estimatedTime),
@@ -792,9 +948,12 @@ class AgentAkun extends Agent {
       Plan("find password", "REQUEST", _estimatedTime),
       Plan("change password", "REQUEST", _estimatedTime),
       Plan("change profile picture", "REQUEST", _estimatedTime),
+      Plan("cari profile", "REQUEST", _estimatedTime),
+      Plan("cari data gereja", "REQUEST", _estimatedTime),
+      Plan("cari data aturan pelayanan", "REQUEST", _estimatedTime),
     ];
     _goals = [
-      Goals("login", List<Map<String, Object?>>, 2),
+      Goals("login", List<Map<String, Object?>>, 5),
       Goals("ganti status", String, 2),
       Goals("edit profile gereja", String, 2),
       Goals("edit profile imam", String, 2),
@@ -804,6 +963,9 @@ class AgentAkun extends Agent {
       Goals("find password", List<Map<String, Object?>>, 2),
       Goals("change password", String, 2),
       Goals("change profile picture", String, 2),
+      Goals("cari profile", List<dynamic>, 2),
+      Goals("cari data gereja", List<Map<String, Object?>>, 2),
+      Goals("cari data aturan pelayanan", List<Map<String, Object?>>, 2),
     ];
   }
 }

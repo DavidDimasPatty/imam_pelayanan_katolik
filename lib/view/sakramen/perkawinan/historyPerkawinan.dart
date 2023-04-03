@@ -52,7 +52,7 @@ class _HistoryPerkawinan extends State<HistoryPerkawinan> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan', [idUser, "history"]));
+        Tasks('cari pelayanan', [idUser, "perkawinan", "history"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

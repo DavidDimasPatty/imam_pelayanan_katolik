@@ -174,7 +174,6 @@ class _Perkawinan extends State<Perkawinan> {
                 future: callDb(),
                 builder: (context, AsyncSnapshot snapshot) {
                   try {
-                    print(snapshot.data);
                     return Column(children: [
                       for (var i in daftarUser)
                         InkWell(

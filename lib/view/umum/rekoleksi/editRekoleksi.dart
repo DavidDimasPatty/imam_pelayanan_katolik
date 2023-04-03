@@ -182,7 +182,7 @@ class _editRekoleksi extends State<editRekoleksi> {
     // return hasil;\
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('data edit pelayanan', [idRekoleksi, "umum"]));
+        Tasks('cari data edit pelayanan', [idRekoleksi, "umum"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

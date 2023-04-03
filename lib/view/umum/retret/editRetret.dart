@@ -182,7 +182,7 @@ class _editRetret extends State<editRetret> {
     // return hasil;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('data edit pelayanan', [idRetret, "umum"]));
+        Tasks('cari data edit pelayanan', [idRetret, "umum"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

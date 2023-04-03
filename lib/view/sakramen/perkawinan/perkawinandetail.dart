@@ -33,7 +33,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
   final idGereja;
   final idPerkawinan;
   _DetailPerkawinan(this.name, this.idUser, this.idGereja, this.idPerkawinan);
-  @override
+
   Future<List> callDb() async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPencarian");
@@ -221,7 +221,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                   future: callDb(),
                   builder: (context, AsyncSnapshot snapshot) {
                     try {
-                      // print(snapshot.data[0][0][0]);
+                      print(snapshot.data[0][0]);
                       return ListView(
                         shrinkWrap: true,
                         padding: EdgeInsets.only(right: 15, left: 15),
@@ -240,7 +240,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[1][0][0]["name"])
+                              Text(snapshot.data[1][0]["name"])
                             ],
                           ),
                           Padding(
@@ -257,9 +257,9 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0][0][0]["namaPria"] +
+                              Text(snapshot.data[0][0]["namaPria"] +
                                   " & " +
-                                  snapshot.data[0][0][0]["namaPerempuan"])
+                                  snapshot.data[0][0]["namaPerempuan"])
                             ],
                           ),
                           Padding(
@@ -276,7 +276,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0][0][0]["notelp"])
+                              Text(snapshot.data[0][0]["notelp"])
                             ],
                           ),
                           Padding(
@@ -293,7 +293,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0][0][0]["email"])
+                              Text(snapshot.data[0][0]["email"])
                             ],
                           ),
                           Padding(
@@ -310,7 +310,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0][0][0]["alamat"])
+                              Text(snapshot.data[0][0]["alamat"])
                             ],
                           ),
                           Padding(
@@ -327,7 +327,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0][0][0]["tanggal"].toString())
+                              Text(snapshot.data[0][0]["tanggal"].toString())
                             ],
                           ),
                           Padding(
@@ -344,7 +344,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0][0][0]["note"])
+                              Text(snapshot.data[0][0]["note"])
                             ],
                           ),
                           Padding(
@@ -361,11 +361,11 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              if (snapshot.data[0][0][0]["status"] == 0)
+                              if (snapshot.data[0][0]["status"] == 0)
                                 Text("Menunggu"),
-                              if (snapshot.data[0][0][0]["status"] == 1)
+                              if (snapshot.data[0][0]["status"] == 1)
                                 Text("Diterima"),
-                              if (snapshot.data[0][0][0]["status"] == -1)
+                              if (snapshot.data[0][0]["status"] == -1)
                                 Text("Ditolak")
                             ],
                           ),
@@ -404,9 +404,9 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                                               TextButton(
                                                 onPressed: () {
                                                   updateAccept(
-                                                      snapshot.data[1][0][0]
+                                                      snapshot.data[1][0]
                                                           ['token'],
-                                                      snapshot.data[1][0][0]
+                                                      snapshot.data[1][0]
                                                           ['_id']);
                                                   Navigator.pop(context);
                                                 },
@@ -449,9 +449,9 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                                               TextButton(
                                                 onPressed: () {
                                                   updateReject(
-                                                      snapshot.data[1][0][0]
+                                                      snapshot.data[1][0]
                                                           ['token'],
-                                                      snapshot.data[1][0][0]
+                                                      snapshot.data[1][0]
                                                           ['_id']);
                                                   Navigator.pop(context);
                                                 },

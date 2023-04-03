@@ -31,11 +31,11 @@ class Login extends StatelessWidget {
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
-    completer.complete();
     var hasil = await messagePassing.messageGetToView();
+    completer.complete();
 
     await completer.future;
-    return hasil;
+    return await hasil;
   }
 
   @override
@@ -204,8 +204,6 @@ class Login extends StatelessWidget {
                                     await login(emailController.text,
                                             passwordController.text)
                                         .then((ret) async {
-                                      print("work");
-                                      print(ret);
                                       try {
                                         if (ret.length > 0) {
                                           print(ret[0]["_id"]);

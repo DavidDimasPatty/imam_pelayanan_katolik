@@ -56,8 +56,8 @@ class _AturanPelayanan extends State<AturanPelayanan> {
     // await Future.delayed(Duration(seconds: 1));
     // k = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari aturan pelayanan', [idGereja]));
+    Message message = Message('View', 'Agent Akun', "REQUEST",
+        Tasks('cari data aturan pelayanan', idGereja));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);

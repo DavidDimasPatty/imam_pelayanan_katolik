@@ -223,7 +223,7 @@ class _UpdateProfile extends State<UpdateProfile> {
     // var hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View', 'Agent Pencarian', "REQUEST", Tasks('cari gereja', [idGereja]));
+        'View', 'Agent Akun', "REQUEST", Tasks('cari data gereja', idGereja));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);

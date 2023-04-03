@@ -53,7 +53,7 @@ class _PAUser extends State<PAUser> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan user', [idPA, "umum", "current"]));
+        Tasks('cari pelayanan user', [idPA, "pendalaman alkitab", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

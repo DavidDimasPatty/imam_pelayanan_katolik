@@ -53,7 +53,7 @@ class _RetretUser extends State<RetretUser> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan user', [idRetret, "umum"]));
+        Tasks('cari pelayanan user', [idRetret, "retret", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -117,8 +117,12 @@ class _RetretUser extends State<RetretUser> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan user', [id, token, idTarget, -1, "umum"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user',
+            [id, token, idTarget, -1, "umum", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -173,8 +177,12 @@ class _RetretUser extends State<RetretUser> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan user', [id, token, idTarget, 1, "umum"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user',
+            [id, token, idTarget, 1, "umum", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

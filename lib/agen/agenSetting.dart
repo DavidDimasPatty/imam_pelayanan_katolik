@@ -166,7 +166,7 @@ class AgentSetting extends Agent {
   List<Plan> _plan = [];
   List<Goals> _goals = [];
   List<dynamic> pencarianData = [];
-
+  String agentName = "";
   bool stop = false;
   int _estimatedTime = 10;
 
@@ -193,7 +193,7 @@ class AgentSetting extends Agent {
           messagePassing.sendMessage(msg);
         });
 
-        Message message = await action(p.goals, task, sender);
+        Message message = await action(p.goals, task.data, sender);
         print(message.task.data.runtimeType);
 
         if (stop == false) {
@@ -207,7 +207,6 @@ class AgentSetting extends Agent {
               messagePassing.sendMessage(msg);
             } else {
               for (var g in _goals) {
-                print("masuk");
                 if (g.request == p.goals &&
                     g.goals == message.task.data.runtimeType) {
                   checkGoals = true;
@@ -240,16 +239,16 @@ class AgentSetting extends Agent {
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
       case "setting user":
-        return settingUser(data.data, sender);
+        return settingUser(data, sender);
 
       case "save data":
-        return saveData(data.data, sender);
+        return saveData(data, sender);
 
       case "log out":
-        return logOut(data.data, sender);
+        return logOut(data, sender);
 
       default:
-        return rejectTask(data, data.sender);
+        return rejectTask(data, sender);
     }
   }
 
@@ -297,27 +296,23 @@ class AgentSetting extends Agent {
   Future<Message> saveData(dynamic data, String sender) async {
     final directory = await getApplicationDocumentsDirectory();
     var path = directory.path;
+    print(data);
     if (await File('$path/loginImam.txt').exists()) {
       final file = await File('$path/loginImam.txt');
-      print("found file");
-      print(data[1][0][0]);
-      print("nama");
-      print(data[1][0][0]['name']);
-      await file.writeAsString(data[1][0][0]['name']);
-      await file.writeAsString('\n' + data[1][0][0]['_id'].toString(),
+
+      await file.writeAsString(data[0]['name']);
+      await file.writeAsString('\n' + data[0]['_id'].toString(),
           mode: FileMode.append);
 
-      await file.writeAsString('\n' + data[1][0][0]['idGereja'].toString(),
+      await file.writeAsString('\n' + data[0]['idGereja'].toString(),
           mode: FileMode.append);
-      print("DONE!!!!!!!!!!!!!");
     } else {
-      print("file not found");
       final file = await File('$path/loginImam.txt').create(recursive: true);
-      await file.writeAsString(data[1][0][0]['name']);
-      await file.writeAsString('\n' + data[1][0][0]['_id'].toString(),
+      await file.writeAsString(data[0]['name']);
+      await file.writeAsString('\n' + data[0]['_id'].toString(),
           mode: FileMode.append);
 
-      await file.writeAsString('\n' + data[1][0][0]['idGereja'].toString(),
+      await file.writeAsString('\n' + data[0]['idGereja'].toString(),
           mode: FileMode.append);
     }
 
@@ -347,7 +342,7 @@ class AgentSetting extends Agent {
           ['failed']
         ]));
 
-    print('Task rejected $sender: $task');
+    print(this.agentName + ' rejected task form $sender: ${task.action}');
     return message;
   }
 
@@ -363,6 +358,7 @@ class AgentSetting extends Agent {
   }
 
   void _initAgent() {
+    this.agentName = "Agent Setting";
     _plan = [
       Plan("setting user", "REQUEST", _estimatedTime),
       Plan("log out", "REQUEST", _estimatedTime),

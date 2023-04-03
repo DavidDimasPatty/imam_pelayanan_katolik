@@ -59,7 +59,7 @@ class _Profile extends State<Profile> {
 
     // return k;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('View', 'Agent Akun', "REQUEST",
         Tasks('cari profile', [idGereja, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
