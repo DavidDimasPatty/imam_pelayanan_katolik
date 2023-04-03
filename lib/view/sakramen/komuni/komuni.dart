@@ -54,7 +54,7 @@ class _Komuni extends State<Komuni> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan', [idGereja, "komuni"]));
+        Tasks('cari pelayanan', [idGereja, "komuni", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

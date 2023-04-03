@@ -168,7 +168,7 @@ class AgentSetting extends Agent {
   List<dynamic> pencarianData = [];
 
   bool stop = false;
-  int _estimatedTime = 5;
+  int _estimatedTime = 10;
 
   bool canPerformTask(dynamic message) {
     for (var p in _plan) {
@@ -194,6 +194,7 @@ class AgentSetting extends Agent {
         });
 
         Message message = await action(p.goals, task, sender);
+        print(message.task.data.runtimeType);
 
         if (stop == false) {
           if (timer.isActive) {
@@ -206,6 +207,7 @@ class AgentSetting extends Agent {
               messagePassing.sendMessage(msg);
             } else {
               for (var g in _goals) {
+                print("masuk");
                 if (g.request == p.goals &&
                     g.goals == message.task.data.runtimeType) {
                   checkGoals = true;
@@ -254,7 +256,7 @@ class AgentSetting extends Agent {
   Future<Message> settingUser(dynamic data, String sender) async {
     var date = DateTime.now();
     var hour = date.hour;
-    print(hour);
+
     await dotenv.load(fileName: ".env");
     await Firebase.initializeApp();
     await MongoDatabase.connect();
@@ -265,7 +267,6 @@ class AgentSetting extends Agent {
       var path = directory.path;
       final file = await File('$path/loginImam.txt');
       res = await file.readAsLines();
-      print(await res);
     } catch (e) {
       print(e);
       res = "nothing";
@@ -276,14 +277,9 @@ class AgentSetting extends Agent {
           sender,
           "INFORM",
           Tasks('status', [
-            ["Application Setting Ready"],
             [await res],
             ["pagi"]
           ]));
-      runApp(await MaterialApp(
-        title: 'Navigation Basics',
-        home: Login(),
-      ));
       return message;
     } else {
       Message message = Message(
@@ -291,14 +287,9 @@ class AgentSetting extends Agent {
           sender,
           "INFORM",
           Tasks('status', [
-            ["Application Setting Ready"],
             [await res],
             ["malam"]
           ]));
-      runApp(await MaterialApp(
-        title: 'Navigation Basics',
-        home: Login(),
-      ));
       return message;
     }
   }
@@ -378,7 +369,7 @@ class AgentSetting extends Agent {
       Plan("save data", "REQUEST", _estimatedTime),
     ];
     _goals = [
-      Goals("setting user", String, 6),
+      Goals("setting user", List<List<dynamic>>, 12),
       Goals("log out", String, 6),
       Goals("save data", String, 6),
     ];

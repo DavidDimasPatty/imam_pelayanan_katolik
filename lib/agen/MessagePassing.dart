@@ -1,6 +1,5 @@
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/agenAkun.dart';
-import 'package:imam_pelayanan_katolik/agen/agenPencarian.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPendaftaran.dart';
 import 'package:imam_pelayanan_katolik/agen/agenSetting.dart';
 

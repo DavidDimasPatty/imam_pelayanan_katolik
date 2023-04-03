@@ -28,8 +28,6 @@ class _Sakramen extends State<Sakramen> {
 
   _Sakramen(this.names, this.iduser, this.idGereja);
 
-  List hasil = [];
-
   Future callJumlah() async {
     // Messages msg = new Messages();
     // await msg.addReceiver("agenPencarian");
@@ -53,6 +51,7 @@ class _Sakramen extends State<Sakramen> {
     var hasil = await messagePassing.messageGetToView();
 
     await completer.future;
+
     return await hasil;
   }
 
@@ -138,7 +137,7 @@ class _Sakramen extends State<Sakramen> {
                                         height: 5.0,
                                       ),
                                       Text(
-                                        hasil[0].toString(),
+                                        snapshot.data[0].toString(),
                                         style: TextStyle(
                                           color: Colors.blue,
                                           fontSize: 17.0,
@@ -181,7 +180,8 @@ class _Sakramen extends State<Sakramen> {
                                                         height: 5.0,
                                                       ),
                                                       Text(
-                                                        hasil[1].toString(),
+                                                        snapshot.data[1]
+                                                            .toString(),
                                                         style: TextStyle(
                                                           color: Colors.blue,
                                                           fontSize: 16.0,
@@ -231,7 +231,8 @@ class _Sakramen extends State<Sakramen> {
                                                         height: 10.0,
                                                       ),
                                                       Text(
-                                                        hasil[2].toString(),
+                                                        snapshot.data[2]
+                                                            .toString(),
                                                         style: TextStyle(
                                                           color: Colors.blue,
                                                           fontSize: 16.0,
@@ -281,7 +282,8 @@ class _Sakramen extends State<Sakramen> {
                                                         height: 5.0,
                                                       ),
                                                       Text(
-                                                        hasil[3].toString(),
+                                                        snapshot.data[3]
+                                                            .toString(),
                                                         style: TextStyle(
                                                           color: Colors.blue,
                                                           fontSize: 16.0,
@@ -331,7 +333,8 @@ class _Sakramen extends State<Sakramen> {
                                                         height: 5.0,
                                                       ),
                                                       Text(
-                                                        hasil[4].toString(),
+                                                        snapshot.data[4]
+                                                            .toString(),
                                                         style: TextStyle(
                                                           color: Colors.blue,
                                                           fontSize: 16.0,

@@ -146,7 +146,7 @@ class _KegiatanUmum extends State<KegiatanUmum> {
                                         height: 5.0,
                                       ),
                                       Text(
-                                        hasil[0].toString(),
+                                        snapshot.data[0].toString(),
                                         style: TextStyle(
                                           color: Colors.blue,
                                           fontSize: 17.0,
@@ -189,7 +189,8 @@ class _KegiatanUmum extends State<KegiatanUmum> {
                                                         height: 5.0,
                                                       ),
                                                       Text(
-                                                        hasil[1].toString(),
+                                                        snapshot.data[1]
+                                                            .toString(),
                                                         style: TextStyle(
                                                           color: Colors.blue,
                                                           fontSize: 16.0,
@@ -239,7 +240,8 @@ class _KegiatanUmum extends State<KegiatanUmum> {
                                                         height: 10.0,
                                                       ),
                                                       Text(
-                                                        hasil[2].toString(),
+                                                        snapshot.data[2]
+                                                            .toString(),
                                                         style: TextStyle(
                                                           color: Colors.blue,
                                                           fontSize: 16.0,
@@ -289,7 +291,8 @@ class _KegiatanUmum extends State<KegiatanUmum> {
                                                         height: 5.0,
                                                       ),
                                                       Text(
-                                                        hasil[3].toString(),
+                                                        snapshot.data[3]
+                                                            .toString(),
                                                         style: TextStyle(
                                                           color: Colors.blue,
                                                           fontSize: 16.0,

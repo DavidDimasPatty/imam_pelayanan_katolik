@@ -27,7 +27,7 @@ class Login extends StatelessWidget {
     // return await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View', 'Agent Akun', "REQUEST", Tasks('cari user', [id, password]));
+        'View', 'Agent Akun', "REQUEST", Tasks('login', [id, password]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);

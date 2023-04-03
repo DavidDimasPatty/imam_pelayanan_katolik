@@ -68,7 +68,7 @@ class _Profile extends State<Profile> {
     var result = await messagePassing.messageGetToView();
 
     await completer.future;
-
+    print(result[1]);
     return result;
   }
 
@@ -311,11 +311,11 @@ class _Profile extends State<Profile> {
                 future: callDb(),
                 builder: (context, AsyncSnapshot snapshot) {
                   try {
-                    statusPem = snapshot.data[0][0][0]['statusPemberkatan'];
-                    statusPerm = snapshot.data[0][0][0]['statusPerminyakan'];
-                    statusPerk = snapshot.data[0][0][0]['statusPerkawinan'];
-                    statusTob = snapshot.data[0][0][0]['statusTobat'];
-                    print(snapshot.data[1][0]);
+                    statusPem = snapshot.data[0][0]['statusPemberkatan'];
+                    statusPerm = snapshot.data[0][0]['statusPerminyakan'];
+                    statusPerk = snapshot.data[0][0]['statusPerkawinan'];
+                    statusTob = snapshot.data[0][0]['statusTobat'];
+
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -354,8 +354,7 @@ class _Profile extends State<Profile> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: <Widget>[
-                                          if (snapshot.data[0][0][0]
-                                                  ['picture'] ==
+                                          if (snapshot.data[0][0]['picture'] ==
                                               null)
                                             CircleAvatar(
                                               backgroundImage: AssetImage(''),
@@ -363,12 +362,11 @@ class _Profile extends State<Profile> {
                                                   Colors.greenAccent,
                                               radius: 80.0,
                                             ),
-                                          if (snapshot.data[0][0][0]
-                                                  ['picture'] !=
+                                          if (snapshot.data[0][0]['picture'] !=
                                               null)
                                             CircleAvatar(
                                               backgroundImage: NetworkImage(
-                                                  snapshot.data[0][0][0]
+                                                  snapshot.data[0][0]
                                                       ['picture']),
                                               backgroundColor:
                                                   Colors.greenAccent,
@@ -378,7 +376,7 @@ class _Profile extends State<Profile> {
                                             height: 10.0,
                                           ),
                                           Text(
-                                            snapshot.data[0][0][0]['name'],
+                                            snapshot.data[0][0]['name'],
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 24.0,
@@ -422,7 +420,7 @@ class _Profile extends State<Profile> {
                                                           height: 5.0,
                                                         ),
                                                         Text(
-                                                          snapshot.data[1][0]
+                                                          snapshot.data[1]
                                                               .toString(),
                                                           style: TextStyle(
                                                             color: Colors.blue,
@@ -490,7 +488,7 @@ class _Profile extends State<Profile> {
                                                 children: <Widget>[
                                                   Text(
                                                     "Nama Gereja : " +
-                                                        snapshot.data[0][0][0]
+                                                        snapshot.data[0][0]
                                                                 ['userGereja']
                                                             [0]['nama'],
                                                     style: TextStyle(
@@ -499,7 +497,7 @@ class _Profile extends State<Profile> {
                                                   ),
                                                   Text(
                                                     "Nama Paroki : " +
-                                                        snapshot.data[0][0][0]
+                                                        snapshot.data[0][0]
                                                                 ['userGereja']
                                                             [0]['paroki'],
                                                     style: TextStyle(
@@ -508,7 +506,7 @@ class _Profile extends State<Profile> {
                                                   ),
                                                   Text(
                                                     "Alamat : " +
-                                                        snapshot.data[0][0][0]
+                                                        snapshot.data[0][0]
                                                                 ['userGereja']
                                                             [0]['address'],
                                                     style: TextStyle(
@@ -517,7 +515,7 @@ class _Profile extends State<Profile> {
                                                   ),
                                                   Text(
                                                     "Deskripsi : " +
-                                                        snapshot.data[0][0][0]
+                                                        snapshot.data[0][0]
                                                                 ['userGereja']
                                                             [0]['deskripsi'],
                                                     style: TextStyle(
@@ -706,7 +704,7 @@ class _Profile extends State<Profile> {
                             child: RaisedButton(
                                 onPressed: () async {
                                   var temp;
-                                  if (snapshot.data[0][0][0]
+                                  if (snapshot.data[0][0]
                                           ['statusPemberkatan'] ==
                                       0) {
                                     temp = 1;
@@ -717,7 +715,7 @@ class _Profile extends State<Profile> {
                                   setState(() {
                                     // callDb();
 
-                                    statusPem = snapshot.data[0][0][0]
+                                    statusPem = snapshot.data[0][0]
                                         ['statusPemberkatan'];
                                   });
                                 },
@@ -774,7 +772,7 @@ class _Profile extends State<Profile> {
                             child: RaisedButton(
                                 onPressed: () async {
                                   var temp;
-                                  if (snapshot.data[0][0][0]
+                                  if (snapshot.data[0][0]
                                           ['statusPerminyakan'] ==
                                       0) {
                                     temp = 1;
@@ -785,7 +783,7 @@ class _Profile extends State<Profile> {
                                   setState(() {
                                     // callDb();
 
-                                    statusPerm = snapshot.data[0][0][0]
+                                    statusPerm = snapshot.data[0][0]
                                         ['statusPerminyakan'];
                                   });
                                 },
@@ -842,8 +840,7 @@ class _Profile extends State<Profile> {
                             child: RaisedButton(
                                 onPressed: () async {
                                   var temp;
-                                  if (snapshot.data[0][0][0]['statusTobat'] ==
-                                      0) {
+                                  if (snapshot.data[0][0]['statusTobat'] == 0) {
                                     temp = 1;
                                   } else {
                                     temp = 0;
@@ -853,7 +850,7 @@ class _Profile extends State<Profile> {
                                     // callDb();
 
                                     statusTob =
-                                        snapshot.data[0][0][0]['statusTobat'];
+                                        snapshot.data[0][0]['statusTobat'];
                                   });
                                 },
                                 shape: RoundedRectangleBorder(
@@ -909,8 +906,7 @@ class _Profile extends State<Profile> {
                             child: RaisedButton(
                                 onPressed: () async {
                                   var temp;
-                                  if (snapshot.data[0][0][0]
-                                          ['statusPerkawinan'] ==
+                                  if (snapshot.data[0][0]['statusPerkawinan'] ==
                                       0) {
                                     temp = 1;
                                   } else {
@@ -920,8 +916,8 @@ class _Profile extends State<Profile> {
                                   setState(() {
                                     // callDb();
 
-                                    statusPerk = snapshot.data[0][0][0]
-                                        ['statusPerkawinan'];
+                                    statusPerk =
+                                        snapshot.data[0][0]['statusPerkawinan'];
                                   });
                                 },
                                 shape: RoundedRectangleBorder(

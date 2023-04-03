@@ -56,7 +56,7 @@ class _Krisma extends State<Krisma> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan', [idGereja, "krisma"]));
+        Tasks('cari pelayanan', [idGereja, "krisma", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
