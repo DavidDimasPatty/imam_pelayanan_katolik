@@ -84,7 +84,7 @@ class _notifClass extends State<notification> {
     // var daftarmisa = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Akun', "REQUEST",
-        Tasks('update notif', [idUser, notif]));
+        Tasks('update notification', [idUser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);

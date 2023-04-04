@@ -118,9 +118,12 @@ class _KrismaUser extends State<KrismaUser> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan user', [id, token, idTarget, -1, "krisma"]));
-
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user',
+            ["krisma", id, token, idTarget, -1, idUser]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -174,8 +177,12 @@ class _KrismaUser extends State<KrismaUser> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan user', [id, token, idTarget, 1, "krisma"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user',
+            ["krisma", id, token, idTarget, 1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

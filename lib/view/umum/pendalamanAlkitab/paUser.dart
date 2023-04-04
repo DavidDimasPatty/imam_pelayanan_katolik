@@ -118,8 +118,12 @@ class _PAUser extends State<PAUser> {
     // hasil = await AgenPage().receiverTampilan();
 
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan user', [id, token, idTarget, -1, "umum"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user',
+            ["umum", id, token, idTarget, -1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -175,8 +179,12 @@ class _PAUser extends State<PAUser> {
     // hasil = await AgenPage().receiverTampilan();
 
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [id, token, idTarget, 1, "umum"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks(
+            'update pelayanan user', ["umum", id, token, idTarget, 1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

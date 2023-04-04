@@ -99,7 +99,7 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
     }
   }
 
-  void updateReject(id) async {
+  Future updateReject(id, token, idTarget) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPencarian");
     // msg.setContent([
@@ -116,8 +116,12 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
     // hasil = await AgenPage().receiverTampilan();
 
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [id, -1, "baptis"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user',
+            ["baptis", id, token, idTarget, -1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -154,7 +158,7 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
     }
   }
 
-  void updateAccept(id) async {
+  Future updateAccept(id, token, idTarget) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPencarian");
     // msg.setContent([
@@ -171,8 +175,12 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
     // hasil = await AgenPage().receiverTampilan();
 
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [id, 1, "baptis"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user',
+            ["baptis", id, token, idTarget, 1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -378,7 +386,10 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
                                                 new BorderRadius.circular(30.0),
                                           ),
                                           onPressed: () async {
-                                            updateAccept(i['_id']);
+                                            updateAccept(
+                                                i['_id'],
+                                                i['userBaptis'][0]['token'],
+                                                i['idBaptis']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -407,7 +418,10 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
                                                       30.0),
                                             ),
                                             onPressed: () async {
-                                              updateReject(i['_id']);
+                                              updateReject(
+                                                  i['_id'],
+                                                  i['userBaptis'][0]['token'],
+                                                  i['idBaptis']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();

@@ -55,7 +55,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan user', [idRekoleksi, "umum", "history"]));
+        Tasks('cari pelayanan user', [idRekoleksi, "rekoleksi", "history"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -101,7 +101,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     }
   }
 
-  void updateReject(id) async {
+  Future updateReject(id, token, idTarget) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPencarian");
     // msg.setContent([
@@ -117,8 +117,12 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan user', [id, -1, "umum"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user',
+            ["umum", id, token, idTarget, -1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -154,7 +158,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     }
   }
 
-  void updateAccept(id) async {
+  Future updateAccept(id, token, idTarget) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPencarian");
     // msg.setContent([
@@ -170,9 +174,12 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan user', [id, -1, "umum"]));
-
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks(
+            'update pelayanan user', ["umum", id, token, idTarget, 1, idUser]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -376,7 +383,10 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
                                                 new BorderRadius.circular(30.0),
                                           ),
                                           onPressed: () async {
-                                            updateAccept(i['_id']);
+                                            updateAccept(
+                                                i['_id'],
+                                                i['userRekoleksi'][0]['token'],
+                                                i['idKegiatan']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -405,7 +415,11 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
                                                       30.0),
                                             ),
                                             onPressed: () async {
-                                              updateReject(i['_id']);
+                                              updateReject(
+                                                  i['_id'],
+                                                  i['userRekoleksi'][0]
+                                                      ['token'],
+                                                  i['idKegiatan']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();

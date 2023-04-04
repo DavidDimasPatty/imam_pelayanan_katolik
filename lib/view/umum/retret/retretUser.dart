@@ -122,8 +122,7 @@ class _RetretUser extends State<RetretUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            [id, token, idTarget, -1, "umum", "current"]));
-
+            ["umum", id, token, idTarget, -1, idUser]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -181,8 +180,8 @@ class _RetretUser extends State<RetretUser> {
         'View',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan user',
-            [id, token, idTarget, 1, "umum", "current"]));
+        Tasks(
+            'update pelayanan user', ["umum", id, token, idTarget, 1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

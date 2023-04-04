@@ -80,7 +80,7 @@ class _Baptis extends State<Baptis> {
     });
   }
 
-  void updateKegiatan(idKegiatan, status) async {
+  void updateKegiatan(id, status) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPendaftaran");
     // msg.setContent([
@@ -98,7 +98,7 @@ class _Baptis extends State<Baptis> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [idKegiatan, status, "baptis"]));
+        Tasks('update status pelayanan', ["baptis", id, status, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

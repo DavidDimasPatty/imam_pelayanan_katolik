@@ -54,7 +54,7 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan', [idRetret, "umum", "history"]));
+        Tasks('cari pelayanan user', [idRetret, "retret", "history"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -100,7 +100,7 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
     }
   }
 
-  void updateReject(id) async {
+  Future updateReject(id, token, idTarget) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPencarian");
     // msg.setContent([
@@ -116,8 +116,12 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan user', [id, -1, "umum"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user',
+            ["umum", id, token, idTarget, -1, idUser]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -152,7 +156,7 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
     }
   }
 
-  void updateAccept(id) async {
+  Future updateAccept(id, token, idTarget) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPencarian");
     // msg.setContent([
@@ -168,8 +172,12 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan user', [id, 1, "umum"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks(
+            'update pelayanan user', ["umum", id, token, idTarget, 1, idUser]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -373,7 +381,10 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
                                                 new BorderRadius.circular(30.0),
                                           ),
                                           onPressed: () async {
-                                            updateAccept(i['_id']);
+                                            updateAccept(
+                                                i['_id'],
+                                                i['userRetret'][0]['token'],
+                                                i['idKegiatan']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -402,7 +413,10 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
                                                       30.0),
                                             ),
                                             onPressed: () async {
-                                              updateReject(i['_id']);
+                                              updateReject(
+                                                  i['_id'],
+                                                  i['userRetret'][0]['token'],
+                                                  i['idKegiatan']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();

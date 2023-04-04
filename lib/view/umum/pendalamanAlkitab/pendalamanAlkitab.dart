@@ -106,7 +106,7 @@ class _PA extends State<PA> {
 
   TextEditingController editingController = TextEditingController();
 
-  void updateKegiatan(idKegiatan) async {
+  void updateKegiatan(id) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPendaftaran");
     // msg.setContent([
@@ -122,12 +122,8 @@ class _PA extends State<PA> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'View',
-        'Agent Pendaftaran',
-        "REQUEST",
-        Tasks('update pelayanan',
-            [idKegiatan, -1, "umum", "current", "pendalaman alkitab"]));
+    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
+        Tasks('update status pelayanan', ["umum", id, -1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

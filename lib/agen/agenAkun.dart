@@ -891,25 +891,36 @@ class AgentAkun extends Agent {
 
   Future<Message> updateNotification(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-    var conn = await imamCollection.updateOne(
+    var update = await imamCollection.updateOne(
         where.eq('_id', data[0]), modify.set('notif', data[1]));
-    Message message =
-        Message('Agent Akun', sender, "INFORM", Tasks('cari', conn));
-    return message;
+    if (update.isSuccess) {
+      Message message =
+          Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+      return message;
+    } else {
+      Message message =
+          Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+      return message;
+    }
   }
 
   Future<Message> cariPassword(dynamic data, String sender) async {
     var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await userCollection
         .find({'_id': data[0], 'password': data[1]}).toList();
-
-    if (conn[0]['_id'] == null) {
+    try {
+      if (conn[0]['_id'] == null) {
+        Message message =
+            Message('Agent Akun', sender, "INFORM", Tasks('cari', "not"));
+        return message;
+      } else {
+        Message message =
+            Message('Agent Akun', sender, "INFORM", Tasks('cari', "found"));
+        return message;
+      }
+    } catch (e) {
       Message message =
           Message('Agent Akun', sender, "INFORM", Tasks('cari', "not"));
-      return message;
-    } else {
-      Message message =
-          Message('Agent Akun', sender, "INFORM", Tasks('cari', "found"));
       return message;
     }
   }
@@ -1002,7 +1013,7 @@ class AgentAkun extends Agent {
       Goals("edit aturan pelayanan", String, 2),
       Goals("cari data imam", List<Map<String, Object?>>, 2),
       Goals("update notification", String, 2),
-      Goals("find password", List<Map<String, Object?>>, 2),
+      Goals("find password", String, 2),
       Goals("change password", String, 2),
       Goals("change profile picture", String, 2),
       Goals("cari profile", List<dynamic>, 2),

@@ -101,7 +101,7 @@ class _Rekoleksi extends State<Rekoleksi> {
     }
   }
 
-  void updateKegiatan(idKegiatan) async {
+  void updateKegiatan(id) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPendaftaran");
     // msg.setContent([
@@ -118,7 +118,7 @@ class _Rekoleksi extends State<Rekoleksi> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [idKegiatan, -1, "umum", "current"]));
+        Tasks('update status pelayanan', ["umum", id, -1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

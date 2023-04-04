@@ -51,7 +51,7 @@ class _HistoryRekoleksi extends State<HistoryRekoleksi> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan', [idGereja, "umum", "rekoleksi", "history"]));
+        Tasks('cari pelayanan', [idGereja, "umum", "history", "Rekoleksi"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

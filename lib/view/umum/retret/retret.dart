@@ -116,12 +116,8 @@ class _Retret extends State<Retret> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'View',
-        'Agent Pendaftaran',
-        "REQUEST",
-        Tasks(
-            'update pelayanan', [idKegiatan, -1, "umum", "current", "retret"]));
+    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
+        Tasks('update status pelayanan', ["umum", idKegiatan, -1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

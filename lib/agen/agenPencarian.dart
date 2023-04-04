@@ -1804,8 +1804,8 @@ class AgentPencarian extends Agent {
         return cariPelayanan(data, sender);
       case "cari pelayanan user":
         return cariPelayananUser(data, sender);
-      case "cari baptis pendaftaran":
-        return cariBaptisPendaftaran(data, sender);
+      case "cari pelayanan pendaftaran":
+        return cariPelayananPendaftaran(data, sender);
       case "cari data edit pelayanan":
         return cariEditPelayanan(data, sender);
       case "cari rekoleksi":
@@ -2057,6 +2057,32 @@ class AgentPencarian extends Agent {
     var conn = await pengumumanCollection.find({'_id': data[0]}).toList();
     Message message = Message('Agent Pencarian', sender, "INFORM",
         Tasks('data pencarian gereja', conn));
+    return message;
+  }
+
+  Future<Message> cariPelayananPendaftaran(dynamic data, String sender) async {
+    var PelayananCollection;
+    if (data[0] == "baptis") {
+      PelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
+    }
+    if (data[0] == "komuni") {
+      PelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
+    }
+    if (data[0] == "krisma") {
+      PelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
+    }
+    if (data[0] == "umum") {
+      PelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
+    }
+    if (data[0] == "sakramentali") {
+      PelayananCollection = MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+    }
+    if (data[0] == "perkawinan") {
+      PelayananCollection = MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+    }
+    var conn = await PelayananCollection.find({"_id": data[3]}).toList();
+    Message message =
+        Message(agentName, sender, "INFORM", Tasks('send FCM', [data, conn]));
     return message;
   }
 
@@ -2777,7 +2803,7 @@ class AgentPencarian extends Agent {
       Plan("cari pengumuman", "REQUEST", _estimatedTime),
       Plan("cari pelayanan", "REQUEST", _estimatedTime),
       Plan("cari pelayanan user", "REQUEST", _estimatedTime),
-      Plan("cari baptis Pendaftaran", "REQUEST", _estimatedTime),
+      Plan("cari pelayanan pendaftaran", "REQUEST", _estimatedTime),
       Plan("cari data edit pelayanan", "REQUEST", _estimatedTime),
       Plan("cari pelayanan user", "REQUEST", _estimatedTime),
       Plan("cari rekoleksi", "REQUEST", _estimatedTime),
@@ -2803,7 +2829,7 @@ class AgentPencarian extends Agent {
       Goals("cari pelayanan", List<Map<String, Object?>>, 2),
       Goals("cari pelayanan", List<dynamic>, 2),
       Goals("cari pelayanan user", List<Map<String, Object?>>, 2),
-      Goals("cari baptis Pendaftaran", List<Map<String, Object?>>, 2),
+      Goals("cari pelayanan pendaftaran", List<dynamic>, 2),
       Goals("cari data edit pelayanan", List<Map<String, Object?>>, 2),
       Goals("cari pelayanan user", List<Map<String, Object?>>, 2),
       Goals("cari rekoleksi", List<Map<String, Object?>>, 2),

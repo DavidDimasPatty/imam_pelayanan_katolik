@@ -84,13 +84,8 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
         'View',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan user', [
-          idPerkawinan,
-          token,
-          idTarget,
-          1,
-          "perkawinan",
-        ]));
+        Tasks('update pelayanan user',
+            ["perkawinan", idPerkawinan, token, idPerkawinan, 1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -143,13 +138,8 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
         'View',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan user', [
-          idPerkawinan,
-          token,
-          idTarget,
-          -1,
-          "perkawinan",
-        ]));
+        Tasks('update pelayanan user',
+            ["perkawinan", idPerkawinan, token, idPerkawinan, -1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

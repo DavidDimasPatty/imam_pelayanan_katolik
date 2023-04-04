@@ -99,7 +99,7 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
     }
   }
 
-  void updateReject(id) async {
+  Future updateReject(id, token, idTarget) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPencarian");
     // msg.setContent([
@@ -119,11 +119,8 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
         'View',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan', [
-          id,
-          -1,
-          "komuni",
-        ]));
+        Tasks('update pelayanan user',
+            ["komuni", id, token, idTarget, -1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -160,7 +157,7 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
     }
   }
 
-  void updateAccept(id) async {
+  Future updateAccept(id, token, idTarget) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPencarian");
     // msg.setContent([
@@ -180,11 +177,8 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
         'View',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan', [
-          id,
-          1,
-          "komuni",
-        ]));
+        Tasks('update pelayanan user',
+            ["komuni", id, token, idTarget, 1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -391,7 +385,10 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
                                                 new BorderRadius.circular(30.0),
                                           ),
                                           onPressed: () async {
-                                            updateAccept(i['_id']);
+                                            updateAccept(
+                                                i['_id'],
+                                                i['userKomuni'][0]['token'],
+                                                i['idKomuni']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -420,7 +417,10 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
                                                       30.0),
                                             ),
                                             onPressed: () async {
-                                              updateReject(i['_id']);
+                                              updateReject(
+                                                  i['_id'],
+                                                  i['userKomuni'][0]['token'],
+                                                  i['idKomuni']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();

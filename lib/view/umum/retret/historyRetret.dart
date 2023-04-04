@@ -51,7 +51,7 @@ class _HistoryRetret extends State<HistoryRetret> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan', [idGereja, "umum", "retret", "history"]));
+        Tasks('cari pelayanan', [idGereja, "umum", "history", "Retret"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

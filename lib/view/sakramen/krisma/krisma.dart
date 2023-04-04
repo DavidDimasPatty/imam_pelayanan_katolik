@@ -102,7 +102,7 @@ class _Krisma extends State<Krisma> {
     }
   }
 
-  void updateKegiatan(idKegiatan, status) async {
+  void updateKegiatan(id, status) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPendaftaran");
     // msg.setContent([
@@ -119,7 +119,7 @@ class _Krisma extends State<Krisma> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan', [idKegiatan, status, "krisma", "current"]));
+        Tasks('update status pelayanan', ["krisma", id, status, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

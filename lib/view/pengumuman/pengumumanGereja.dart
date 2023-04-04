@@ -83,7 +83,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
     });
   }
 
-  Future updatePengumuman(idKegiatan, status) async {
+  Future updatePengumuman(id, status) async {
     // Messages msg = new Messages();
     // msg.addReceiver("agenPendaftaran");
     // msg.setContent([
@@ -101,7 +101,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('edit pengumuman', [idKegiatan, status]));
+        Tasks('update status pengumuman', [id, status, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);

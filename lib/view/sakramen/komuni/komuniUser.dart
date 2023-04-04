@@ -121,13 +121,8 @@ class _KomuniUser extends State<KomuniUser> {
         'View',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan user', [
-          id,
-          token,
-          idTarget,
-          -1,
-          "komuni",
-        ]));
+        Tasks('update pelayanan user',
+            ["komuni", id, token, idTarget, -1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -182,8 +177,12 @@ class _KomuniUser extends State<KomuniUser> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update pelayanan user', [id, token, idTarget, 1, "komuni"]));
+    Message message = Message(
+        'View',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user',
+            ["komuni", id, token, idTarget, 1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

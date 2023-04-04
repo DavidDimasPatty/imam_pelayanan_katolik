@@ -48,7 +48,7 @@ class _HistorySakramentali extends State<HistorySakramentali> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('View', 'Agent Pencarian', "REQUEST",
-        Tasks('cari history pelayanan', [idGereja]));
+        Tasks('cari pelayanan', [idUser, "sakramentali", "history"]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);

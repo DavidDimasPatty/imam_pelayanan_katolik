@@ -86,13 +86,8 @@ class _DetailSakramentali extends State<DetailSakramentali> {
         'View',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan user', [
-          idPemberkatan,
-          token,
-          idTarget,
-          1,
-          "sakramentali",
-        ]));
+        Tasks('update pelayanan user',
+            ["sakramentali", idPemberkatan, token, idPemberkatan, 1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -144,13 +139,8 @@ class _DetailSakramentali extends State<DetailSakramentali> {
         'View',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan user', [
-          idPemberkatan,
-          token,
-          idTarget,
-          -1,
-          "sakramentali",
-        ]));
+        Tasks('update pelayanan user',
+            ["sakramentali", idPemberkatan, token, idPemberkatan, -1, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -240,7 +230,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0]["namaLengkap"])
+                              Text(snapshot.data[0][0]["namaLengkap"])
                             ],
                           ),
                           Padding(
@@ -257,7 +247,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0]["paroki"])
+                              Text(snapshot.data[0][0]["paroki"])
                             ],
                           ),
                           Padding(
@@ -274,7 +264,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0]["lingkungan"])
+                              Text(snapshot.data[0][0]["lingkungan"])
                             ],
                           ),
                           Padding(
@@ -291,7 +281,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0]["notelp"])
+                              Text(snapshot.data[0][0]["notelp"])
                             ],
                           ),
                           Padding(
@@ -308,7 +298,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0]["alamat"])
+                              Text(snapshot.data[0][0]["alamat"])
                             ],
                           ),
                           Padding(
@@ -325,7 +315,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0]["jenis"])
+                              Text(snapshot.data[0][0]["jenis"])
                             ],
                           ),
                           Padding(
@@ -342,7 +332,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0]["tanggal"].toString())
+                              Text(snapshot.data[0][0]["tanggal"].toString())
                             ],
                           ),
                           Padding(
@@ -359,7 +349,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[0]["note"])
+                              Text(snapshot.data[0][0]["note"])
                             ],
                           ),
                           Padding(
@@ -376,11 +366,11 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              if (snapshot.data[0]["status"] == 0)
+                              if (snapshot.data[0][0]["status"] == 0)
                                 Text("Menunggu Konfirmasi"),
-                              if (snapshot.data[0]["status"] == 1)
+                              if (snapshot.data[0][0]["status"] == 1)
                                 Text("Diterima"),
-                              if (snapshot.data[0]["status"] == -1)
+                              if (snapshot.data[0][0]["status"] == -1)
                                 Text("Ditolak")
                             ],
                           ),
@@ -419,8 +409,10 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                                               TextButton(
                                                 onPressed: () {
                                                   updateAccept(
-                                                      snapshot.data[1]['token'],
-                                                      snapshot.data[1]['_id']);
+                                                      snapshot.data[1][0]
+                                                          ['token'],
+                                                      snapshot.data[1][0]
+                                                          ['_id']);
                                                   Navigator.pop(context);
                                                 },
                                                 child: const Text('Ya'),
@@ -462,8 +454,10 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                                               TextButton(
                                                 onPressed: () {
                                                   updateReject(
-                                                      snapshot.data[1]['token'],
-                                                      snapshot.data[1]['_id']);
+                                                      snapshot.data[1][0]
+                                                          ['token'],
+                                                      snapshot.data[1][0]
+                                                          ['_id']);
                                                   Navigator.pop(context);
                                                 },
                                                 child: const Text('Ya'),

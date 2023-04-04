@@ -55,7 +55,7 @@ class _HistoryPA extends State<HistoryPA> {
         'Agent Pencarian',
         "REQUEST",
         Tasks('cari pelayanan',
-            [idGereja, "umum", "pendalaman alkitab", "history"]));
+            [idGereja, "umum", "history", "Pendalaman Alkitab"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
