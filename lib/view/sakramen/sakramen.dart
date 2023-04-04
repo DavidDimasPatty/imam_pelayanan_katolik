@@ -12,6 +12,7 @@ import 'package:imam_pelayanan_katolik/view/sakramen/baptis/baptis.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/komuni/komuni.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/krisma/krisma.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/perkawinan/perkawinan.dart';
+import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 
 class Sakramen extends StatefulWidget {
   var names;
@@ -83,7 +84,13 @@ class _Sakramen extends State<Sakramen> {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Settings(names, iduser, idGereja)),
+              );
+            },
           ),
         ],
       ),
