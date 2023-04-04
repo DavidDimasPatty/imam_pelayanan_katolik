@@ -103,7 +103,8 @@ class _addPA extends State<addPA> {
           'View',
           'Agent Pendaftaran',
           "REQUEST",
-          Tasks('add kegiatan umum', [
+          Tasks('add pelayanan', [
+            "umum",
             idGereja,
             namaKegiatan.text,
             temaKegiatan.text,
@@ -112,7 +113,8 @@ class _addPA extends State<addPA> {
             tamuKegiatan.text,
             _selectedDate.toString(),
             kapasitas.text,
-            lokasi.text
+            lokasi.text,
+            idUser
           ]));
 
       MessagePassing messagePassing = MessagePassing();

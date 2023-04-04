@@ -136,11 +136,12 @@ class _editBaptis extends State<editBaptis> {
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('edit pelayanan', [
+            "baptis",
             idBaptis,
             kapasitas,
             tanggalBuka.toString(),
             tanggalTutup.toString(),
-            "baptis"
+            idUser
           ]));
 
       MessagePassing messagePassing = MessagePassing();

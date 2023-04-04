@@ -97,11 +97,12 @@ class _editKomuni extends State<editKomuni> {
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('edit pelayanan', [
+            "komuni",
             idKomuni,
             kapasitas,
             tanggalBuka.toString(),
             tanggalTutup.toString(),
-            "komuni"
+            idUser
           ]));
 
       MessagePassing messagePassing = MessagePassing();

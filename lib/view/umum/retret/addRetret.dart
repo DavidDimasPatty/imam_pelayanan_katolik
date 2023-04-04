@@ -104,7 +104,8 @@ class _addRetret extends State<addRetret> {
           'View',
           'Agent Pendaftaran',
           "REQUEST",
-          Tasks('add kegiatan umum', [
+          Tasks('add pelayanan', [
+            "umum",
             idGereja,
             namaKegiatan.text,
             temaKegiatan.text,
@@ -113,7 +114,8 @@ class _addRetret extends State<addRetret> {
             tamuKegiatan.text,
             _selectedDate.toString(),
             kapasitas.text,
-            lokasi.text
+            lokasi.text,
+            idUser
           ]));
 
       MessagePassing messagePassing = MessagePassing();

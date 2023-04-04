@@ -97,11 +97,12 @@ class _editKrisma extends State<editKrisma> {
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('edit pelayanan', [
+            "krisma",
             idKrisma,
             kapasitas,
             tanggalBuka.toString(),
             tanggalTutup.toString(),
-            "krisma"
+            idUser
           ]));
 
       MessagePassing messagePassing = MessagePassing();

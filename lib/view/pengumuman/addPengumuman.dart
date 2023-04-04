@@ -79,7 +79,7 @@ class _addPengumuman extends State<addPengumuman> {
           'Agent Pendaftaran',
           "REQUEST",
           Tasks("add pengumuman",
-              [idGereja, fileImage, caption.text, title.text]));
+              [idGereja, fileImage, caption.text, title.text, idUser]));
 
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);

@@ -135,7 +135,7 @@ class _editPengumuman extends State<editPengumuman> {
 
         if (hasil == "failed") {
           Fluttertoast.showToast(
-              msg: "Gagal Mendaftarkan Pengumuman",
+              msg: "Gagal Memperbarui Pengumuman",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,
@@ -144,7 +144,7 @@ class _editPengumuman extends State<editPengumuman> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
-              msg: "Berhasil Mendaftarkan Pengumuman",
+              msg: "Berhasil Memperbarui Pengumuman",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,
@@ -187,6 +187,7 @@ class _editPengumuman extends State<editPengumuman> {
         // });
         // await Future.delayed(Duration(seconds: 1));
         // hasil = await AgenPage().receiverTampilan();
+        print(fileImage.runtimeType);
         Completer<void> completer = Completer<void>();
         Message message = Message(
             'View',
@@ -196,7 +197,7 @@ class _editPengumuman extends State<editPengumuman> {
               idPengumuman,
               title.text,
               caption.text,
-              fileImage,
+              fileChange,
               imageChange
             ]));
 
@@ -209,7 +210,7 @@ class _editPengumuman extends State<editPengumuman> {
 
         if (hasil == "failed") {
           Fluttertoast.showToast(
-              msg: "Gagal Mendaftarkan Pengumuman",
+              msg: "Gagal Memperbarui Pengumuman",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,
@@ -218,7 +219,7 @@ class _editPengumuman extends State<editPengumuman> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
-              msg: "Berhasil Mendaftarkan Pengumuman",
+              msg: "Berhasil Memperbarui Pengumuman",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,

@@ -89,11 +89,12 @@ class _addKomuni extends State<addKomuni> {
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('add pelayanan', [
+            "komuni",
             idGereja,
             kapasitas,
             tanggalbuka.toString(),
             tanggaltutup.toString(),
-            "komuni"
+            idUser
           ]));
 
       MessagePassing messagePassing = MessagePassing();

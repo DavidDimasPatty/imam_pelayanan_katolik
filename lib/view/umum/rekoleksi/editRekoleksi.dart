@@ -110,9 +110,9 @@ class _editRekoleksi extends State<editRekoleksi> {
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('edit pelayanan', [
+            "umum",
             idRekoleksi,
             namaKegiatan.text,
-            temaKegiatan.text,
             temaKegiatan.text,
             "Rekoleksi",
             deskripsiKegiatan.text,
@@ -120,7 +120,7 @@ class _editRekoleksi extends State<editRekoleksi> {
             _selectedDate.toString(),
             kapasitas.text,
             lokasi.text,
-            "umum",
+            idUser
           ]));
 
       MessagePassing messagePassing = MessagePassing();

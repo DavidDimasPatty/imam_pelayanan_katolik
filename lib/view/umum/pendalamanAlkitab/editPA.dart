@@ -109,9 +109,9 @@ class _editPA extends State<editPA> {
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('edit pelayanan', [
+            "umum",
             idPA,
             namaKegiatan.text,
-            temaKegiatan.text,
             temaKegiatan.text,
             "Pendalaman Alkitab",
             deskripsiKegiatan.text,
@@ -119,7 +119,7 @@ class _editPA extends State<editPA> {
             _selectedDate.toString(),
             kapasitas.text,
             lokasi.text,
-            "umum",
+            idUser
           ]));
 
       MessagePassing messagePassing = MessagePassing();

@@ -1340,16 +1340,12 @@ class AgentPendaftaran extends Agent {
         return updateBaptisUser(data.data, sender);
       case "edit pengumuman":
         return editPengumuman(data.data, sender);
-      case "add baptis":
-        return addBaptis(data.data, sender);
-      case "edit baptis":
-        return editBaptis(data.data, sender);
+      case "add pelayanan":
+        return addPelayanan(data.data, sender);
+      case "edit pelayanan":
+        return editPelayanan(data.data, sender);
       case "add pengumuman":
         return addPengumuman(data.data, sender);
-      case "add kegiatan":
-        return addKegiatan(data.data, sender);
-      case "edit kegiatan":
-        return editKegiatan(data.data, sender);
 
       default:
         return rejectTask(data, data.sender);
@@ -1514,21 +1510,21 @@ class AgentPendaftaran extends Agent {
     var pengumumanCollection =
         MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
 
-    if (data[5][0] == true) {
+    if (data[4] == true) {
       DateTime now = new DateTime.now();
       DateTime date = new DateTime(
           now.year, now.month, now.day, now.hour, now.minute, now.second);
       final filename = date.toString();
       final destination = 'files/$filename';
-      UploadTask? task = FirebaseApi.uploadFile(destination, data[4][0]);
+      UploadTask? task = FirebaseApi.uploadFile(destination, data[3]);
       final snapshot = await task!.whenComplete(() {});
       final urlDownload = await snapshot.ref.getDownloadURL();
 
       var update = await pengumumanCollection.updateOne(
-          where.eq('_id', data[1][0]),
+          where.eq('_id', data[2]),
           modify
-              .set('title', data[2][0])
-              .set("caption", data[3][0])
+              .set('title', data[1])
+              .set("caption", data[2])
               .set("gambar", urlDownload));
       if (update.isSuccess) {
         Message message = Message(
@@ -1541,8 +1537,8 @@ class AgentPendaftaran extends Agent {
       }
     } else {
       var update = await pengumumanCollection.updateOne(
-          where.eq('_id', data[1][0]),
-          modify.set('title', data[2][0]).set("caption", data[3][0]));
+          where.eq('_id', data[0]),
+          modify.set('title', data[1]).set("caption", data[2]));
       if (update.isSuccess) {
         Message message = Message(
             'Agent Pendaftaran', sender, "INFORM", Tasks('cari', "oke"));
@@ -1555,44 +1551,123 @@ class AgentPendaftaran extends Agent {
     }
   }
 
-  Future<Message> addBaptis(dynamic data, String sender) async {
-    print(DateTime.parse(data[3][0]));
-    var baptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
+  Future<Message> addPelayanan(dynamic data, String sender) async {
+    var pelayananCollection;
+    if (data[0] == "baptis") {
+      pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
+    }
+    if (data[0] == "komuni") {
+      pelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
+    }
+    if (data[0] == "krisma") {
+      pelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
+    }
+    if (data[0] == "umum") {
+      pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
 
-    var update = await baptisCollection.insertOne({
-      'idGereja': data[1][0],
-      'kapasitas': int.parse(data[2][0]),
-      'jadwalBuka': DateTime.parse(data[3][0]),
-      'jadwalTutup': DateTime.parse(data[4][0]),
-      'status': 0
+      var add = await pelayananCollection.insertOne({
+        'idGereja': data[1],
+        'namaKegiatan': data[2],
+        'temaKegiatan': data[3],
+        'jenisKegiatan': data[4],
+        'deskripsiKegiatan': data[5],
+        'tamu': data[6],
+        'tanggal': DateTime.parse(data[7]),
+        'kapasitas': int.parse(data[8]),
+        'lokasi': data[9][0],
+        'status': 0,
+        "createdAt": DateTime.now(),
+        "createdBy": data[10],
+        "updatedAt": DateTime.now(),
+        "updatedBy": data[10],
+      });
+      if (add.isSuccess) {
+        Message message =
+            Message(agentName, sender, "INFORM", Tasks('add pelayanan', "oke"));
+        return message;
+      } else {
+        Message message = Message(
+            agentName, sender, "INFORM", Tasks('add pelayanan', "failed"));
+        return message;
+      }
+    }
+
+    var add = await pelayananCollection.insertOne({
+      'idGereja': data[1],
+      'kapasitas': int.parse(data[2]),
+      'jadwalBuka': DateTime.parse(data[3]),
+      'jadwalTutup': DateTime.parse(data[4]),
+      'status': 0,
+      "createdAt": DateTime.now(),
+      "createdBy": data[5],
+      "updatedAt": DateTime.now(),
+      "updatedBy": data[5],
     });
-    if (update.isSuccess) {
+    if (add.isSuccess) {
       Message message =
-          Message('Agent Pendaftaran', sender, "INFORM", Tasks('cari', "oke"));
+          Message(agentName, sender, "INFORM", Tasks('add pelayanan', "oke"));
       return message;
     } else {
       Message message = Message(
-          'Agent Pendaftaran', sender, "INFORM", Tasks('cari', "failed"));
+          agentName, sender, "INFORM", Tasks('add pelayanan', "failed"));
       return message;
     }
   }
 
-  Future<Message> editBaptis(dynamic data, String sender) async {
-    var baptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
+  Future<Message> editPelayanan(dynamic data, String sender) async {
+    var pelayananCollection;
+    if (data[0] == "baptis") {
+      pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
+    }
+    if (data[0] == "komuni") {
+      pelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
+    }
+    if (data[0] == "krisma") {
+      pelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
+    }
+    if (data[0] == "umum") {
+      pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
+      print(data);
+      var update = await pelayananCollection.updateOne(
+          where.eq('_id', data[1]),
+          modify
+              .set('namaKegiatan', data[2])
+              .set('temaKegiatan', data[3])
+              .set("jenisKegiatan", data[4])
+              .set("deskripsiKegiatan", data[5])
+              .set("tamu", data[6])
+              .set("tanggal", DateTime.parse(data[7]))
+              .set("kapasitas", int.parse(data[8]))
+              .set("lokasi", data[9])
+              .set("updatedAt", DateTime.now())
+              .set("updatedBy", data[10]));
 
-    var update = await baptisCollection.updateOne(
-        where.eq('_id', data[1][0]),
+      if (update.isSuccess) {
+        Message message = Message(
+            agentName, sender, "INFORM", Tasks('edit pelayanan', "oke"));
+        return message;
+      } else {
+        Message message = Message(
+            agentName, sender, "INFORM", Tasks('edit pelayanan', "failed"));
+        return message;
+      }
+    }
+
+    var update = await pelayananCollection.updateOne(
+        where.eq('_id', data[1]),
         modify
-            .set("kapasitas", int.parse(data[2][0]))
-            .set("jadwalBuka", DateTime.parse(data[3][0]))
-            .set("jadwalTutup", DateTime.parse(data[4][0])));
+            .set("kapasitas", int.parse(data[2]))
+            .set("jadwalBuka", DateTime.parse(data[3]))
+            .set("jadwalTutup", DateTime.parse(data[4]))
+            .set("updatedAt", DateTime.now())
+            .set("updatedBy", data[5]));
     if (update.isSuccess) {
       Message message =
-          Message('Agent Pendaftaran', sender, "INFORM", Tasks('cari', "oke"));
+          Message(agentName, sender, "INFORM", Tasks('edit pelayanan', "oke"));
       return message;
     } else {
       Message message = Message(
-          'Agent Pendaftaran', sender, "INFORM", Tasks('cari', "failed"));
+          agentName, sender, "INFORM", Tasks('edit pelayanan', "failed"));
       return message;
     }
   }
@@ -1605,73 +1680,24 @@ class AgentPendaftaran extends Agent {
         now.year, now.month, now.day, now.hour, now.minute, now.second);
     final filename = date.toString();
     final destination = 'files/$filename';
-    UploadTask? task = FirebaseApi.uploadFile(destination, data[2][0]);
+    UploadTask? task = FirebaseApi.uploadFile(destination, data[1]);
     final snapshot = await task!.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
 
-    var update = await PengumumanCollection.insertOne({
-      'idGereja': data[1][0],
+    var add = await PengumumanCollection.insertOne({
+      'idGereja': data[0],
       'gambar': urlDownload,
-      'caption': data[3][0],
+      'caption': data[2],
       'tanggal': DateTime.now(),
       'status': 0,
-      'title': data[4][0]
+      'title': data[3],
+      "createdAt": DateTime.now(),
+      "createdBy": data[4],
+      "updatedAt": DateTime.now(),
+      "updatedBy": data[4],
     });
 
-    if (update.isSuccess) {
-      Message message =
-          Message('Agent Pendaftaran', sender, "INFORM", Tasks('cari', "oke"));
-      return message;
-    } else {
-      Message message = Message(
-          'Agent Pendaftaran', sender, "INFORM", Tasks('cari', "failed"));
-      return message;
-    }
-  }
-
-  Future<Message> addKegiatan(dynamic data, String sender) async {
-    var umumCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-
-    var update = await umumCollection.insertOne({
-      'idGereja': data[1][0],
-      'namaKegiatan': data[2][0],
-      'temaKegiatan': data[3][0],
-      'jenisKegiatan': data[4][0],
-      'deskripsiKegiatan': data[5][0],
-      'tamu': data[6][0],
-      'tanggal': DateTime.parse(data[7][0]),
-      'kapasitas': int.parse(data[8][0]),
-      'lokasi': data[9][0],
-      'status': 0
-    });
-
-    if (update.isSuccess) {
-      Message message =
-          Message('Agent Pendaftaran', sender, "INFORM", Tasks('cari', "oke"));
-      return message;
-    } else {
-      Message message = Message(
-          'Agent Pendaftaran', sender, "INFORM", Tasks('cari', "failed"));
-      return message;
-    }
-  }
-
-  Future<Message> editKegiatan(dynamic data, String sender) async {
-    var umumCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-
-    var update = await umumCollection.updateOne(
-        where.eq('_id', data[1][0]),
-        modify
-            .set('namaKegiatan', data[2][0])
-            .set('temaKegiatan', data[3][0])
-            .set("jenisKegiatan", data[4][0])
-            .set("deskripsiKegiatan", data[5][0])
-            .set("tamu", data[6][0])
-            .set("tanggal", DateTime.parse(data[7][0]))
-            .set("kapasitas", int.parse(data[8][0]))
-            .set("lokasi", data[9][0]));
-
-    if (update.isSuccess) {
+    if (add.isSuccess) {
       Message message =
           Message('Agent Pendaftaran', sender, "INFORM", Tasks('cari', "oke"));
       return message;
@@ -1709,20 +1735,16 @@ class AgentPendaftaran extends Agent {
   void _initAgent() {
     this.agentName = "Agent Pendaftaran";
     _plan = [
-      Plan("update user", "REQUEST", _estimatedTime),
-      Plan("update imam", "REQUEST", _estimatedTime),
-      Plan("update gereja", "REQUEST", _estimatedTime),
-      Plan("add imam", "REQUEST", _estimatedTime),
-      Plan("add gereja", "REQUEST", _estimatedTime),
-      Plan("add aturan pelayanan", "INFORM", _estimatedTime),
+      Plan("add pelayanan", "REQUEST", _estimatedTime),
+      Plan("add pengumuman", "REQUEST", _estimatedTime),
+      Plan("edit pelayanan", "REQUEST", _estimatedTime),
+      Plan("edit pengumuman", "REQUEST", _estimatedTime),
     ];
     _goals = [
-      Goals("update user", String, 2),
-      Goals("update imam", String, 2),
-      Goals("update gereja", String, 2),
-      Goals("add imam", String, 2),
-      Goals("add gereja", String, 2),
-      Goals("add aturan pelayanan", String, 2),
+      Goals("add pelayanan", String, 2),
+      Goals("add pengumuman", String, 2),
+      Goals("edit pelayanan", String, 2),
+      Goals("edit pengumuman", String, 2),
     ];
   }
 }

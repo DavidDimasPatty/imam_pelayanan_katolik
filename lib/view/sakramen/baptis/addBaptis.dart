@@ -92,11 +92,12 @@ class _addBaptis extends State<addBaptis> {
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('add pelayanan', [
+            "baptis",
             idGereja,
             kapasitas,
             tanggalbuka.toString(),
             tanggaltutup.toString(),
-            "baptis"
+            idUser
           ]));
 
       MessagePassing messagePassing = MessagePassing();

@@ -89,13 +89,13 @@ class _addKrisma extends State<addKrisma> {
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('add pelayanan', [
+            "krisma",
             idGereja,
             kapasitas,
             tanggalbuka.toString(),
             tanggaltutup.toString(),
-            "krisma"
+            idUser
           ]));
-
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
       completer.complete();
