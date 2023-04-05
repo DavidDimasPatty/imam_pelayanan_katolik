@@ -16,6 +16,7 @@ import 'package:intl/intl.dart';
 import '../../history/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class editPA extends StatefulWidget {
   @override
@@ -104,7 +105,7 @@ class _editPA extends State<editPA> {
       // hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
-          'View',
+          'Agent Page',
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('edit pelayanan', [
@@ -124,7 +125,7 @@ class _editPA extends State<editPA> {
       MessagePassing messagePassing = MessagePassing();
       await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await messagePassing.messageGetToView();
+      var hasil = await await AgentPage.getDataPencarian();
 
       if (hasil == "failed") {
         Fluttertoast.showToast(
@@ -178,13 +179,13 @@ class _editPA extends State<editPA> {
 
     // return hasil;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari data edit pelayanan', [idPA, "umum"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;

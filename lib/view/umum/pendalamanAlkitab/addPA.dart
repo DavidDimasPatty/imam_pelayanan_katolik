@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -99,7 +99,7 @@ class _addPA extends State<addPA> {
       // hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
-          'View',
+          'Agent Page',
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('add pelayanan', [
@@ -119,7 +119,7 @@ class _addPA extends State<addPA> {
       MessagePassing messagePassing = MessagePassing();
       await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await messagePassing.messageGetToView();
+      var hasil = await await AgentPage.getDataPencarian();
 
       await completer.future;
       if (hasil == "failed") {

@@ -9,7 +9,7 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/sakramentali/pemberkatan/sakramentalidetail.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import '../../history/history.dart';
 import '../../profile/profile.dart';
 
@@ -51,13 +51,13 @@ class _Sakramentali extends State<Sakramentali> {
     // return k;
     // return k;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [idUser, "sakramentali", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;

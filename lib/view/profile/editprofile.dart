@@ -13,6 +13,7 @@ import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class EditProfile extends StatefulWidget {
   final name;
@@ -54,12 +55,12 @@ class _EditProfile extends State<EditProfile> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View', 'Agent Akun', "REQUEST", Tasks('cari data imam', iduser));
+        'Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data imam', iduser));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var result = await messagePassing.messageGetToView();
+    var result = await await AgentPage.getDataPencarian();
 
     await completer.future;
 
@@ -89,13 +90,13 @@ class _EditProfile extends State<EditProfile> {
       // var daftarmisa = await AgenPage().receiverTampilan();
 
       Completer<void> completer = Completer<void>();
-      Message message = Message('View', 'Agent Akun', "REQUEST",
+      Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
           Tasks('edit profile imam', [iduser, nama, email, notelp]));
 
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await messagePassing.messageGetToView();
+      var hasil = await await AgentPage.getDataPencarian();
 
       await completer.future;
 

@@ -7,7 +7,7 @@ import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import '../../history/history.dart';
 import '../../profile/profile.dart';
@@ -50,13 +50,13 @@ class _DetailSakramentali extends State<DetailSakramentali> {
 
     // return k;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [idPemberkatan, "sakramentali", "detail"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
 
@@ -82,7 +82,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View',
+        'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
@@ -91,7 +91,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
     setState(() {
       callDb();
     });
@@ -135,7 +135,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View',
+        'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
@@ -144,7 +144,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
     setState(() {
       callDb();
     });

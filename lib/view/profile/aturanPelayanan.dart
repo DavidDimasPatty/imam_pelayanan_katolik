@@ -13,6 +13,7 @@ import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class AturanPelayanan extends StatefulWidget {
   final name;
@@ -55,13 +56,13 @@ class _AturanPelayanan extends State<AturanPelayanan> {
     // await Future.delayed(Duration(seconds: 1));
     // k = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Akun', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('cari data aturan pelayanan', idGereja));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var result = await messagePassing.messageGetToView();
+    var result = await await AgentPage.getDataPencarian();
 
     await completer.future;
 
@@ -93,7 +94,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
     // var daftarmisa = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View',
+        'Agent Page',
         'Agent Akun',
         "REQUEST",
         Tasks('edit aturan pelayanan', [
@@ -111,7 +112,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
 

@@ -11,6 +11,7 @@ import 'package:imam_pelayanan_katolik/view/homePage.dart';
 
 import '../../history/history.dart';
 import '../../profile/profile.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class DetailPerkawinan extends StatefulWidget {
   final name;
@@ -49,13 +50,13 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
 
     // return k;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [idPerkawinan, "perkawinan", "detail"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;
@@ -80,7 +81,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View',
+        'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
@@ -89,7 +90,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
@@ -134,7 +135,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View',
+        'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
@@ -143,7 +144,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
     if (hasil == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Menolak Pelayanan Perkawinan",

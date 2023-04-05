@@ -13,7 +13,7 @@ import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/krisma/krisma.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import '../../history/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
@@ -84,7 +84,7 @@ class _addKrisma extends State<addKrisma> {
       // hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
-          'View',
+          'Agent Page',
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('add pelayanan', [
@@ -98,7 +98,7 @@ class _addKrisma extends State<addKrisma> {
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await messagePassing.messageGetToView();
+      var hasil = await await AgentPage.getDataPencarian();
 
       await completer.future;
 

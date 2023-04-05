@@ -14,7 +14,7 @@ import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import '../history/history.dart';
 import '../profile/profile.dart';
 import '../setting/setting.dart';
@@ -74,7 +74,7 @@ class _addPengumuman extends State<addPengumuman> {
 
       Completer<void> completer = Completer<void>();
       Message message = Message(
-          'View',
+          'Agent Page',
           'Agent Pendaftaran',
           "REQUEST",
           Tasks("add pengumuman",
@@ -83,7 +83,7 @@ class _addPengumuman extends State<addPengumuman> {
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await messagePassing.messageGetToView();
+      var hasil = await await AgentPage.getDataPencarian();
 
       await completer.future;
 

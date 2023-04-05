@@ -12,6 +12,7 @@ import 'package:imam_pelayanan_katolik/view/setting/privacySafety.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import '../history/history.dart';
 import '../profile/profile.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class gantiPassword extends StatelessWidget {
   final names;
@@ -55,13 +56,13 @@ class gantiPassword extends StatelessWidget {
       // var value = await AgenPage().receiverTampilan();
 
       Completer<void> completer = Completer<void>();
-      Message message = Message('View', 'Agent Akun', "REQUEST",
+      Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
           Tasks('find password', [idUser, passLamaController.text]));
 
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
       completer.complete();
-      var value = await messagePassing.messageGetToView();
+      var value = await await AgentPage.getDataPencarian();
 
       await completer.future;
 
@@ -93,13 +94,13 @@ class gantiPassword extends StatelessWidget {
         // await Future.delayed(Duration(seconds: 1));
         // var value = await AgenPage().receiverTampilan();
         Completer<void> completer = Completer<void>();
-        Message message = Message('View', 'Agent Akun', "REQUEST",
+        Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
             Tasks('change password', [idUser, passBaruController.text]));
 
         MessagePassing messagePassing = MessagePassing();
         var data = await messagePassing.sendMessage(message);
         completer.complete();
-        var value = await messagePassing.messageGetToView();
+        var value = await await AgentPage.getDataPencarian();
 
         await completer.future;
 

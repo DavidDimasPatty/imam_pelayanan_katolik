@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -105,7 +105,7 @@ class _editRekoleksi extends State<editRekoleksi> {
       // hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
-          'View',
+          'Agent Page',
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('edit pelayanan', [
@@ -125,7 +125,7 @@ class _editRekoleksi extends State<editRekoleksi> {
       MessagePassing messagePassing = MessagePassing();
       await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await messagePassing.messageGetToView();
+      var hasil = await await AgentPage.getDataPencarian();
 
       if (hasil == "failed") {
         Fluttertoast.showToast(
@@ -180,13 +180,13 @@ class _editRekoleksi extends State<editRekoleksi> {
 
     // return hasil;\
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari data edit pelayanan', [idRekoleksi, "umum"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;

@@ -78,8 +78,7 @@ class AgentPendaftaran extends Agent {
                 }
               }
               if (checkGoals == true) {
-                print(
-                    'Agent Pendaftaran returning data to ${message.receiver}');
+                print(agentName + ' returning data to ${message.receiver}');
                 MessagePassing messagePassing = MessagePassing();
                 messagePassing.sendMessage(message);
                 break;
@@ -160,8 +159,8 @@ class AgentPendaftaran extends Agent {
             .set("updatedBy", data[5]));
 
     if (update.isSuccess) {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+      Message message = Message(
+          agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
 
       Message message2 = Message(agentName, 'Agent Pencarian', "REQUEST",
           Tasks('cari pelayanan pendaftaran', data));
@@ -170,8 +169,8 @@ class AgentPendaftaran extends Agent {
 
       return message;
     } else {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
@@ -292,13 +291,13 @@ class AgentPendaftaran extends Agent {
     }
 
     if (FCMStatus == 200) {
-      Message message =
-          Message(agentName, "View", "INFORM", Tasks('cari', "oke"));
+      Message message = Message(agentName, "agent Page", "INFORM",
+          Tasks('status modifikasi data', "oke"));
       print('FCM request for device sent!');
       return message;
     } else {
-      Message message =
-          Message(agentName, "View", "INFORM", Tasks('cari', "failed"));
+      Message message = Message(agentName, "agent Page", "INFORM",
+          Tasks('status modifikasi data', "failed"));
       print('FCM request for device failed!');
       return message;
     }
@@ -325,12 +324,12 @@ class AgentPendaftaran extends Agent {
               .set("caption", data[2])
               .set("gambar", urlDownload));
       if (update.isSuccess) {
-        Message message = Message(
-            'Agent Pendaftaran', sender, "INFORM", Tasks('cari', "oke"));
+        Message message = Message('Agent Pendaftaran', sender, "INFORM",
+            Tasks('status modifikasi data', "oke"));
         return message;
       } else {
-        Message message = Message(
-            'Agent Pendaftaran', sender, "INFORM", Tasks('cari', "failed"));
+        Message message = Message('Agent Pendaftaran', sender, "INFORM",
+            Tasks('status modifikasi data', "failed"));
         return message;
       }
     } else {
@@ -338,12 +337,12 @@ class AgentPendaftaran extends Agent {
           where.eq('_id', data[0]),
           modify.set('title', data[1]).set("caption", data[2]));
       if (update.isSuccess) {
-        Message message = Message(
-            'Agent Pendaftaran', sender, "INFORM", Tasks('cari', "oke"));
+        Message message = Message('Agent Pendaftaran', sender, "INFORM",
+            Tasks('status modifikasi data', "oke"));
         return message;
       } else {
-        Message message = Message(
-            'Agent Pendaftaran', sender, "INFORM", Tasks('cari', "failed"));
+        Message message = Message('Agent Pendaftaran', sender, "INFORM",
+            Tasks('status modifikasi data', "failed"));
         return message;
       }
     }
@@ -380,12 +379,12 @@ class AgentPendaftaran extends Agent {
         "updatedBy": data[10],
       });
       if (add.isSuccess) {
-        Message message =
-            Message(agentName, sender, "INFORM", Tasks('add pelayanan', "oke"));
+        Message message = Message(agentName, sender, "INFORM",
+            Tasks('status modifikasi data', "oke"));
         return message;
       } else {
-        Message message = Message(
-            agentName, sender, "INFORM", Tasks('add pelayanan', "failed"));
+        Message message = Message(agentName, sender, "INFORM",
+            Tasks('status modifikasi data', "failed"));
         return message;
       }
     }
@@ -402,12 +401,12 @@ class AgentPendaftaran extends Agent {
       "updatedBy": data[5],
     });
     if (add.isSuccess) {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('add pelayanan', "oke"));
+      Message message = Message(
+          agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
       return message;
     } else {
-      Message message = Message(
-          agentName, sender, "INFORM", Tasks('add pelayanan', "failed"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
@@ -435,12 +434,12 @@ class AgentPendaftaran extends Agent {
             .set("updatedBy", data[3]));
 
     if (update.isSuccess) {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('add pelayanan', "oke"));
+      Message message = Message(
+          agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
       return message;
     } else {
-      Message message = Message(
-          agentName, sender, "INFORM", Tasks('add pelayanan', "failed"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
@@ -454,12 +453,12 @@ class AgentPendaftaran extends Agent {
           ..set("updatedBy", data[2]));
 
     if (update.isSuccess) {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('add pelayanan', "oke"));
+      Message message = Message(
+          agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
       return message;
     } else {
-      Message message = Message(
-          agentName, sender, "INFORM", Tasks('add pelayanan', "failed"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
@@ -493,12 +492,12 @@ class AgentPendaftaran extends Agent {
               .set("updatedBy", data[10]));
 
       if (update.isSuccess) {
-        Message message = Message(
-            agentName, sender, "INFORM", Tasks('edit pelayanan', "oke"));
+        Message message = Message(agentName, sender, "INFORM",
+            Tasks('status modifikasi data', "oke"));
         return message;
       } else {
-        Message message = Message(
-            agentName, sender, "INFORM", Tasks('edit pelayanan', "failed"));
+        Message message = Message(agentName, sender, "INFORM",
+            Tasks('status modifikasi data', "failed"));
         return message;
       }
     }
@@ -512,12 +511,12 @@ class AgentPendaftaran extends Agent {
             .set("updatedAt", DateTime.now())
             .set("updatedBy", data[5]));
     if (update.isSuccess) {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('edit pelayanan', "oke"));
+      Message message = Message(
+          agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
       return message;
     } else {
-      Message message = Message(
-          agentName, sender, "INFORM", Tasks('edit pelayanan', "failed"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
@@ -548,12 +547,12 @@ class AgentPendaftaran extends Agent {
     });
 
     if (add.isSuccess) {
-      Message message =
-          Message('Agent Pendaftaran', sender, "INFORM", Tasks('cari', "oke"));
+      Message message = Message('Agent Pendaftaran', sender, "INFORM",
+          Tasks('status modifikasi data', "oke"));
       return message;
     } else {
-      Message message = Message(
-          'Agent Pendaftaran', sender, "INFORM", Tasks('cari', "failed"));
+      Message message = Message('Agent Pendaftaran', sender, "INFORM",
+          Tasks('status modifikasi data', "failed"));
       return message;
     }
   }

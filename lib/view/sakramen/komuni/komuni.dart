@@ -11,7 +11,7 @@ import 'package:imam_pelayanan_katolik/view/sakramen/komuni/addKomuni.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/komuni/editKomuni.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/komuni/komuniUser.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import '../../history/history.dart';
 import '../../profile/profile.dart';
 
@@ -52,13 +52,13 @@ class _Komuni extends State<Komuni> {
 
     // return k;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [idGereja, "komuni", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;
@@ -115,13 +115,13 @@ class _Komuni extends State<Komuni> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
         Tasks('update status pelayanan', ["komuni", id, status, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     if (hasil == "fail") {
       Fluttertoast.showToast(

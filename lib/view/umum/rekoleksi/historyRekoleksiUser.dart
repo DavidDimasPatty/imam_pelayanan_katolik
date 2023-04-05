@@ -10,6 +10,7 @@ import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import '../../history/history.dart';
 import '../../profile/profile.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class HistoryRekoleksiUser extends StatefulWidget {
   var names;
@@ -53,13 +54,13 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
 
     // return k;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan user', [idRekoleksi, "rekoleksi", "history"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;
@@ -117,7 +118,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View',
+        'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
@@ -126,7 +127,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
     if (hasil == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Reject User",
@@ -174,7 +175,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View',
+        'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks(
@@ -182,7 +183,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
     if (hasil == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Accept User",

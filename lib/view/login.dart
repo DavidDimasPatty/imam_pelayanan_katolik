@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/FadeAnimation.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
@@ -26,11 +26,11 @@ class Login extends StatelessWidget {
     // return await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View', 'Agent Akun', "REQUEST", Tasks('login', [id, password]));
+        'Agent Page', 'Agent Akun', "REQUEST", Tasks('login', [id, password]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
     completer.complete();
 
     await completer.future;

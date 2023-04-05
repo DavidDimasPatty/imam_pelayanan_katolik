@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
@@ -50,7 +50,7 @@ class _HistoryPA extends State<HistoryPA> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View',
+        'Agent Page',
         'Agent Pencarian',
         "REQUEST",
         Tasks('cari pelayanan',
@@ -59,7 +59,7 @@ class _HistoryPA extends State<HistoryPA> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;

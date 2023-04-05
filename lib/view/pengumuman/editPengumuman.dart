@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -61,13 +61,13 @@ class _editPengumuman extends State<editPengumuman> {
     // var hasil = AgenPage().receiverTampilan();
 
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pengumuman edit', [idPengumuman]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var result = await messagePassing.messageGetToView();
+    var result = await await AgentPage.getDataPencarian();
 
     await completer.future;
 
@@ -114,7 +114,7 @@ class _editPengumuman extends State<editPengumuman> {
         //   hasil = await AgenPage().receiverTampilan();
         Completer<void> completer = Completer<void>();
         Message message = Message(
-            'View',
+            'Agent Page',
             'Agent Pendaftaran',
             "REQUEST",
             Tasks('edit pengumuman', [
@@ -128,7 +128,7 @@ class _editPengumuman extends State<editPengumuman> {
         MessagePassing messagePassing = MessagePassing();
         var data = await messagePassing.sendMessage(message);
         completer.complete();
-        var hasil = await messagePassing.messageGetToView();
+        var hasil = await await AgentPage.getDataPencarian();
 
         await completer.future;
 
@@ -189,7 +189,7 @@ class _editPengumuman extends State<editPengumuman> {
         print(fileImage.runtimeType);
         Completer<void> completer = Completer<void>();
         Message message = Message(
-            'View',
+            'Agent Page',
             'Agent Pendaftaran',
             "REQUEST",
             Tasks('edit pengumuman', [
@@ -203,7 +203,7 @@ class _editPengumuman extends State<editPengumuman> {
         MessagePassing messagePassing = MessagePassing();
         var data = await messagePassing.sendMessage(message);
         completer.complete();
-        var hasil = await messagePassing.messageGetToView();
+        var hasil = await await AgentPage.getDataPencarian();
 
         await completer.future;
 

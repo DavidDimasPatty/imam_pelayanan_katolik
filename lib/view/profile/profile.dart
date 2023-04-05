@@ -16,7 +16,7 @@ import 'package:imam_pelayanan_katolik/view/umum/kegiatanUmum.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import '../history/history.dart';
 
 class Profile extends StatefulWidget {
@@ -58,13 +58,13 @@ class _Profile extends State<Profile> {
 
     // return k;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Akun', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('cari profile', [idGereja, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var result = await messagePassing.messageGetToView();
+    var result = await await AgentPage.getDataPencarian();
 
     await completer.future;
     print(result[1]);
@@ -88,13 +88,13 @@ class _Profile extends State<Profile> {
     // await Future.delayed(Duration(seconds: 1));
     // k = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Akun', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('edit status', [iduser, status, pelayanan]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var result = await messagePassing.messageGetToView();
+    var result = await await AgentPage.getDataPencarian();
 
     await completer.future;
 
@@ -239,13 +239,13 @@ class _Profile extends State<Profile> {
     // k = await AgenPage().receiverTampilan();
 
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Akun', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('change profile picture', [iduser, file]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     if (hasil == 'oke') {

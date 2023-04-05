@@ -143,7 +143,7 @@ class AgentSetting extends Agent {
           'Agent Setting',
           sender,
           "INFORM",
-          Tasks('status', [
+          Tasks('status aplikasi', [
             [await res],
             ["pagi"]
           ]));
@@ -153,7 +153,7 @@ class AgentSetting extends Agent {
           'Agent Setting',
           sender,
           "INFORM",
-          Tasks('status', [
+          Tasks('status aplikasi', [
             [await res],
             ["malam"]
           ]));
@@ -184,8 +184,8 @@ class AgentSetting extends Agent {
           mode: FileMode.append);
     }
 
-    Message message =
-        Message('Agent Setting', sender, "INFORM", Tasks('status', "oke"));
+    Message message = Message(
+        'Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
     return message;
   }
 
@@ -196,8 +196,8 @@ class AgentSetting extends Agent {
     final file = await File('$path/loginImam.txt');
     await file.writeAsString("");
 
-    Message message =
-        Message('Agent Setting', sender, "INFORM", Tasks('status', "oke"));
+    Message message = Message(
+        'Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
     return message;
   }
 

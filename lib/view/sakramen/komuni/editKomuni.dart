@@ -13,7 +13,7 @@ import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/komuni/komuni.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import '../../history/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
@@ -92,7 +92,7 @@ class _editKomuni extends State<editKomuni> {
       // hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
-          'View',
+          'Agent Page',
           'Agent Pendaftaran',
           "REQUEST",
           Tasks('edit pelayanan', [
@@ -107,7 +107,7 @@ class _editKomuni extends State<editKomuni> {
       MessagePassing messagePassing = MessagePassing();
       await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await messagePassing.messageGetToView();
+      var hasil = await await AgentPage.getDataPencarian();
 
       if (hasil == "fail") {
         Fluttertoast.showToast(
@@ -162,13 +162,13 @@ class _editKomuni extends State<editKomuni> {
 
     // return hasil;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari data edit pelayanan', [idKomuni, "komuni"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;

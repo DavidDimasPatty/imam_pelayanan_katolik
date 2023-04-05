@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import '../history/history.dart';
 import '../profile/profile.dart';
@@ -54,12 +54,12 @@ class _notifClass extends State<notification> {
     // checknotif = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View', 'Agent Akun', "REQUEST", Tasks('cari data imam', idUser));
+        'Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data imam', idUser));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var checknotif = await messagePassing.messageGetToView();
+    var checknotif = await await AgentPage.getDataPencarian();
 
     await completer.future;
 
@@ -82,13 +82,13 @@ class _notifClass extends State<notification> {
     // await Future.delayed(Duration(seconds: 1));
     // var daftarmisa = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Akun', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('update notification', [idUser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
 

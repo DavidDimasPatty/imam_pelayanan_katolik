@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -51,13 +51,13 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
 
     // return k;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan user', [idBaptis, "baptis", "history"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;
@@ -116,7 +116,7 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View',
+        'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
@@ -125,7 +125,7 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
@@ -175,7 +175,7 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'View',
+        'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
@@ -184,7 +184,7 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
     if (hasil == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Accept User",

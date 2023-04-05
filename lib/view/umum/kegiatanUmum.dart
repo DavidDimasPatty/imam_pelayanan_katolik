@@ -9,7 +9,7 @@ import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/view/umum/pendalamanAlkitab/pendalamanAlkitab.dart';
 import 'package:imam_pelayanan_katolik/view/umum/rekoleksi/rekoleksi.dart';
 import 'package:imam_pelayanan_katolik/view/umum/retret/retret.dart';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import '../../DatabaseFolder/mongodb.dart';
 import '../history/history.dart';
 import '../profile/profile.dart';
@@ -45,13 +45,13 @@ class _KegiatanUmum extends State<KegiatanUmum> {
     // await Future.delayed(Duration(seconds: 1));
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari jumlah umum', [idGereja, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;

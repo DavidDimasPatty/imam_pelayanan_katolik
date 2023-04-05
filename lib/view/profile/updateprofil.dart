@@ -16,7 +16,7 @@ import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import 'package:geocode/geocode.dart';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import '../history/history.dart';
 
 class UpdateProfile extends StatefulWidget {
@@ -75,7 +75,7 @@ class _UpdateProfile extends State<UpdateProfile> {
       //   var hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
-          'View',
+          'Agent Page',
           'Agent Akun',
           "REQUEST",
           Tasks('edit profile gereja', [
@@ -92,7 +92,7 @@ class _UpdateProfile extends State<UpdateProfile> {
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await messagePassing.messageGetToView();
+      var hasil = await await AgentPage.getDataPencarian();
 
       await completer.future;
 
@@ -145,7 +145,7 @@ class _UpdateProfile extends State<UpdateProfile> {
       // var hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
-          'View',
+          'Agent Page',
           'Agent Akun',
           "REQUEST",
           Tasks('edit profile gereja', [
@@ -162,7 +162,7 @@ class _UpdateProfile extends State<UpdateProfile> {
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await messagePassing.messageGetToView();
+      var hasil = await await AgentPage.getDataPencarian();
 
       await completer.future;
       if (hasil == "fail") {
@@ -221,13 +221,13 @@ class _UpdateProfile extends State<UpdateProfile> {
     // await Future.delayed(Duration(seconds: 1));
     // var hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'View', 'Agent Akun', "REQUEST", Tasks('cari data gereja', idGereja));
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
+        Tasks('cari data gereja', idGereja));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return hasil;

@@ -1,6 +1,6 @@
 //import 'package:firebase_core/firebase_core.dart';
 import 'dart:async';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -29,13 +29,13 @@ Future callDb() async {
   // await msg.send().then((res) async {});
   // await Future.delayed(Duration(seconds: 1));
   Completer<void> completer = Completer<void>();
-  Message message =
-      Message('View', 'Agent Setting', "REQUEST", Tasks('setting user', null));
+  Message message = Message(
+      'Agent Page', 'Agent Setting', "REQUEST", Tasks('setting user', null));
 
   MessagePassing messagePassing = MessagePassing();
   var data = await messagePassing.sendMessage(message);
   completer.complete();
-  var hasil = await messagePassing.messageGetToView();
+  var hasil = await await AgentPage.getDataPencarian();
   return hasil;
 }
 

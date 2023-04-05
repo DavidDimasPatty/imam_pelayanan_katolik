@@ -10,6 +10,7 @@ import 'package:imam_pelayanan_katolik/view/umum/rekoleksi/historyRekoleksiUser.
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import '../../history/history.dart';
 import '../../profile/profile.dart';
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class HistoryRekoleksi extends StatefulWidget {
   var names;
@@ -49,13 +50,13 @@ class _HistoryRekoleksi extends State<HistoryRekoleksi> {
 
     // return k;
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [idGereja, "umum", "history", "Rekoleksi"]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     return await hasil;

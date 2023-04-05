@@ -12,7 +12,7 @@ import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/addPengumuman.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/editPengumuman.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-
+import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import '../history/history.dart';
 import '../profile/profile.dart';
 
@@ -54,13 +54,13 @@ class _PengumumanGereja extends State<PengumumanGereja> {
     // return k;
 
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pengumuman', [idGereja]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var result = await messagePassing.messageGetToView();
+    var result = await await AgentPage.getDataPencarian();
 
     await completer.future;
 
@@ -99,13 +99,13 @@ class _PengumumanGereja extends State<PengumumanGereja> {
     // hasil = await AgenPage().receiverTampilan();
 
     Completer<void> completer = Completer<void>();
-    Message message = Message('View', 'Agent Pendaftaran', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
         Tasks('update status pengumuman', [id, status, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await messagePassing.messageGetToView();
+    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
     if (hasil == "fail") {

@@ -76,7 +76,7 @@ class AgentAkun extends Agent {
                 }
               }
               if (checkGoals == true) {
-                print('Agent Akun returning data to ${message.receiver}');
+                print(agentName + ' returning data to ${message.receiver}');
                 MessagePassing messagePassing = MessagePassing();
                 messagePassing.sendMessage(message);
                 break;
@@ -139,8 +139,8 @@ class AgentAkun extends Agent {
         .find({'email': data[0], 'password': data[1], 'banned': 0}).toList();
 
     sendToAgenSetting(conn, agentName);
-    Message message =
-        Message('Agent Akun', sender, "REQUEST", Tasks('save data', conn));
+    Message message = Message(agentName, sender, "REQUEST",
+        Tasks("status modifikasi/ pencarian data akun", conn));
     return message;
   }
 
@@ -170,12 +170,12 @@ class AgentAkun extends Agent {
     var update = await imamCollection.updateOne(where.eq('_id', data[0]),
         modify.set(change, data[1]).set("updatedAt", DateTime.now()));
     if (update.isSuccess) {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "oke"));
       return message;
     } else {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "failed"));
       return message;
     }
   }
@@ -295,7 +295,7 @@ class AgentAkun extends Agent {
         'Agent Pencarian',
         sender,
         "INFORM",
-        Tasks('data pencarian gereja',
+        Tasks("status modifikasi/ pencarian data akun",
             [conn, totalB + totalKo + countP + totalKr + totalU]));
     return message;
   }
@@ -303,8 +303,8 @@ class AgentAkun extends Agent {
   Future<Message> cariProfileGereja(dynamic data, String sender) async {
     var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
     var conn = await gerejaCollection.find({'_id': data}).toList();
-    Message message = Message('Agent Pencarian', sender, "INFORM",
-        Tasks('data pencarian gereja', conn));
+    Message message = Message(agentName, sender, "INFORM",
+        Tasks("status modifikasi/ pencarian data akun", conn));
 
     return message;
   }
@@ -314,8 +314,8 @@ class AgentAkun extends Agent {
         MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
     var conn =
         await aturanPelayananCollection.find({'idGereja': data}).toList();
-    Message message = Message('Agent Pencarian', sender, "INFORM",
-        Tasks('data pencarian gereja', conn));
+    Message message = Message(agentName, sender, "INFORM",
+        Tasks("status modifikasi/ pencarian data akun", conn));
 
     return message;
   }
@@ -344,12 +344,12 @@ class AgentAkun extends Agent {
               .set("gambar", urlDownload));
 
       if (update.isSuccess) {
-        Message message =
-            Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+        Message message = Message(agentName, sender, "INFORM",
+            Tasks("status modifikasi/ pencarian data akun", "oke"));
         return message;
       } else {
-        Message message =
-            Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+        Message message = Message(agentName, sender, "INFORM",
+            Tasks("status modifikasi/ pencarian data akun", "failed"));
         return message;
       }
     } else {
@@ -365,12 +365,12 @@ class AgentAkun extends Agent {
               .set('deskripsi', data[5]));
 
       if (update.isSuccess) {
-        Message message =
-            Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+        Message message = Message(agentName, sender, "INFORM",
+            Tasks("status modifikasi/ pencarian data akun", "oke"));
         return message;
       } else {
-        Message message =
-            Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+        Message message = Message(agentName, sender, "INFORM",
+            Tasks("status modifikasi/ pencarian data akun", "failed"));
         return message;
       }
     }
@@ -393,12 +393,12 @@ class AgentAkun extends Agent {
             .set('updatedAt', DateTime.now())
             .set('updatedBy', data[8]));
     if (update.isSuccess) {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "oke"));
       return message;
     } else {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "failed"));
       return message;
     }
   }
@@ -406,8 +406,8 @@ class AgentAkun extends Agent {
   Future<Message> cariEditProfileImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection.find({'_id': data[1][0]});
-    Message message =
-        Message('Agent Akun', sender, "INFORM", Tasks('cari', conn));
+    Message message = Message(agentName, sender, "INFORM",
+        Tasks("status modifikasi/ pencarian data akun", conn));
     return message;
   }
 
@@ -422,12 +422,12 @@ class AgentAkun extends Agent {
             .set('notelp', data[3]));
 
     if (update.isSuccess) {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "oke"));
       return message;
     } else {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "failed"));
       return message;
     }
   }
@@ -435,8 +435,7 @@ class AgentAkun extends Agent {
   Future<Message> cariDataImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection.find({'_id': data}).toList();
-    Message message =
-        Message('Agent Akun', sender, "INFORM", Tasks('cari', conn));
+    Message message = Message(agentName, sender, "INFORM", Tasks('cari', conn));
     return message;
   }
 
@@ -445,12 +444,12 @@ class AgentAkun extends Agent {
     var update = await imamCollection.updateOne(
         where.eq('_id', data[0]), modify.set('notif', data[1]));
     if (update.isSuccess) {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('update', "oke"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "oke"));
       return message;
     } else {
-      Message message =
-          Message(agentName, sender, "INFORM", Tasks('update', "failed"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "failed"));
       return message;
     }
   }
@@ -461,17 +460,17 @@ class AgentAkun extends Agent {
         .find({'_id': data[0], 'password': data[1]}).toList();
     try {
       if (conn[0]['_id'] == null) {
-        Message message =
-            Message('Agent Akun', sender, "INFORM", Tasks('cari', "not"));
+        Message message = Message(agentName, sender, "INFORM",
+            Tasks("status modifikasi/ pencarian data akun", "not"));
         return message;
       } else {
-        Message message =
-            Message('Agent Akun', sender, "INFORM", Tasks('cari', "found"));
+        Message message = Message(agentName, sender, "INFORM",
+            Tasks("status modifikasi/ pencarian data akun", "found"));
         return message;
       }
     } catch (e) {
-      Message message =
-          Message('Agent Akun', sender, "INFORM", Tasks('cari', "not"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "not"));
       return message;
     }
   }
@@ -481,12 +480,12 @@ class AgentAkun extends Agent {
     var conn = await userCollection.updateOne(
         where.eq('_id', data[0]), modify.set('password', data[1]));
     if (conn.isSuccess) {
-      Message message =
-          Message('Agent Akun', sender, "INFORM", Tasks('cari', "not"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "not"));
       return message;
     } else {
-      Message message =
-          Message('Agent Akun', sender, "INFORM", Tasks('cari', "found"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "found"));
       return message;
     }
   }
@@ -505,12 +504,12 @@ class AgentAkun extends Agent {
     var conn = await userCollection.updateOne(
         where.eq('_id', data[0]), modify.set('picture', urlDownload));
     if (conn.isSuccess) {
-      Message message =
-          Message('Agent Akun', sender, "INFORM", Tasks('cari', "not"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "not"));
       return message;
     } else {
-      Message message =
-          Message('Agent Akun', sender, "INFORM", Tasks('cari', "found"));
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "found"));
       return message;
     }
   }
