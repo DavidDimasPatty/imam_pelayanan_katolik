@@ -20,7 +20,7 @@ class MessagePassing {
     if (agents.containsKey(message.receiver)) {
       Agent? agent = agents[message.receiver];
       if (agent!.canPerformTask(message)) {
-        return await agent.performTask(message, message.sender);
+        return await agent.receiveMessage(message, message.sender);
       } else {
         agent.rejectTask(message.task, message.sender);
       }
