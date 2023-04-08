@@ -28,8 +28,8 @@ class _PA extends State<PA> {
   var names;
   var emails;
   var distance;
-  List daftarUser = [];
-
+  List hasil = [];
+  StreamController _controller = StreamController();
   List dummyTemp = [];
   final idUser;
   final idGereja;
@@ -60,12 +60,13 @@ class _PA extends State<PA> {
             [idGereja, "umum", "current", "Pendalaman Alkitab"]));
 
     MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
+    var data = await messagePassing.sendMessage(message);
+    var hasilPencarian = await AgentPage.getDataPencarian();
+
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
-    return await hasil;
+    return await hasilPencarian;
   }
 
   @override
@@ -73,8 +74,9 @@ class _PA extends State<PA> {
     super.initState();
     callDb().then((result) {
       setState(() {
-        daftarUser.addAll(result);
+        hasil.addAll(result);
         dummyTemp.addAll(result);
+        _controller.add(result);
       });
     });
   }
@@ -91,14 +93,13 @@ class _PA extends State<PA> {
         }
       }
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(listOMaps);
+        hasil.clear();
+        hasil.addAll(listOMaps);
       });
-      return daftarUser;
     } else {
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(dummyTemp);
+        hasil.clear();
+        hasil.addAll(dummyTemp);
       });
     }
   }
@@ -127,9 +128,8 @@ class _PA extends State<PA> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
-
-    if (hasil == "fail") {
+    var hasilDaftar = await await AgentPage.getDataPencarian();
+    if (hasilDaftar == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Deactive Kegiatan PA",
           toastLength: Toast.LENGTH_SHORT,
@@ -149,29 +149,18 @@ class _PA extends State<PA> {
           fontSize: 16.0);
       callDb().then((result) {
         setState(() {
-          daftarUser.clear();
+          hasil.clear();
           dummyTemp.clear();
-          daftarUser.addAll(result);
+          hasil.addAll(result);
           dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
+          _controller.add(result);
         });
       });
     }
   }
 
   Future pullRefresh() async {
-    setState(() {
-      callDb().then((result) {
-        setState(() {
-          daftarUser.clear();
-          dummyTemp.clear();
-          daftarUser.addAll(result);
-          dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
-        });
-      });
-      ;
-    });
+    callDb();
   }
 
   @override
@@ -258,12 +247,23 @@ class _PA extends State<PA> {
             ),
             Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             /////////
-            FutureBuilder(
-                future: callDb(),
-                builder: (context, AsyncSnapshot snapshot) {
+            StreamBuilder(
+                stream: _controller.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                   try {
                     return Column(children: [
-                      for (var i in daftarUser)
+                      for (var i in hasil)
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {

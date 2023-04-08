@@ -26,8 +26,8 @@ class _RetretUser extends State<RetretUser> {
   var names;
   var emails;
   var distance;
-  List daftarUser = [];
-
+  List hasil = [];
+  StreamController _controller = StreamController();
   List dummyTemp = [];
   final idUser;
   final idGereja;
@@ -55,12 +55,13 @@ class _RetretUser extends State<RetretUser> {
         Tasks('cari pelayanan user', [idRetret, "retret", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
+    var data = await messagePassing.sendMessage(message);
+    var hasilPencarian = await AgentPage.getDataPencarian();
+
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
-    return await hasil;
+    return await hasilPencarian;
   }
 
   @override
@@ -68,8 +69,9 @@ class _RetretUser extends State<RetretUser> {
     super.initState();
     callDb().then((result) {
       setState(() {
-        daftarUser.addAll(result);
+        hasil.addAll(result);
         dummyTemp.addAll(result);
+        _controller.add(result);
       });
     });
   }
@@ -78,7 +80,7 @@ class _RetretUser extends State<RetretUser> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['userRetret'][0]['name']
+        if (item['userPA'][0]['name']
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase())) {
@@ -86,14 +88,13 @@ class _RetretUser extends State<RetretUser> {
         }
       }
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(listOMaps);
+        hasil.clear();
+        hasil.addAll(listOMaps);
       });
-      return daftarUser;
     } else {
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(dummyTemp);
+        hasil.clear();
+        hasil.addAll(dummyTemp);
       });
     }
   }
@@ -125,9 +126,9 @@ class _RetretUser extends State<RetretUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasilDaftar == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Reject User",
           toastLength: Toast.LENGTH_SHORT,
@@ -147,11 +148,11 @@ class _RetretUser extends State<RetretUser> {
           fontSize: 16.0);
       callDb().then((result) {
         setState(() {
-          daftarUser.clear();
+          hasil.clear();
           dummyTemp.clear();
-          daftarUser.addAll(result);
+          hasil.addAll(result);
           dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
+          _controller.add(result);
         });
       });
     }
@@ -185,9 +186,9 @@ class _RetretUser extends State<RetretUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasilDaftar == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Accept User",
           toastLength: Toast.LENGTH_SHORT,
@@ -207,29 +208,18 @@ class _RetretUser extends State<RetretUser> {
           fontSize: 16.0);
       callDb().then((result) {
         setState(() {
-          daftarUser.clear();
+          hasil.clear();
           dummyTemp.clear();
-          daftarUser.addAll(result);
+          hasil.addAll(result);
           dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
+          _controller.add(result);
         });
       });
     }
   }
 
   Future pullRefresh() async {
-    setState(() {
-      callDb().then((result) {
-        setState(() {
-          daftarUser.clear();
-          dummyTemp.clear();
-          daftarUser.addAll(result);
-          dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
-        });
-      });
-      ;
-    });
+    callDb();
   }
 
   TextEditingController editingController = TextEditingController();
@@ -290,12 +280,23 @@ class _RetretUser extends State<RetretUser> {
             ),
 
             /////////
-            FutureBuilder(
-                future: callDb(),
-                builder: (context, AsyncSnapshot snapshot) {
+            StreamBuilder(
+                stream: _controller.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                   try {
                     return Column(children: [
-                      for (var i in daftarUser)
+                      for (var i in hasil)
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {
@@ -378,14 +379,7 @@ class _RetretUser extends State<RetretUser> {
                                                 i['_id'],
                                                 i['userRetret'][0]['token'],
                                                 i['idKegiatan']);
-                                            callDb().then((result) {
-                                              setState(() {
-                                                daftarUser.clear();
-                                                dummyTemp.clear();
-                                                daftarUser.addAll(result);
-                                                dummyTemp.addAll(result);
-                                              });
-                                            });
+                                            callDb().then((result) {});
                                           },
                                         ),
                                       ),
@@ -410,14 +404,7 @@ class _RetretUser extends State<RetretUser> {
                                                   i['_id'],
                                                   i['userRetret'][0]['token'],
                                                   i['idKegiatan']);
-                                              callDb().then((result) {
-                                                setState(() {
-                                                  daftarUser.clear();
-                                                  dummyTemp.clear();
-                                                  daftarUser.addAll(result);
-                                                  dummyTemp.addAll(result);
-                                                });
-                                              });
+                                              callDb().then((result) {});
                                             }),
                                       ),
                                     ),

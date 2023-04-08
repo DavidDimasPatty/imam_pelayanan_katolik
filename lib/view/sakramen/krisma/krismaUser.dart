@@ -27,8 +27,8 @@ class _KrismaUser extends State<KrismaUser> {
   var names;
   var emails;
   var distance;
-  List daftarUser = [];
-
+  List hasil = [];
+  StreamController _controller = StreamController();
   List dummyTemp = [];
   final idUser;
   final idGereja;
@@ -56,12 +56,13 @@ class _KrismaUser extends State<KrismaUser> {
         Tasks('cari pelayanan user', [idKrisma, "krisma", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
+    var data = await messagePassing.sendMessage(message);
+    var hasilPencarian = await AgentPage.getDataPencarian();
+
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
-    return await hasil;
+    return await hasilPencarian;
   }
 
   @override
@@ -69,8 +70,9 @@ class _KrismaUser extends State<KrismaUser> {
     super.initState();
     callDb().then((result) {
       setState(() {
-        daftarUser.addAll(result);
+        hasil.addAll(result);
         dummyTemp.addAll(result);
+        _controller.add(result);
       });
     });
   }
@@ -87,14 +89,13 @@ class _KrismaUser extends State<KrismaUser> {
         }
       }
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(listOMaps);
+        hasil.clear();
+        hasil.addAll(listOMaps);
       });
-      return daftarUser;
     } else {
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(dummyTemp);
+        hasil.clear();
+        hasil.addAll(dummyTemp);
       });
     }
   }
@@ -126,9 +127,9 @@ class _KrismaUser extends State<KrismaUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasilDaftar == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Reject User",
           toastLength: Toast.LENGTH_SHORT,
@@ -148,11 +149,11 @@ class _KrismaUser extends State<KrismaUser> {
           fontSize: 16.0);
       callDb().then((result) {
         setState(() {
-          daftarUser.clear();
+          hasil.clear();
           dummyTemp.clear();
-          daftarUser.addAll(result);
+          hasil.addAll(result);
           dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
+          _controller.add(result);
         });
       });
     }
@@ -186,9 +187,9 @@ class _KrismaUser extends State<KrismaUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasilDaftar == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Accept User",
           toastLength: Toast.LENGTH_SHORT,
@@ -208,29 +209,18 @@ class _KrismaUser extends State<KrismaUser> {
           fontSize: 16.0);
       callDb().then((result) {
         setState(() {
-          daftarUser.clear();
+          hasil.clear();
           dummyTemp.clear();
-          daftarUser.addAll(result);
+          hasil.addAll(result);
           dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
+          _controller.add(result);
         });
       });
     }
   }
 
   Future pullRefresh() async {
-    setState(() {
-      callDb().then((result) {
-        setState(() {
-          daftarUser.clear();
-          dummyTemp.clear();
-          daftarUser.addAll(result);
-          dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
-        });
-      });
-      ;
-    });
+    callDb();
   }
 
   TextEditingController editingController = TextEditingController();
@@ -292,12 +282,23 @@ class _KrismaUser extends State<KrismaUser> {
             ),
 
             /////////
-            FutureBuilder(
-                future: callDb(),
-                builder: (context, AsyncSnapshot snapshot) {
+            StreamBuilder(
+                stream: _controller.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                   try {
                     return Column(children: [
-                      for (var i in daftarUser)
+                      for (var i in hasil)
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {
@@ -380,14 +381,7 @@ class _KrismaUser extends State<KrismaUser> {
                                                 i['_id'],
                                                 i['userKrisma'][0]['token'],
                                                 i['idKrisma']);
-                                            callDb().then((result) {
-                                              setState(() {
-                                                daftarUser.clear();
-                                                dummyTemp.clear();
-                                                daftarUser.addAll(result);
-                                                dummyTemp.addAll(result);
-                                              });
-                                            });
+                                            callDb().then((result) {});
                                           },
                                         ),
                                       ),
@@ -412,14 +406,6 @@ class _KrismaUser extends State<KrismaUser> {
                                                   i['_id'],
                                                   i['userKrisma'][0]['token'],
                                                   i['idKrisma']);
-                                              callDb().then((result) {
-                                                setState(() {
-                                                  daftarUser.clear();
-                                                  dummyTemp.clear();
-                                                  daftarUser.addAll(result);
-                                                  dummyTemp.addAll(result);
-                                                });
-                                              });
                                             }),
                                       ),
                                     ),

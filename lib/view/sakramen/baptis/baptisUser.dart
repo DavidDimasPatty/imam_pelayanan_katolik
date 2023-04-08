@@ -24,8 +24,8 @@ class BaptisUser extends StatefulWidget {
 
 class _BaptisUser extends State<BaptisUser> {
   var names;
-  List daftarUser = [];
-
+  List hasil = [];
+  StreamController _controller = StreamController();
   List dummyTemp = [];
   final idUser;
   final idGereja;
@@ -53,12 +53,13 @@ class _BaptisUser extends State<BaptisUser> {
         Tasks('cari pelayanan user', [idBaptis, "baptis", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
+    var data = await messagePassing.sendMessage(message);
+    var hasilPencarian = await AgentPage.getDataPencarian();
+
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
-    return await hasil;
+    return await hasilPencarian;
   }
 
   @override
@@ -66,8 +67,9 @@ class _BaptisUser extends State<BaptisUser> {
     super.initState();
     callDb().then((result) {
       setState(() {
-        daftarUser.addAll(result);
+        hasil.addAll(result);
         dummyTemp.addAll(result);
+        _controller.add(result);
       });
     });
   }
@@ -84,14 +86,13 @@ class _BaptisUser extends State<BaptisUser> {
         }
       }
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(listOMaps);
+        hasil.clear();
+        hasil.addAll(listOMaps);
       });
-      return daftarUser;
     } else {
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(dummyTemp);
+        hasil.clear();
+        hasil.addAll(dummyTemp);
       });
     }
   }
@@ -125,9 +126,9 @@ class _BaptisUser extends State<BaptisUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasilDaftar == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Reject User",
           toastLength: Toast.LENGTH_SHORT,
@@ -147,11 +148,11 @@ class _BaptisUser extends State<BaptisUser> {
           fontSize: 16.0);
       callDb().then((result) {
         setState(() {
-          daftarUser.clear();
+          hasil.clear();
           dummyTemp.clear();
-          daftarUser.addAll(result);
+          hasil.addAll(result);
           dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
+          _controller.add(result);
         });
       });
     }
@@ -184,9 +185,9 @@ class _BaptisUser extends State<BaptisUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasilDaftar == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Accept User",
           toastLength: Toast.LENGTH_SHORT,
@@ -206,29 +207,18 @@ class _BaptisUser extends State<BaptisUser> {
           fontSize: 16.0);
       callDb().then((result) {
         setState(() {
-          daftarUser.clear();
+          hasil.clear();
           dummyTemp.clear();
-          daftarUser.addAll(result);
+          hasil.addAll(result);
           dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
+          _controller.add(result);
         });
       });
     }
   }
 
   Future pullRefresh() async {
-    setState(() {
-      callDb().then((result) {
-        setState(() {
-          daftarUser.clear();
-          dummyTemp.clear();
-          daftarUser.addAll(result);
-          dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
-        });
-      });
-      ;
-    });
+    callDb();
   }
 
   TextEditingController editingController = TextEditingController();
@@ -290,12 +280,23 @@ class _BaptisUser extends State<BaptisUser> {
             ),
 
             /////////
-            FutureBuilder(
-                future: callDb(),
-                builder: (context, AsyncSnapshot snapshot) {
+            StreamBuilder(
+                stream: _controller.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                   try {
                     return Column(children: [
-                      for (var i in daftarUser)
+                      for (var i in hasil)
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {
@@ -378,14 +379,6 @@ class _BaptisUser extends State<BaptisUser> {
                                                 i['_id'],
                                                 i['userBaptis'][0]['token'],
                                                 i['idBaptis']);
-                                            callDb().then((result) {
-                                              setState(() {
-                                                daftarUser.clear();
-                                                dummyTemp.clear();
-                                                daftarUser.addAll(result);
-                                                dummyTemp.addAll(result);
-                                              });
-                                            });
                                           },
                                         ),
                                       ),
@@ -410,14 +403,6 @@ class _BaptisUser extends State<BaptisUser> {
                                                   i['_id'],
                                                   i['userBaptis'][0]['token'],
                                                   i['idBaptis']);
-                                              callDb().then((result) {
-                                                setState(() {
-                                                  daftarUser.clear();
-                                                  dummyTemp.clear();
-                                                  daftarUser.addAll(result);
-                                                  dummyTemp.addAll(result);
-                                                });
-                                              });
                                             }),
                                       ),
                                     ),

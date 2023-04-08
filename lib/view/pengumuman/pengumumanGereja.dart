@@ -29,8 +29,8 @@ class PengumumanGereja extends StatefulWidget {
 class _PengumumanGereja extends State<PengumumanGereja> {
   var names;
   var distance;
-  List daftarUser = [];
-
+  List hasil = [];
+  StreamController _controller = StreamController();
   List dummyTemp = [];
   final idUser;
   final idGereja;
@@ -59,27 +59,16 @@ class _PengumumanGereja extends State<PengumumanGereja> {
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
+    var hasilPencarian = await AgentPage.getDataPencarian();
+
     completer.complete();
-    var result = await await AgentPage.getDataPencarian();
 
     await completer.future;
-
-    return result;
+    return await hasilPencarian;
   }
 
   Future pullRefresh() async {
-    setState(() {
-      callDb().then((result) {
-        setState(() {
-          daftarUser.clear();
-          dummyTemp.clear();
-          daftarUser.addAll(result);
-          dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
-        });
-      });
-      ;
-    });
+    callDb();
   }
 
   Future updatePengumuman(id, status) async {
@@ -103,12 +92,11 @@ class _PengumumanGereja extends State<PengumumanGereja> {
         Tasks('update status pengumuman', [id, status, idUser]));
 
     MessagePassing messagePassing = MessagePassing();
-    var data = await messagePassing.sendMessage(message);
+    await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    await completer.future;
-    if (hasil == "fail") {
+    if (hasilDaftar == "fail") {
       Fluttertoast.showToast(
           msg: "Gagal Update Status Pengumuman Gereja",
           toastLength: Toast.LENGTH_SHORT,
@@ -128,11 +116,11 @@ class _PengumumanGereja extends State<PengumumanGereja> {
           fontSize: 16.0);
       callDb().then((result) {
         setState(() {
-          daftarUser.clear();
+          hasil.clear();
           dummyTemp.clear();
-          daftarUser.addAll(result);
+          hasil.addAll(result);
           dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
+          _controller.add(result);
         });
       });
     }
@@ -143,8 +131,9 @@ class _PengumumanGereja extends State<PengumumanGereja> {
     super.initState();
     callDb().then((result) {
       setState(() {
-        daftarUser.addAll(result);
+        hasil.addAll(result);
         dummyTemp.addAll(result);
+        _controller.add(result);
       });
     });
   }
@@ -161,14 +150,13 @@ class _PengumumanGereja extends State<PengumumanGereja> {
         }
       }
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(listOMaps);
+        hasil.clear();
+        hasil.addAll(listOMaps);
       });
-      return daftarUser;
     } else {
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(dummyTemp);
+        hasil.clear();
+        hasil.addAll(dummyTemp);
       });
     }
   }
@@ -259,12 +247,23 @@ class _PengumumanGereja extends State<PengumumanGereja> {
             ),
             Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             /////////
-            FutureBuilder(
-                future: callDb(),
-                builder: (context, AsyncSnapshot snapshot) {
+            StreamBuilder(
+                stream: _controller.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                   try {
                     return Column(children: [
-                      for (var i in daftarUser)
+                      for (var i in hasil)
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {
