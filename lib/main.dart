@@ -44,20 +44,20 @@ void main() async {
 
   if (tampilan[1][0] == "pagi") {
     if (tampilan[0][0].length != 0 && tampilan[0][0] != "nothing") {
-      var object2 = tampilan[0][0][2]
-          .toString()
-          .substring(10, tampilan[0][0][2].length - 2);
-      var object1 = tampilan[0][0][1]
+      var object2 = tampilan[0][0][1]
           .toString()
           .substring(10, tampilan[0][0][1].length - 2);
+      var object1 = tampilan[0][0][0]
+          .toString()
+          .substring(10, tampilan[0][0][0].length - 2);
       runApp(MaterialApp(
         title: 'Navigation Basics',
         theme: ThemeData(
           brightness: Brightness.light,
           primaryColor: Colors.grey,
         ),
-        home: HomePage(tampilan[0][0][0], ObjectId.parse(object1),
-            ObjectId.parse(object2)),
+        home: HomePage(ObjectId.parse(object1), ObjectId.parse(object2),
+            tampilan[0][0][2]),
       ));
     } else {
       print("Morning!");
@@ -72,12 +72,13 @@ void main() async {
     }
   } else {
     if (tampilan[0][0].length != 0 && tampilan[0][0] != "nothing") {
-      var object2 = tampilan[0][0][2]
-          .toString()
-          .substring(10, tampilan[0][0][2].length - 2);
-      var object1 = tampilan[0][0][1]
+      print(tampilan);
+      var object2 = tampilan[0][0][1]
           .toString()
           .substring(10, tampilan[0][0][1].length - 2);
+      var object1 = tampilan[0][0][0]
+          .toString()
+          .substring(10, tampilan[0][0][0].length - 2);
       print("Night!");
       runApp(MaterialApp(
         title: 'Navigation Basics',
@@ -86,8 +87,8 @@ void main() async {
           brightness: Brightness.dark,
           primaryColor: Colors.grey,
         ),
-        home: HomePage(tampilan[0][0][0], ObjectId.parse(object1),
-            ObjectId.parse(object2)),
+        home: HomePage(ObjectId.parse(object1), ObjectId.parse(object2),
+            tampilan[0][0][2]),
       ));
     } else {
       runApp(MaterialApp(

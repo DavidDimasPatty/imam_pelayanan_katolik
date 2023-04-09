@@ -168,7 +168,7 @@ class AgentAkun extends Agent {
         .find({'email': data[0], 'password': data[1], 'banned': 0}).toList();
 
     sendToAgenSetting(conn, agentName);
-    Message message = Message(agentName, sender, "REQUEST",
+    Message message = Message(agentName, sender, "INFORM",
         Tasks("status modifikasi/ pencarian data akun", conn));
     return message;
   }

@@ -133,6 +133,7 @@ class AgentSetting extends Agent {
       final directory = await getApplicationDocumentsDirectory();
       var path = directory.path;
       final file = await File('$path/loginImam.txt');
+      // await file.writeAsString("");
       res = await file.readAsLines();
     } catch (e) {
       print(e);
@@ -168,19 +169,19 @@ class AgentSetting extends Agent {
     if (await File('$path/loginImam.txt').exists()) {
       final file = await File('$path/loginImam.txt');
 
-      await file.writeAsString(data[0]['name']);
-      await file.writeAsString('\n' + data[0]['_id'].toString(),
-          mode: FileMode.append);
+      await file.writeAsString(data[0]['_id'].toString());
 
       await file.writeAsString('\n' + data[0]['idGereja'].toString(),
+          mode: FileMode.append);
+      await file.writeAsString('\n' + data[0]['role'].toString(),
           mode: FileMode.append);
     } else {
       final file = await File('$path/loginImam.txt').create(recursive: true);
-      await file.writeAsString(data[0]['name']);
-      await file.writeAsString('\n' + data[0]['_id'].toString(),
-          mode: FileMode.append);
+      await file.writeAsString(data[0]['_id'].toString());
 
       await file.writeAsString('\n' + data[0]['idGereja'].toString(),
+          mode: FileMode.append);
+      await file.writeAsString('\n' + data[0]['role'].toString(),
           mode: FileMode.append);
     }
 

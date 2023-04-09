@@ -220,7 +220,16 @@ class _KrismaUser extends State<KrismaUser> {
   }
 
   Future pullRefresh() async {
-    callDb();
+    callDb().then((result) {
+      setState(() {
+        hasil.clear();
+        dummyTemp.clear();
+        hasil.clear();
+        hasil.addAll(result);
+        dummyTemp.addAll(result);
+        _controller.add(result);
+      });
+    });
   }
 
   TextEditingController editingController = TextEditingController();

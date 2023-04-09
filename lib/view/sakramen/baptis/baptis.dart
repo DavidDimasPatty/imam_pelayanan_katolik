@@ -66,7 +66,16 @@ class _Baptis extends State<Baptis> {
   }
 
   Future pullRefresh() async {
-    callDb();
+    callDb().then((result) {
+      setState(() {
+        hasil.clear();
+        dummyTemp.clear();
+        hasil.clear();
+        hasil.addAll(result);
+        dummyTemp.addAll(result);
+        _controller.add(result);
+      });
+    });
   }
 
   void updateKegiatan(id, status) async {
