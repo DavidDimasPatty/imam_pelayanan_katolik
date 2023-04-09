@@ -94,83 +94,84 @@ class History extends StatelessWidget {
                   ])),
             ),
 
-            InkWell(
-              borderRadius: new BorderRadius.circular(24),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          HistorySakramentali(iduser, idGereja, role)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
-                    border: Border.all(
-                      color: Colors.lightBlue,
+            if (role == 0)
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HistorySakramentali(iduser, idGereja, role)),
+                  );
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
+                    child: Column(children: <Widget>[
+                      //Color(Colors.blue);
 
-                    Text(
-                      "History Sakramentali",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
+                      Text(
+                        "History Sakramentali",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+              ),
+            if (role == 1)
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HistoryKegiatanUmum(iduser, idGereja, role)),
+                  );
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                  ])),
-            ),
+                    child: Column(children: <Widget>[
+                      //Color(Colors.blue);
 
-            InkWell(
-              borderRadius: new BorderRadius.circular(24),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          HistoryKegiatanUmum(iduser, idGereja, role)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
-                    border: Border.all(
-                      color: Colors.lightBlue,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
-
-                    Text(
-                      "History Kegiatan Umum",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
-                    ),
-                  ])),
-            ),
+                      Text(
+                        "History Kegiatan Umum",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+              ),
             /////////
             ///
           ],

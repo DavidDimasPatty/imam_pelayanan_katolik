@@ -53,162 +53,162 @@ class HistorySakramen extends StatelessWidget {
           padding: EdgeInsets.only(right: 15, left: 15),
           children: <Widget>[
             /////////
-
-            InkWell(
-              borderRadius: new BorderRadius.circular(24),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          HistoryBaptis(iduser, idGereja, role)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
-                    border: Border.all(
-                      color: Colors.lightBlue,
+            if (role == 1)
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HistoryBaptis(iduser, idGereja, role)),
+                  );
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
+                    child: Column(children: <Widget>[
+                      //Color(Colors.blue);
 
-                    Text(
-                      "Baptis",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
+                      Text(
+                        "Baptis",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+              ),
+            if (role == 1)
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HistoryKomuni(iduser, idGereja, role)),
+                  );
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                  ])),
-            ),
+                    child: Column(children: <Widget>[
+                      //Color(Colors.blue);
 
-            InkWell(
-              borderRadius: new BorderRadius.circular(24),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          HistoryKomuni(iduser, idGereja, role)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
-                    border: Border.all(
-                      color: Colors.lightBlue,
+                      Text(
+                        "Komuni",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+              ),
+            if (role == 1)
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HistoryKrisma(iduser, idGereja, role)),
+                  );
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
+                    child: Column(children: <Widget>[
+                      //Color(Colors.blue);
 
-                    Text(
-                      "Komuni",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
+                      Text(
+                        "Krisma",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+              ),
+            if (role == 0)
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HistoryPerkawinan(iduser, idGereja, role)),
+                  );
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                  ])),
-            ),
+                    child: Column(children: <Widget>[
+                      //Color(Colors.blue);
 
-            InkWell(
-              borderRadius: new BorderRadius.circular(24),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          HistoryKrisma(iduser, idGereja, role)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
-                    border: Border.all(
-                      color: Colors.lightBlue,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
-
-                    Text(
-                      "Krisma",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
-                    ),
-                  ])),
-            ),
-
-            InkWell(
-              borderRadius: new BorderRadius.circular(24),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          HistoryPerkawinan(iduser, idGereja, role)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
-                    border: Border.all(
-                      color: Colors.lightBlue,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
-
-                    Text(
-                      "Perkawinan",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
-                    ),
-                  ])),
-            ),
+                      Text(
+                        "Perkawinan",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+              ),
             /////////
             ///
           ],

@@ -309,57 +309,59 @@ class _Sakramen extends State<Sakramen> {
                                             ),
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Card(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 5.0, vertical: 5.0),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30.0),
-                                            ),
-                                            clipBehavior: Clip.antiAlias,
-                                            color: Colors.white,
-                                            elevation: 20.0,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                      Text(
-                                                        "Kawin",
-                                                        style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontSize: 15.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                        if (role == 0)
+                                          Expanded(
+                                            child: Card(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 5.0,
+                                                  vertical: 5.0),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30.0),
+                                              ),
+                                              clipBehavior: Clip.antiAlias,
+                                              color: Colors.white,
+                                              elevation: 20.0,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: 5.0,
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                      Text(
-                                                        snapshot.data[4]
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                        Text(
+                                                          "Kawin",
+                                                          style: TextStyle(
+                                                            color: Colors.blue,
+                                                            fontSize: 15.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                    ],
+                                                        SizedBox(
+                                                          height: 5.0,
+                                                        ),
+                                                        Text(
+                                                          snapshot.data[4]
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            color: Colors.blue,
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5.0,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        )
+                                          )
                                       ])
                                     ],
                                   ),
@@ -378,157 +380,159 @@ class _Sakramen extends State<Sakramen> {
                     return Center(child: CircularProgressIndicator());
                   }
                 }),
-            InkWell(
-              borderRadius: new BorderRadius.circular(24),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Baptis(iduser, idGereja, role)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
-                    border: Border.all(
-                      color: Colors.lightBlue,
+            if (role == 1)
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Baptis(iduser, idGereja, role)),
+                  );
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
+                    child: Column(children: <Widget>[
+                      //Color(Colors.blue);
 
-                    Text(
-                      "Baptis",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
+                      Text(
+                        "Baptis",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+              ),
+            if (role == 1)
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Komuni(iduser, idGereja, role)),
+                  );
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                  ])),
-            ),
+                    child: Column(children: <Widget>[
+                      //Color(Colors.blue);
 
-            InkWell(
-              borderRadius: new BorderRadius.circular(24),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Komuni(iduser, idGereja, role)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
-                    border: Border.all(
-                      color: Colors.lightBlue,
+                      Text(
+                        "Komuni",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+              ),
+            if (role == 1)
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Krisma(iduser, idGereja, role)),
+                  );
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
+                    child: Column(children: <Widget>[
+                      //Color(Colors.blue);
 
-                    Text(
-                      "Komuni",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
+                      Text(
+                        "Krisma",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+              ),
+            if (role == 0)
+              InkWell(
+                borderRadius: new BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Perkawinan(iduser, idGereja, role)),
+                  );
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
+                      border: Border.all(
+                        color: Colors.lightBlue,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                  ])),
-            ),
+                    child: Column(children: <Widget>[
+                      //Color(Colors.blue);
 
-            InkWell(
-              borderRadius: new BorderRadius.circular(24),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Krisma(iduser, idGereja, role)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
-                    border: Border.all(
-                      color: Colors.lightBlue,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
-
-                    Text(
-                      "Krisma",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
-                    ),
-                  ])),
-            ),
-
-            InkWell(
-              borderRadius: new BorderRadius.circular(24),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Perkawinan(iduser, idGereja, role)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
-                    border: Border.all(
-                      color: Colors.lightBlue,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(children: <Widget>[
-                    //Color(Colors.blue);
-
-                    Text(
-                      "Perkawinan",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
-                    ),
-                  ])),
-            ),
+                      Text(
+                        "Perkawinan",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+              ),
             /////////
             ///
           ],

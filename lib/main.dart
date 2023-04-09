@@ -57,7 +57,7 @@ void main() async {
           primaryColor: Colors.grey,
         ),
         home: HomePage(ObjectId.parse(object1), ObjectId.parse(object2),
-            tampilan[0][0][2]),
+            int.parse(tampilan[0][0][2])),
       ));
     } else {
       print("Morning!");
@@ -88,7 +88,7 @@ void main() async {
           primaryColor: Colors.grey,
         ),
         home: HomePage(ObjectId.parse(object1), ObjectId.parse(object2),
-            tampilan[0][0][2]),
+            int.parse(tampilan[0][0][2])),
       ));
     } else {
       runApp(MaterialApp(

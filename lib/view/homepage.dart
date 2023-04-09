@@ -309,70 +309,73 @@ class _HomePage extends State<HomePage> {
                                                     ),
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  child: Card(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 5.0,
-                                                            vertical: 5.0),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30.0),
-                                                    ),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    color: Colors.white,
-                                                    elevation: 20.0,
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Expanded(
-                                                          child: Column(
-                                                            children: <Widget>[
-                                                              SizedBox(
-                                                                height: 5.0,
-                                                              ),
-                                                              Text(
-                                                                "Sakramentali",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                if (role == 0)
+                                                  Expanded(
+                                                    child: Card(
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 5.0,
+                                                              vertical: 5.0),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30.0),
+                                                      ),
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      color: Colors.white,
+                                                      elevation: 20.0,
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Column(
+                                                              children: <
+                                                                  Widget>[
+                                                                SizedBox(
+                                                                  height: 5.0,
                                                                 ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 10.0,
-                                                              ),
-                                                              Text(
-                                                                snapshot.data[2]
-                                                                    .toString(),
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                Text(
+                                                                  "Sakramentali",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 5.0,
-                                                              ),
-                                                            ],
+                                                                SizedBox(
+                                                                  height: 10.0,
+                                                                ),
+                                                                Text(
+                                                                  snapshot
+                                                                      .data[2]
+                                                                      .toString(),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    fontSize:
+                                                                        16.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 5.0,
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
                                                 Expanded(
                                                   child: Card(
                                                     margin:
@@ -519,200 +522,201 @@ class _HomePage extends State<HomePage> {
                       ),
                     ])),
               ),
-
-              InkWell(
-                borderRadius: new BorderRadius.circular(24),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            Sakramentali(iduser, idGereja, role)),
-                  );
-                },
-                child: Container(
-                    height: 120,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.lightBlue,
-                          ]),
-                      border: Border.all(
-                        color: Colors.lightBlue,
+              if (role == 0)
+                InkWell(
+                  borderRadius: new BorderRadius.circular(24),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Sakramentali(iduser, idGereja, role)),
+                    );
+                  },
+                  child: Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.topLeft,
+                            colors: [
+                              Colors.blueGrey,
+                              Colors.lightBlue,
+                            ]),
+                        border: Border.all(
+                          color: Colors.lightBlue,
+                        ),
                       ),
-                    ),
-                    child: Row(children: <Widget>[
-                      Column(
-                        children: [
-                          Text(
-                            "Pendaftaran Sakramentali",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w300),
-                            textAlign: TextAlign.right,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            " Konfirmasi pendaftaran user yang \n mendaftarkan pelayanan pemberkatan \npada gereja",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.0,
+                      child: Row(children: <Widget>[
+                        Column(
+                          children: [
+                            Text(
+                              "Pendaftaran Sakramentali",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w300),
+                              textAlign: TextAlign.right,
                             ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        height: 119,
-                        width: 123,
-                        child: Image.network(
-                          'https://cdn.pixabay.com/photo/2013/02/09/04/33/church-79607_960_720.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                        ),
-                      ),
-                    ])),
-              ),
-
-              InkWell(
-                borderRadius: new BorderRadius.circular(24),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            KegiatanUmum(iduser, idGereja, role)),
-                  );
-                },
-                child: Container(
-                    height: 120,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.lightBlue,
-                          ]),
-                      border: Border.all(
-                        color: Colors.lightBlue,
-                      ),
-                    ),
-                    child: Row(children: <Widget>[
-                      Container(
-                        height: 119,
-                        width: 120,
-                        child: Image.network(
-                          'https://cdn.pixabay.com/photo/2019/07/01/07/25/last-supper-4309347_960_720.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "Pendaftaran Kegiatan Umum",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w300),
-                            textAlign: TextAlign.right,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "Buat kegiatan umum gereja, active/ \n  deactive kegiatan  \n umum gereja,  Konfirmasi \n pendaftaran user",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.0,
+                            SizedBox(
+                              height: 5,
                             ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ],
-                      ),
-                    ])),
-              ),
-              InkWell(
-                borderRadius: new BorderRadius.circular(24),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            PengumumanGereja(iduser, idGereja, role)),
-                  );
-                },
-                child: Container(
-                    height: 120,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.lightBlue,
-                          ]),
-                      border: Border.all(
-                        color: Colors.lightBlue,
-                      ),
-                    ),
-                    child: Row(children: <Widget>[
-                      Column(
-                        children: [
-                          Text(
-                            "Buat Pengumuman Gereja",
-                            style: TextStyle(
+                            Text(
+                              " Konfirmasi pendaftaran user yang \n mendaftarkan pelayanan pemberkatan \npada gereja",
+                              style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w300),
-                            textAlign: TextAlign.right,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "Buat Pengumuman untuk para Umat \n Katolik mengenai Gereja",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.0,
+                                fontSize: 12.0,
+                              ),
+                              textAlign: TextAlign.right,
                             ),
-                            textAlign: TextAlign.right,
+                          ],
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          height: 119,
+                          width: 123,
+                          child: Image.network(
+                            'https://cdn.pixabay.com/photo/2013/02/09/04/33/church-79607_960_720.jpg',
+                            fit: BoxFit.cover,
                           ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        height: 119,
-                        width: 123,
-                        child: Image.network(
-                          'https://cdn.pixabay.com/photo/2013/02/09/04/33/church-79607_960_720.jpg',
-                          fit: BoxFit.cover,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ])),
+                ),
+              if (role == 1)
+                InkWell(
+                  borderRadius: new BorderRadius.circular(24),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              KegiatanUmum(iduser, idGereja, role)),
+                    );
+                  },
+                  child: Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.topLeft,
+                            colors: [
+                              Colors.blueGrey,
+                              Colors.lightBlue,
+                            ]),
+                        border: Border.all(
+                          color: Colors.lightBlue,
                         ),
                       ),
-                    ])),
-              ),
+                      child: Row(children: <Widget>[
+                        Container(
+                          height: 119,
+                          width: 120,
+                          child: Image.network(
+                            'https://cdn.pixabay.com/photo/2019/07/01/07/25/last-supper-4309347_960_720.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "Pendaftaran Kegiatan Umum",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w300),
+                              textAlign: TextAlign.right,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "Buat kegiatan umum gereja, active/ \n  deactive kegiatan  \n umum gereja,  Konfirmasi \n pendaftaran user",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.0,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                          ],
+                        ),
+                      ])),
+                ),
+              if (role == 1)
+                InkWell(
+                  borderRadius: new BorderRadius.circular(24),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              PengumumanGereja(iduser, idGereja, role)),
+                    );
+                  },
+                  child: Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.topLeft,
+                            colors: [
+                              Colors.blueGrey,
+                              Colors.lightBlue,
+                            ]),
+                        border: Border.all(
+                          color: Colors.lightBlue,
+                        ),
+                      ),
+                      child: Row(children: <Widget>[
+                        Column(
+                          children: [
+                            Text(
+                              "Buat Pengumuman Gereja",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w300),
+                              textAlign: TextAlign.right,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "Buat Pengumuman untuk para Umat \n Katolik mengenai Gereja",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.0,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          height: 119,
+                          width: 123,
+                          child: Image.network(
+                            'https://cdn.pixabay.com/photo/2013/02/09/04/33/church-79607_960_720.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                          ),
+                        ),
+                      ])),
+                ),
               /////////
             ],
           )),

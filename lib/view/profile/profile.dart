@@ -539,6 +539,7 @@ class _Profile extends State<Profile> {
                           ),
                           Container(
                             width: 300.00,
+                            padding: EdgeInsets.symmetric(vertical: 10),
                             child: RaisedButton(
                                 onPressed: () async {
                                   // await ImagePicker()
@@ -574,49 +575,51 @@ class _Profile extends State<Profile> {
                                   ),
                                 )),
                           ),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                          Container(
-                            width: 300.00,
-                            child: RaisedButton(
-                                onPressed: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UpdateProfile(
-                                            iduser, idGereja, role)),
-                                  );
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                elevation: 0.0,
-                                padding: EdgeInsets.all(0.0),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.topLeft,
-                                        colors: [
-                                          Colors.blueAccent,
-                                          Colors.lightBlue,
-                                        ]),
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                        maxWidth: 300.0, minHeight: 50.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Edit Informasi Gereja",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 26.0,
-                                          fontWeight: FontWeight.w300),
+                          if (role == 1)
+                            Container(
+                              width: 300.00,
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: RaisedButton(
+                                  onPressed: () async {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => UpdateProfile(
+                                              iduser, idGereja, role)),
+                                    );
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(80.0)),
+                                  elevation: 0.0,
+                                  padding: EdgeInsets.all(0.0),
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topRight,
+                                          end: Alignment.topLeft,
+                                          colors: [
+                                            Colors.blueAccent,
+                                            Colors.lightBlue,
+                                          ]),
+                                      borderRadius: BorderRadius.circular(30.0),
                                     ),
-                                  ),
-                                )),
-                          ),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                          maxWidth: 300.0, minHeight: 50.0),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Edit Informasi Gereja",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 26.0,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                    ),
+                                  )),
+                            ),
                           Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
                             width: 300.00,
                             child: RaisedButton(
                                 onPressed: () async {
@@ -647,7 +650,7 @@ class _Profile extends State<Profile> {
                                         maxWidth: 300.0, minHeight: 50.0),
                                     alignment: Alignment.center,
                                     child: Text(
-                                      "Edit Profile Imam",
+                                      "Edit Profile",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 26.0,
@@ -656,316 +659,328 @@ class _Profile extends State<Profile> {
                                   ),
                                 )),
                           ),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                          Container(
-                            width: 300.00,
-                            child: RaisedButton(
-                                onPressed: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AturanPelayanan(
-                                            iduser, idGereja, role)),
-                                  );
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                elevation: 0.0,
-                                padding: EdgeInsets.all(0.0),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.topLeft,
-                                        colors: [
-                                          Colors.blueAccent,
-                                          Colors.lightBlue,
-                                        ]),
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                        maxWidth: 300.0, minHeight: 50.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Aturan Pelayanan Gereja",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 26.0,
-                                          fontWeight: FontWeight.w300),
+                          if (role == 1)
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              width: 300.00,
+                              child: RaisedButton(
+                                  onPressed: () async {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AturanPelayanan(
+                                              iduser, idGereja, role)),
+                                    );
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(80.0)),
+                                  elevation: 0.0,
+                                  padding: EdgeInsets.all(0.0),
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topRight,
+                                          end: Alignment.topLeft,
+                                          colors: [
+                                            Colors.blueAccent,
+                                            Colors.lightBlue,
+                                          ]),
+                                      borderRadius: BorderRadius.circular(30.0),
                                     ),
-                                  ),
-                                )),
-                          ),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                          Container(
-                            width: 300.00,
-                            child: RaisedButton(
-                                onPressed: () async {
-                                  var temp;
-                                  if (snapshot.data[0][0]
-                                          ['statusPemberkatan'] ==
-                                      0) {
-                                    temp = 1;
-                                  } else {
-                                    temp = 0;
-                                  }
-                                  await gantiStatus("sakramentali", temp);
-                                  setState(() {
-                                    // callDb();
-
-                                    statusPem = snapshot.data[0][0]
-                                        ['statusPemberkatan'];
-                                  });
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                elevation: 0.0,
-                                padding: EdgeInsets.all(0.0),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.topLeft,
-                                        colors: [
-                                          Colors.blueAccent,
-                                          Colors.lightBlue,
-                                        ]),
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                        maxWidth: 300.0, minHeight: 50.0),
-                                    alignment: Alignment.center,
-                                    child: Column(children: [
-                                      Text(
-                                        "Ganti Status Sakramentali",
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                          maxWidth: 300.0, minHeight: 50.0),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Aturan Pelayanan Gereja",
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 22.0,
+                                            fontSize: 26.0,
                                             fontWeight: FontWeight.w300),
                                       ),
-                                      if (statusPem == 0)
-                                        Text(
-                                          "Melayani",
-                                          style: TextStyle(
-                                              color: Colors.green,
-                                              fontSize: 22.0,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      if (statusPem == 1)
-                                        Text(
-                                          "Tidak Melayani",
-                                          style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 22.0,
-                                              fontWeight: FontWeight.w600),
-                                        )
-                                    ]),
-                                  ),
-                                )),
-                          ),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                          Container(
-                            width: 300.00,
-                            child: RaisedButton(
-                                onPressed: () async {
-                                  var temp;
-                                  if (snapshot.data[0][0]
-                                          ['statusPerminyakan'] ==
-                                      0) {
-                                    temp = 1;
-                                  } else {
-                                    temp = 0;
-                                  }
-                                  await gantiStatus("perminyakan", temp);
-                                  setState(() {
-                                    // callDb();
+                                    ),
+                                  )),
+                            ),
+                          if (role == 0)
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              width: 300.00,
+                              child: RaisedButton(
+                                  onPressed: () async {
+                                    var temp;
+                                    if (snapshot.data[0][0]
+                                            ['statusPemberkatan'] ==
+                                        0) {
+                                      temp = 1;
+                                    } else {
+                                      temp = 0;
+                                    }
+                                    await gantiStatus("sakramentali", temp);
+                                    setState(() {
+                                      // callDb();
 
-                                    statusPerm = snapshot.data[0][0]
-                                        ['statusPerminyakan'];
-                                  });
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                elevation: 0.0,
-                                padding: EdgeInsets.all(0.0),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.topLeft,
-                                        colors: [
-                                          Colors.blueAccent,
-                                          Colors.lightBlue,
-                                        ]),
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                        maxWidth: 300.0, minHeight: 50.0),
-                                    alignment: Alignment.center,
-                                    child: Column(children: [
-                                      Text(
-                                        "Ganti Status Perminyakan",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 22.0,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                      if (statusPerm == 0)
+                                      statusPem = snapshot.data[0][0]
+                                          ['statusPemberkatan'];
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(80.0)),
+                                  elevation: 0.0,
+                                  padding: EdgeInsets.all(0.0),
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topRight,
+                                          end: Alignment.topLeft,
+                                          colors: [
+                                            Colors.blueAccent,
+                                            Colors.lightBlue,
+                                          ]),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                          maxWidth: 300.0, minHeight: 50.0),
+                                      alignment: Alignment.center,
+                                      child: Column(children: [
                                         Text(
-                                          "Melayani",
+                                          "Ganti Status Sakramentali",
                                           style: TextStyle(
-                                              color: Colors.green,
+                                              color: Colors.white,
                                               fontSize: 22.0,
-                                              fontWeight: FontWeight.w600),
+                                              fontWeight: FontWeight.w300),
                                         ),
-                                      if (statusPerm == 1)
-                                        Text(
-                                          "Tidak Melayani",
-                                          style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 22.0,
-                                              fontWeight: FontWeight.w600),
-                                        )
-                                    ]),
-                                  ),
-                                )),
-                          ),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                          Container(
-                            width: 300.00,
-                            child: RaisedButton(
-                                onPressed: () async {
-                                  var temp;
-                                  if (snapshot.data[0][0]['statusTobat'] == 0) {
-                                    temp = 1;
-                                  } else {
-                                    temp = 0;
-                                  }
-                                  await gantiStatus("tobat", temp);
-                                  setState(() {
-                                    // callDb();
+                                        if (statusPem == 0)
+                                          Text(
+                                            "Melayani",
+                                            style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 22.0,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        if (statusPem == 1)
+                                          Text(
+                                            "Tidak Melayani",
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 22.0,
+                                                fontWeight: FontWeight.w600),
+                                          )
+                                      ]),
+                                    ),
+                                  )),
+                            ),
+                          if (role == 0)
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              width: 300.00,
+                              child: RaisedButton(
+                                  onPressed: () async {
+                                    var temp;
+                                    if (snapshot.data[0][0]
+                                            ['statusPerminyakan'] ==
+                                        0) {
+                                      temp = 1;
+                                    } else {
+                                      temp = 0;
+                                    }
+                                    await gantiStatus("perminyakan", temp);
+                                    setState(() {
+                                      // callDb();
 
-                                    statusTob =
-                                        snapshot.data[0][0]['statusTobat'];
-                                  });
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                elevation: 0.0,
-                                padding: EdgeInsets.all(0.0),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.topLeft,
-                                        colors: [
-                                          Colors.blueAccent,
-                                          Colors.lightBlue,
-                                        ]),
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                        maxWidth: 300.0, minHeight: 50.0),
-                                    alignment: Alignment.center,
-                                    child: Column(children: [
-                                      Text(
-                                        "Ganti Status Tobat",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 22.0,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                      if (statusTob == 0)
+                                      statusPerm = snapshot.data[0][0]
+                                          ['statusPerminyakan'];
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(80.0)),
+                                  elevation: 0.0,
+                                  padding: EdgeInsets.all(0.0),
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topRight,
+                                          end: Alignment.topLeft,
+                                          colors: [
+                                            Colors.blueAccent,
+                                            Colors.lightBlue,
+                                          ]),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                          maxWidth: 300.0, minHeight: 50.0),
+                                      alignment: Alignment.center,
+                                      child: Column(children: [
                                         Text(
-                                          "Melayani",
+                                          "Ganti Status Perminyakan",
                                           style: TextStyle(
-                                              color: Colors.green,
+                                              color: Colors.white,
                                               fontSize: 22.0,
-                                              fontWeight: FontWeight.w600),
+                                              fontWeight: FontWeight.w300),
                                         ),
-                                      if (statusTob == 1)
-                                        Text(
-                                          "Tidak Melayani",
-                                          style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 22.0,
-                                              fontWeight: FontWeight.w600),
-                                        )
-                                    ]),
-                                  ),
-                                )),
-                          ),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                          Container(
-                            width: 300.00,
-                            child: RaisedButton(
-                                onPressed: () async {
-                                  var temp;
-                                  if (snapshot.data[0][0]['statusPerkawinan'] ==
-                                      0) {
-                                    temp = 1;
-                                  } else {
-                                    temp = 0;
-                                  }
-                                  await gantiStatus("perkawinan", temp);
-                                  setState(() {
-                                    // callDb();
+                                        if (statusPerm == 0)
+                                          Text(
+                                            "Melayani",
+                                            style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 22.0,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        if (statusPerm == 1)
+                                          Text(
+                                            "Tidak Melayani",
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 22.0,
+                                                fontWeight: FontWeight.w600),
+                                          )
+                                      ]),
+                                    ),
+                                  )),
+                            ),
+                          if (role == 0)
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              width: 300.00,
+                              child: RaisedButton(
+                                  onPressed: () async {
+                                    var temp;
+                                    if (snapshot.data[0][0]['statusTobat'] ==
+                                        0) {
+                                      temp = 1;
+                                    } else {
+                                      temp = 0;
+                                    }
+                                    await gantiStatus("tobat", temp);
+                                    setState(() {
+                                      // callDb();
 
-                                    statusPerk =
-                                        snapshot.data[0][0]['statusPerkawinan'];
-                                  });
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                elevation: 0.0,
-                                padding: EdgeInsets.all(0.0),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.topLeft,
-                                        colors: [
-                                          Colors.blueAccent,
-                                          Colors.lightBlue,
-                                        ]),
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                        maxWidth: 300.0, minHeight: 50.0),
-                                    alignment: Alignment.center,
-                                    child: Column(children: [
-                                      Text(
-                                        "Ganti Status Perkawinan",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 22.0,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                      if (statusPerk == 0)
+                                      statusTob =
+                                          snapshot.data[0][0]['statusTobat'];
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(80.0)),
+                                  elevation: 0.0,
+                                  padding: EdgeInsets.all(0.0),
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topRight,
+                                          end: Alignment.topLeft,
+                                          colors: [
+                                            Colors.blueAccent,
+                                            Colors.lightBlue,
+                                          ]),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                          maxWidth: 300.0, minHeight: 50.0),
+                                      alignment: Alignment.center,
+                                      child: Column(children: [
                                         Text(
-                                          "Melayani",
+                                          "Ganti Status Tobat",
                                           style: TextStyle(
-                                              color: Colors.green,
+                                              color: Colors.white,
                                               fontSize: 22.0,
-                                              fontWeight: FontWeight.w600),
+                                              fontWeight: FontWeight.w300),
                                         ),
-                                      if (statusPerk == 1)
+                                        if (statusTob == 0)
+                                          Text(
+                                            "Melayani",
+                                            style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 22.0,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        if (statusTob == 1)
+                                          Text(
+                                            "Tidak Melayani",
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 22.0,
+                                                fontWeight: FontWeight.w600),
+                                          )
+                                      ]),
+                                    ),
+                                  )),
+                            ),
+                          if (role == 0)
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              width: 300.00,
+                              child: RaisedButton(
+                                  onPressed: () async {
+                                    var temp;
+                                    if (snapshot.data[0][0]
+                                            ['statusPerkawinan'] ==
+                                        0) {
+                                      temp = 1;
+                                    } else {
+                                      temp = 0;
+                                    }
+                                    await gantiStatus("perkawinan", temp);
+                                    setState(() {
+                                      // callDb();
+
+                                      statusPerk = snapshot.data[0][0]
+                                          ['statusPerkawinan'];
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(80.0)),
+                                  elevation: 0.0,
+                                  padding: EdgeInsets.all(0.0),
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topRight,
+                                          end: Alignment.topLeft,
+                                          colors: [
+                                            Colors.blueAccent,
+                                            Colors.lightBlue,
+                                          ]),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                          maxWidth: 300.0, minHeight: 50.0),
+                                      alignment: Alignment.center,
+                                      child: Column(children: [
                                         Text(
-                                          "Tidak Melayani",
+                                          "Ganti Status Perkawinan",
                                           style: TextStyle(
-                                              color: Colors.red,
+                                              color: Colors.white,
                                               fontSize: 22.0,
-                                              fontWeight: FontWeight.w600),
-                                        )
-                                    ]),
-                                  ),
-                                )),
-                          ),
+                                              fontWeight: FontWeight.w300),
+                                        ),
+                                        if (statusPerk == 0)
+                                          Text(
+                                            "Melayani",
+                                            style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 22.0,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        if (statusPerk == 1)
+                                          Text(
+                                            "Tidak Melayani",
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 22.0,
+                                                fontWeight: FontWeight.w600),
+                                          )
+                                      ]),
+                                    ),
+                                  )),
+                            ),
                           Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                         ]);
                   } catch (e) {
