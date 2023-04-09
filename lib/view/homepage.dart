@@ -51,7 +51,7 @@ class _HomePage extends State<HomePage> {
     // hasil = await AgenPage().receiverTampilan();
 
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('cari jumlah', [idGereja, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
