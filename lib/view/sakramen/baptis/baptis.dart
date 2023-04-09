@@ -13,27 +13,27 @@ import 'package:imam_pelayanan_katolik/view/sakramen/baptis/baptisUser.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/baptis/editBaptis.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 
 class Baptis extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  Baptis(this.names, this.idUser, this.idGereja);
+  Baptis(this.iduser, this.idGereja, this.role);
   @override
-  _Baptis createState() => _Baptis(this.names, this.idUser, this.idGereja);
+  _Baptis createState() => _Baptis(this.iduser, this.idGereja, this.role);
 }
 
 class _Baptis extends State<Baptis> {
-  var names;
+  var role;
   var emails;
   List hasil = [];
   StreamController _controller = StreamController();
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _Baptis(this.names, this.idUser, this.idGereja);
+  _Baptis(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -87,7 +87,7 @@ class _Baptis extends State<Baptis> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update status pelayanan', ["baptis", id, status, idUser]));
+        Tasks('update status pelayanan', ["baptis", id, status, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -180,7 +180,7 @@ class _Baptis extends State<Baptis> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -190,7 +190,7 @@ class _Baptis extends State<Baptis> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -232,7 +232,7 @@ class _Baptis extends State<Baptis> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  addBaptis(names, idUser, idGereja)),
+                                  addBaptis(iduser, idGereja, role)),
                         );
                       },
                       splashColor: Colors.blue,
@@ -270,7 +270,7 @@ class _Baptis extends State<Baptis> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BaptisUser(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -330,10 +330,11 @@ class _Baptis extends State<Baptis> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => editBaptis(
-                                                  names,
-                                                  idUser,
-                                                  idGereja,
-                                                  i['_id'])),
+                                                    iduser,
+                                                    idGereja,
+                                                    role,
+                                                    i['_id'],
+                                                  )),
                                         );
                                       }),
                                 ),
@@ -419,14 +420,13 @@ class _Baptis extends State<Baptis> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

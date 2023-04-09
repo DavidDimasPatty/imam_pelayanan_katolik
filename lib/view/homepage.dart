@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
-import 'package:imam_pelayanan_katolik/view/history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/sakramen.dart';
@@ -15,19 +15,19 @@ import 'package:imam_pelayanan_katolik/view/umum/kegiatanUmum.dart';
 
 //stateless dan class
 class HomePage extends StatefulWidget {
-  var names;
   var iduser;
   var idGereja;
-  HomePage(this.names, this.iduser, this.idGereja);
-  _HomePage createState() => _HomePage(this.names, this.iduser, this.idGereja);
+  var role;
+  HomePage(this.iduser, this.idGereja, this.role);
+  _HomePage createState() => _HomePage(this.iduser, this.idGereja, this.role);
 }
 
 class _HomePage extends State<HomePage> {
-  var names;
+  var role;
   var iduser;
   var idGereja;
 
-  _HomePage(this.names, this.iduser, this.idGereja);
+  _HomePage(this.iduser, this.idGereja, this.role);
 
   @override
 
@@ -84,7 +84,7 @@ class _HomePage extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, iduser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -94,7 +94,7 @@ class _HomePage extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, iduser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -155,7 +155,9 @@ class _HomePage extends State<HomePage> {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    "Halo, \n" + names,
+                                                    "Halo, \n" +
+                                                        snapshot.data[4][0]
+                                                            ['name'],
                                                     style: TextStyle(
                                                       color: Colors.blue,
                                                       fontSize: 13.0,
@@ -460,8 +462,7 @@ class _HomePage extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            Sakramen(names, iduser, idGereja)),
+                        builder: (context) => Sakramen(iduser, idGereja, role)),
                   );
                 },
                 child: Container(
@@ -526,7 +527,7 @@ class _HomePage extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            Sakramentali(names, iduser, idGereja)),
+                            Sakramentali(iduser, idGereja, role)),
                   );
                 },
                 child: Container(
@@ -591,7 +592,7 @@ class _HomePage extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            KegiatanUmum(names, iduser, idGereja)),
+                            KegiatanUmum(iduser, idGereja, role)),
                   );
                 },
                 child: Container(
@@ -655,7 +656,7 @@ class _HomePage extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            PengumumanGereja(names, iduser, idGereja)),
+                            PengumumanGereja(iduser, idGereja, role)),
                   );
                 },
                 child: Container(
@@ -747,7 +748,7 @@ class _HomePage extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, iduser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {}
               },

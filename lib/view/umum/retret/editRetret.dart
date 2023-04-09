@@ -14,26 +14,26 @@ import 'package:imam_pelayanan_katolik/view/umum/retret/retret.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
 
 class editRetret extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idRetret;
-  editRetret(this.names, this.idUser, this.idGereja, this.idRetret);
+  editRetret(this.iduser, this.idGereja, this.role, this.idRetret);
 
   @override
   _editRetret createState() =>
-      _editRetret(this.names, this.idUser, this.idGereja, this.idRetret);
+      _editRetret(this.iduser, this.idGereja, this.role, this.idRetret);
 }
 
 class _editRetret extends State<editRetret> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idRetret;
   String _selectedDate = '';
@@ -48,7 +48,7 @@ class _editRetret extends State<editRetret> {
   TextEditingController deskripsiKegiatan = new TextEditingController();
   TextEditingController tamuKegiatan = new TextEditingController();
   TextEditingController lokasi = new TextEditingController();
-  _editRetret(this.names, this.idUser, this.idGereja, this.idRetret);
+  _editRetret(this.iduser, this.idGereja, this.role, this.idRetret);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -119,7 +119,7 @@ class _editRetret extends State<editRetret> {
             _selectedDate.toString(),
             kapasitas.text,
             lokasi.text,
-            idUser
+            iduser
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -148,7 +148,7 @@ class _editRetret extends State<editRetret> {
         Navigator.pop(
           context,
           MaterialPageRoute(
-              builder: (context) => Retret(names, idUser, idGereja)),
+              builder: (context) => Retret(iduser, idGereja, role)),
         );
       }
     } else {
@@ -213,7 +213,7 @@ class _editRetret extends State<editRetret> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -223,7 +223,7 @@ class _editRetret extends State<editRetret> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -568,14 +568,13 @@ class _editRetret extends State<editRetret> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

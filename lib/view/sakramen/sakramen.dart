@@ -5,7 +5,7 @@ import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import 'package:imam_pelayanan_katolik/view/history/history.dart';
+
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/baptis/baptis.dart';
@@ -13,21 +13,22 @@ import 'package:imam_pelayanan_katolik/view/sakramen/komuni/komuni.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/krisma/krisma.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/perkawinan/perkawinan.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 
 class Sakramen extends StatefulWidget {
-  var names;
+  var role;
   var iduser;
   var idGereja;
-  Sakramen(this.names, this.iduser, this.idGereja);
-  _Sakramen createState() => _Sakramen(this.names, this.iduser, this.idGereja);
+  Sakramen(this.iduser, this.idGereja, this.role);
+  _Sakramen createState() => _Sakramen(this.iduser, this.idGereja, this.role);
 }
 
 class _Sakramen extends State<Sakramen> {
-  var names;
+  var role;
   var iduser;
   var idGereja;
 
-  _Sakramen(this.names, this.iduser, this.idGereja);
+  _Sakramen(this.iduser, this.idGereja, this.role);
 
   Future callJumlah() async {
     // Messages msg = new Messages();
@@ -78,7 +79,7 @@ class _Sakramen extends State<Sakramen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, iduser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -88,7 +89,7 @@ class _Sakramen extends State<Sakramen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, iduser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -383,7 +384,7 @@ class _Sakramen extends State<Sakramen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Baptis(names, iduser, idGereja)),
+                      builder: (context) => Baptis(iduser, idGereja, role)),
                 );
               },
               child: Container(
@@ -421,7 +422,7 @@ class _Sakramen extends State<Sakramen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Komuni(names, iduser, idGereja)),
+                      builder: (context) => Komuni(iduser, idGereja, role)),
                 );
               },
               child: Container(
@@ -459,7 +460,7 @@ class _Sakramen extends State<Sakramen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Krisma(names, iduser, idGereja)),
+                      builder: (context) => Krisma(iduser, idGereja, role)),
                 );
               },
               child: Container(
@@ -497,8 +498,7 @@ class _Sakramen extends State<Sakramen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          Perkawinan(names, iduser, idGereja)),
+                      builder: (context) => Perkawinan(iduser, idGereja, role)),
                 );
               },
               child: Container(
@@ -566,14 +566,13 @@ class _Sakramen extends State<Sakramen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, iduser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, iduser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

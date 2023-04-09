@@ -17,11 +17,11 @@ import 'package:imam_pelayanan_katolik/view/setting/privacySafety.dart';
 import 'package:imam_pelayanan_katolik/view/setting/termsCondition.dart';
 import 'dart:io';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../profile/profile.dart';
 
 class Settings extends StatelessWidget {
-  var names;
+  var role;
   var iduser;
   var idGereja;
   var dataUser;
@@ -63,7 +63,7 @@ class Settings extends StatelessWidget {
     }
   }
 
-  Settings(this.names, this.iduser, this.idGereja);
+  Settings(this.iduser, this.idGereja, this.role);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +80,7 @@ class Settings extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, iduser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -101,8 +101,8 @@ class Settings extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => privacySafety(
-                              this.names, this.iduser, this.idGereja)));
+                          builder: (context) =>
+                              privacySafety(this.iduser, this.idGereja, role)));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
@@ -139,7 +139,7 @@ class Settings extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => termsCondition(
-                              this.names, this.iduser, this.idGereja)));
+                              this.iduser, this.idGereja, role)));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
@@ -176,7 +176,7 @@ class Settings extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              aboutus(this.names, this.iduser, this.idGereja)));
+                              aboutus(this.iduser, this.idGereja, role)));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
@@ -214,7 +214,7 @@ class Settings extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => customerService(
-                              this.names, this.iduser, this.idGereja)));
+                              this.iduser, this.idGereja, role)));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
@@ -318,14 +318,13 @@ class Settings extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, iduser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, iduser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

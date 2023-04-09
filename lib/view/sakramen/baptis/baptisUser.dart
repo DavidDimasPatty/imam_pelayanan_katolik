@@ -8,29 +8,29 @@ import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 
 class BaptisUser extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
   final idBaptis;
-  BaptisUser(this.names, this.idUser, this.idGereja, this.idBaptis);
+  BaptisUser(this.iduser, this.idGereja, this.role, this.idBaptis);
   @override
   _BaptisUser createState() =>
-      _BaptisUser(this.names, this.idUser, this.idGereja, this.idBaptis);
+      _BaptisUser(this.iduser, this.idGereja, this.role, this.idBaptis);
 }
 
 class _BaptisUser extends State<BaptisUser> {
-  var names;
+  var role;
   List hasil = [];
   StreamController _controller = StreamController();
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
   final idBaptis;
-  _BaptisUser(this.names, this.idUser, this.idGereja, this.idBaptis);
+  _BaptisUser(this.iduser, this.idGereja, this.role, this.idBaptis);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -121,7 +121,7 @@ class _BaptisUser extends State<BaptisUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["baptis", id, token, idTarget, -1, idUser]));
+            ["baptis", id, token, idTarget, -1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -181,7 +181,7 @@ class _BaptisUser extends State<BaptisUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["baptis", id, token, idTarget, 1, idUser]));
+            ["baptis", id, token, idTarget, 1, iduser]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -241,7 +241,7 @@ class _BaptisUser extends State<BaptisUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -251,7 +251,7 @@ class _BaptisUser extends State<BaptisUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -452,14 +452,13 @@ class _BaptisUser extends State<BaptisUser> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

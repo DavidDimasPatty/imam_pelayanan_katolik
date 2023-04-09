@@ -12,28 +12,28 @@ import 'package:imam_pelayanan_katolik/view/sakramen/komuni/editKomuni.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/komuni/komuniUser.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../../history/history.dart';
+import '../../history.dart';
 import '../../profile/profile.dart';
 
 class Komuni extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  Komuni(this.names, this.idUser, this.idGereja);
+  Komuni(this.iduser, this.idGereja, this.role);
   @override
-  _Komuni createState() => _Komuni(this.names, this.idUser, this.idGereja);
+  _Komuni createState() => _Komuni(this.iduser, this.idGereja, this.role);
 }
 
 class _Komuni extends State<Komuni> {
-  var names;
+  var role;
   var emails;
   var distance;
   List hasil = [];
   StreamController _controller = StreamController();
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _Komuni(this.names, this.idUser, this.idGereja);
+  _Komuni(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -117,7 +117,7 @@ class _Komuni extends State<Komuni> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update status pelayanan', ["komuni", id, status, idUser]));
+        Tasks('update status pelayanan', ["komuni", id, status, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -178,7 +178,7 @@ class _Komuni extends State<Komuni> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -188,7 +188,7 @@ class _Komuni extends State<Komuni> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -231,7 +231,7 @@ class _Komuni extends State<Komuni> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  addKomuni(names, idUser, idGereja)),
+                                  addKomuni(iduser, idGereja, role)),
                         );
                       },
                       splashColor: Colors.blue,
@@ -270,7 +270,7 @@ class _Komuni extends State<Komuni> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => KomuniUser(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -330,9 +330,9 @@ class _Komuni extends State<Komuni> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => editKomuni(
-                                                  names,
-                                                  idUser,
+                                                  iduser,
                                                   idGereja,
+                                                  role,
                                                   i['_id'])),
                                         );
                                       }),
@@ -417,14 +417,13 @@ class _Komuni extends State<Komuni> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

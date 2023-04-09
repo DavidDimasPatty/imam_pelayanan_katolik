@@ -13,28 +13,28 @@ import 'package:imam_pelayanan_katolik/view/pengumuman/addPengumuman.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/editPengumuman.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../profile/profile.dart';
 
 class PengumumanGereja extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  PengumumanGereja(this.names, this.idUser, this.idGereja);
+  PengumumanGereja(this.iduser, this.idGereja, this.role);
   @override
   _PengumumanGereja createState() =>
-      _PengumumanGereja(this.names, this.idUser, this.idGereja);
+      _PengumumanGereja(this.iduser, this.idGereja, this.role);
 }
 
 class _PengumumanGereja extends State<PengumumanGereja> {
-  var names;
+  var role;
   var distance;
   List hasil = [];
   StreamController _controller = StreamController();
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _PengumumanGereja(this.names, this.idUser, this.idGereja);
+  _PengumumanGereja(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -89,7 +89,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
 
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update status pengumuman', [id, status, idUser]));
+        Tasks('update status pengumuman', [id, status, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -181,7 +181,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -191,7 +191,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -233,7 +233,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  addPengumuman(names, idUser, idGereja)),
+                                  addPengumuman(iduser, idGereja, role)),
                         );
                       },
                       splashColor: Colors.blue,
@@ -449,8 +449,11 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  editPengumuman(names, idUser,
-                                                      idGereja, i['_id'])),
+                                                  editPengumuman(
+                                                      iduser,
+                                                      idGereja,
+                                                      i['_id'],
+                                                      role)),
                                         );
                                       }),
                                 ),
@@ -499,14 +502,13 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

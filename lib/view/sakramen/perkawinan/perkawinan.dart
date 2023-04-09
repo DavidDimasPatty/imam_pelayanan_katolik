@@ -10,29 +10,29 @@ import 'package:imam_pelayanan_katolik/view/sakramen/perkawinan/perkawinandetail
 
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class Perkawinan extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  Perkawinan(this.names, this.idUser, this.idGereja);
+  Perkawinan(this.iduser, this.idGereja, this.role);
   @override
   _Perkawinan createState() =>
-      _Perkawinan(this.names, this.idUser, this.idGereja);
+      _Perkawinan(this.iduser, this.idGereja, this.role);
 }
 
 class _Perkawinan extends State<Perkawinan> {
-  var names;
+  var role;
   var distance;
   List hasil = [];
   StreamController _controller = StreamController();
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _Perkawinan(this.names, this.idUser, this.idGereja);
+  _Perkawinan(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -51,7 +51,7 @@ class _Perkawinan extends State<Perkawinan> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan', [idUser, "perkawinan", "current"]));
+        Tasks('cari pelayanan', [iduser, "perkawinan", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
@@ -121,7 +121,7 @@ class _Perkawinan extends State<Perkawinan> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -131,7 +131,7 @@ class _Perkawinan extends State<Perkawinan> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -184,7 +184,7 @@ class _Perkawinan extends State<Perkawinan> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DetailPerkawinan(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -285,14 +285,13 @@ class _Perkawinan extends State<Perkawinan> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -11,25 +11,25 @@ import 'package:imam_pelayanan_katolik/view/umum/rekoleksi/rekoleksi.dart';
 import 'package:imam_pelayanan_katolik/view/umum/retret/retret.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import '../../DatabaseFolder/mongodb.dart';
-import '../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../profile/profile.dart';
 
 class KegiatanUmum extends StatefulWidget {
-  var names;
+  var role;
   var iduser;
   var idGereja;
-  KegiatanUmum(this.names, this.iduser, this.idGereja);
+  KegiatanUmum(this.iduser, this.idGereja, this.role);
   _KegiatanUmum createState() =>
-      _KegiatanUmum(this.names, this.iduser, this.idGereja);
+      _KegiatanUmum(this.iduser, this.idGereja, this.role);
 }
 
 class _KegiatanUmum extends State<KegiatanUmum> {
-  var names;
+  var role;
   var iduser;
   var idGereja;
   var dataUser;
 
-  _KegiatanUmum(this.names, this.iduser, this.idGereja);
+  _KegiatanUmum(this.iduser, this.idGereja, this.role);
 
   List hasil = [];
 
@@ -79,7 +79,7 @@ class _KegiatanUmum extends State<KegiatanUmum> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, iduser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -89,7 +89,7 @@ class _KegiatanUmum extends State<KegiatanUmum> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, iduser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -333,7 +333,7 @@ class _KegiatanUmum extends State<KegiatanUmum> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Rekoleksi(names, iduser, idGereja)),
+                      builder: (context) => Rekoleksi(iduser, idGereja, role)),
                 );
               },
               child: Container(
@@ -371,7 +371,7 @@ class _KegiatanUmum extends State<KegiatanUmum> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Retret(names, iduser, idGereja)),
+                      builder: (context) => Retret(iduser, idGereja, role)),
                 );
               },
               child: Container(
@@ -409,7 +409,7 @@ class _KegiatanUmum extends State<KegiatanUmum> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PA(names, iduser, idGereja)),
+                      builder: (context) => PA(iduser, idGereja, role)),
                 );
               },
               child: Container(
@@ -477,14 +477,13 @@ class _KegiatanUmum extends State<KegiatanUmum> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, iduser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, iduser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

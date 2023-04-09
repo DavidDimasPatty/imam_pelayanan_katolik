@@ -10,7 +10,7 @@ import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
-import 'package:imam_pelayanan_katolik/view/history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
@@ -20,26 +20,26 @@ import 'package:intl/intl.dart';
 
 class editPengumuman extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idPengumuman;
 
-  editPengumuman(this.names, this.idUser, this.idGereja, this.idPengumuman);
+  editPengumuman(this.iduser, this.idGereja, this.role, this.idPengumuman);
 
   @override
-  _editPengumuman createState() => _editPengumuman(
-      this.names, this.idUser, this.idGereja, this.idPengumuman);
+  _editPengumuman createState() =>
+      _editPengumuman(this.iduser, this.idGereja, this.role, this.idPengumuman);
 }
 
 class _editPengumuman extends State<editPengumuman> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   var imageChange = false;
   final idPengumuman;
 
-  _editPengumuman(this.names, this.idUser, this.idGereja, this.idPengumuman);
+  _editPengumuman(this.iduser, this.idGereja, this.role, this.idPengumuman);
   TextEditingController caption = new TextEditingController();
   TextEditingController title = new TextEditingController();
 
@@ -153,8 +153,7 @@ class _editPengumuman extends State<editPengumuman> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    PengumumanGereja(names, idUser, idGereja)),
+                builder: (context) => PengumumanGereja(iduser, idGereja, role)),
           );
         }
       } else {
@@ -228,8 +227,7 @@ class _editPengumuman extends State<editPengumuman> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    PengumumanGereja(names, idUser, idGereja)),
+                builder: (context) => PengumumanGereja(iduser, idGereja, role)),
           );
         }
       } else {
@@ -260,7 +258,7 @@ class _editPengumuman extends State<editPengumuman> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -270,7 +268,7 @@ class _editPengumuman extends State<editPengumuman> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -483,14 +481,13 @@ class _editPengumuman extends State<editPengumuman> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

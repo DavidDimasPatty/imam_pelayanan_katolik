@@ -8,30 +8,30 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/view/umum/rekoleksi/historyRekoleksiUser.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class HistoryRekoleksi extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  HistoryRekoleksi(this.names, this.idUser, this.idGereja);
+  HistoryRekoleksi(this.iduser, this.idGereja, this.role);
   @override
   _HistoryRekoleksi createState() =>
-      _HistoryRekoleksi(this.names, this.idUser, this.idGereja);
+      _HistoryRekoleksi(this.iduser, this.idGereja, this.role);
 }
 
 class _HistoryRekoleksi extends State<HistoryRekoleksi> {
-  var names;
+  var role;
   var emails;
   var distance;
   List daftarUser = [];
 
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _HistoryRekoleksi(this.names, this.idUser, this.idGereja);
+  _HistoryRekoleksi(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -131,7 +131,7 @@ class _HistoryRekoleksi extends State<HistoryRekoleksi> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -141,7 +141,7 @@ class _HistoryRekoleksi extends State<HistoryRekoleksi> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -183,7 +183,7 @@ class _HistoryRekoleksi extends State<HistoryRekoleksi> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => HistoryRekoleksiUser(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -289,14 +289,13 @@ class _HistoryRekoleksi extends State<HistoryRekoleksi> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -17,23 +17,23 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import 'package:geocode/geocode.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 
 class UpdateProfile extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
-  UpdateProfile(this.names, this.idUser, this.idGereja);
+  UpdateProfile(this.iduser, this.idGereja, this.role);
 
   @override
   _UpdateProfile createState() =>
-      _UpdateProfile(this.names, this.idUser, this.idGereja);
+      _UpdateProfile(this.iduser, this.idGereja, this.role);
 }
 
 class _UpdateProfile extends State<UpdateProfile> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   var fileImage;
   var fileChange;
@@ -45,7 +45,7 @@ class _UpdateProfile extends State<UpdateProfile> {
   TextEditingController deskripsi = new TextEditingController(text: "");
   double? lattitude = 0;
   double? longttitude = 0;
-  _UpdateProfile(this.names, this.idUser, this.idGereja);
+  _UpdateProfile(this.iduser, this.idGereja, this.role);
 
   void submit() async {
     // var hasil = await MongoDatabase.updateGereja(idGereja, nama.text,
@@ -117,7 +117,7 @@ class _UpdateProfile extends State<UpdateProfile> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Profile(names, idUser, idGereja)),
+              builder: (context) => Profile(iduser, idGereja, role)),
         );
       }
     } else {
@@ -186,7 +186,7 @@ class _UpdateProfile extends State<UpdateProfile> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Profile(names, idUser, idGereja)),
+              builder: (context) => Profile(iduser, idGereja, role)),
         );
       }
     }
@@ -248,7 +248,7 @@ class _UpdateProfile extends State<UpdateProfile> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -258,7 +258,7 @@ class _UpdateProfile extends State<UpdateProfile> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -659,14 +659,13 @@ class _UpdateProfile extends State<UpdateProfile> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

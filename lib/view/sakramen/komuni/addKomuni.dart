@@ -14,25 +14,24 @@ import 'package:imam_pelayanan_katolik/view/sakramen/komuni/komuni.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
 
 class addKomuni extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
-  addKomuni(this.names, this.idUser, this.idGereja);
+  addKomuni(this.iduser, this.idGereja, this.role);
 
   @override
-  _addKomuni createState() =>
-      _addKomuni(this.names, this.idUser, this.idGereja);
+  _addKomuni createState() => _addKomuni(this.iduser, this.idGereja, this.role);
 }
 
 class _addKomuni extends State<addKomuni> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   String _selectedDate = '';
   String _dateCount = '';
@@ -41,7 +40,7 @@ class _addKomuni extends State<addKomuni> {
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
-  _addKomuni(this.names, this.idUser, this.idGereja);
+  _addKomuni(this.iduser, this.idGereja, this.role);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -93,7 +92,7 @@ class _addKomuni extends State<addKomuni> {
             kapasitas,
             tanggalbuka.toString(),
             tanggaltutup.toString(),
-            idUser
+            iduser
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -124,7 +123,7 @@ class _addKomuni extends State<addKomuni> {
         Navigator.pop(
           context,
           MaterialPageRoute(
-              builder: (context) => Komuni(names, idUser, idGereja)),
+              builder: (context) => Komuni(iduser, idGereja, role)),
         );
       }
     } else {
@@ -154,7 +153,7 @@ class _addKomuni extends State<addKomuni> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -164,7 +163,7 @@ class _addKomuni extends State<addKomuni> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -285,14 +284,13 @@ class _addKomuni extends State<addKomuni> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

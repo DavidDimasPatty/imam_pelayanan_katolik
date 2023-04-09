@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import 'package:imam_pelayanan_katolik/view/history/history.dart';
+
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/view/umum/rekoleksi/historyRekoleksi.dart';
 import 'package:imam_pelayanan_katolik/view/umum/retret/historyRetret.dart';
-
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../profile/profile.dart';
-import '../umum/pendalamanAlkitab/historyPA.dart';
+import 'pendalamanAlkitab/historyPA.dart';
 
 class HistoryKegiatanUmum extends StatelessWidget {
-  var names;
+  var role;
   var iduser;
   var idGereja;
 
-  HistoryKegiatanUmum(this.names, this.iduser, this.idGereja);
+  HistoryKegiatanUmum(this.iduser, this.idGereja, this.role);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +30,7 @@ class HistoryKegiatanUmum extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, iduser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -40,7 +40,7 @@ class HistoryKegiatanUmum extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, iduser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -61,7 +61,7 @@ class HistoryKegiatanUmum extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          HistoryRekoleksi(names, iduser, idGereja)),
+                          HistoryRekoleksi(iduser, idGereja, role)),
                 );
               },
               child: Container(
@@ -100,7 +100,7 @@ class HistoryKegiatanUmum extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          HistoryRetret(names, iduser, idGereja)),
+                          HistoryRetret(iduser, idGereja, role)),
                 );
               },
               child: Container(
@@ -138,7 +138,7 @@ class HistoryKegiatanUmum extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => HistoryPA(names, iduser, idGereja)),
+                      builder: (context) => HistoryPA(iduser, idGereja, role)),
                 );
               },
               child: Container(
@@ -206,14 +206,13 @@ class HistoryKegiatanUmum extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, iduser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, iduser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -9,30 +9,30 @@ import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 
 class DetailSakramentali extends StatefulWidget {
-  final name;
+  final role;
 
-  final idUser;
+  final iduser;
   final idGereja;
   final idPemberkatan;
 
-  DetailSakramentali(this.name, this.idUser, this.idGereja, this.idPemberkatan);
+  DetailSakramentali(this.iduser, this.idGereja, this.role, this.idPemberkatan);
   @override
   _DetailSakramentali createState() => _DetailSakramentali(
-      this.name, this.idUser, this.idGereja, this.idPemberkatan);
+      this.iduser, this.idGereja, this.role, this.idPemberkatan);
 }
 
 class _DetailSakramentali extends State<DetailSakramentali> {
-  final name;
+  final role;
 
-  final idUser;
+  final iduser;
   final idGereja;
   final idPemberkatan;
   _DetailSakramentali(
-      this.name, this.idUser, this.idGereja, this.idPemberkatan);
+      this.iduser, this.idGereja, this.role, this.idPemberkatan);
   @override
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -86,7 +86,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["sakramentali", idPemberkatan, token, idPemberkatan, 1, idUser]));
+            ["sakramentali", idPemberkatan, token, idPemberkatan, 1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -139,7 +139,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["sakramentali", idPemberkatan, token, idPemberkatan, -1, idUser]));
+            ["sakramentali", idPemberkatan, token, idPemberkatan, -1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -190,7 +190,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(name, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -513,13 +513,13 @@ class _DetailSakramentali extends State<DetailSakramentali> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(name, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomePage(name, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

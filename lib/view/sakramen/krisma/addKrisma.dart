@@ -14,25 +14,24 @@ import 'package:imam_pelayanan_katolik/view/sakramen/krisma/krisma.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
 
 class addKrisma extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
-  addKrisma(this.names, this.idUser, this.idGereja);
+  addKrisma(this.iduser, this.idGereja, this.role);
 
   @override
-  _addKrisma createState() =>
-      _addKrisma(this.names, this.idUser, this.idGereja);
+  _addKrisma createState() => _addKrisma(this.iduser, this.idGereja, this.role);
 }
 
 class _addKrisma extends State<addKrisma> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   String _selectedDate = '';
   String _dateCount = '';
@@ -41,7 +40,7 @@ class _addKrisma extends State<addKrisma> {
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
-  _addKrisma(this.names, this.idUser, this.idGereja);
+  _addKrisma(this.iduser, this.idGereja, this.role);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -93,7 +92,7 @@ class _addKrisma extends State<addKrisma> {
             kapasitas,
             tanggalbuka.toString(),
             tanggaltutup.toString(),
-            idUser
+            iduser
           ]));
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
@@ -123,7 +122,7 @@ class _addKrisma extends State<addKrisma> {
         Navigator.pop(
           context,
           MaterialPageRoute(
-              builder: (context) => Krisma(names, idUser, idGereja)),
+              builder: (context) => Krisma(iduser, idGereja, role)),
         );
       }
     } else {
@@ -153,7 +152,7 @@ class _addKrisma extends State<addKrisma> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -163,7 +162,7 @@ class _addKrisma extends State<addKrisma> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -284,14 +283,13 @@ class _addKrisma extends State<addKrisma> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

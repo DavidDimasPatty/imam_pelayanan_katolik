@@ -12,30 +12,29 @@ import 'package:imam_pelayanan_katolik/view/umum/rekoleksi/editRekoleksi.dart';
 import 'package:imam_pelayanan_katolik/view/umum/rekoleksi/rekoleksiUser.dart';
 
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class Rekoleksi extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  Rekoleksi(this.names, this.idUser, this.idGereja);
+  Rekoleksi(this.iduser, this.idGereja, this.role);
   @override
-  _Rekoleksi createState() =>
-      _Rekoleksi(this.names, this.idUser, this.idGereja);
+  _Rekoleksi createState() => _Rekoleksi(this.iduser, this.idGereja, this.role);
 }
 
 class _Rekoleksi extends State<Rekoleksi> {
-  var names;
+  var role;
   var emails;
   var distance;
   List hasil = [];
   StreamController _controller = StreamController();
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _Rekoleksi(this.names, this.idUser, this.idGereja);
+  _Rekoleksi(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -119,7 +118,7 @@ class _Rekoleksi extends State<Rekoleksi> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update status pelayanan', ["umum", id, -1, idUser]));
+        Tasks('update status pelayanan', ["umum", id, -1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -178,7 +177,7 @@ class _Rekoleksi extends State<Rekoleksi> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -188,7 +187,7 @@ class _Rekoleksi extends State<Rekoleksi> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -230,7 +229,7 @@ class _Rekoleksi extends State<Rekoleksi> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  addRekoleksi(names, idUser, idGereja)),
+                                  addRekoleksi(iduser, idGereja, role)),
                         );
                       },
                       splashColor: Colors.blue,
@@ -267,7 +266,7 @@ class _Rekoleksi extends State<Rekoleksi> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => RekoleksiUser(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -323,8 +322,11 @@ class _Rekoleksi extends State<Rekoleksi> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  editRekoleksi(names, idUser,
-                                                      idGereja, i['_id'])),
+                                                  editRekoleksi(
+                                                      iduser,
+                                                      idGereja,
+                                                      role,
+                                                      i['_id'])),
                                         );
                                       }),
                                 ),
@@ -408,14 +410,13 @@ class _Rekoleksi extends State<Rekoleksi> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -14,26 +14,26 @@ import 'package:imam_pelayanan_katolik/view/umum/rekoleksi/rekoleksi.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
 
 class editRekoleksi extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idRekoleksi;
-  editRekoleksi(this.names, this.idUser, this.idGereja, this.idRekoleksi);
+  editRekoleksi(this.iduser, this.idGereja, this.role, this.idRekoleksi);
 
   @override
   _editRekoleksi createState() =>
-      _editRekoleksi(this.names, this.idUser, this.idGereja, this.idRekoleksi);
+      _editRekoleksi(this.iduser, this.idGereja, this.role, this.idRekoleksi);
 }
 
 class _editRekoleksi extends State<editRekoleksi> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idRekoleksi;
   String _selectedDate = '';
@@ -48,7 +48,7 @@ class _editRekoleksi extends State<editRekoleksi> {
   TextEditingController deskripsiKegiatan = new TextEditingController();
   TextEditingController tamuKegiatan = new TextEditingController();
   TextEditingController lokasi = new TextEditingController();
-  _editRekoleksi(this.names, this.idUser, this.idGereja, this.idRekoleksi);
+  _editRekoleksi(this.iduser, this.idGereja, this.role, this.idRekoleksi);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -119,7 +119,7 @@ class _editRekoleksi extends State<editRekoleksi> {
             _selectedDate.toString(),
             kapasitas.text,
             lokasi.text,
-            idUser
+            iduser
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -148,7 +148,7 @@ class _editRekoleksi extends State<editRekoleksi> {
         Navigator.pop(
           context,
           MaterialPageRoute(
-              builder: (context) => Rekoleksi(names, idUser, idGereja)),
+              builder: (context) => Rekoleksi(iduser, idGereja, role)),
         );
       }
     } else {
@@ -213,7 +213,7 @@ class _editRekoleksi extends State<editRekoleksi> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -223,7 +223,7 @@ class _editRekoleksi extends State<editRekoleksi> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -569,14 +569,13 @@ class _editRekoleksi extends State<editRekoleksi> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

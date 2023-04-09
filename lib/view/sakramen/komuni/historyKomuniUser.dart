@@ -8,32 +8,32 @@ import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import '../../history/history.dart';
+import '../../history.dart';
 import '../../profile/profile.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class HistoryKomuniUser extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
   final idKomuni;
-  HistoryKomuniUser(this.names, this.idUser, this.idGereja, this.idKomuni);
+  HistoryKomuniUser(this.iduser, this.idGereja, this.role, this.idKomuni);
   @override
   _HistoryKomuniUser createState() =>
-      _HistoryKomuniUser(this.names, this.idUser, this.idGereja, this.idKomuni);
+      _HistoryKomuniUser(this.iduser, this.idGereja, this.role, this.idKomuni);
 }
 
 class _HistoryKomuniUser extends State<HistoryKomuniUser> {
-  var names;
+  var role;
   var emails;
   var distance;
   List daftarUser = [];
 
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
   final idKomuni;
-  _HistoryKomuniUser(this.names, this.idUser, this.idGereja, this.idKomuni);
+  _HistoryKomuniUser(this.iduser, this.idGereja, this.role, this.idKomuni);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -120,7 +120,7 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["komuni", id, token, idTarget, -1, idUser]));
+            ["komuni", id, token, idTarget, -1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -178,7 +178,7 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["komuni", id, token, idTarget, 1, idUser]));
+            ["komuni", id, token, idTarget, 1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -250,7 +250,7 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -260,7 +260,7 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -478,14 +478,13 @@ class _HistoryKomuniUser extends State<HistoryKomuniUser> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -3,14 +3,14 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import 'package:imam_pelayanan_katolik/view/history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 
 class termsCondition extends StatelessWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  termsCondition(this.names, this.idUser, this.idGereja);
+  termsCondition(this.iduser, this.idGereja, this.role);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,7 @@ class termsCondition extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        Profile(this.names, this.idUser, this.idGereja)),
+                        Profile(this.iduser, this.idGereja, this.role)),
               );
             },
           ),
@@ -203,14 +203,14 @@ class termsCondition extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            History(this.names, this.idUser, this.idGereja)),
+                            History(this.iduser, this.idGereja, this.role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            HomePage(this.names, this.idUser, this.idGereja)),
+                            HomePage(this.iduser, this.idGereja, this.role)),
                   );
                 }
               },

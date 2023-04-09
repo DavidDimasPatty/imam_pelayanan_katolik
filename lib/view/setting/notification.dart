@@ -10,25 +10,25 @@ import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import '../history/history.dart';
+import '../history.dart';
 import '../profile/profile.dart';
 
 class notification extends StatefulWidget {
-  final names;
+  final role;
   final idGereja;
-  final idUser;
-  notification(this.names, this.idUser, this.idGereja);
+  final iduser;
+  notification(this.iduser, this.idGereja, this.role);
   @override
   _notifClass createState() =>
-      _notifClass(this.names, this.idUser, this.idGereja);
+      _notifClass(this.iduser, this.idGereja, this.role);
 }
 
 class _notifClass extends State<notification> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   var checknotif;
-  _notifClass(this.names, this.idUser, this.idGereja);
+  _notifClass(this.iduser, this.idGereja, this.role);
   bool switch1 = false;
   void isSwitch() {
     switch1 = true;
@@ -54,7 +54,7 @@ class _notifClass extends State<notification> {
     // checknotif = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
-        'Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data imam', idUser));
+        'Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data imam', iduser));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
@@ -83,7 +83,7 @@ class _notifClass extends State<notification> {
     // var daftarmisa = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
-        Tasks('update notification', [idUser, notif]));
+        Tasks('update notification', [iduser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
@@ -158,7 +158,7 @@ class _notifClass extends State<notification> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -319,14 +319,13 @@ class _notifClass extends State<notification> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -10,15 +10,15 @@ import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/setting/privacySafety.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import '../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../profile/profile.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class gantiPassword extends StatelessWidget {
-  final names;
+  final role;
   final idGereja;
-  final idUser;
-  gantiPassword(this.names, this.idUser, this.idGereja);
+  final iduser;
+  gantiPassword(this.iduser, this.idGereja, this.role);
 
   @override
   TextEditingController passLamaController = new TextEditingController();
@@ -57,7 +57,7 @@ class gantiPassword extends StatelessWidget {
 
       Completer<void> completer = Completer<void>();
       Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
-          Tasks('find password', [idUser, passLamaController.text]));
+          Tasks('find password', [iduser, passLamaController.text]));
 
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
@@ -95,7 +95,7 @@ class gantiPassword extends StatelessWidget {
         // var value = await AgenPage().receiverTampilan();
         Completer<void> completer = Completer<void>();
         Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
-            Tasks('change password', [idUser, passBaruController.text]));
+            Tasks('change password', [iduser, passBaruController.text]));
 
         MessagePassing messagePassing = MessagePassing();
         var data = await messagePassing.sendMessage(message);
@@ -118,7 +118,7 @@ class gantiPassword extends StatelessWidget {
         Navigator.pop(
           context,
           MaterialPageRoute(
-              builder: (context) => privacySafety(names, idUser, idGereja)),
+              builder: (context) => privacySafety(iduser, idGereja, role)),
         );
       }
     }
@@ -138,7 +138,7 @@ class gantiPassword extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -260,14 +260,13 @@ class gantiPassword extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

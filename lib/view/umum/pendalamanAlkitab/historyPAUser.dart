@@ -9,31 +9,31 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 
 class HistoryPAUser extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
   final idPA;
-  HistoryPAUser(this.names, this.idUser, this.idGereja, this.idPA);
+  HistoryPAUser(this.iduser, this.idGereja, this.role, this.idPA);
   @override
   _HistoryPAUser createState() =>
-      _HistoryPAUser(this.names, this.idUser, this.idGereja, this.idPA);
+      _HistoryPAUser(this.iduser, this.idGereja, this.role, this.idPA);
 }
 
 class _HistoryPAUser extends State<HistoryPAUser> {
-  var names;
+  var role;
   var emails;
   var distance;
   List daftarUser = [];
 
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
   final idPA;
-  _HistoryPAUser(this.names, this.idUser, this.idGereja, this.idPA);
+  _HistoryPAUser(this.iduser, this.idGereja, this.role, this.idPA);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -121,7 +121,7 @@ class _HistoryPAUser extends State<HistoryPAUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["umum", id, token, idTarget, -1, idUser]));
+            ["umum", id, token, idTarget, -1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -179,7 +179,7 @@ class _HistoryPAUser extends State<HistoryPAUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks(
-            'update pelayanan user', ["umum", id, token, idTarget, 1, idUser]));
+            'update pelayanan user', ["umum", id, token, idTarget, 1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -250,7 +250,7 @@ class _HistoryPAUser extends State<HistoryPAUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -260,7 +260,7 @@ class _HistoryPAUser extends State<HistoryPAUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -477,14 +477,13 @@ class _HistoryPAUser extends State<HistoryPAUser> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

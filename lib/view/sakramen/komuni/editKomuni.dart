@@ -14,26 +14,26 @@ import 'package:imam_pelayanan_katolik/view/sakramen/komuni/komuni.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
 
 class editKomuni extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idKomuni;
-  editKomuni(this.names, this.idUser, this.idGereja, this.idKomuni);
+  editKomuni(this.iduser, this.idGereja, this.role, this.idKomuni);
 
   @override
   _editKomuni createState() =>
-      _editKomuni(this.names, this.idUser, this.idGereja, this.idKomuni);
+      _editKomuni(this.iduser, this.idGereja, this.role, this.idKomuni);
 }
 
 class _editKomuni extends State<editKomuni> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idKomuni;
   String _selectedDate = '';
@@ -43,7 +43,7 @@ class _editKomuni extends State<editKomuni> {
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
-  _editKomuni(this.names, this.idUser, this.idGereja, this.idKomuni);
+  _editKomuni(this.iduser, this.idGereja, this.role, this.idKomuni);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -101,7 +101,7 @@ class _editKomuni extends State<editKomuni> {
             kapasitas,
             tanggalBuka.toString(),
             tanggalTutup.toString(),
-            idUser
+            iduser
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -130,7 +130,7 @@ class _editKomuni extends State<editKomuni> {
         Navigator.pop(
           context,
           MaterialPageRoute(
-              builder: (context) => Komuni(names, idUser, idGereja)),
+              builder: (context) => Komuni(iduser, idGereja, role)),
         );
       }
     } else {
@@ -195,7 +195,7 @@ class _editKomuni extends State<editKomuni> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -205,7 +205,7 @@ class _editKomuni extends State<editKomuni> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -349,14 +349,13 @@ class _editKomuni extends State<editKomuni> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

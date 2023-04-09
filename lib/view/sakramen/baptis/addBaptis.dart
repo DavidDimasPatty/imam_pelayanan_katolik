@@ -14,25 +14,24 @@ import 'package:imam_pelayanan_katolik/view/sakramen/baptis/baptis.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
 
 class addBaptis extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
-  addBaptis(this.names, this.idUser, this.idGereja);
+  addBaptis(this.iduser, this.idGereja, this.role);
 
   @override
-  _addBaptis createState() =>
-      _addBaptis(this.names, this.idUser, this.idGereja);
+  _addBaptis createState() => _addBaptis(this.iduser, this.idGereja, this.role);
 }
 
 class _addBaptis extends State<addBaptis> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   // String _selectedDate = '';
   // String _dateCount = '';
@@ -41,7 +40,7 @@ class _addBaptis extends State<addBaptis> {
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
-  _addBaptis(this.names, this.idUser, this.idGereja);
+  _addBaptis(this.iduser, this.idGereja, this.role);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -96,7 +95,7 @@ class _addBaptis extends State<addBaptis> {
             kapasitas,
             tanggalbuka.toString(),
             tanggaltutup.toString(),
-            idUser
+            iduser
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -127,7 +126,7 @@ class _addBaptis extends State<addBaptis> {
         Navigator.pop(
           context,
           MaterialPageRoute(
-              builder: (context) => Baptis(names, idUser, idGereja)),
+              builder: (context) => Baptis(iduser, idGereja, role)),
         );
       }
     } else {
@@ -157,7 +156,7 @@ class _addBaptis extends State<addBaptis> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -167,7 +166,7 @@ class _addBaptis extends State<addBaptis> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -288,14 +287,13 @@ class _addBaptis extends State<addBaptis> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

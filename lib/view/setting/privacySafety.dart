@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:imam_pelayanan_katolik/view/history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import 'package:imam_pelayanan_katolik/view/setting/gantiPasword.dart';
 import 'package:imam_pelayanan_katolik/view/setting/notification.dart';
 import 'dart:io';
@@ -12,14 +12,13 @@ import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import '../profile/profile.dart';
 
 class privacySafety extends StatelessWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
 
   //print('Download-Link: $urlDownload');
 
-  privacySafety(this.names, this.idUser, this.idGereja);
-
+  privacySafety(this.iduser, this.idGereja, this.role);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +34,7 @@ class privacySafety extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -57,7 +56,7 @@ class privacySafety extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            gantiPassword(names, idUser, idGereja)),
+                            gantiPassword(iduser, idGereja, role)),
                   );
                 },
                 shape: RoundedRectangleBorder(
@@ -95,7 +94,7 @@ class privacySafety extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              notification(names, idUser, idGereja)));
+                              notification(iduser, idGereja, role)));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
@@ -162,14 +161,13 @@ class privacySafety extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -17,20 +17,20 @@ import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 
 class Profile extends StatefulWidget {
-  var names;
+  var role;
   var iduser;
   var idGereja;
 
-  Profile(this.names, this.iduser, this.idGereja);
+  Profile(this.iduser, this.idGereja, this.role);
 
-  _Profile createState() => _Profile(this.names, this.iduser, this.idGereja);
+  _Profile createState() => _Profile(this.iduser, this.idGereja, this.role);
 }
 
 class _Profile extends State<Profile> {
-  var names;
+  var role;
   var iduser;
   var idGereja;
   var statusPem;
@@ -38,7 +38,7 @@ class _Profile extends State<Profile> {
   var statusPerk;
   var statusTob;
 
-  _Profile(this.names, this.iduser, this.idGereja);
+  _Profile(this.iduser, this.idGereja, this.role);
   @override
   Future callDb() async {
     // Messages msg = new Messages();
@@ -260,7 +260,7 @@ class _Profile extends State<Profile> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => Profile(names, iduser, idGereja)),
+            builder: (context) => Profile(iduser, idGereja, role)),
       );
     }
   }
@@ -296,7 +296,7 @@ class _Profile extends State<Profile> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, iduser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -583,7 +583,7 @@ class _Profile extends State<Profile> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => UpdateProfile(
-                                            names, iduser, idGereja)),
+                                            iduser, idGereja, role)),
                                   );
                                 },
                                 shape: RoundedRectangleBorder(
@@ -624,7 +624,7 @@ class _Profile extends State<Profile> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => EditProfile(
-                                            names, iduser, idGereja)),
+                                            iduser, idGereja, role)),
                                   );
                                 },
                                 shape: RoundedRectangleBorder(
@@ -665,7 +665,7 @@ class _Profile extends State<Profile> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => AturanPelayanan(
-                                            names, iduser, idGereja)),
+                                            iduser, idGereja, role)),
                                   );
                                 },
                                 shape: RoundedRectangleBorder(
@@ -1006,14 +1006,13 @@ class _Profile extends State<Profile> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, iduser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, iduser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

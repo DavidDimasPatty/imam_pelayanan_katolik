@@ -12,29 +12,29 @@ import 'package:imam_pelayanan_katolik/view/umum/retret/editRetret.dart';
 import 'package:imam_pelayanan_katolik/view/umum/retret/retretUser.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import '../../history/history.dart';
+import '../../history.dart';
 import '../../profile/profile.dart';
 
 class Retret extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  Retret(this.names, this.idUser, this.idGereja);
+  Retret(this.iduser, this.idGereja, this.role);
   @override
-  _Retret createState() => _Retret(this.names, this.idUser, this.idGereja);
+  _Retret createState() => _Retret(this.iduser, this.idGereja, this.role);
 }
 
 class _Retret extends State<Retret> {
-  var names;
+  var role;
   var emails;
   var distance;
   List hasil = [];
   StreamController _controller = StreamController();
 
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _Retret(this.names, this.idUser, this.idGereja);
+  _Retret(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -118,7 +118,7 @@ class _Retret extends State<Retret> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update status pelayanan', ["umum", idKegiatan, -1, idUser]));
+        Tasks('update status pelayanan', ["umum", idKegiatan, -1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -177,7 +177,7 @@ class _Retret extends State<Retret> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -187,7 +187,7 @@ class _Retret extends State<Retret> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -230,7 +230,7 @@ class _Retret extends State<Retret> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  addRetret(names, idUser, idGereja)),
+                                  addRetret(iduser, idGereja, role)),
                         );
                       },
                       splashColor: Colors.blue,
@@ -269,7 +269,7 @@ class _Retret extends State<Retret> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => RetretUser(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -325,9 +325,9 @@ class _Retret extends State<Retret> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => editRetret(
-                                                  names,
-                                                  idUser,
+                                                  iduser,
                                                   idGereja,
+                                                  role,
                                                   i['_id'])),
                                         );
                                       }),
@@ -412,14 +412,13 @@ class _Retret extends State<Retret> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

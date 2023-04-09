@@ -4,14 +4,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 
-import '../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../profile/profile.dart';
 
 class customerService extends StatelessWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  customerService(this.names, this.idUser, this.idGereja);
+  customerService(this.iduser, this.idGereja, this.role);
   @override
   TextEditingController passLamaController = new TextEditingController();
   TextEditingController passBaruController = new TextEditingController();
@@ -31,7 +31,7 @@ class customerService extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -182,14 +182,13 @@ class customerService extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

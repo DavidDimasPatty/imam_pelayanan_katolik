@@ -14,26 +14,26 @@ import 'package:imam_pelayanan_katolik/view/sakramen/baptis/baptis.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
 
 class editBaptis extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idBaptis;
-  editBaptis(this.names, this.idUser, this.idGereja, this.idBaptis);
+  editBaptis(this.iduser, this.idGereja, this.role, this.idBaptis);
 
   @override
   _editBaptis createState() =>
-      _editBaptis(this.names, this.idUser, this.idGereja, this.idBaptis);
+      _editBaptis(this.iduser, this.idGereja, this.role, this.idBaptis);
 }
 
 class _editBaptis extends State<editBaptis> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idBaptis;
   String _selectedDate = '';
@@ -43,7 +43,7 @@ class _editBaptis extends State<editBaptis> {
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
-  _editBaptis(this.names, this.idUser, this.idGereja, this.idBaptis);
+  _editBaptis(this.iduser, this.idGereja, this.role, this.idBaptis);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -140,7 +140,7 @@ class _editBaptis extends State<editBaptis> {
             kapasitas,
             tanggalBuka.toString(),
             tanggalTutup.toString(),
-            idUser
+            iduser
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -169,7 +169,7 @@ class _editBaptis extends State<editBaptis> {
         Navigator.pop(
           context,
           MaterialPageRoute(
-              builder: (context) => Baptis(names, idUser, idGereja)),
+              builder: (context) => Baptis(iduser, idGereja, role)),
         );
       }
     } else {
@@ -199,7 +199,7 @@ class _editBaptis extends State<editBaptis> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -209,7 +209,7 @@ class _editBaptis extends State<editBaptis> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -354,14 +354,13 @@ class _editBaptis extends State<editBaptis> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -8,34 +8,33 @@ import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import '../../history/history.dart';
+import '../../history.dart';
 import '../../profile/profile.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class HistoryRekoleksiUser extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
   final idRekoleksi;
-  HistoryRekoleksiUser(
-      this.names, this.idUser, this.idGereja, this.idRekoleksi);
+  HistoryRekoleksiUser(this.iduser, this.idGereja, this.role, this.idRekoleksi);
   @override
   _HistoryRekoleksiUser createState() => _HistoryRekoleksiUser(
-      this.names, this.idUser, this.idGereja, this.idRekoleksi);
+      this.iduser, this.idGereja, this.role, this.idRekoleksi);
 }
 
 class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
-  var names;
+  var role;
   var emails;
   var distance;
   List daftarUser = [];
 
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
   final idRekoleksi;
   _HistoryRekoleksiUser(
-      this.names, this.idUser, this.idGereja, this.idRekoleksi);
+      this.iduser, this.idGereja, this.role, this.idRekoleksi);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -122,7 +121,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["umum", id, token, idTarget, -1, idUser]));
+            ["umum", id, token, idTarget, -1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -179,7 +178,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks(
-            'update pelayanan user', ["umum", id, token, idTarget, 1, idUser]));
+            'update pelayanan user', ["umum", id, token, idTarget, 1, iduser]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -248,7 +247,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -258,7 +257,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -477,14 +476,13 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

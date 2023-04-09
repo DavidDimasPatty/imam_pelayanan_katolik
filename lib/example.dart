@@ -10,12 +10,12 @@
 
 // //stateless dan class
 // class HomePage extends StatelessWidget {
-//   var names;
+//   var role;
 //   var iduser;
 //   var idGereja;
 //   var dataUser;
 
-//   HomePage(this.names, this.iduser, this.idGereja);
+//   HomePage(this.iduser, this.idGereja,this.role this.role);
 //   @override
 
 //   //function
@@ -43,7 +43,7 @@
 //               Navigator.push(
 //                 context,
 //                 MaterialPageRoute(
-//                     builder: (context) => Profile(names, iduser, idGereja)),
+//                     builder: (context) => Profile( iduser, idGereja,role)),
 //               );
 //             },
 //           ),
@@ -53,7 +53,7 @@
 //               Navigator.push(
 //                 context,
 //                 MaterialPageRoute(
-//                     builder: (context) => Settings(names, iduser, idGereja)),
+//                     builder: (context) => Settings( iduser, idGereja,role)),
 //               );
 //             },
 //           ),
@@ -97,7 +97,7 @@
 //                   Navigator.push(
 //                     context,
 //                     MaterialPageRoute(
-//                         builder: (context) => History(names, iduser, idGereja)),
+//                         builder: (context) => History( iduser, idGereja,role)),
 //                   );
 //                 } else if (index == 0) {}
 //               },

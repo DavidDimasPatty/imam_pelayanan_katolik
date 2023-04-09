@@ -14,25 +14,25 @@ import 'package:imam_pelayanan_katolik/view/umum/rekoleksi/rekoleksi.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
 
 class addRekoleksi extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
-  addRekoleksi(this.names, this.idUser, this.idGereja);
+  addRekoleksi(this.iduser, this.idGereja, this.role);
 
   @override
   _addRekoleksi createState() =>
-      _addRekoleksi(this.names, this.idUser, this.idGereja);
+      _addRekoleksi(this.iduser, this.idGereja, this.role);
 }
 
 class _addRekoleksi extends State<addRekoleksi> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   String _selectedDate = '';
   String _dateCount = '';
@@ -46,7 +46,7 @@ class _addRekoleksi extends State<addRekoleksi> {
   TextEditingController deskripsiKegiatan = new TextEditingController();
   TextEditingController tamuKegiatan = new TextEditingController();
   TextEditingController lokasi = new TextEditingController();
-  _addRekoleksi(this.names, this.idUser, this.idGereja);
+  _addRekoleksi(this.iduser, this.idGereja, this.role);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -115,7 +115,7 @@ class _addRekoleksi extends State<addRekoleksi> {
             _selectedDate.toString(),
             kapasitas.text,
             lokasi.text,
-            idUser
+            iduser
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -146,7 +146,7 @@ class _addRekoleksi extends State<addRekoleksi> {
         Navigator.pop(
           context,
           MaterialPageRoute(
-              builder: (context) => Rekoleksi(names, idUser, idGereja)),
+              builder: (context) => Rekoleksi(iduser, idGereja, role)),
         );
       }
     } else {
@@ -176,7 +176,7 @@ class _addRekoleksi extends State<addRekoleksi> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -186,7 +186,7 @@ class _addRekoleksi extends State<addRekoleksi> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -509,14 +509,13 @@ class _addRekoleksi extends State<addRekoleksi> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

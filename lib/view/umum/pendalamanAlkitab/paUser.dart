@@ -8,32 +8,32 @@ import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 
 class PAUser extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
   final idPA;
-  PAUser(this.names, this.idUser, this.idGereja, this.idPA);
+  PAUser(this.iduser, this.idGereja, this.role, this.idPA);
   @override
   _PAUser createState() =>
-      _PAUser(this.names, this.idUser, this.idGereja, this.idPA);
+      _PAUser(this.iduser, this.idGereja, this.role, this.idPA);
 }
 
 class _PAUser extends State<PAUser> {
-  var names;
+  var role;
   var emails;
   var distance;
   List hasil = [];
   StreamController _controller = StreamController();
 
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
   final idPA;
-  _PAUser(this.names, this.idUser, this.idGereja, this.idPA);
+  _PAUser(this.iduser, this.idGereja, this.role, this.idPA);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -124,7 +124,7 @@ class _PAUser extends State<PAUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["umum", id, token, idTarget, -1, idUser]));
+            ["umum", id, token, idTarget, -1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -185,7 +185,7 @@ class _PAUser extends State<PAUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks(
-            'update pelayanan user', ["umum", id, token, idTarget, 1, idUser]));
+            'update pelayanan user', ["umum", id, token, idTarget, 1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -245,7 +245,7 @@ class _PAUser extends State<PAUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -255,7 +255,7 @@ class _PAUser extends State<PAUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -457,14 +457,13 @@ class _PAUser extends State<PAUser> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

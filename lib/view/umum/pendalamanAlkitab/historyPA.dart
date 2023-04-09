@@ -8,29 +8,28 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/view/umum/pendalamanAlkitab/historyPAUser.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 
 class HistoryPA extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  HistoryPA(this.names, this.idUser, this.idGereja);
+  HistoryPA(this.iduser, this.idGereja, this.role);
   @override
-  _HistoryPA createState() =>
-      _HistoryPA(this.names, this.idUser, this.idGereja);
+  _HistoryPA createState() => _HistoryPA(this.iduser, this.idGereja, this.role);
 }
 
 class _HistoryPA extends State<HistoryPA> {
-  var names;
+  var role;
   var emails;
   var distance;
   List daftarUser = [];
 
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _HistoryPA(this.names, this.idUser, this.idGereja);
+  _HistoryPA(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -134,7 +133,7 @@ class _HistoryPA extends State<HistoryPA> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -144,7 +143,7 @@ class _HistoryPA extends State<HistoryPA> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -186,7 +185,7 @@ class _HistoryPA extends State<HistoryPA> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => HistoryPAUser(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -270,14 +269,13 @@ class _HistoryPA extends State<HistoryPA> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

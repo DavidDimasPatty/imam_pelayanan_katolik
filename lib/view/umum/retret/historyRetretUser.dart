@@ -9,31 +9,31 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 
 class HistoryRetretUser extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
   final idRetret;
-  HistoryRetretUser(this.names, this.idUser, this.idGereja, this.idRetret);
+  HistoryRetretUser(this.iduser, this.idGereja, this.role, this.idRetret);
   @override
   _HistoryRetretUser createState() =>
-      _HistoryRetretUser(this.names, this.idUser, this.idGereja, this.idRetret);
+      _HistoryRetretUser(this.iduser, this.idGereja, this.role, this.idRetret);
 }
 
 class _HistoryRetretUser extends State<HistoryRetretUser> {
-  var names;
+  var role;
   var emails;
   var distance;
   List daftarUser = [];
 
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
   final idRetret;
-  _HistoryRetretUser(this.names, this.idUser, this.idGereja, this.idRetret);
+  _HistoryRetretUser(this.iduser, this.idGereja, this.role, this.idRetret);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -120,7 +120,7 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["umum", id, token, idTarget, -1, idUser]));
+            ["umum", id, token, idTarget, -1, iduser]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -176,7 +176,7 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks(
-            'update pelayanan user', ["umum", id, token, idTarget, 1, idUser]));
+            'update pelayanan user', ["umum", id, token, idTarget, 1, iduser]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -245,7 +245,7 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -255,7 +255,7 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -473,14 +473,13 @@ class _HistoryRetretUser extends State<HistoryRetretUser> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

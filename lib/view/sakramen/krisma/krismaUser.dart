@@ -8,32 +8,32 @@ import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import '../../history/history.dart';
+import '../../history.dart';
 import '../../profile/profile.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class KrismaUser extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
   final idKrisma;
-  KrismaUser(this.names, this.idUser, this.idGereja, this.idKrisma);
+  KrismaUser(this.iduser, this.idGereja, this.role, this.idKrisma);
   @override
   _KrismaUser createState() =>
-      _KrismaUser(this.names, this.idUser, this.idGereja, this.idKrisma);
+      _KrismaUser(this.iduser, this.idGereja, this.role, this.idKrisma);
 }
 
 class _KrismaUser extends State<KrismaUser> {
-  var names;
+  var role;
   var emails;
   var distance;
   List hasil = [];
   StreamController _controller = StreamController();
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
   final idKrisma;
-  _KrismaUser(this.names, this.idUser, this.idGereja, this.idKrisma);
+  _KrismaUser(this.iduser, this.idGereja, this.role, this.idKrisma);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -123,7 +123,7 @@ class _KrismaUser extends State<KrismaUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["krisma", id, token, idTarget, -1, idUser]));
+            ["krisma", id, token, idTarget, -1, iduser]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -182,7 +182,7 @@ class _KrismaUser extends State<KrismaUser> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["krisma", id, token, idTarget, 1, idUser]));
+            ["krisma", id, token, idTarget, 1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -243,7 +243,7 @@ class _KrismaUser extends State<KrismaUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -253,7 +253,7 @@ class _KrismaUser extends State<KrismaUser> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -455,14 +455,13 @@ class _KrismaUser extends State<KrismaUser> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -15,28 +15,28 @@ import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../profile/profile.dart';
 import '../setting/setting.dart';
 
 class addPengumuman extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
-  addPengumuman(this.names, this.idUser, this.idGereja);
+  addPengumuman(this.iduser, this.idGereja, this.role);
 
   @override
   _addPengumuman createState() =>
-      _addPengumuman(this.names, this.idUser, this.idGereja);
+      _addPengumuman(this.iduser, this.idGereja, this.role);
 }
 
 class _addPengumuman extends State<addPengumuman> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
 
-  _addPengumuman(this.names, this.idUser, this.idGereja);
+  _addPengumuman(this.iduser, this.idGereja, this.role);
   TextEditingController caption = new TextEditingController();
   TextEditingController title = new TextEditingController();
 
@@ -78,7 +78,7 @@ class _addPengumuman extends State<addPengumuman> {
           'Agent Pendaftaran',
           "REQUEST",
           Tasks("add pengumuman",
-              [idGereja, fileImage, caption.text, title.text, idUser]));
+              [idGereja, fileImage, caption.text, title.text, iduser]));
 
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
@@ -108,7 +108,7 @@ class _addPengumuman extends State<addPengumuman> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => PengumumanGereja(names, idUser, idGereja)),
+              builder: (context) => PengumumanGereja(iduser, idGereja, role)),
         );
       }
     } else {
@@ -138,7 +138,7 @@ class _addPengumuman extends State<addPengumuman> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -148,7 +148,7 @@ class _addPengumuman extends State<addPengumuman> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -336,14 +336,13 @@ class _addPengumuman extends State<addPengumuman> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

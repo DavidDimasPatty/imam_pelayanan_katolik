@@ -13,28 +13,28 @@ import 'package:imam_pelayanan_katolik/view/sakramen/sakramen.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import '../../history/history.dart';
+import '../../history.dart';
 import '../../profile/profile.dart';
 
 class Krisma extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  Krisma(this.names, this.idUser, this.idGereja);
+  Krisma(this.iduser, this.idGereja, this.role);
   @override
-  _Krisma createState() => _Krisma(this.names, this.idUser, this.idGereja);
+  _Krisma createState() => _Krisma(this.iduser, this.idGereja, this.role);
 }
 
 class _Krisma extends State<Krisma> {
-  var names;
+  var role;
   var emails;
   var distance;
   List hasil = [];
   StreamController _controller = StreamController();
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _Krisma(this.names, this.idUser, this.idGereja);
+  _Krisma(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -119,7 +119,7 @@ class _Krisma extends State<Krisma> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update status pelayanan', ["krisma", id, status, idUser]));
+        Tasks('update status pelayanan', ["krisma", id, status, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -179,7 +179,7 @@ class _Krisma extends State<Krisma> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -189,7 +189,7 @@ class _Krisma extends State<Krisma> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -231,7 +231,7 @@ class _Krisma extends State<Krisma> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  addKrisma(names, idUser, idGereja)),
+                                  addKrisma(iduser, idGereja, role)),
                         );
                       },
                       splashColor: Colors.blue,
@@ -269,7 +269,7 @@ class _Krisma extends State<Krisma> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => KrismaUser(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -329,9 +329,9 @@ class _Krisma extends State<Krisma> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => editKrisma(
-                                                  names,
-                                                  idUser,
+                                                  iduser,
                                                   idGereja,
+                                                  role,
                                                   i['_id'])),
                                         );
                                       }),
@@ -419,14 +419,13 @@ class _Krisma extends State<Krisma> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

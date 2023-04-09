@@ -121,7 +121,7 @@ class AgentPendaftaran extends Agent {
         return sendFCM(data.data, sender);
 
       default:
-        return rejectTask(data, data.sender);
+        return rejectTask(data.data, data.sender);
     }
   }
 
@@ -449,8 +449,10 @@ class AgentPendaftaran extends Agent {
         MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
     var update = await pengumumanCollection.updateOne(
         where.eq('_id', data[0]),
-        modify.set('status', data[1]).set("updatedAt", DateTime.now())
-          ..set("updatedBy", data[2]));
+        modify
+            .set('status', data[1])
+            .set("updatedAt", DateTime.now())
+            .set("updatedBy", data[2]));
 
     if (update.isSuccess) {
       Message message = Message(

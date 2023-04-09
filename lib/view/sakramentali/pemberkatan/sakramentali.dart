@@ -10,29 +10,29 @@ import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/sakramentali/pemberkatan/sakramentalidetail.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 
 class Sakramentali extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  Sakramentali(this.names, this.idUser, this.idGereja);
+  Sakramentali(this.iduser, this.idGereja, this.role);
   @override
   _Sakramentali createState() =>
-      _Sakramentali(this.names, this.idUser, this.idGereja);
+      _Sakramentali(this.iduser, this.idGereja, this.role);
 }
 
 class _Sakramentali extends State<Sakramentali> {
-  var names;
+  var role;
   var emails;
   var distance;
   List hasil = [];
   StreamController _controller = StreamController();
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _Sakramentali(this.names, this.idUser, this.idGereja);
+  _Sakramentali(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -52,7 +52,7 @@ class _Sakramentali extends State<Sakramentali> {
     // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan', [idUser, "sakramentali", "current"]));
+        Tasks('cari pelayanan', [iduser, "sakramentali", "current"]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
@@ -120,7 +120,7 @@ class _Sakramentali extends State<Sakramentali> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -130,7 +130,7 @@ class _Sakramentali extends State<Sakramentali> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -183,7 +183,7 @@ class _Sakramentali extends State<Sakramentali> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DetailSakramentali(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -284,14 +284,13 @@ class _Sakramentali extends State<Sakramentali> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

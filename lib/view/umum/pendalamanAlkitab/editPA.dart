@@ -13,27 +13,27 @@ import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/umum/pendalamanAlkitab/pendalamanAlkitab.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 import '../../setting/setting.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class editPA extends StatefulWidget {
   @override
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idPA;
-  editPA(this.names, this.idUser, this.idGereja, this.idPA);
+  editPA(this.iduser, this.idGereja, this.role, this.idPA);
 
   @override
   _editPA createState() =>
-      _editPA(this.names, this.idUser, this.idGereja, this.idPA);
+      _editPA(this.iduser, this.idGereja, this.role, this.idPA);
 }
 
 class _editPA extends State<editPA> {
-  final names;
-  final idUser;
+  final role;
+  final iduser;
   final idGereja;
   final idPA;
   String _selectedDate = '';
@@ -48,7 +48,7 @@ class _editPA extends State<editPA> {
   TextEditingController deskripsiKegiatan = new TextEditingController();
   TextEditingController tamuKegiatan = new TextEditingController();
   TextEditingController lokasi = new TextEditingController();
-  _editPA(this.names, this.idUser, this.idGereja, this.idPA);
+  _editPA(this.iduser, this.idGereja, this.role, this.idPA);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -119,7 +119,7 @@ class _editPA extends State<editPA> {
             _selectedDate.toString(),
             kapasitas.text,
             lokasi.text,
-            idUser
+            iduser
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -147,7 +147,7 @@ class _editPA extends State<editPA> {
             fontSize: 16.0);
         Navigator.pop(
           context,
-          MaterialPageRoute(builder: (context) => PA(names, idUser, idGereja)),
+          MaterialPageRoute(builder: (context) => PA(iduser, idGereja, role)),
         );
       }
     } else {
@@ -212,7 +212,7 @@ class _editPA extends State<editPA> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -222,7 +222,7 @@ class _editPA extends State<editPA> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -568,14 +568,13 @@ class _editPA extends State<editPA> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

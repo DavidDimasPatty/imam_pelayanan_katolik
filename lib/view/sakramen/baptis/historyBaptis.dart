@@ -9,30 +9,30 @@ import 'package:imam_pelayanan_katolik/view/sakramen/baptis/historyBaptisUser.da
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import '../../history/history.dart';
-import '../../history/historySakramen.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
+import '../historySakramen.dart';
 import '../../profile/profile.dart';
 
 class HistoryBaptis extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  HistoryBaptis(this.names, this.idUser, this.idGereja);
+  HistoryBaptis(this.iduser, this.idGereja, this.role);
   @override
   _HistoryBaptis createState() =>
-      _HistoryBaptis(this.names, this.idUser, this.idGereja);
+      _HistoryBaptis(this.iduser, this.idGereja, this.role);
 }
 
 class _HistoryBaptis extends State<HistoryBaptis> {
-  var names;
+  var role;
   var emails;
   var distance;
   List daftarUser = [];
 
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _HistoryBaptis(this.names, this.idUser, this.idGereja);
+  _HistoryBaptis(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -133,7 +133,7 @@ class _HistoryBaptis extends State<HistoryBaptis> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -143,7 +143,7 @@ class _HistoryBaptis extends State<HistoryBaptis> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -185,7 +185,7 @@ class _HistoryBaptis extends State<HistoryBaptis> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => HistoryBaptisUser(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -295,14 +295,13 @@ class _HistoryBaptis extends State<HistoryBaptis> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

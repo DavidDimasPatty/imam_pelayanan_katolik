@@ -9,30 +9,30 @@ import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 
-import '../../history/history.dart';
+import '../../history.dart';
 import '../../profile/profile.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class DetailPerkawinan extends StatefulWidget {
-  final name;
+  final role;
 
-  final idUser;
+  final iduser;
   final idGereja;
   final idPerkawinan;
 
-  DetailPerkawinan(this.name, this.idUser, this.idGereja, this.idPerkawinan);
+  DetailPerkawinan(this.iduser, this.idGereja, this.role, this.idPerkawinan);
   @override
   _DetailPerkawinan createState() => _DetailPerkawinan(
-      this.name, this.idUser, this.idGereja, this.idPerkawinan);
+      this.iduser, this.idGereja, this.role, this.idPerkawinan);
 }
 
 class _DetailPerkawinan extends State<DetailPerkawinan> {
-  final name;
+  final role;
 
-  final idUser;
+  final iduser;
   final idGereja;
   final idPerkawinan;
-  _DetailPerkawinan(this.name, this.idUser, this.idGereja, this.idPerkawinan);
+  _DetailPerkawinan(this.iduser, this.idGereja, this.role, this.idPerkawinan);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -85,7 +85,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["perkawinan", idPerkawinan, token, idPerkawinan, 1, idUser]));
+            ["perkawinan", idPerkawinan, token, idPerkawinan, 1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -139,7 +139,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["perkawinan", idPerkawinan, token, idPerkawinan, -1, idUser]));
+            ["perkawinan", idPerkawinan, token, idPerkawinan, -1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -190,7 +190,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(name, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -499,13 +499,13 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(name, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomePage(name, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -8,29 +8,29 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/view/umum/retret/historyRetretUser.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 
 class HistoryRetret extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  HistoryRetret(this.names, this.idUser, this.idGereja);
+  HistoryRetret(this.iduser, this.idGereja, this.role);
   @override
   _HistoryRetret createState() =>
-      _HistoryRetret(this.names, this.idUser, this.idGereja);
+      _HistoryRetret(this.iduser, this.idGereja, this.role);
 }
 
 class _HistoryRetret extends State<HistoryRetret> {
-  var names;
+  var role;
   var emails;
   var distance;
   List daftarUser = [];
 
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _HistoryRetret(this.names, this.idUser, this.idGereja);
+  _HistoryRetret(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -130,7 +130,7 @@ class _HistoryRetret extends State<HistoryRetret> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -140,7 +140,7 @@ class _HistoryRetret extends State<HistoryRetret> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -182,7 +182,7 @@ class _HistoryRetret extends State<HistoryRetret> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => HistoryRetretUser(
-                                      names, idUser, idGereja, i['_id'])),
+                                      iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -288,14 +288,13 @@ class _HistoryRetret extends State<HistoryRetret> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

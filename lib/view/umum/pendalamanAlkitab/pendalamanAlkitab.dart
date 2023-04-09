@@ -12,28 +12,28 @@ import 'package:imam_pelayanan_katolik/view/umum/pendalamanAlkitab/editPA.dart';
 import 'package:imam_pelayanan_katolik/view/umum/pendalamanAlkitab/paUser.dart';
 
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
-import '../../history/history.dart';
+import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../../profile/profile.dart';
 
 class PA extends StatefulWidget {
-  var names;
-  final idUser;
+  var role;
+  final iduser;
   final idGereja;
-  PA(this.names, this.idUser, this.idGereja);
+  PA(this.iduser, this.idGereja, this.role);
   @override
-  _PA createState() => _PA(this.names, this.idUser, this.idGereja);
+  _PA createState() => _PA(this.iduser, this.idGereja, this.role);
 }
 
 class _PA extends State<PA> {
-  var names;
+  var role;
   var emails;
   var distance;
   List hasil = [];
   StreamController _controller = StreamController();
   List dummyTemp = [];
-  final idUser;
+  final iduser;
   final idGereja;
-  _PA(this.names, this.idUser, this.idGereja);
+  _PA(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
     // Messages msg = new Messages();
@@ -123,7 +123,7 @@ class _PA extends State<PA> {
     // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update status pelayanan', ["umum", id, -1, idUser]));
+        Tasks('update status pelayanan', ["umum", id, -1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -181,7 +181,7 @@ class _PA extends State<PA> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(names, idUser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -191,7 +191,7 @@ class _PA extends State<PA> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Settings(names, idUser, idGereja)),
+                    builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -233,7 +233,7 @@ class _PA extends State<PA> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  addPA(names, idUser, idGereja)),
+                                  addPA(iduser, idGereja, role)),
                         );
                       },
                       splashColor: Colors.blue,
@@ -270,8 +270,8 @@ class _PA extends State<PA> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PAUser(
-                                      names, idUser, idGereja, i['_id'])),
+                                  builder: (context) =>
+                                      PAUser(iduser, idGereja, role, i['_id'])),
                             );
                           },
                           child: Container(
@@ -327,9 +327,9 @@ class _PA extends State<PA> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => editPA(
-                                                  names,
-                                                  idUser,
+                                                  iduser,
                                                   idGereja,
+                                                  role,
                                                   i['_id'])),
                                         );
                                       }),
@@ -414,14 +414,13 @@ class _PA extends State<PA> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(names, idUser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(names, idUser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },
