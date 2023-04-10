@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:anim_search_bar/anim_search_bar.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
@@ -37,22 +35,6 @@ class _PengumumanGereja extends State<PengumumanGereja> {
   _PengumumanGereja(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari Pengumuman"],
-    //   [idGereja]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
-
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pengumuman', [idGereja]));
@@ -81,21 +63,6 @@ class _PengumumanGereja extends State<PengumumanGereja> {
   }
 
   Future updatePengumuman(id, status) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPendaftaran");
-    // msg.setContent([
-    //   ["update Pengumuman"],
-    //   [idKegiatan],
-    //   [status]
-    // ]);
-    // var hasil;
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
-
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
         Tasks('update status pengumuman', [id, status, iduser]));
@@ -275,14 +242,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                       for (var i in hasil)
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
-                          onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => BaptisUser(
-                            //           names, idUser, idGereja, i['_id'])),
-                            // );
-                          },
+                          onTap: () {},
                           child: Container(
                               margin: EdgeInsets.only(
                                   right: 15, left: 15, bottom: 20),
@@ -352,17 +312,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                                         BorderRadius.all(Radius.circular(50)),
                                   ),
                                 ),
-                                // Text(
-                                //   'Kapasitas: ' + i['kapasitas'].toString(),
-                                //   style: TextStyle(
-                                //       color: Colors.white, fontSize: 12),
-                                // ),
-                                // Text(
-                                //   'Jadwal Tutup: ' +
-                                //       i['jadwalTutup'].toString(),
-                                //   style: TextStyle(
-                                //       color: Colors.white, fontSize: 12),
-                                // ),
+
                                 if (i['status'] == 0)
                                   SizedBox(
                                     width: double.infinity,
@@ -459,10 +409,11 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   editPengumuman(
-                                                      iduser,
-                                                      idGereja,
-                                                      i['_id'],
-                                                      role)),
+                                                    iduser,
+                                                    idGereja,
+                                                    role,
+                                                    i['_id'],
+                                                  )),
                                         );
                                       }),
                                 ),
@@ -474,8 +425,6 @@ class _PengumumanGereja extends State<PengumumanGereja> {
                     return Center(child: CircularProgressIndicator());
                   }
                 }),
-
-            /////////
           ],
         ),
       ),
@@ -524,13 +473,6 @@ class _PengumumanGereja extends State<PengumumanGereja> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

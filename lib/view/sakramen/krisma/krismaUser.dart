@@ -36,21 +36,6 @@ class _KrismaUser extends State<KrismaUser> {
   _KrismaUser(this.iduser, this.idGereja, this.role, this.idKrisma);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari Krisma User"],
-    //   [idKrisma]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan user', [idKrisma, "krisma", "current"]));
@@ -101,22 +86,6 @@ class _KrismaUser extends State<KrismaUser> {
   }
 
   void updateReject(id, token, idTarget) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPendaftaran");
-    // msg.setContent([
-    //   ["update Krisma User"],
-    //   [id],
-    //   [token],
-    //   [idTarget],
-    //   [-1]
-    // ]);
-    // var hasil;
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -160,22 +129,6 @@ class _KrismaUser extends State<KrismaUser> {
   }
 
   void updateAccept(id, token, idTarget) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPendaftaran");
-    // msg.setContent([
-    //   ["update Krisma User"],
-    //   [id],
-    //   [token],
-    //   [idTarget],
-    //   [1]
-    // ]);
-    // var hasil;
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -310,14 +263,7 @@ class _KrismaUser extends State<KrismaUser> {
                       for (var i in hasil)
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
-                          onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => DetailSakramentali(
-                            //           names, idUser, idGereja, i['_id'])),
-                            // );
-                          },
+                          onTap: () {},
                           child: Container(
                               margin: EdgeInsets.only(
                                   right: 15, left: 15, bottom: 20),
@@ -477,13 +423,6 @@ class _KrismaUser extends State<KrismaUser> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

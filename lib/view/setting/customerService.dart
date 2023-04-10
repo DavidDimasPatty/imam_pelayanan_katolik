@@ -1,6 +1,3 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 
@@ -195,13 +192,6 @@ class customerService extends StatelessWidget {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      //   floatingActionButton: new FloatingActionButton(
-      //     onPressed: () {
-      //       openCamera();
-      //     },
-      //     tooltip: 'Increment',
-      //     child: new Icon(Icons.camera_alt_rounded),
-      //   ),
     );
   }
 }

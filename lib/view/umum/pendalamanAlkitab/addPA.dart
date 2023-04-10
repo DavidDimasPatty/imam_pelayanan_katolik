@@ -76,27 +76,6 @@ class _addPA extends State<addPA> {
         _selectedDate != "" &&
         kapasitas.text != "" &&
         lokasi.text != "") {
-      // Messages msg = new Messages();
-      // msg.addReceiver("agenPendaftaran");
-      // msg.setContent([
-      //   ["add Kegiatan"],
-      //   [idGereja],
-      //   [namaKegiatan.text],
-      //   [temaKegiatan.text],
-      //   ["Pendalaman Alkitab"],
-      //   [deskripsiKegiatan.text],
-      //   [tamuKegiatan.text],
-      //   [_selectedDate.toString()],
-      //   [kapasitas.text],
-      //   [lokasi.text],
-      // ]);
-      // var hasil;
-      // await msg.send().then((res) async {
-      //   print("masuk");
-      //   print(await AgenPage().receiverTampilan());
-      // });
-      // await Future.delayed(Duration(seconds: 1));
-      // hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -448,14 +427,10 @@ class _addPA extends State<addPA> {
             ),
             SfDateRangePicker(
               view: DateRangePickerView.month,
-
               onSelectionChanged: _onSelectionChanged,
               selectionMode: DateRangePickerSelectionMode.single,
               monthViewSettings:
                   DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
-              // initialSelectedRange: PickerDateRange(
-              //     DateTime.now().subtract(const Duration(days: 4)),
-              //     DateTime.now().add(const Duration(days: 3))),
             )
           ],
         ),

@@ -32,21 +32,6 @@ class _HistoryPA extends State<HistoryPA> {
   _HistoryPA(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari PA History"],
-    //   [idGereja]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',

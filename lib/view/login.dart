@@ -14,16 +14,6 @@ import 'package:imam_pelayanan_katolik/view/homepage.dart';
 
 class Login extends StatelessWidget {
   Future login(id, password) async {
-    // Messages msg = new Messages();
-    // await msg.addReceiver("agenAkun");
-    // await msg.setContent([
-    //   ["cari user"],
-    //   [id],
-    //   [password]
-    // ]);
-    // await msg.send();
-    // await Future.delayed(Duration(seconds: 2));
-    // return await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page', 'Agent Akun', "REQUEST", Tasks('login', [id, password]));

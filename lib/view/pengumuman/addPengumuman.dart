@@ -55,23 +55,6 @@ class _addPengumuman extends State<addPengumuman> {
 
   Future submit() async {
     if (fileImage != null && caption.text != "" && title.text != "") {
-      // Messages msg = new Messages();
-      // msg.addReceiver("agenPendaftaran");
-      // msg.setContent([
-      //   ["add Pengumuman"],
-      //   [idGereja],
-      //   [fileImage],
-      //   [caption.text],
-      //   [title.text]
-      // ]);
-      // var hasil;
-      // await msg.send().then((res) async {
-      //   print("masuk");
-      //   print(await AgenPage().receiverTampilan());
-      // });
-      // await Future.delayed(Duration(seconds: 1));
-      // hasil = await AgenPage().receiverTampilan();
-
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',

@@ -35,21 +35,6 @@ class _Sakramentali extends State<Sakramentali> {
   _Sakramentali(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari Sakramentali"],
-    //   [idGereja]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
-    // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [iduser, "sakramentali", "current"]));
@@ -306,13 +291,6 @@ class _Sakramentali extends State<Sakramentali> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

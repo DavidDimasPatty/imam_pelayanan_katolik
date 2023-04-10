@@ -2,10 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
@@ -74,22 +71,6 @@ class _editKrisma extends State<editKrisma> {
       tanggalTutup = tanggaltutup;
     }
     if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "") {
-      // Messages msg = new Messages();
-      // msg.addReceiver("agenPendaftaran");
-      // msg.setContent([
-      //   ["edit Krisma"],
-      //   [idKrisma],
-      //   [kapasitas],
-      //   [tanggalbuka.toString()],
-      //   [tanggaltutup.toString()]
-      // ]);
-      // var hasil;
-      // await msg.send().then((res) async {
-      //   print("masuk");
-      //   print(await AgenPage().receiverTampilan());
-      // });
-      // await Future.delayed(Duration(seconds: 1));
-      // hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -147,20 +128,6 @@ class _editKrisma extends State<editKrisma> {
 
   var hasil = [];
   Future callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari edit Krisma"],
-    //   [idKrisma]
-    // ]);
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
-
-    // return hasil;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari data edit pelayanan', [idKrisma, "krisma"]));

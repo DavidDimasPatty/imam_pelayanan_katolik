@@ -40,20 +40,6 @@ class gantiPassword extends StatelessWidget {
       passUlBaruController.text = "";
     } else {
       print(passLamaController.text);
-      // Messages msg = new Messages();
-      // msg.addReceiver("agenAkun");
-      // msg.setContent([
-      //   ["find Password"],
-      //   [idUser],
-      //   [passLamaController.text],
-      // ]);
-
-      // await msg.send().then((res) async {
-      //   print("masuk");
-      //   print(await AgenPage().receiverTampilan());
-      // });
-      // await Future.delayed(Duration(seconds: 1));
-      // var value = await AgenPage().receiverTampilan();
 
       Completer<void> completer = Completer<void>();
       Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
@@ -79,20 +65,6 @@ class gantiPassword extends StatelessWidget {
         passBaruController.text = "";
         passUlBaruController.text = "";
       } else {
-        // Messages msg = new Messages();
-        // msg.addReceiver("agenAkun");
-        // msg.setContent([
-        //   ["ganti Password"],
-        //   [idUser],
-        //   [passBaruController.text],
-        // ]);
-
-        // await msg.send().then((res) async {
-        //   print("masuk");
-        //   print(await AgenPage().receiverTampilan());
-        // });
-        // await Future.delayed(Duration(seconds: 1));
-        // var value = await AgenPage().receiverTampilan();
         Completer<void> completer = Completer<void>();
         Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
             Tasks('change password', [iduser, passBaruController.text]));
@@ -273,13 +245,6 @@ class gantiPassword extends StatelessWidget {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

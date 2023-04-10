@@ -9,7 +9,6 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/krisma/addKrisma.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/krisma/editKrisma.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/krisma/krismaUser.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/sakramen.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
@@ -37,22 +36,6 @@ class _Krisma extends State<Krisma> {
   _Krisma(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari Krisma"],
-    //   [idGereja]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
-
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [idGereja, "krisma", "current"]));
@@ -103,20 +86,6 @@ class _Krisma extends State<Krisma> {
   }
 
   void updateKegiatan(id, status) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPendaftaran");
-    // msg.setContent([
-    //   ["update Krisma"],
-    //   [idKegiatan],
-    //   [status]
-    // ]);
-    // var hasil;
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
         Tasks('update status pelayanan', ["krisma", id, status, iduser]));
@@ -395,7 +364,6 @@ class _Krisma extends State<Krisma> {
           ],
         ),
       ),
-
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -441,13 +409,6 @@ class _Krisma extends State<Krisma> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

@@ -38,21 +38,6 @@ class _EditProfile extends State<EditProfile> {
   TextEditingController emailController = new TextEditingController();
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["tampilan edit Profile"],
-    //   [iduser]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data imam', iduser));
@@ -69,26 +54,6 @@ class _EditProfile extends State<EditProfile> {
 
   submitForm(nama, email, notelp, context) async {
     if (notelp != "" && email != "" && nama != "") {
-      // var add = await MongoDatabase.addPemberkatan(idUser, nama, paroki,
-      //     lingkungan, notelp, alamat, jenis, tanggal, idGereja, note, idImam);
-
-      // Messages msg = new Messages();
-      // msg.addReceiver("agenAkun");
-      // msg.setContent([
-      //   ["edit Profile Imam"],
-      //   [iduser],
-      //   [nama],
-      //   [email],
-      //   [notelp],
-      // ]);
-
-      // await msg.send().then((res) async {
-      //   print("masuk");
-      //   print(await AgenPage().receiverTampilan());
-      // });
-      // await Future.delayed(Duration(seconds: 1));
-      // var daftarmisa = await AgenPage().receiverTampilan();
-
       Completer<void> completer = Completer<void>();
       Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
           Tasks('edit profile imam', [iduser, nama, email, notelp]));
@@ -372,13 +337,6 @@ class _EditProfile extends State<EditProfile> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

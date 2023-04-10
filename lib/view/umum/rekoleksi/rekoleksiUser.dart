@@ -38,21 +38,6 @@ class _RekoleksiUser extends State<RekoleksiUser> {
   _RekoleksiUser(this.iduser, this.idGereja, this.role, this.idRekoleksi);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari Rekoleksi User"],
-    //   [idRekoleksi]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan user', [idRekoleksi, "rekoleksi", "current"]));
@@ -103,19 +88,6 @@ class _RekoleksiUser extends State<RekoleksiUser> {
   }
 
   Future updateReject(id, token, idTarget) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPendaftaran");
-    // msg.setContent([
-    //   ["update Kegiatan User"],
-    //   [id],
-    //   [token],
-    //   [idTarget],
-    //   [-1]
-    // ]);
-    // var hasil;
-    // await msg.send();
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -160,20 +132,6 @@ class _RekoleksiUser extends State<RekoleksiUser> {
   }
 
   Future updateAccept(id, token, idTarget) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPendaftaran");
-    // msg.setContent([
-    //   ["update Kegiatan User"],
-    //   [id],
-    //   [token],
-    //   [idTarget],
-    //   [1]
-    // ]);
-    // var hasil;
-    // await msg.send();
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
-
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -306,14 +264,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
                       for (var i in hasil)
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
-                          onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => DetailSakramentali(
-                            //           names, idUser, idGereja, i['_id'])),
-                            // );
-                          },
+                          onTap: () {},
                           child: Container(
                               margin: EdgeInsets.only(
                                   right: 15, left: 15, bottom: 20),

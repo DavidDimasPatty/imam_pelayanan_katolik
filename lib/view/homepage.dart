@@ -30,26 +30,7 @@ class _HomePage extends State<HomePage> {
   _HomePage(this.iduser, this.idGereja, this.role);
 
   @override
-
-  //function
-  // Future callDb() async {
-  //   //async
-  //   return await MongoDatabase.callAdmin(iduser);
-  // }
-
   Future callJumlah() async {
-    // List hasil = [];
-    // Messages msg = new Messages();
-    // await msg.addReceiver("agenPencarian");
-    // await msg.setContent([
-    //   ["cari jumlah"],
-    //   [idGereja],
-    //   [iduser]
-    // ]);
-    // await msg.send();
-    // await Future.delayed(Duration(seconds: 2));
-    // hasil = await AgenPage().receiverTampilan();
-
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('cari jumlah', [idGereja, iduser]));

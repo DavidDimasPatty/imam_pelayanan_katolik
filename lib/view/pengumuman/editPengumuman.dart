@@ -3,10 +3,7 @@ import 'dart:io';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
@@ -15,8 +12,6 @@ import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:intl/intl.dart';
 
 class editPengumuman extends StatefulWidget {
   @override
@@ -47,19 +42,6 @@ class _editPengumuman extends State<editPengumuman> {
   var fileChange;
 
   Future callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari Pengumuman Edit"],
-    //   [idPengumuman],
-    // ]);
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // var hasil = AgenPage().receiverTampilan();
-
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pengumuman edit', [idPengumuman]));
@@ -95,23 +77,6 @@ class _editPengumuman extends State<editPengumuman> {
   void submit() async {
     if (imageChange == false) {
       if (fileImage != null && caption.text != "" && title.text != "") {
-        //   Messages msg = new Messages();
-        //   msg.addReceiver("agenPendaftaran");
-        //   msg.setContent([
-        //     ["edit Pengumuman"],
-        //     [idPengumuman],
-        //     [title.text],
-        //     [caption.text],
-        //     [fileImage],
-        //     [imageChange]
-        //   ]);
-        //   var hasil;
-        //   await msg.send().then((res) async {
-        //     print("masuk");
-        //     print(await AgenPage().receiverTampilan());
-        //   });
-        //   await Future.delayed(Duration(seconds: 1));
-        //   hasil = await AgenPage().receiverTampilan();
         Completer<void> completer = Completer<void>();
         Message message = Message(
             'Agent Page',
@@ -168,23 +133,6 @@ class _editPengumuman extends State<editPengumuman> {
       }
     } else {
       if (fileImage != null && caption.text != "" && title.text != "") {
-        // Messages msg = new Messages();
-        // msg.addReceiver("agenPendaftaran");
-        // msg.setContent([
-        //   ["edit Pengumuman"],
-        //   [idPengumuman],
-        //   [title.text],
-        //   [caption.text],
-        //   [fileChange],
-        //   [imageChange]
-        // ]);
-        // var hasil;
-        // await msg.send().then((res) async {
-        //   print("masuk");
-        //   print(await AgenPage().receiverTampilan());
-        // });
-        // await Future.delayed(Duration(seconds: 1));
-        // hasil = await AgenPage().receiverTampilan();
         print(fileImage.runtimeType);
         Completer<void> completer = Completer<void>();
         Message message = Message(

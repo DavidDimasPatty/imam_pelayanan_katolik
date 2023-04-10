@@ -2,10 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
@@ -33,10 +30,7 @@ class _addBaptis extends State<addBaptis> {
   final role;
   final iduser;
   final idGereja;
-  // String _selectedDate = '';
-  // String _dateCount = '';
-  // String _range = '';
-  // String _rangeCount = '';
+
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
@@ -46,44 +40,16 @@ class _addBaptis extends State<addBaptis> {
     setState(() {
       print(args.toString());
       if (args.value is PickerDateRange) {
-        // _range = '${DateFormat('yyyy-MM-dd').format(args.value.startDate)} -'
-        //     // ignore: lines_longer_than_80_chars
-        //     ' ${DateFormat('yyyy-MM-dd').format(args.value.endDate ?? args.value.startDate)}';
         tanggalBuka =
             '${DateFormat('yyyy-MM-dd').format(args.value.startDate)}';
         tanggalTutup =
             '${DateFormat('yyyy-MM-dd').format(args.value.endDate ?? args.value.startDate)}';
       }
-      // else if (args.value is DateTime) {
-      //   _selectedDate = args.value.toString();
-      // } else if (args.value is List<DateTime>) {
-      //   _dateCount = args.value.length.toString();
-      // } else {
-      //   _rangeCount = args.value.length.toString();
-      // }
     });
   }
 
   void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
     if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "") {
-      // print(tanggalbuka);
-      // print(tanggaltutup);
-      // Messages msg = new Messages();
-      // msg.addReceiver("agenPendaftaran");
-      // msg.setContent([
-      //   ["add Baptis"],
-      //   [idGereja],
-      //   [kapasitas],
-      //   [tanggalbuka.toString()],
-      //   [tanggaltutup.toString()]
-      // ]);
-      // var hasil;
-      // await msg.send().then((res) async {
-      //   print("masuk");
-      //   print(await AgenPage().receiverTampilan());
-      // });
-      // await Future.delayed(Duration(seconds: 1));
-      // hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -230,14 +196,10 @@ class _addBaptis extends State<addBaptis> {
             ),
             SfDateRangePicker(
               view: DateRangePickerView.month,
-
               onSelectionChanged: _onSelectionChanged,
               selectionMode: DateRangePickerSelectionMode.range,
               monthViewSettings:
                   DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
-              // initialSelectedRange: PickerDateRange(
-              //     DateTime.now().subtract(const Duration(days: 4)),
-              //     DateTime.now().add(const Duration(days: 3))),
             )
           ],
         ),

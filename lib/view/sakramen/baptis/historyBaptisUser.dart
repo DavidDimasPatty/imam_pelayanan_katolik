@@ -35,21 +35,6 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
   _HistoryBaptisUser(this.iduser, this.idGereja, this.role, this.idBaptis);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari Baptis User History"],
-    //   [idBaptis]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan user', [idBaptis, "baptis", "history"]));
@@ -99,21 +84,6 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
   }
 
   Future updateReject(id, token, idTarget) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["update Baptis User"],
-    //   [id],
-    //   [-1]
-    // ]);
-    // var hasil;
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
-
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -158,21 +128,6 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
   }
 
   Future updateAccept(id, token, idTarget) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["update Baptis User"],
-    //   [id],
-    //   [1]
-    // ]);
-    // var hasil;
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
-
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -297,14 +252,7 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
                       for (var i in daftarUser)
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
-                          onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => DetailSakramentali(
-                            //           names, idUser, idGereja, i['_id'])),
-                            // );
-                          },
+                          onTap: () {},
                           child: Container(
                               margin: EdgeInsets.only(
                                   right: 15, left: 15, bottom: 20),
@@ -491,13 +439,6 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

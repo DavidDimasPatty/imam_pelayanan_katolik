@@ -31,18 +31,6 @@ class _Sakramen extends State<Sakramen> {
   _Sakramen(this.iduser, this.idGereja, this.role);
 
   Future callJumlah() async {
-    // Messages msg = new Messages();
-    // await msg.addReceiver("agenPencarian");
-    // await msg.setContent([
-    //   ["cari jumlah Sakramen"],
-    //   [idGereja],
-    //   [iduser]
-    // ]);
-    // await msg.send();
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
-
-    // return await hasil;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari jumlah sakramen', [idGereja, iduser]));

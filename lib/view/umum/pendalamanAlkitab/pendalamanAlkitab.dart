@@ -36,21 +36,6 @@ class _PA extends State<PA> {
   _PA(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari PA"],
-    //   [idGereja]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -107,20 +92,6 @@ class _PA extends State<PA> {
   TextEditingController editingController = TextEditingController();
 
   void updateKegiatan(id) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPendaftaran");
-    // msg.setContent([
-    //   ["update Kegiatan"],
-    //   [idKegiatan],
-    //   [1]
-    // ]);
-    // var hasil;
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
         Tasks('update status pelayanan', ["umum", id, -1, iduser]));
@@ -436,13 +407,6 @@ class _PA extends State<PA> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

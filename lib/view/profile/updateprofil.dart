@@ -3,18 +3,13 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:intl/intl.dart';
 import 'package:geocode/geocode.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
@@ -48,31 +43,7 @@ class _UpdateProfile extends State<UpdateProfile> {
   _UpdateProfile(this.iduser, this.idGereja, this.role);
 
   void submit() async {
-    // var hasil = await MongoDatabase.updateGereja(idGereja, nama.text,
-    //     address.text, paroki.text, lingkungan.text, deskripsi.text);
     if (imageChange == false) {
-      //   Messages msg = new Messages();
-      //   msg.addReceiver("agenAkun");
-      //   msg.setContent(
-      //     [
-      //       ["edit Profile"],
-      //       [idGereja],
-      //       [nama.text],
-      //       [address.text],
-      //       [paroki.text],
-      //       [lingkungan.text],
-      //       [deskripsi.text],
-      //       [fileImage],
-      //       [imageChange]
-      //     ],
-      //   );
-
-      //   await msg.send().then((res) async {
-      //     print("masuk");
-      //     print(await AgenPage().receiverTampilan());
-      //   });
-      //   await Future.delayed(Duration(seconds: 1));
-      //   var hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -121,28 +92,6 @@ class _UpdateProfile extends State<UpdateProfile> {
         );
       }
     } else {
-      // Messages msg = new Messages();
-      // msg.addReceiver("agenAkun");
-      // msg.setContent(
-      //   [
-      //     ["edit Profile"],
-      //     [idGereja],
-      //     [nama.text],
-      //     [address.text],
-      //     [paroki.text],
-      //     [lingkungan.text],
-      //     [deskripsi.text],
-      //     [fileChange],
-      //     [imageChange]
-      //   ],
-      // );
-
-      // await msg.send().then((res) async {
-      //   print("masuk");
-      //   print(await AgenPage().receiverTampilan());
-      // });
-      // await Future.delayed(Duration(seconds: 1));
-      // var hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -205,21 +154,6 @@ class _UpdateProfile extends State<UpdateProfile> {
   }
 
   Future callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenAkun");
-    // msg.setContent(
-    //   [
-    //     ["data Gereja"],
-    //     [idGereja],
-    //   ],
-    // );
-
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // var hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('cari data gereja', idGereja));

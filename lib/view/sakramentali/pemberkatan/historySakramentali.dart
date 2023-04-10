@@ -33,20 +33,6 @@ class _HistorySakramentali extends State<HistorySakramentali> {
   _HistorySakramentali(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari Sakramentali History"],
-    //   [idGereja]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [iduser, "sakramentali", "history"]));
@@ -245,23 +231,6 @@ class _HistorySakramentali extends State<HistorySakramentali> {
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 12),
                                   ),
-                                // FutureBuilder(
-                                //     future: jarak(i['GerejaKomuni'][0]['lat'],
-                                //         i['GerejaKomuni'][0]['lng']),
-                                //     builder: (context, AsyncSnapshot snapshot) {
-                                //       try {
-                                //         return Column(children: <Widget>[
-                                //           Text(
-                                //             snapshot.data,
-                                //             style: TextStyle(
-                                //                 color: Colors.white, fontSize: 12),
-                                //           )
-                                //         ]);
-                                //       } catch (e) {
-                                //         print(e);
-                                //         return Center(child: CircularProgressIndicator());
-                                //       }
-                                //     }),
                               ])),
                         ),
                     ]);
@@ -319,13 +288,6 @@ class _HistorySakramentali extends State<HistorySakramentali> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

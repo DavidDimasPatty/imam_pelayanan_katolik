@@ -82,27 +82,6 @@ class _editRetret extends State<editRetret> {
         _selectedDate != "" &&
         kapasitas.text != "" &&
         lokasi.text != "") {
-      // Messages msg = new Messages();
-      // msg.addReceiver("agenPendaftaran");
-      // msg.setContent([
-      //   ["edit Kegiatan"],
-      //   [idRetret],
-      //   [namaKegiatan.text],
-      //   [temaKegiatan.text],
-      //   ["Retret"],
-      //   [deskripsiKegiatan.text],
-      //   [tamuKegiatan.text],
-      //   [_selectedDate.toString()],
-      //   [kapasitas.text],
-      //   [lokasi.text],
-      // ]);
-      // var hasil;
-      // await msg.send().then((res) async {
-      //   print("masuk");
-      //   print(await AgenPage().receiverTampilan());
-      // });
-      // await Future.delayed(Duration(seconds: 1));
-      // hasil = await AgenPage().receiverTampilan();
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -165,20 +144,6 @@ class _editRetret extends State<editRetret> {
 
   var hasil = [];
   Future callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari edit Kegiatan"],
-    //   [idRetret]
-    // ]);
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
-
-    // return hasil;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari data edit pelayanan', [idRetret, "umum"]));

@@ -1,8 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
@@ -10,9 +7,7 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class AturanPelayanan extends StatefulWidget {
@@ -42,19 +37,6 @@ class _AturanPelayanan extends State<AturanPelayanan> {
   TextEditingController pemberkatanController = new TextEditingController();
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["tampilan aturan pelayanan"],
-    //   [idGereja]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('cari data aturan pelayanan', idGereja));
@@ -71,27 +53,6 @@ class _AturanPelayanan extends State<AturanPelayanan> {
 
   submitForm(baptis, komuni, krisma, perkawinan, perminyakan, tobat,
       pemberkatan, context) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenAkun");
-    // msg.setContent([
-    //   ["edit Aturan Pelayanan"],
-    //   [idGereja],
-    //   [baptis],
-    //   [komuni],
-    //   [krisma],
-    //   [perkawinan],
-    //   [perminyakan],
-    //   [tobat],
-    //   [pemberkatan],
-    //   [iduser],
-    // ]);
-
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // var daftarmisa = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -564,13 +525,6 @@ class _AturanPelayanan extends State<AturanPelayanan> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

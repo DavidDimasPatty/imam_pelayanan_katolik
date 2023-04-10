@@ -616,17 +616,6 @@ class AgentPencarian extends Agent {
     }
     var totalKa = await perkawinanCollection
         .find({'idImam': data[1], 'status': 0}).length;
-    // var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-
-    // final pipeliner = AggregationPipelineBuilder()
-    //     .addStage(Lookup(
-    //         from: 'Gereja',
-    //         localField: 'idGereja',
-    //         foreignField: '_id',
-    //         as: 'userGereja'))
-    //     .addStage(Match(where.eq('_id', data[1]).map['\$query']))
-    //     .build();
-    // var conn = await userCollection.aggregateToStream(pipeliner).toList();
 
     Message message = Message(
         'Agent Pencarian',
@@ -842,18 +831,6 @@ class AgentPencarian extends Agent {
         }
       }
     }
-
-    // var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-
-    // final pipeliner = AggregationPipelineBuilder()
-    //     .addStage(Lookup(
-    //         from: 'Gereja',
-    //         localField: 'idGereja',
-    //         foreignField: '_id',
-    //         as: 'userGereja'))
-    //     .addStage(Match(where.eq('_id', data[1]).map['\$query']))
-    //     .build();
-    // var conn = await userCollection.aggregateToStream(pipeliner).toList();
 
     Message message = Message('Agent Pencarian', sender, "INFORM",
         Tasks('hasil pencarian', [totalU1, totalU2, totalU3, totalU4]));

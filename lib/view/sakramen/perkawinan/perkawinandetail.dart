@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter/material.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
@@ -35,20 +34,6 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
   _DetailPerkawinan(this.iduser, this.idGereja, this.role, this.idPerkawinan);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari Perkawinan Detail"],
-    //   [idPerkawinan]
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [idPerkawinan, "perkawinan", "detail"]));
@@ -63,22 +48,6 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
   }
 
   void updateAccept(token, idTarget) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPendaftaran");
-    // msg.setContent([
-    //   ["update Perkawinan"],
-    //   [idPerkawinan],
-    //   [token],
-    //   [idTarget],
-    //   [1]
-    // ]);
-    // var hasil;
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -117,22 +86,6 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
   }
 
   void updateReject(token, idTarget) async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPendaftaran");
-    // msg.setContent([
-    //   ["update Perkawinan"],
-    //   [idPerkawinan],
-    //   [token],
-    //   [idTarget],
-    //   [-1]
-    // ]);
-    // var hasil;
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -512,13 +465,6 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

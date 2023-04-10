@@ -28,18 +28,6 @@ class Settings extends StatelessWidget {
   var data;
 
   Future LogOut() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenSetting");
-    // msg.setContent([
-    //   ["log out"]
-    // ]);
-    // var k;
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    //   print(await AgenPage().receiverTampilan());
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page', 'Agent Setting', "REQUEST", Tasks('log out', null));
@@ -331,13 +319,6 @@ class Settings extends StatelessWidget {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

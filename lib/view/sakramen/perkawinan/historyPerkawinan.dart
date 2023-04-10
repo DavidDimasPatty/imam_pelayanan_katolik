@@ -36,20 +36,6 @@ class _HistoryPerkawinan extends State<HistoryPerkawinan> {
   _HistoryPerkawinan(this.iduser, this.idGereja, this.role);
 
   Future<List> callDb() async {
-    // Messages msg = new Messages();
-    // msg.addReceiver("agenPencarian");
-    // msg.setContent([
-    //   ["cari History Perkawinan"],
-    //   [idUser],
-    // ]);
-    // List k = [];
-    // await msg.send().then((res) async {
-    //   print("masuk");
-    // });
-    // await Future.delayed(Duration(seconds: 1));
-    // k = await AgenPage().receiverTampilan();
-
-    // return k;
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [iduser, "perkawinan", "history"]));
@@ -217,11 +203,7 @@ class _HistoryPerkawinan extends State<HistoryPerkawinan> {
                                       fontWeight: FontWeight.w300),
                                   textAlign: TextAlign.left,
                                 ),
-                                // Text(
-                                //   'Jenis Pemberkatan: ' + i['jenis'],
-                                //   style: TextStyle(
-                                //       color: Colors.white, fontSize: 15),
-                                // ),
+
                                 Text(
                                   'Alamat: ' + i['alamat'],
                                   style: TextStyle(
@@ -317,13 +299,6 @@ class _HistoryPerkawinan extends State<HistoryPerkawinan> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }

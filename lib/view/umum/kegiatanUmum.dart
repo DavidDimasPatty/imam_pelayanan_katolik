@@ -34,16 +34,6 @@ class _KegiatanUmum extends State<KegiatanUmum> {
   List hasil = [];
 
   Future callJumlah() async {
-    // Messages msg = new Messages();
-    // await msg.addReceiver("agenPencarian");
-    // await msg.setContent([
-    //   ["cari jumlah Umum"],
-    //   [idGereja],
-    //   [iduser]
-    // ]);
-    // await msg.send();
-    // await Future.delayed(Duration(seconds: 1));
-    // hasil = await AgenPage().receiverTampilan();
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari jumlah umum', [idGereja, iduser]));
@@ -490,13 +480,6 @@ class _KegiatanUmum extends State<KegiatanUmum> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: new FloatingActionButton(
-      //   onPressed: () {
-      //     openCamera();
-      //   },
-      //   tooltip: 'Increment',
-      //   child: new Icon(Icons.camera_alt_rounded),
-      // ),
     );
   }
 }
