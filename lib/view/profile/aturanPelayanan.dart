@@ -11,21 +11,21 @@ import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class AturanPelayanan extends StatefulWidget {
-  final name;
+  final role;
   final idGereja;
   final iduser;
 
-  AturanPelayanan(this.name, this.iduser, this.idGereja);
+  AturanPelayanan(this.iduser, this.idGereja, this.role);
   @override
   _AturanPelayanan createState() =>
-      _AturanPelayanan(this.name, this.iduser, this.idGereja);
+      _AturanPelayanan(this.iduser, this.idGereja, this.role);
 }
 
 class _AturanPelayanan extends State<AturanPelayanan> {
-  final name;
-  final idGereja;
   final iduser;
-  _AturanPelayanan(this.name, this.iduser, this.idGereja);
+  final role;
+  final idGereja;
+  _AturanPelayanan(this.iduser, this.idGereja, this.role);
 
   @override
   TextEditingController baptisController = new TextEditingController();
@@ -36,7 +36,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
   TextEditingController tobatController = new TextEditingController();
   TextEditingController pemberkatanController = new TextEditingController();
 
-  Future<List> callDb() async {
+  Future callDb() async {
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('cari data aturan pelayanan', idGereja));
@@ -89,7 +89,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => Profile(name, iduser, idGereja)),
+            builder: (context) => Profile(iduser, idGereja, role)),
       );
     } else {
       Fluttertoast.showToast(
@@ -123,7 +123,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(name, iduser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -137,10 +137,11 @@ class _AturanPelayanan extends State<AturanPelayanan> {
           onRefresh: pullRefresh,
           child: ListView(
             children: <Widget>[
-              FutureBuilder<List>(
+              FutureBuilder(
                   future: callDb(),
                   builder: (context, AsyncSnapshot snapshot) {
                     try {
+                      print(snapshot.data);
                       if (snapshot.data[0]['baptis'] != null) {
                         baptisController.text = snapshot.data[0]['baptis'];
                       }
@@ -512,13 +513,13 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(name, iduser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomePage(name, iduser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

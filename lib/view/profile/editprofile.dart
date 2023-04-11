@@ -16,21 +16,21 @@ import 'package:intl/intl.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class EditProfile extends StatefulWidget {
-  final name;
+  final role;
   final idGereja;
   final iduser;
 
-  EditProfile(this.name, this.iduser, this.idGereja);
+  EditProfile(this.iduser, this.idGereja, this.role);
   @override
   _EditProfile createState() =>
-      _EditProfile(this.name, this.iduser, this.idGereja);
+      _EditProfile(this.iduser, this.idGereja, this.role);
 }
 
 class _EditProfile extends State<EditProfile> {
-  final name;
+  final role;
   final idGereja;
   final iduser;
-  _EditProfile(this.name, this.iduser, this.idGereja);
+  _EditProfile(this.iduser, this.idGereja, this.role);
 
   @override
   TextEditingController namaController = new TextEditingController();
@@ -77,7 +77,7 @@ class _EditProfile extends State<EditProfile> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Profile(name, iduser, idGereja)),
+              builder: (context) => Profile(iduser, idGereja, role)),
         );
       }
     } else {
@@ -112,7 +112,7 @@ class _EditProfile extends State<EditProfile> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(name, iduser, idGereja)),
+                    builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -324,13 +324,13 @@ class _EditProfile extends State<EditProfile> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => History(name, iduser, idGereja)),
+                        builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomePage(name, iduser, idGereja)),
+                        builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -239,13 +239,15 @@ class AgentAkun extends Agent {
   }
 
   Future<Message> cariDataAturanPelayanan(dynamic data, String sender) async {
+    print(data);
+    print("here");
     var aturanPelayananCollection =
         MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
     var conn =
         await aturanPelayananCollection.find({'idGereja': data}).toList();
     Message message = Message(agentName, sender, "INFORM",
         Tasks("status modifikasi/ pencarian data akun", conn));
-
+    print(conn);
     return message;
   }
 
@@ -364,7 +366,9 @@ class AgentAkun extends Agent {
   Future<Message> cariDataImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection.find({'_id': data}).toList();
-    Message message = Message(agentName, sender, "INFORM", Tasks('cari', conn));
+    print(conn);
+    Message message = Message(agentName, sender, "INFORM",
+        Tasks('status modifikasi/ pencarian data akun', conn));
     return message;
   }
 
