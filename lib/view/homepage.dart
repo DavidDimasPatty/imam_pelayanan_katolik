@@ -1,11 +1,13 @@
 //import
 import 'dart:async';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
+import 'package:imam_pelayanan_katolik/view/login.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/sakramen.dart';
@@ -48,6 +50,34 @@ class _HomePage extends State<HomePage> {
     setState(() {
       callJumlah();
     });
+  }
+
+  Future LogOut() async {
+    Completer<void> completer = Completer<void>();
+    Message message = Message(
+        'Agent Page', 'Agent Setting', "REQUEST", Tasks('log out', null));
+
+    MessagePassing messagePassing = MessagePassing();
+    var data = await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await await AgentPage.getDataPencarian();
+
+    await completer.future;
+
+    if (hasil == 'oke') {
+      Fluttertoast.showToast(
+          msg: "Akun anda telah di banned",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Login()),
+      );
+    }
   }
 
   Widget build(BuildContext context) {
@@ -106,6 +136,10 @@ class _HomePage extends State<HomePage> {
                           //exception
 
                           try {
+                            if (snapshot.data[4][0]['banned'] == 1) {
+                              LogOut();
+                            }
+
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[

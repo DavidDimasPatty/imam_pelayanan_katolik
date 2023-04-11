@@ -158,25 +158,30 @@ class AgentSetting extends Agent {
     final directory = await getApplicationDocumentsDirectory();
     var path = directory.path;
     print(data);
-    if (await File('$path/loginImam.txt').exists()) {
-      final file = await File('$path/loginImam.txt');
+    try {
+      if (await File('$path/loginImam.txt').exists()) {
+        final file = await File('$path/loginImam.txt');
 
-      await file.writeAsString(data[0]['_id'].toString());
+        await file.writeAsString(data[0]['_id'].toString());
 
-      await file.writeAsString('\n' + data[0]['idGereja'].toString(),
-          mode: FileMode.append);
-      await file.writeAsString('\n' + data[0]['role'].toString(),
-          mode: FileMode.append);
-    } else {
-      final file = await File('$path/loginImam.txt').create(recursive: true);
-      await file.writeAsString(data[0]['_id'].toString());
+        await file.writeAsString('\n' + data[0]['idGereja'].toString(),
+            mode: FileMode.append);
+        await file.writeAsString('\n' + data[0]['role'].toString(),
+            mode: FileMode.append);
+      } else {
+        final file = await File('$path/loginImam.txt').create(recursive: true);
+        await file.writeAsString(data[0]['_id'].toString());
 
-      await file.writeAsString('\n' + data[0]['idGereja'].toString(),
-          mode: FileMode.append);
-      await file.writeAsString('\n' + data[0]['role'].toString(),
-          mode: FileMode.append);
+        await file.writeAsString('\n' + data[0]['idGereja'].toString(),
+            mode: FileMode.append);
+        await file.writeAsString('\n' + data[0]['role'].toString(),
+            mode: FileMode.append);
+      }
+    } catch (e) {
+      Message message = Message('Agent Setting', sender, "INFORM",
+          Tasks('status aplikasi', "failed"));
+      return message;
     }
-
     Message message = Message(
         'Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
     return message;
