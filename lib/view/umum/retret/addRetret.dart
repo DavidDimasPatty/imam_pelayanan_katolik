@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,6 +48,18 @@ class _addRetret extends State<addRetret> {
   TextEditingController tamuKegiatan = new TextEditingController();
   TextEditingController lokasi = new TextEditingController();
   _addRetret(this.iduser, this.idGereja, this.role);
+  var fileImage;
+
+  Future selectFile(context) async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result == null) return;
+    File file;
+    final path = result.files.single.path;
+    file = File(path!);
+    setState(() {
+      fileImage = file;
+    });
+  }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -75,7 +89,8 @@ class _addRetret extends State<addRetret> {
         tamuKegiatan.text != "" &&
         _selectedDate != "" &&
         kapasitas.text != "" &&
-        lokasi.text != "") {
+        lokasi.text != "" &&
+        fileImage != null) {
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -92,7 +107,8 @@ class _addRetret extends State<addRetret> {
             _selectedDate.toString(),
             kapasitas.text,
             lokasi.text,
-            iduser
+            iduser,
+            fileImage
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -101,6 +117,7 @@ class _addRetret extends State<addRetret> {
       var hasil = await await AgentPage.getDataPencarian();
 
       await completer.future;
+
       if (hasil == "failed") {
         Fluttertoast.showToast(
             msg: "Gagal Mendaftarkan Retret",
@@ -428,17 +445,68 @@ class _addRetret extends State<addRetret> {
             ),
             SfDateRangePicker(
               view: DateRangePickerView.month,
-
               onSelectionChanged: _onSelectionChanged,
               selectionMode: DateRangePickerSelectionMode.single,
               monthViewSettings:
                   DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
-              // initialSelectedRange: PickerDateRange(
-              //     DateTime.now().subtract(const Duration(days: 4)),
-              //     DateTime.now().add(const Duration(days: 3))),
             )
           ],
         ),
+        Text(
+          "Gambar Kegiatan Umum",
+          textAlign: TextAlign.left,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 5),
+        ),
+        Container(
+          child: RaisedButton(
+              onPressed: () async {
+                await selectFile(context);
+              },
+              elevation: 0.0,
+              child: Ink(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.topLeft,
+                      colors: [
+                        Colors.blueAccent,
+                        Colors.lightBlue,
+                      ]),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.upload,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        "Upload Image",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  ),
+                ),
+              )),
+        ),
+        SizedBox(height: 10),
+        if (fileImage != null)
+          Text(
+            "File Image Path: \n" + fileImage.toString(),
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 12.0,
+                fontWeight: FontWeight.w400),
+          ),
+        SizedBox(height: 10),
         SizedBox(
           width: double.infinity,
           child: RaisedButton(

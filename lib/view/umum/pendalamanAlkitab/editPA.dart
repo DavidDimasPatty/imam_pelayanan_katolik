@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -49,7 +51,9 @@ class _editPA extends State<editPA> {
   TextEditingController tamuKegiatan = new TextEditingController();
   TextEditingController lokasi = new TextEditingController();
   _editPA(this.iduser, this.idGereja, this.role, this.idPA);
-
+  var imageChange = false;
+  var fileImage;
+  var fileChange;
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
       print(args.toString());
@@ -71,73 +75,158 @@ class _editPA extends State<editPA> {
     });
   }
 
+  Future selectFile(context) async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result == null) return;
+    File file;
+    final path = result.files.single.path;
+    file = File(path!);
+    setState(() {
+      fileImage = file;
+      fileChange = file;
+    });
+  }
+
   void submit(tanggal) async {
     if (_selectedDate == "") {
       _selectedDate = tanggal;
     }
-    if (namaKegiatan.text != "" &&
-        temaKegiatan.text != "" &&
-        deskripsiKegiatan.text != "" &&
-        tamuKegiatan.text != "" &&
-        _selectedDate != "" &&
-        kapasitas.text != "" &&
-        lokasi.text != "") {
-      Completer<void> completer = Completer<void>();
-      Message message = Message(
-          'Agent Page',
-          'Agent Pendaftaran',
-          "REQUEST",
-          Tasks('edit pelayanan', [
-            "umum",
-            idPA,
-            namaKegiatan.text,
-            temaKegiatan.text,
-            "Pendalaman Alkitab",
-            deskripsiKegiatan.text,
-            tamuKegiatan.text,
-            _selectedDate.toString(),
-            kapasitas.text,
-            lokasi.text,
-            iduser
-          ]));
+    if (imageChange == false) {
+      if (namaKegiatan.text != "" &&
+          temaKegiatan.text != "" &&
+          deskripsiKegiatan.text != "" &&
+          tamuKegiatan.text != "" &&
+          _selectedDate != "" &&
+          kapasitas.text != "" &&
+          lokasi.text != "" &&
+          fileImage != null) {
+        Completer<void> completer = Completer<void>();
+        Message message = Message(
+            'Agent Page',
+            'Agent Pendaftaran',
+            "REQUEST",
+            Tasks('edit pelayanan', [
+              "umum",
+              idPA,
+              namaKegiatan.text,
+              temaKegiatan.text,
+              "Pendalaman Alkitab",
+              deskripsiKegiatan.text,
+              tamuKegiatan.text,
+              _selectedDate.toString(),
+              kapasitas.text,
+              lokasi.text,
+              iduser,
+              fileImage,
+              imageChange
+            ]));
 
-      MessagePassing messagePassing = MessagePassing();
-      await messagePassing.sendMessage(message);
-      completer.complete();
-      var hasil = await await AgentPage.getDataPencarian();
+        MessagePassing messagePassing = MessagePassing();
+        await messagePassing.sendMessage(message);
+        completer.complete();
+        var hasil = await await AgentPage.getDataPencarian();
 
-      if (hasil == "failed") {
+        if (hasil == "failed") {
+          Fluttertoast.showToast(
+              msg: "Gagal Edit Pendalaman Alkitab",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        } else {
+          Fluttertoast.showToast(
+              msg: "Berhasil Edit Pendalaman Alkitab",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          Navigator.pop(
+            context,
+            MaterialPageRoute(builder: (context) => PA(iduser, idGereja, role)),
+          );
+        }
+      } else {
         Fluttertoast.showToast(
-            msg: "Gagal Edit Pendalaman Alkitab",
+            msg: "Isi semua bidang",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 2,
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
+      }
+    } else {
+      if (namaKegiatan.text != "" &&
+          temaKegiatan.text != "" &&
+          deskripsiKegiatan.text != "" &&
+          tamuKegiatan.text != "" &&
+          _selectedDate != "" &&
+          kapasitas.text != "" &&
+          lokasi.text != "" &&
+          fileImage != null) {
+        Completer<void> completer = Completer<void>();
+        Message message = Message(
+            'Agent Page',
+            'Agent Pendaftaran',
+            "REQUEST",
+            Tasks('edit pelayanan', [
+              "umum",
+              idPA,
+              namaKegiatan.text,
+              temaKegiatan.text,
+              "Pendalaman Alkitab",
+              deskripsiKegiatan.text,
+              tamuKegiatan.text,
+              _selectedDate.toString(),
+              kapasitas.text,
+              lokasi.text,
+              iduser,
+              fileChange,
+              imageChange
+            ]));
+
+        MessagePassing messagePassing = MessagePassing();
+        await messagePassing.sendMessage(message);
+        completer.complete();
+        var hasil = await await AgentPage.getDataPencarian();
+
+        if (hasil == "failed") {
+          Fluttertoast.showToast(
+              msg: "Gagal Edit Pendalaman Alkitab",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        } else {
+          Fluttertoast.showToast(
+              msg: "Berhasil Edit Pendalaman Alkitab",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          Navigator.pop(
+            context,
+            MaterialPageRoute(builder: (context) => PA(iduser, idGereja, role)),
+          );
+        }
       } else {
         Fluttertoast.showToast(
-            msg: "Berhasil Edit Pendalaman Alkitab",
+            msg: "Isi semua bidang",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 2,
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
-        Navigator.pop(
-          context,
-          MaterialPageRoute(builder: (context) => PA(iduser, idGereja, role)),
-        );
       }
-    } else {
-      Fluttertoast.showToast(
-          msg: "Isi semua bidang",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
     }
   }
 
@@ -208,6 +297,7 @@ class _editPA extends State<editPA> {
                         snapshot.data[0]['deskripsiKegiatan'];
                     tamuKegiatan.text = snapshot.data[0]['tamu'];
                     lokasi.text = snapshot.data[0]['lokasi'];
+                    fileImage = snapshot.data[0]['picture'];
 
                     return Column(children: [
                       Column(
@@ -478,6 +568,73 @@ class _editPA extends State<editPA> {
                           )
                         ],
                       ),
+                      Text(
+                        "Gambar Pendalaman Alkitab",
+                        textAlign: TextAlign.left,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                      ),
+                      Container(
+                        child: RaisedButton(
+                            onPressed: () async {
+                              imageChange = true;
+                              await selectFile(context);
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(80.0)),
+                            elevation: 0.0,
+                            padding: EdgeInsets.all(0.0),
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.topLeft,
+                                    colors: [
+                                      Colors.blueAccent,
+                                      Colors.lightBlue,
+                                    ]),
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              child: Container(
+                                constraints: BoxConstraints(
+                                    maxWidth: 170.0, minHeight: 50.0),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.upload,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      "Upload Image",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w600),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )),
+                      ),
+                      SizedBox(height: 10),
+                      if (fileImage != null && imageChange == false)
+                        Center(
+                          child: Image.network(
+                            fileImage,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      if (imageChange == true)
+                        Text(
+                          "File Image Path: \n" + fileChange.toString(),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w400),
+                        ),
                       SizedBox(
                         width: double.infinity,
                         child: RaisedButton(

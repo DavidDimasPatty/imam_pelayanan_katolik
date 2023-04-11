@@ -178,8 +178,7 @@ class AgentPendaftaran extends Agent {
   Future<Message> sendFCM(dynamic data, String sender) async {
     String Pelayanan = "";
     DateTime tanggal = DateTime.now();
-    print(data[1]);
-    print(data[0]);
+
     if (data[0][0] == "baptis") {
       Pelayanan = "Baptis";
       tanggal = data[1][0]['jadwalBuka'];
@@ -361,7 +360,17 @@ class AgentPendaftaran extends Agent {
     }
     if (data[0] == "umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-
+      var PengumumanCollection =
+          MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
+      DateTime now = new DateTime.now();
+      DateTime date = new DateTime(
+          now.year, now.month, now.day, now.hour, now.minute, now.second);
+      final filename = date.toString();
+      final destination =
+          'files/Imam Pelayanan Katolik/kegiatan umum/$filename';
+      UploadTask? task = FirebaseApi.uploadFile(destination, data[11]);
+      final snapshot = await task!.whenComplete(() {});
+      final urlDownload = await snapshot.ref.getDownloadURL();
       var add = await pelayananCollection.insertOne({
         'idGereja': data[1],
         'namaKegiatan': data[2],
@@ -371,7 +380,8 @@ class AgentPendaftaran extends Agent {
         'tamu': data[6],
         'tanggal': DateTime.parse(data[7]),
         'kapasitas': int.parse(data[8]),
-        'lokasi': data[9][0],
+        'lokasi': data[9],
+        "picture": urlDownload,
         'status': 0,
         "createdAt": DateTime.now(),
         "createdBy": data[10],
@@ -478,29 +488,64 @@ class AgentPendaftaran extends Agent {
     }
     if (data[0] == "umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-      print(data);
-      var update = await pelayananCollection.updateOne(
-          where.eq('_id', data[1]),
-          modify
-              .set('namaKegiatan', data[2])
-              .set('temaKegiatan', data[3])
-              .set("jenisKegiatan", data[4])
-              .set("deskripsiKegiatan", data[5])
-              .set("tamu", data[6])
-              .set("tanggal", DateTime.parse(data[7]))
-              .set("kapasitas", int.parse(data[8]))
-              .set("lokasi", data[9])
-              .set("updatedAt", DateTime.now())
-              .set("updatedBy", data[10]));
+      if (data[12] == true) {
+        DateTime now = new DateTime.now();
+        DateTime date = new DateTime(
+            now.year, now.month, now.day, now.hour, now.minute, now.second);
+        final filename = date.toString();
+        final destination =
+            'files/Imam Pelayanan Katolik/kegiatan umum/$filename';
+        UploadTask? task = FirebaseApi.uploadFile(destination, data[11]);
+        final snapshot = await task!.whenComplete(() {});
+        final urlDownload = await snapshot.ref.getDownloadURL();
+        var update = await pelayananCollection.updateOne(
+            where.eq('_id', data[1]),
+            modify
+                .set('namaKegiatan', data[2])
+                .set('temaKegiatan', data[3])
+                .set("jenisKegiatan", data[4])
+                .set("deskripsiKegiatan", data[5])
+                .set("tamu", data[6])
+                .set("tanggal", DateTime.parse(data[7]))
+                .set("kapasitas", int.parse(data[8]))
+                .set("lokasi", data[9])
+                .set("picture", urlDownload)
+                .set("updatedAt", DateTime.now())
+                .set("updatedBy", data[10]));
 
-      if (update.isSuccess) {
-        Message message = Message(agentName, sender, "INFORM",
-            Tasks('status modifikasi data', "oke"));
-        return message;
+        if (update.isSuccess) {
+          Message message = Message(agentName, sender, "INFORM",
+              Tasks('status modifikasi data', "oke"));
+          return message;
+        } else {
+          Message message = Message(agentName, sender, "INFORM",
+              Tasks('status modifikasi data', "failed"));
+          return message;
+        }
       } else {
-        Message message = Message(agentName, sender, "INFORM",
-            Tasks('status modifikasi data', "failed"));
-        return message;
+        var update = await pelayananCollection.updateOne(
+            where.eq('_id', data[1]),
+            modify
+                .set('namaKegiatan', data[2])
+                .set('temaKegiatan', data[3])
+                .set("jenisKegiatan", data[4])
+                .set("deskripsiKegiatan", data[5])
+                .set("tamu", data[6])
+                .set("tanggal", DateTime.parse(data[7]))
+                .set("kapasitas", int.parse(data[8]))
+                .set("lokasi", data[9])
+                .set("updatedAt", DateTime.now())
+                .set("updatedBy", data[10]));
+
+        if (update.isSuccess) {
+          Message message = Message(agentName, sender, "INFORM",
+              Tasks('status modifikasi data', "oke"));
+          return message;
+        } else {
+          Message message = Message(agentName, sender, "INFORM",
+              Tasks('status modifikasi data', "failed"));
+          return message;
+        }
       }
     }
 
