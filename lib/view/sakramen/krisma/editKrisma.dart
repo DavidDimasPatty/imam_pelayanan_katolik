@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -33,6 +34,7 @@ class _editKrisma extends State<editKrisma> {
   final iduser;
   final idGereja;
   final idKrisma;
+  _editKrisma(this.iduser, this.idGereja, this.role, this.idKrisma);
   String _selectedDate = '';
   String _dateCount = '';
   String _range = '';
@@ -40,8 +42,9 @@ class _editKrisma extends State<editKrisma> {
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
-  _editKrisma(this.iduser, this.idGereja, this.role, this.idKrisma);
 
+  List jenis = ["Dewasa", "Anak"];
+  String jenisSelected = "";
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
       print(args.toString());
@@ -70,7 +73,10 @@ class _editKrisma extends State<editKrisma> {
     if (tanggalTutup == "") {
       tanggalTutup = tanggaltutup;
     }
-    if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "") {
+    if (kapasitas != "" &&
+        tanggalBuka != "" &&
+        tanggalTutup != "" &&
+        jenisSelected != "") {
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -82,7 +88,8 @@ class _editKrisma extends State<editKrisma> {
             kapasitas,
             tanggalBuka.toString(),
             tanggalTutup.toString(),
-            iduser
+            iduser,
+            jenisSelected
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -187,7 +194,7 @@ class _editKrisma extends State<editKrisma> {
                 builder: (context, AsyncSnapshot snapshot) {
                   try {
                     kapasitas.text = snapshot.data[0]['kapasitas'].toString();
-
+                    jenisSelected = snapshot.data[0]['jenis'];
                     return Column(children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -228,6 +235,39 @@ class _editKrisma extends State<editKrisma> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          Text(
+                            "Jenis",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          DropdownSearch<dynamic>(
+                            // popupProps: PopupProps.menu(
+                            //   showSelectedItems: true,
+                            //   disabledItemFn: (String s) => s.startsWith('I'),
+                            // ),
+                            items: jenis,
+                            selectedItem: jenisSelected,
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Pilih Jenis",
+                                hintText: "Pilih Jenis",
+                              ),
+                            ),
+                            onChanged: (dynamic? data) {
+                              jenisSelected = data;
+                            },
                           ),
                         ],
                       ),

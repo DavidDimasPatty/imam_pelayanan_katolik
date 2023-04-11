@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -41,7 +42,8 @@ class _editBaptis extends State<editBaptis> {
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
   _editBaptis(this.iduser, this.idGereja, this.role, this.idBaptis);
-
+  List jenis = ["Dewasa", "Anak"];
+  String jenisSelected = "";
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
       print(args.toString());
@@ -86,14 +88,17 @@ class _editBaptis extends State<editBaptis> {
     });
   }
 
-  void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
+  Future submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
     if (tanggalBuka == "") {
       tanggalBuka = tanggalbuka;
     }
     if (tanggalTutup == "") {
       tanggalTutup = tanggaltutup;
     }
-    if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "") {
+    if (kapasitas != "" &&
+        tanggalBuka != "" &&
+        tanggalTutup != "" &&
+        jenisSelected != "") {
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -105,7 +110,8 @@ class _editBaptis extends State<editBaptis> {
             kapasitas,
             tanggalBuka.toString(),
             tanggalTutup.toString(),
-            iduser
+            iduser,
+            jenisSelected
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -190,6 +196,7 @@ class _editBaptis extends State<editBaptis> {
                   try {
                     print(snapshot.data);
                     kapasitas.text = snapshot.data[0]['kapasitas'].toString();
+                    jenisSelected = snapshot.data[0]['jenis'];
                     print(tanggalBuka);
                     return Column(children: [
                       Column(
@@ -231,6 +238,39 @@ class _editBaptis extends State<editBaptis> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          Text(
+                            "Jenis",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          DropdownSearch<dynamic>(
+                            // popupProps: PopupProps.menu(
+                            //   showSelectedItems: true,
+                            //   disabledItemFn: (String s) => s.startsWith('I'),
+                            // ),
+                            items: jenis,
+                            selectedItem: jenisSelected,
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Pilih Jenis",
+                                hintText: "Pilih Jenis",
+                              ),
+                            ),
+                            onChanged: (dynamic? data) {
+                              jenisSelected = data;
+                            },
                           ),
                         ],
                       ),

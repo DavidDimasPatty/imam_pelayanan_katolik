@@ -48,6 +48,7 @@ dependencies:
   firebase_messaging: ^10.0.7
   flutter_local_notifications: ^13.0.0
   geocode: ^1.0.2
+  dropdown_search: 5.0.3
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1

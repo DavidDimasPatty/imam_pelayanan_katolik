@@ -398,6 +398,7 @@ class AgentPendaftaran extends Agent {
       'jadwalBuka': DateTime.parse(data[3]),
       'jadwalTutup': DateTime.parse(data[4]),
       'status': 0,
+      'jenis': data[6],
       "createdAt": DateTime.now(),
       "createdBy": data[5],
       "updatedAt": DateTime.now(),
@@ -546,6 +547,7 @@ class AgentPendaftaran extends Agent {
         where.eq('_id', data[1]),
         modify
             .set("kapasitas", int.parse(data[2]))
+            .set("jenis", data[6])
             .set("jadwalBuka", DateTime.parse(data[3]))
             .set("jadwalTutup", DateTime.parse(data[4]))
             .set("updatedAt", DateTime.now())

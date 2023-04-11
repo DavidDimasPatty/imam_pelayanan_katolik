@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -33,6 +34,7 @@ class _addKrisma extends State<addKrisma> {
   final role;
   final iduser;
   final idGereja;
+  _addKrisma(this.iduser, this.idGereja, this.role);
   String _selectedDate = '';
   String _dateCount = '';
   String _range = '';
@@ -40,8 +42,9 @@ class _addKrisma extends State<addKrisma> {
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
-  _addKrisma(this.iduser, this.idGereja, this.role);
 
+  List jenis = ["Dewasa", "Anak"];
+  String jenisSelected = "";
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
       print(args.toString());
@@ -64,7 +67,10 @@ class _addKrisma extends State<addKrisma> {
   }
 
   void submit(idGereja, kapasitas, tanggalbuka, tanggaltutup) async {
-    if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "") {
+    if (kapasitas != "" &&
+        tanggalBuka != "" &&
+        tanggalTutup != "" &&
+        jenisSelected != "") {
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -76,7 +82,8 @@ class _addKrisma extends State<addKrisma> {
             kapasitas,
             tanggalbuka.toString(),
             tanggaltutup.toString(),
-            iduser
+            iduser,
+            jenisSelected
           ]));
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
@@ -191,6 +198,38 @@ class _addKrisma extends State<addKrisma> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   )),
+            ),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+            ),
+            Text(
+              "Jenis",
+              textAlign: TextAlign.left,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+            ),
+            DropdownSearch<dynamic>(
+              // popupProps: PopupProps.menu(
+              //   showSelectedItems: true,
+              //   disabledItemFn: (String s) => s.startsWith('I'),
+              // ),
+              items: jenis,
+              dropdownDecoratorProps: DropDownDecoratorProps(
+                dropdownSearchDecoration: InputDecoration(
+                  labelText: "Pilih Jenis",
+                  hintText: "Pilih Jenis",
+                ),
+              ),
+              onChanged: (dynamic? data) {
+                jenisSelected = data;
+              },
             ),
           ],
         ),

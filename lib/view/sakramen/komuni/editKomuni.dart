@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -33,14 +34,17 @@ class _editKomuni extends State<editKomuni> {
   final iduser;
   final idGereja;
   final idKomuni;
+  _editKomuni(this.iduser, this.idGereja, this.role, this.idKomuni);
+
   String _selectedDate = '';
   String _dateCount = '';
   String _range = '';
   String _rangeCount = '';
   String tanggalBuka = "";
   String tanggalTutup = "";
+  List jenis = ["Dewasa", "Anak"];
+  String jenisSelected = "";
   TextEditingController kapasitas = new TextEditingController();
-  _editKomuni(this.iduser, this.idGereja, this.role, this.idKomuni);
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -70,7 +74,10 @@ class _editKomuni extends State<editKomuni> {
     if (tanggalTutup == "") {
       tanggalTutup = tanggaltutup;
     }
-    if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "") {
+    if (kapasitas != "" &&
+        tanggalBuka != "" &&
+        tanggalTutup != "" &&
+        jenisSelected != "") {
       Completer<void> completer = Completer<void>();
       Message message = Message(
           'Agent Page',
@@ -82,7 +89,8 @@ class _editKomuni extends State<editKomuni> {
             kapasitas,
             tanggalBuka.toString(),
             tanggalTutup.toString(),
-            iduser
+            iduser,
+            jenisSelected
           ]));
 
       MessagePassing messagePassing = MessagePassing();
@@ -187,7 +195,7 @@ class _editKomuni extends State<editKomuni> {
                 builder: (context, AsyncSnapshot snapshot) {
                   try {
                     kapasitas.text = snapshot.data[0]['kapasitas'].toString();
-
+                    jenisSelected = snapshot.data[0]['jenis'];
                     return Column(children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -228,6 +236,39 @@ class _editKomuni extends State<editKomuni> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          Text(
+                            "Jenis",
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                          ),
+                          DropdownSearch<dynamic>(
+                            // popupProps: PopupProps.menu(
+                            //   showSelectedItems: true,
+                            //   disabledItemFn: (String s) => s.startsWith('I'),
+                            // ),
+                            items: jenis,
+                            selectedItem: jenisSelected,
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Pilih Jenis",
+                                hintText: "Pilih Jenis",
+                              ),
+                            ),
+                            onChanged: (dynamic? data) {
+                              jenisSelected = data;
+                            },
                           ),
                         ],
                       ),
