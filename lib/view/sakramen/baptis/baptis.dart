@@ -289,6 +289,11 @@ class _Baptis extends State<Baptis> {
                                       color: Colors.white, fontSize: 12),
                                 ),
                                 Text(
+                                  'Jenis: ' + i['jenis'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                                Text(
                                   'Jadwal Tutup: ' +
                                       i['jadwalTutup'].toString(),
                                   style: TextStyle(
