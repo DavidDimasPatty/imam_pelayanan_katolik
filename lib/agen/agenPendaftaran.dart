@@ -47,13 +47,10 @@ class AgentPendaftaran extends Agent {
     Message msg = _Message.last;
     String sender = _Sender.last;
     dynamic task = msg.task;
-    var planQuest =
-        _plan.where((element) => element.goals == task.action).toList();
-    Plan p = planQuest[0];
+
     var goalsQuest =
-        _goals.where((element) => element.request == p.goals).toList();
+        _goals.where((element) => element.request == task.action).toList();
     int clock = goalsQuest[0].time;
-    Goals goalquest = goalsQuest[0];
 
     Timer timer = Timer.periodic(Duration(seconds: clock), (timer) {
       stop = true;
@@ -65,7 +62,7 @@ class AgentPendaftaran extends Agent {
       return;
     });
 
-    Message message = await action(p.goals, task.data, sender);
+    Message message = await action(task.action, task.data, sender);
 
     if (stop == false) {
       if (timer.isActive) {
@@ -77,9 +74,12 @@ class AgentPendaftaran extends Agent {
           Message msg = rejectTask(task, sender);
           messagePassing.sendMessage(msg);
         } else {
-          if (goalquest.request == p.goals &&
-              goalquest.goals == message.task.data.runtimeType) {
-            checkGoals = true;
+          for (var g in _goals) {
+            if (g.request == task.action &&
+                g.goals == message.task.data.runtimeType) {
+              checkGoals = true;
+              break;
+            }
           }
 
           if (checkGoals == true) {
@@ -97,24 +97,24 @@ class AgentPendaftaran extends Agent {
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
       case "update pelayanan user":
-        return updatePelayananUser(data.data, sender);
+        return updatePelayananUser(data, sender);
       case "edit pengumuman":
-        return editPengumuman(data.data, sender);
+        return editPengumuman(data, sender);
       case "add pelayanan":
-        return addPelayanan(data.data, sender);
+        return addPelayanan(data, sender);
       case "edit pelayanan":
-        return editPelayanan(data.data, sender);
+        return editPelayanan(data, sender);
       case "add pengumuman":
-        return addPengumuman(data.data, sender);
+        return addPengumuman(data, sender);
       case "update status pelayanan":
-        return updateStatusPelayanan(data.data, sender);
+        return updateStatusPelayanan(data, sender);
       case "update status pengumuman":
-        return updateStatusPengumuman(data.data, sender);
+        return updateStatusPengumuman(data, sender);
       case "send FCM":
-        return sendFCM(data.data, sender);
+        return sendFCM(data, sender);
 
       default:
-        return rejectTask(data.data, data.sender);
+        return rejectTask(data, data);
     }
   }
 
