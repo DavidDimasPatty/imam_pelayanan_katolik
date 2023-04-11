@@ -16,7 +16,6 @@ class AgentPencarian extends Agent {
 
   List<Plan> _plan = [];
   List<Goals> _goals = [];
-  int _estimatedTime = 5;
   bool stop = false;
   String agentName = "";
   List _Message = [];
@@ -41,48 +40,48 @@ class AgentPencarian extends Agent {
   Future<dynamic> performTask() async {
     Message msg = _Message.last;
     String sender = _Sender.last;
-
     dynamic task = msg.task;
-    for (var p in _plan) {
-      if (p.goals == task.action) {
-        Timer timer = Timer.periodic(Duration(seconds: p.time), (timer) {
-          stop = true;
-          timer.cancel();
+    var planQuest =
+        _plan.where((element) => element.goals == task.action).toList();
+    Plan p = planQuest[0];
+    var goalsQuest =
+        _goals.where((element) => element.request == p.goals).toList();
+    int clock = goalsQuest[0].time;
+    Goals goalquest = goalsQuest[0];
 
+    Timer timer = Timer.periodic(Duration(seconds: clock), (timer) {
+      stop = true;
+      timer.cancel();
+
+      MessagePassing messagePassing = MessagePassing();
+      Message msg = rejectTask(task, sender);
+      messagePassing.sendMessage(msg);
+      return;
+    });
+
+    Message message = await action(p.goals, task.data, sender);
+
+    if (stop == false) {
+      if (timer.isActive) {
+        timer.cancel();
+        bool checkGoals = false;
+        if (message.task.data.runtimeType == String &&
+            message.task.data == "failed") {
           MessagePassing messagePassing = MessagePassing();
           Message msg = rejectTask(task, sender);
           messagePassing.sendMessage(msg);
-        });
+        } else {
+          if (goalquest.request == p.goals &&
+              goalquest.goals == message.task.data.runtimeType) {
+            checkGoals = true;
+          }
 
-        Message message = await action(p.goals, task.data, sender);
-
-        if (stop == false) {
-          if (timer.isActive) {
-            timer.cancel();
-            bool checkGoals = false;
-            if (message.task.data.runtimeType == String &&
-                message.task.data == "failed") {
-              MessagePassing messagePassing = MessagePassing();
-              Message msg = rejectTask(task, sender);
-              messagePassing.sendMessage(msg);
-            } else {
-              print(message.task.data.runtimeType);
-              for (var g in _goals) {
-                if (g.request == p.goals &&
-                    g.goals == message.task.data.runtimeType) {
-                  checkGoals = true;
-                }
-              }
-              if (checkGoals == true) {
-                print('Agent Pencarian returning data');
-                MessagePassing messagePassing = MessagePassing();
-                messagePassing.sendMessage(message);
-                break;
-              } else {
-                rejectTask(task, sender);
-              }
-              break;
-            }
+          if (checkGoals == true) {
+            print(agentName + ' returning data to ${message.receiver}');
+            MessagePassing messagePassing = MessagePassing();
+            messagePassing.sendMessage(message);
+          } else {
+            rejectTask(task, sender);
           }
         }
       }
@@ -864,18 +863,18 @@ class AgentPencarian extends Agent {
   void _initAgent() {
     this.agentName = "Agent Pencarian";
     _plan = [
-      Plan("cari aturan pelayanan", "REQUEST", _estimatedTime),
-      Plan("cari pengumuman edit", "REQUEST", _estimatedTime),
-      Plan("cari pengumuman", "REQUEST", _estimatedTime),
-      Plan("cari pelayanan", "REQUEST", _estimatedTime),
-      Plan("cari pelayanan user", "REQUEST", _estimatedTime),
-      Plan("cari pelayanan pendaftaran", "REQUEST", _estimatedTime),
-      Plan("cari data edit pelayanan", "REQUEST", _estimatedTime),
-      Plan("cari pelayanan user", "REQUEST", _estimatedTime),
-      Plan("cari jumlah", "REQUEST", _estimatedTime),
-      Plan("cari jumlah sakramen", "REQUEST", _estimatedTime),
-      Plan("cari jumlah umum", "REQUEST", _estimatedTime),
-      Plan("cari profile", "REQUEST", _estimatedTime),
+      Plan("cari aturan pelayanan", "REQUEST"),
+      Plan("cari pengumuman edit", "REQUEST"),
+      Plan("cari pengumuman", "REQUEST"),
+      Plan("cari pelayanan", "REQUEST"),
+      Plan("cari pelayanan user", "REQUEST"),
+      Plan("cari pelayanan pendaftaran", "REQUEST"),
+      Plan("cari data edit pelayanan", "REQUEST"),
+      Plan("cari pelayanan user", "REQUEST"),
+      Plan("cari jumlah", "REQUEST"),
+      Plan("cari jumlah sakramen", "REQUEST"),
+      Plan("cari jumlah umum", "REQUEST"),
+      Plan("cari profile", "REQUEST"),
     ];
     _goals = [
       Goals("cari aturan pelayanan", List<Map<String, Object?>>, 2),
