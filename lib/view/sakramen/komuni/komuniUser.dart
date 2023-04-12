@@ -86,14 +86,14 @@ class _KomuniUser extends State<KomuniUser> {
     }
   }
 
-  void updateReject(id, token, idTarget) async {
+  void updateReject(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["komuni", id, token, idTarget, -1, iduser]));
+            ["komuni", id, token, idTarget, -1, iduser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -130,14 +130,14 @@ class _KomuniUser extends State<KomuniUser> {
     }
   }
 
-  void updateAccept(id, token, idTarget) async {
+  void updateAccept(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["komuni", id, token, idTarget, 1, iduser]));
+            ["komuni", id, token, idTarget, 1, iduser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -337,7 +337,8 @@ class _KomuniUser extends State<KomuniUser> {
                                             updateAccept(
                                                 i['_id'],
                                                 i['userKomuni'][0]['token'],
-                                                i['idKomuni']);
+                                                i['idKomuni'],
+                                                i['userKomuni'][0]['notifGD']);
                                           },
                                         ),
                                       ),
@@ -361,7 +362,9 @@ class _KomuniUser extends State<KomuniUser> {
                                               updateReject(
                                                   i['_id'],
                                                   i['userKomuni'][0]['token'],
-                                                  i['idKomuni']);
+                                                  i['idKomuni'],
+                                                  i['userKomuni'][0]
+                                                      ['notifGD']);
                                             }),
                                       ),
                                     ),

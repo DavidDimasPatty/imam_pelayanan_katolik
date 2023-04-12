@@ -47,14 +47,21 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     return await hasil;
   }
 
-  void updateAccept(token, idTarget) async {
+  void updateAccept(token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan user',
-            ["perkawinan", idPerkawinan, token, idPerkawinan, 1, iduser]));
+        Tasks('update pelayanan user', [
+          "perkawinan",
+          idPerkawinan,
+          token,
+          idPerkawinan,
+          1,
+          iduser,
+          notif
+        ]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -85,14 +92,21 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     });
   }
 
-  void updateReject(token, idTarget) async {
+  void updateReject(token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks('update pelayanan user',
-            ["perkawinan", idPerkawinan, token, idPerkawinan, -1, iduser]));
+        Tasks('update pelayanan user', [
+          "perkawinan",
+          idPerkawinan,
+          token,
+          idPerkawinan,
+          -1,
+          iduser,
+          notif
+        ]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -350,7 +364,9 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                                                       snapshot.data[1][0]
                                                           ['token'],
                                                       snapshot.data[1][0]
-                                                          ['_id']);
+                                                          ['_id'],
+                                                      snapshot.data[1][0]
+                                                          ['notifGD']);
                                                   Navigator.pop(context);
                                                 },
                                                 child: const Text('Ya'),
@@ -395,7 +411,9 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                                                       snapshot.data[1][0]
                                                           ['token'],
                                                       snapshot.data[1][0]
-                                                          ['_id']);
+                                                          ['_id'],
+                                                      snapshot.data[1][0]
+                                                          ['notifGD']);
                                                   Navigator.pop(context);
                                                 },
                                                 child: const Text('Ya'),

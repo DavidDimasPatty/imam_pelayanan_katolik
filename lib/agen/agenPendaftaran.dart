@@ -154,12 +154,12 @@ class AgentPendaftaran extends Agent {
     if (update.isSuccess) {
       Message message = Message(
           agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
-
-      Message message2 = Message(agentName, 'Agent Pencarian', "REQUEST",
-          Tasks('cari pelayanan pendaftaran', data));
-      MessagePassing messagePassing = MessagePassing();
-      await messagePassing.sendMessage(message2);
-
+      if (data[6] == true) {
+        Message message2 = Message(agentName, 'Agent Pencarian', "REQUEST",
+            Tasks('cari pelayanan pendaftaran', data));
+        MessagePassing messagePassing = MessagePassing();
+        await messagePassing.sendMessage(message2);
+      }
       return message;
     } else {
       Message message = Message(agentName, sender, "INFORM",

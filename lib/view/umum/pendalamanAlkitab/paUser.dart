@@ -85,14 +85,14 @@ class _PAUser extends State<PAUser> {
     }
   }
 
-  Future updateReject(id, token, idTarget) async {
+  Future updateReject(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["umum", id, token, idTarget, -1, iduser]));
+            ["umum", id, token, idTarget, -1, iduser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -129,14 +129,14 @@ class _PAUser extends State<PAUser> {
     }
   }
 
-  Future updateAccept(id, token, idTarget) async {
+  Future updateAccept(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
-        Tasks(
-            'update pelayanan user', ["umum", id, token, idTarget, 1, iduser]));
+        Tasks('update pelayanan user',
+            ["umum", id, token, idTarget, 1, iduser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -334,7 +334,8 @@ class _PAUser extends State<PAUser> {
                                             updateAccept(
                                                 i['_id'],
                                                 i['userPA'][0]['token'],
-                                                i['idKegiatan']);
+                                                i['idKegiatan'],
+                                                i['userPA'][0]['notifGD']);
                                             callDb().then((result) {});
                                           },
                                         ),
@@ -359,7 +360,8 @@ class _PAUser extends State<PAUser> {
                                               updateReject(
                                                   i['_id'],
                                                   i['userPA'][0]['token'],
-                                                  i['idKegiatan']);
+                                                  i['idKegiatan'],
+                                                  i['userPA'][0]['notifGD']);
                                               callDb().then((result) {});
                                             }),
                                       ),

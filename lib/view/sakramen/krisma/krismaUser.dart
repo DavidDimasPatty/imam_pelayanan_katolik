@@ -85,14 +85,14 @@ class _KrismaUser extends State<KrismaUser> {
     }
   }
 
-  void updateReject(id, token, idTarget) async {
+  void updateReject(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["krisma", id, token, idTarget, -1, iduser]));
+            ["krisma", id, token, idTarget, -1, iduser, notif]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -128,14 +128,14 @@ class _KrismaUser extends State<KrismaUser> {
     }
   }
 
-  void updateAccept(id, token, idTarget) async {
+  void updateAccept(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["krisma", id, token, idTarget, 1, iduser]));
+            ["krisma", id, token, idTarget, 1, iduser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -335,7 +335,8 @@ class _KrismaUser extends State<KrismaUser> {
                                             updateAccept(
                                                 i['_id'],
                                                 i['userKrisma'][0]['token'],
-                                                i['idKrisma']);
+                                                i['idKrisma'],
+                                                i['userKrisma'][0]['notifGD']);
                                             callDb().then((result) {});
                                           },
                                         ),
@@ -360,7 +361,9 @@ class _KrismaUser extends State<KrismaUser> {
                                               updateReject(
                                                   i['_id'],
                                                   i['userKrisma'][0]['token'],
-                                                  i['idKrisma']);
+                                                  i['idKrisma'],
+                                                  i['userKrisma'][0]
+                                                      ['notifGD']);
                                             }),
                                       ),
                                     ),

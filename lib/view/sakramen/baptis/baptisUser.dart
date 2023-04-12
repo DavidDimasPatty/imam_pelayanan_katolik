@@ -82,14 +82,14 @@ class _BaptisUser extends State<BaptisUser> {
     }
   }
 
-  void updateReject(id, token, idTarget) async {
+  void updateReject(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["baptis", id, token, idTarget, -1, iduser]));
+            ["baptis", id, token, idTarget, -1, iduser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -126,14 +126,14 @@ class _BaptisUser extends State<BaptisUser> {
     }
   }
 
-  void updateAccept(id, token, idTarget) async {
+  void updateAccept(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["baptis", id, token, idTarget, 1, iduser]));
+            ["baptis", id, token, idTarget, 1, iduser, notif]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
@@ -332,7 +332,8 @@ class _BaptisUser extends State<BaptisUser> {
                                             updateAccept(
                                                 i['_id'],
                                                 i['userBaptis'][0]['token'],
-                                                i['idBaptis']);
+                                                i['idBaptis'],
+                                                i['userBaptis'][0]['notifGD']);
                                           },
                                         ),
                                       ),
@@ -356,7 +357,9 @@ class _BaptisUser extends State<BaptisUser> {
                                               updateReject(
                                                   i['_id'],
                                                   i['userBaptis'][0]['token'],
-                                                  i['idBaptis']);
+                                                  i['idBaptis'],
+                                                  i['userBaptis'][0]
+                                                      ['notifGD']);
                                             }),
                                       ),
                                     ),

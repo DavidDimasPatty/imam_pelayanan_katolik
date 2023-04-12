@@ -83,14 +83,14 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
     }
   }
 
-  Future updateReject(id, token, idTarget) async {
+  Future updateReject(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["baptis", id, token, idTarget, -1, iduser]));
+            ["baptis", id, token, idTarget, -1, iduser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -127,14 +127,14 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
     }
   }
 
-  Future updateAccept(id, token, idTarget) async {
+  Future updateAccept(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["baptis", id, token, idTarget, 1, iduser]));
+            ["baptis", id, token, idTarget, 1, iduser, notif]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -336,7 +336,8 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
                                             updateAccept(
                                                 i['_id'],
                                                 i['userBaptis'][0]['token'],
-                                                i['idBaptis']);
+                                                i['idBaptis'],
+                                                i['userBaptis'][0]['notifGD']);
                                             callDb().then((result) {
                                               setState(() {
                                                 daftarUser.clear();
@@ -368,7 +369,9 @@ class _HistoryBaptisUser extends State<HistoryBaptisUser> {
                                               updateReject(
                                                   i['_id'],
                                                   i['userBaptis'][0]['token'],
-                                                  i['idBaptis']);
+                                                  i['idBaptis'],
+                                                  i['userBaptis'][0]
+                                                      ['notifGD']);
                                               callDb().then((result) {
                                                 setState(() {
                                                   daftarUser.clear();
