@@ -54,6 +54,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
   Future pullRefresh() async {
     callDb().then((result) {
       setState(() {
+        data = 5;
         hasil.clear();
         dummyTemp.clear();
         hasil.clear();
@@ -74,7 +75,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
     completer.complete();
     var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasilDaftar == "fail") {
+    if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Update Status Pengumuman Gereja",
           toastLength: Toast.LENGTH_SHORT,

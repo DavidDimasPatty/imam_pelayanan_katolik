@@ -27,8 +27,10 @@ class _HistoryPAUser extends State<HistoryPAUser> {
   var role;
   var emails;
   var distance;
-  List daftarUser = [];
-
+  List hasil = [];
+  StreamController _controller = StreamController();
+  ScrollController _scrollController = ScrollController();
+  int data = 5;
   List dummyTemp = [];
   final iduser;
   final idGereja;
@@ -41,12 +43,13 @@ class _HistoryPAUser extends State<HistoryPAUser> {
         Tasks('cari pelayanan user', [idPA, "pendalaman alkitab", "history"]));
 
     MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
+    var data = await messagePassing.sendMessage(message);
+    var hasilPencarian = await AgentPage.getDataPencarian();
+
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
-    return await hasil;
+    return await hasilPencarian;
   }
 
   @override
@@ -54,8 +57,9 @@ class _HistoryPAUser extends State<HistoryPAUser> {
     super.initState();
     callDb().then((result) {
       setState(() {
-        daftarUser.addAll(result);
+        hasil.addAll(result);
         dummyTemp.addAll(result);
+        _controller.add(result);
       });
     });
   }
@@ -72,14 +76,13 @@ class _HistoryPAUser extends State<HistoryPAUser> {
         }
       }
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(listOMaps);
+        hasil.clear();
+        hasil.addAll(listOMaps);
       });
-      return daftarUser;
     } else {
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(dummyTemp);
+        hasil.clear();
+        hasil.addAll(dummyTemp);
       });
     }
   }
@@ -96,9 +99,9 @@ class _HistoryPAUser extends State<HistoryPAUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Reject User",
           toastLength: Toast.LENGTH_SHORT,
@@ -118,11 +121,11 @@ class _HistoryPAUser extends State<HistoryPAUser> {
           fontSize: 16.0);
       callDb().then((result) {
         setState(() {
-          daftarUser.clear();
+          hasil.clear();
           dummyTemp.clear();
-          daftarUser.addAll(result);
+          hasil.addAll(result);
           dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
+          _controller.add(result);
         });
       });
     }
@@ -140,9 +143,9 @@ class _HistoryPAUser extends State<HistoryPAUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Accept User",
           toastLength: Toast.LENGTH_SHORT,
@@ -162,28 +165,27 @@ class _HistoryPAUser extends State<HistoryPAUser> {
           fontSize: 16.0);
       callDb().then((result) {
         setState(() {
-          daftarUser.clear();
+          hasil.clear();
           dummyTemp.clear();
-          daftarUser.addAll(result);
+          hasil.addAll(result);
           dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
+          _controller.add(result);
         });
       });
     }
   }
 
   Future pullRefresh() async {
-    setState(() {
-      callDb().then((result) {
-        setState(() {
-          daftarUser.clear();
-          dummyTemp.clear();
-          daftarUser.addAll(result);
-          dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
-        });
+    callDb().then((result) {
+      setState(() {
+        data = 5;
+        hasil.clear();
+        dummyTemp.clear();
+        hasil.clear();
+        hasil.addAll(result);
+        dummyTemp.addAll(result);
+        _controller.add(result);
       });
-      ;
     });
   }
 
@@ -192,6 +194,14 @@ class _HistoryPAUser extends State<HistoryPAUser> {
   Widget build(BuildContext context) {
     editingController.addListener(() async {
       await filterSearchResults(editingController.text);
+    });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          data = data + 5;
+        });
+      }
     });
     return Scaffold(
       appBar: AppBar(
@@ -225,6 +235,7 @@ class _HistoryPAUser extends State<HistoryPAUser> {
       body: RefreshIndicator(
         onRefresh: pullRefresh,
         child: ListView(
+          controller: _scrollController,
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
           children: <Widget>[
@@ -245,12 +256,23 @@ class _HistoryPAUser extends State<HistoryPAUser> {
             ),
 
             /////////
-            FutureBuilder(
-                future: callDb(),
-                builder: (context, AsyncSnapshot snapshot) {
+            StreamBuilder(
+                stream: _controller.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                   try {
                     return Column(children: [
-                      for (var i in daftarUser)
+                      for (var i in hasil.take(data))
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {},
@@ -338,14 +360,6 @@ class _HistoryPAUser extends State<HistoryPAUser> {
                                                 i['userPA'][0]['token'],
                                                 i['idKegiatan'],
                                                 i['userPA'][0]['notifGD']);
-                                            callDb().then((result) {
-                                              setState(() {
-                                                daftarUser.clear();
-                                                dummyTemp.clear();
-                                                daftarUser.addAll(result);
-                                                dummyTemp.addAll(result);
-                                              });
-                                            });
                                           },
                                         ),
                                       ),
@@ -371,14 +385,6 @@ class _HistoryPAUser extends State<HistoryPAUser> {
                                                   i['userPA'][0]['token'],
                                                   i['idKegiatan'],
                                                   i['userPA'][0]['notifGD']);
-                                              callDb().then((result) {
-                                                setState(() {
-                                                  daftarUser.clear();
-                                                  dummyTemp.clear();
-                                                  daftarUser.addAll(result);
-                                                  dummyTemp.addAll(result);
-                                                });
-                                              });
                                             }),
                                       ),
                                     ),

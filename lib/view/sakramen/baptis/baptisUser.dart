@@ -26,6 +26,8 @@ class _BaptisUser extends State<BaptisUser> {
   var role;
   List hasil = [];
   StreamController _controller = StreamController();
+  ScrollController _scrollController = ScrollController();
+  int data = 5;
   List dummyTemp = [];
   final iduser;
   final idGereja;
@@ -96,7 +98,7 @@ class _BaptisUser extends State<BaptisUser> {
     completer.complete();
     var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasilDaftar == "fail") {
+    if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Reject User",
           toastLength: Toast.LENGTH_SHORT,
@@ -139,7 +141,7 @@ class _BaptisUser extends State<BaptisUser> {
     completer.complete();
     var hasilDaftar = await await AgentPage.getDataPencarian();
 
-    if (hasilDaftar == "fail") {
+    if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Accept User",
           toastLength: Toast.LENGTH_SHORT,
@@ -172,6 +174,7 @@ class _BaptisUser extends State<BaptisUser> {
   Future pullRefresh() async {
     callDb().then((result) {
       setState(() {
+        data = 5;
         hasil.clear();
         dummyTemp.clear();
         hasil.clear();
@@ -187,6 +190,14 @@ class _BaptisUser extends State<BaptisUser> {
   Widget build(BuildContext context) {
     editingController.addListener(() async {
       await filterSearchResults(editingController.text);
+    });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          data = data + 5;
+        });
+      }
     });
     return Scaffold(
       appBar: AppBar(
@@ -221,6 +232,7 @@ class _BaptisUser extends State<BaptisUser> {
       body: RefreshIndicator(
         onRefresh: pullRefresh,
         child: ListView(
+          controller: _scrollController,
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
           children: <Widget>[
@@ -257,7 +269,7 @@ class _BaptisUser extends State<BaptisUser> {
                   }
                   try {
                     return Column(children: [
-                      for (var i in hasil)
+                      for (var i in hasil.take(data))
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {},

@@ -27,8 +27,10 @@ class _HistoryKrisma extends State<HistoryKrisma> {
   var role;
   var emails;
   var distance;
-  List daftarUser = [];
-
+  List hasil = [];
+  StreamController _controller = StreamController();
+  ScrollController _scrollController = ScrollController();
+  int data = 5;
   List dummyTemp = [];
   final iduser;
   final idGereja;
@@ -40,12 +42,13 @@ class _HistoryKrisma extends State<HistoryKrisma> {
         Tasks('cari pelayanan', [idGereja, "krisma", "history"]));
 
     MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
+    var data = await messagePassing.sendMessage(message);
+    var hasilPencarian = await AgentPage.getDataPencarian();
+
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
 
     await completer.future;
-    return await hasil;
+    return await hasilPencarian;
   }
 
   @override
@@ -53,8 +56,9 @@ class _HistoryKrisma extends State<HistoryKrisma> {
     super.initState();
     callDb().then((result) {
       setState(() {
-        daftarUser.addAll(result);
+        hasil.addAll(result);
         dummyTemp.addAll(result);
+        _controller.add(result);
       });
     });
   }
@@ -71,30 +75,28 @@ class _HistoryKrisma extends State<HistoryKrisma> {
         }
       }
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(listOMaps);
+        hasil.clear();
+        hasil.addAll(listOMaps);
       });
-      return daftarUser;
     } else {
       setState(() {
-        daftarUser.clear();
-        daftarUser.addAll(dummyTemp);
+        hasil.clear();
+        hasil.addAll(dummyTemp);
       });
     }
   }
 
   Future pullRefresh() async {
-    setState(() {
-      callDb().then((result) {
-        setState(() {
-          daftarUser.clear();
-          dummyTemp.clear();
-          daftarUser.addAll(result);
-          dummyTemp.addAll(result);
-          filterSearchResults(editingController.text);
-        });
+    callDb().then((result) {
+      setState(() {
+        data = 5;
+        hasil.clear();
+        dummyTemp.clear();
+        hasil.clear();
+        hasil.addAll(result);
+        dummyTemp.addAll(result);
+        _controller.add(result);
       });
-      ;
     });
   }
 
@@ -103,6 +105,14 @@ class _HistoryKrisma extends State<HistoryKrisma> {
   Widget build(BuildContext context) {
     editingController.addListener(() async {
       await filterSearchResults(editingController.text);
+    });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          data = data + 5;
+        });
+      }
     });
     return Scaffold(
       appBar: AppBar(
@@ -137,6 +147,7 @@ class _HistoryKrisma extends State<HistoryKrisma> {
       body: RefreshIndicator(
         onRefresh: pullRefresh,
         child: ListView(
+          controller: _scrollController,
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
           children: <Widget>[
@@ -158,12 +169,23 @@ class _HistoryKrisma extends State<HistoryKrisma> {
 
             /////////
             ///
-            FutureBuilder(
-                future: callDb(),
-                builder: (context, AsyncSnapshot snapshot) {
+            StreamBuilder(
+                stream: _controller.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                   try {
                     return Column(children: [
-                      for (var i in daftarUser)
+                      for (var i in hasil.take(data))
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {
