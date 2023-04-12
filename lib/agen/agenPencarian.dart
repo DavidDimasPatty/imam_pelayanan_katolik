@@ -238,7 +238,8 @@ class AgentPencarian extends Agent {
   Future<Message> cariPengumuman(dynamic data, String sender) async {
     var pengumumanCollection =
         MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
-    var conn = await pengumumanCollection.find({'idGereja': data[0]}).toList();
+    var conn =
+        await pengumumanCollection.find(where.eq("idGereja", data[0])).toList();
     Message message = Message(
         'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
     return message;
