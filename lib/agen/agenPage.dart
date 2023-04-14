@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
+
 import 'Agent.dart';
 import 'Goals.dart';
 import 'Plan.dart';
@@ -9,35 +11,14 @@ class AgentPage extends Agent {
   AgentPage() {
     _initAgent();
   }
-
-  List<Plan> _plan = [];
-  List<Goals> _goals = [];
   static List<dynamic> dataView = [];
-  String agentName = "";
-  List _Message = [];
-  List _Sender = [];
 
-  bool canPerformTask(dynamic message) {
-    for (var p in _plan) {
-      if (p.goals == message.task.action && p.protocol == message.protocol) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  Future<dynamic> receiveMessage(Message msg, String sender) {
-    print(agentName + ' received message from $sender');
-    _Message.add(msg);
-    _Sender.add(sender);
-    return performTask();
-  }
-
-  Future<dynamic> performTask() async {
-    Message msg = _Message.last;
-    String sender = _Sender.last;
+  @override
+  Future performTask() async {
+    Message msg = Messages.last;
+    String sender = Senders.last;
     dynamic task = msg.task;
-    for (var p in _plan) {
+    for (var p in plan) {
       action(p.goals, task.data, sender);
       print("View can use data store in " + agentName);
     }
@@ -51,39 +32,37 @@ class AgentPage extends Agent {
     return dataView.last;
   }
 
-  Message rejectTask(dynamic task, sender) {
-    print("MASUK SINIIII");
-    Message message = Message(
-        agentName,
-        sender,
-        "INFORM",
-        Tasks('error', [
-          ['failed']
-        ]));
-
-    print(agentName + ' rejected task form $sender: ${task.action}');
-    return message;
-  }
-
   void _initAgent() {
-    this.agentName = "Agent Page";
-    _plan = [
+    agentName = "Agent Page";
+    plan = [
       Plan("status modifikasi data", "INFORM"), //come from agen Pendaftaran
       Plan("hasil pencarian", "INFORM"), //come from agen Pencarian
       Plan("status aplikasi", "INFORM"), //come from agen Setting
       Plan("status modifikasi/ pencarian data akun",
           "INFORM"), //come from agen Akun
     ];
-    _goals = [
-      Goals("status modifikasi data", String, 5),
-      Goals("hasil pencarian", String, 5),
-      Goals("status aplikasi", String, 5),
-      Goals("status modifikasi/ pencarian data akun", String, 5),
+    goals = [
+      Goals("status modifikasi data", String, 1),
+      Goals("hasil pencarian", String, 1),
+      Goals("status aplikasi", String, 1),
+      Goals("status modifikasi/ pencarian data akun", String, 1),
     ];
   }
 
   @override
-  void action(String goals, data, String sender) {
+  action(String goals, data, String sender) {
     messageSetData(data);
+  }
+
+  @override
+  Message overTime(task, sender) {
+    // TODO: implement overTime
+    throw UnimplementedError();
+  }
+
+  @override
+  addEstimatedTime() {
+    // TODO: implement addEstimatedTime
+    throw UnimplementedError();
   }
 }

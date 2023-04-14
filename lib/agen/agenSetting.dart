@@ -21,88 +21,8 @@ class AgentSetting extends Agent {
   AgentSetting() {
     _initAgent();
   }
-  List<Plan> _plan = [];
-  List<Goals> _goals = [];
-  List<dynamic> pencarianData = [];
-  String agentName = "";
-  bool stop = false;
-  List _Message = [];
-  List _Sender = [];
 
-  static int _estimatedTime = 5;
-
-  bool canPerformTask(dynamic message) {
-    for (var p in _plan) {
-      if (p.goals == message.task.action && p.protocol == message.protocol) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  Future<dynamic> receiveMessage(Message msg, String sender) {
-    print(agentName + ' received message from $sender');
-    _Message.add(msg);
-    _Sender.add(sender);
-    return performTask();
-  }
-
-  Future<dynamic> performTask() async {
-    Message msgCome = _Message.last;
-
-    String sender = _Sender.last;
-    dynamic task = msgCome.task;
-
-    var goalsQuest =
-        _goals.where((element) => element.request == task.action).toList();
-    int clock = goalsQuest[0].time;
-
-    Timer timer = Timer.periodic(Duration(seconds: clock), (timer) {
-      stop = true;
-      timer.cancel();
-      _estimatedTime++;
-      MessagePassing messagePassing = MessagePassing();
-      Message msg = overTime(task, sender);
-      messagePassing.sendMessage(msg);
-    });
-
-    Message message;
-    try {
-      message = await action(task.action, msgCome, sender);
-    } catch (e) {
-      message = Message(
-          agentName, sender, "INFORM", Tasks('lack of parameters', "failed"));
-    }
-
-    if (stop == false) {
-      if (timer.isActive) {
-        timer.cancel();
-        bool checkGoals = false;
-        if (message.task.data.runtimeType == String &&
-            message.task.data == "failed") {
-          MessagePassing messagePassing = MessagePassing();
-          Message msg = rejectTask(msgCome, sender);
-          return messagePassing.sendMessage(msg);
-        } else {
-          for (var g in _goals) {
-            if (g.request == task.action &&
-                g.goals == message.task.data.runtimeType) {
-              checkGoals = true;
-              break;
-            }
-          }
-
-          if (checkGoals == true) {
-            print(agentName + ' returning data to ${message.receiver}');
-            MessagePassing messagePassing = MessagePassing();
-            messagePassing.sendMessage(message);
-          } else {
-            rejectTask(message, sender);
-          }
-        }
-      }
-    }
-  }
+  static int _estimatedTime = 10;
 
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
@@ -207,42 +127,19 @@ class AgentSetting extends Agent {
     return message;
   }
 
-  Message rejectTask(dynamic task, sender) {
-    Message message = Message(
-        "Agent Akun",
-        sender,
-        "INFORM",
-        Tasks('error', [
-          ['failed']
-        ]));
-
-    print(this.agentName +
-        ' rejected task from $sender because not capable of doing: ${task.task.action} with protocol ${task.protocol}');
-    return message;
+  @override
+  addEstimatedTime() {
+    _estimatedTime++;
   }
 
-  Message overTime(dynamic task, sender) {
-    Message message = Message(
-        agentName,
-        sender,
-        "INFORM",
-        Tasks('error', [
-          ['failed']
-        ]));
-
-    print(this.agentName +
-        ' rejected task from $sender because takes time too long: ${task.task.action}');
-    return message;
-  }
-
-  void _initAgent() {
-    this.agentName = "Agent Setting";
-    _plan = [
+  _initAgent() {
+    agentName = "Agent Setting";
+    plan = [
       Plan("setting user", "REQUEST"),
       Plan("log out", "REQUEST"),
       Plan("save data", "REQUEST"),
     ];
-    _goals = [
+    goals = [
       Goals("setting user", List<List<dynamic>>, _estimatedTime),
       Goals("log out", String, _estimatedTime),
       Goals("save data", String, _estimatedTime),
