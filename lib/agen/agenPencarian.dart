@@ -20,6 +20,7 @@ class AgentPencarian extends Agent {
   String agentName = "";
   List _Message = [];
   List _Sender = [];
+  static int _estimatedTime = 5;
 
   bool canPerformTask(dynamic message) {
     for (var p in _plan) {
@@ -38,9 +39,10 @@ class AgentPencarian extends Agent {
   }
 
   Future<dynamic> performTask() async {
-    Message msg = _Message.last;
+    Message msgCome = _Message.last;
+
     String sender = _Sender.last;
-    dynamic task = msg.task;
+    dynamic task = msgCome.task;
 
     var goalsQuest =
         _goals.where((element) => element.request == task.action).toList();
@@ -49,14 +51,19 @@ class AgentPencarian extends Agent {
     Timer timer = Timer.periodic(Duration(seconds: clock), (timer) {
       stop = true;
       timer.cancel();
-
+      _estimatedTime++;
       MessagePassing messagePassing = MessagePassing();
-      Message msg = rejectTask(task, sender);
+      Message msg = overTime(task, sender);
       messagePassing.sendMessage(msg);
-      return;
     });
 
-    Message message = await action(task.action, task.data, sender);
+    Message message;
+    try {
+      message = await action(task.action, msgCome, sender);
+    } catch (e) {
+      message = Message(
+          agentName, sender, "INFORM", Tasks('lack of parameters', "failed"));
+    }
 
     if (stop == false) {
       if (timer.isActive) {
@@ -65,8 +72,8 @@ class AgentPencarian extends Agent {
         if (message.task.data.runtimeType == String &&
             message.task.data == "failed") {
           MessagePassing messagePassing = MessagePassing();
-          Message msg = rejectTask(task, sender);
-          messagePassing.sendMessage(msg);
+          Message msg = rejectTask(msgCome, sender);
+          return messagePassing.sendMessage(msg);
         } else {
           for (var g in _goals) {
             if (g.request == task.action &&
@@ -81,7 +88,7 @@ class AgentPencarian extends Agent {
             MessagePassing messagePassing = MessagePassing();
             messagePassing.sendMessage(message);
           } else {
-            rejectTask(task, sender);
+            rejectTask(message, sender);
           }
         }
       }
@@ -91,29 +98,29 @@ class AgentPencarian extends Agent {
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
       case "cari aturan pelayanan":
-        return cariAturanPelayanan(data, sender);
+        return cariAturanPelayanan(data.task.data, sender);
       case "cari pengumuman edit":
-        return cariPengumumanEdit(data, sender);
+        return cariPengumumanEdit(data.task.data, sender);
       case "cari pengumuman":
-        return cariPengumuman(data, sender);
+        return cariPengumuman(data.task.data, sender);
       case "cari pelayanan":
-        return cariPelayanan(data, sender);
+        return cariPelayanan(data.task.data, sender);
       case "cari pelayanan user":
-        return cariPelayananUser(data, sender);
+        return cariPelayananUser(data.task.data, sender);
       case "cari pelayanan pendaftaran":
-        return cariPelayananPendaftaran(data, sender);
+        return cariPelayananPendaftaran(data.task.data, sender);
       case "cari data edit pelayanan":
-        return cariEditPelayanan(data, sender);
+        return cariEditPelayanan(data.task.data, sender);
       case "cari jumlah":
-        return cariJumlah(data, sender);
+        return cariJumlah(data.task.data, sender);
       case "cari jumlah sakramen":
-        return cariJumlahSakramen(data, sender);
+        return cariJumlahSakramen(data.task.data, sender);
       case "cari jumlah umum":
-        return cariJumlahUmum(data, sender);
+        return cariJumlahUmum(data.task.data, sender);
       case "cari profile":
-        return cariProfile(data, sender);
+        return cariProfile(data.task.data, sender);
       default:
-        return rejectTask(data, data);
+        return rejectTask(data, sender);
     }
   }
 
@@ -840,30 +847,35 @@ class AgentPencarian extends Agent {
 
   Message rejectTask(dynamic task, sender) {
     Message message = Message(
-        "Agent Pencarian",
+        "Agent Akun",
         sender,
         "INFORM",
         Tasks('error', [
           ['failed']
         ]));
 
-    print(this.agentName + ' rejected task form $sender: ${task.action}');
+    print(this.agentName +
+        ' rejected task from $sender because not capable of doing: ${task.task.action} with protocol ${task.protocol}');
     return message;
   }
 
-  Message overTime(sender) {
+  Message overTime(dynamic task, sender) {
     Message message = Message(
+        agentName,
         sender,
-        "Agent Pencarian",
         "INFORM",
         Tasks('error', [
-          ['reject over time']
+          ['failed']
         ]));
+
+    print(this.agentName +
+        ' rejected task from $sender because takes time too long: ${task.task.action}');
     return message;
   }
 
   void _initAgent() {
     this.agentName = "Agent Pencarian";
+
     _plan = [
       Plan("cari aturan pelayanan", "REQUEST"),
       Plan("cari pengumuman edit", "REQUEST"),

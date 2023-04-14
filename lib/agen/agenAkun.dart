@@ -24,6 +24,7 @@ class AgentAkun extends Agent {
   List _Message = [];
   List _Sender = [];
   bool stop = false;
+  static int _estimatedTime = 5;
 
   bool canPerformTask(dynamic message) {
     for (var p in _plan) {
@@ -42,9 +43,10 @@ class AgentAkun extends Agent {
   }
 
   Future<dynamic> performTask() async {
-    Message msg = _Message.last;
+    Message msgCome = _Message.last;
+
     String sender = _Sender.last;
-    dynamic task = msg.task;
+    dynamic task = msgCome.task;
 
     var goalsQuest =
         _goals.where((element) => element.request == task.action).toList();
@@ -53,14 +55,19 @@ class AgentAkun extends Agent {
     Timer timer = Timer.periodic(Duration(seconds: clock), (timer) {
       stop = true;
       timer.cancel();
-
+      _estimatedTime++;
       MessagePassing messagePassing = MessagePassing();
-      Message msg = rejectTask(task, sender);
+      Message msg = overTime(task, sender);
       messagePassing.sendMessage(msg);
-      return;
     });
 
-    Message message = await action(task.action, task.data, sender);
+    Message message;
+    try {
+      message = await action(task.action, msgCome, sender);
+    } catch (e) {
+      message = Message(
+          agentName, sender, "INFORM", Tasks('lack of parameters', "failed"));
+    }
 
     if (stop == false) {
       if (timer.isActive) {
@@ -69,8 +76,8 @@ class AgentAkun extends Agent {
         if (message.task.data.runtimeType == String &&
             message.task.data == "failed") {
           MessagePassing messagePassing = MessagePassing();
-          Message msg = rejectTask(task, sender);
-          messagePassing.sendMessage(msg);
+          Message msg = rejectTask(msgCome, sender);
+          return messagePassing.sendMessage(msg);
         } else {
           for (var g in _goals) {
             if (g.request == task.action &&
@@ -85,7 +92,7 @@ class AgentAkun extends Agent {
             MessagePassing messagePassing = MessagePassing();
             messagePassing.sendMessage(message);
           } else {
-            rejectTask(task, sender);
+            rejectTask(message, sender);
           }
         }
       }
@@ -95,33 +102,33 @@ class AgentAkun extends Agent {
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
       case "login":
-        return login(data, sender);
+        return login(data.task.data, sender);
       case "edit status":
-        return changeStatus(data, sender);
+        return changeStatus(data.task.data, sender);
       case "cari profile":
-        return cariProfile(data, sender);
+        return cariProfile(data.task.data, sender);
       case "cari data gereja":
-        return cariProfileGereja(data, sender);
+        return cariProfileGereja(data.task.data, sender);
       case "cari data aturan pelayanan":
-        return cariDataAturanPelayanan(data, sender);
+        return cariDataAturanPelayanan(data.task.data, sender);
       case "edit profile gereja":
-        return EditProfileGereja(data, sender);
+        return EditProfileGereja(data.task.data, sender);
       case "edit profile imam":
-        return EditProfileImam(data, sender);
+        return EditProfileImam(data.task.data, sender);
       case "edit aturan pelayanan":
-        return EditAturanPelayanan(data, sender);
+        return EditAturanPelayanan(data.task.data, sender);
       case "cari data imam":
-        return cariDataImam(data, sender);
+        return cariDataImam(data.task.data, sender);
       case "update notification":
-        return updateNotification(data, sender);
+        return updateNotification(data.task.data, sender);
       case "find password":
-        return cariPassword(data, sender);
+        return cariPassword(data.task.data, sender);
       case "change password":
-        return gantiPassword(data, sender);
+        return gantiPassword(data.task.data, sender);
       case "change profile picture":
-        return changeProfilePicture(data, sender);
+        return changeProfilePicture(data.task.data, sender);
       case "cari jumlah":
-        return cariJumlah(data, sender);
+        return cariJumlah(data.task.data, sender);
       default:
         return rejectTask(data, sender);
     }
@@ -456,18 +463,22 @@ class AgentAkun extends Agent {
           ['failed']
         ]));
 
-    print(this.agentName + ' rejected task form $sender: ${task.action}');
+    print(this.agentName +
+        ' rejected task from $sender because not capable of doing: ${task.task.action} with protocol ${task.protocol}');
     return message;
   }
 
-  Message overTime(sender) {
+  Message overTime(dynamic task, sender) {
     Message message = Message(
+        agentName,
         sender,
-        "Agent Akun",
         "INFORM",
         Tasks('error', [
-          ['reject over time']
+          ['failed']
         ]));
+
+    print(this.agentName +
+        ' rejected task from $sender because takes time too long: ${task.task.action}');
     return message;
   }
 
@@ -490,20 +501,21 @@ class AgentAkun extends Agent {
       Plan("cari jumlah", "REQUEST"),
     ];
     _goals = [
-      Goals("login", List<Map<String, Object?>>, 5),
-      Goals("edit status", String, 2),
-      Goals("edit profile gereja", String, 2),
-      Goals("edit profile imam", String, 2),
-      Goals("edit aturan pelayanan", String, 2),
-      Goals("cari data imam", List<Map<String, Object?>>, 2),
-      Goals("update notification", String, 2),
-      Goals("find password", String, 2),
-      Goals("cari jumlah", String, 2),
-      Goals("change password", String, 2),
-      Goals("change profile picture", String, 2),
-      Goals("cari profile", List<dynamic>, 2),
-      Goals("cari data gereja", List<Map<String, Object?>>, 2),
-      Goals("cari data aturan pelayanan", List<Map<String, Object?>>, 2),
+      Goals("login", List<Map<String, Object?>>, _estimatedTime),
+      Goals("edit status", String, _estimatedTime),
+      Goals("edit profile gereja", String, _estimatedTime),
+      Goals("edit profile imam", String, _estimatedTime),
+      Goals("edit aturan pelayanan", String, _estimatedTime),
+      Goals("cari data imam", List<Map<String, Object?>>, _estimatedTime),
+      Goals("update notification", String, _estimatedTime),
+      Goals("find password", String, _estimatedTime),
+      Goals("cari jumlah", String, _estimatedTime),
+      Goals("change password", String, _estimatedTime),
+      Goals("change profile picture", String, _estimatedTime),
+      Goals("cari profile", List<dynamic>, _estimatedTime),
+      Goals("cari data gereja", List<Map<String, Object?>>, _estimatedTime),
+      Goals("cari data aturan pelayanan", List<Map<String, Object?>>,
+          _estimatedTime),
     ];
   }
 }
