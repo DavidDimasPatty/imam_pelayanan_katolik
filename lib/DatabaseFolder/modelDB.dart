@@ -1,7 +1,7 @@
 import 'package:mongo_dart/mongo_dart.dart';
 
 class modelDB {
-  user(
+  static user(
       String nama,
       String email,
       String password,
@@ -33,7 +33,7 @@ class modelDB {
     return model;
   }
 
-  imam(
+  static imam(
     String email,
     String password,
     ObjectId idGereja,
@@ -72,7 +72,7 @@ class modelDB {
     return model;
   }
 
-  Gereja(
+  static Gereja(
       String nama,
       String address,
       String paroki,
@@ -104,7 +104,7 @@ class modelDB {
     return model;
   }
 
-  baptis(
+  static baptis(
     ObjectId idGereja,
     String jenis,
     int status,
@@ -131,7 +131,7 @@ class modelDB {
     return model;
   }
 
-  krisma(
+  static krisma(
     ObjectId idGereja,
     String jenis,
     int status,
@@ -158,7 +158,7 @@ class modelDB {
     return model;
   }
 
-  komuni(
+  static komuni(
     ObjectId idGereja,
     String jenis,
     int status,
@@ -185,22 +185,22 @@ class modelDB {
     return model;
   }
 
-  umum(
+  static umum(
     ObjectId idGereja,
     String namaKegiatan,
     String temaKegiatan,
+    String jenisKegiatan,
     String deskripsiKegiatan,
     String tamu,
-    int kapasitas,
     DateTime tanggal,
+    int kapasitas,
     String lokasi,
-    String jenisKegiatan,
     String picture,
     int status,
-    DateTime updatedAt,
-    ObjectId updatedBy,
     DateTime createdAt,
     ObjectId createdBy,
+    DateTime updatedAt,
+    ObjectId updatedBy,
   ) {
     var model = {
       "idGereja": idGereja,
@@ -222,7 +222,7 @@ class modelDB {
     return model;
   }
 
-  userKomuni(
+  static userKomuni(
     ObjectId idKomuni,
     ObjectId idUser,
     DateTime tanggalDaftar,
@@ -241,7 +241,7 @@ class modelDB {
     return model;
   }
 
-  userBaptis(
+  static userBaptis(
     ObjectId idBaptis,
     ObjectId idUser,
     DateTime tanggalDaftar,
@@ -260,7 +260,7 @@ class modelDB {
     return model;
   }
 
-  userUmum(
+  static userUmum(
     ObjectId idKegiatan,
     ObjectId idUser,
     DateTime tanggalDaftar,
@@ -279,7 +279,7 @@ class modelDB {
     return model;
   }
 
-  userKrisma(
+  static userKrisma(
     ObjectId idKrisma,
     ObjectId idUser,
     DateTime tanggalDaftar,
@@ -298,7 +298,7 @@ class modelDB {
     return model;
   }
 
-  pemberkatan(
+  static pemberkatan(
     ObjectId idUser,
     ObjectId idGereja,
     ObjectId idImam,
@@ -337,7 +337,7 @@ class modelDB {
     return model;
   }
 
-  perkawinan(
+  static perkawinan(
     ObjectId idUser,
     ObjectId idGereja,
     ObjectId idImam,
@@ -374,34 +374,32 @@ class modelDB {
     return model;
   }
 
-  gambarGereja(
-    ObjectId idUser,
+  static gambarGereja(
     ObjectId idGereja,
     String gambar,
     String caption,
-    String title,
     int status,
-    DateTime updatedAt,
-    ObjectId updatedBy,
+    String title,
     DateTime createdAt,
     ObjectId createdBy,
+    DateTime updatedAt,
+    ObjectId updatedBy,
   ) {
     var model = {
-      "idUser": idUser,
-      "idGereja": idGereja,
-      "gambar": gambar,
-      "caption": caption,
-      "title": title,
-      "status": status,
-      "updatedAt": updatedAt,
-      "updatedBy": updatedBy,
+      'idGereja': idGereja,
+      'gambar': gambar,
+      'caption': caption,
+      'status': status,
+      'title': title,
       "createdAt": createdAt,
       "createdBy": createdBy,
+      "updatedAt": updatedAt,
+      "updatedBy": updatedBy,
     };
     return model;
   }
 
-  aturanPelayanan(
+  static aturanPelayanan(
     ObjectId idGereja,
     String baptis,
     String komuni,
@@ -432,10 +430,38 @@ class modelDB {
     return model;
   }
 
-  admin(String user, String password) {
+  static admin(String user, String password) {
     var model = {
       "user": user,
       "password": password,
+    };
+    return model;
+  }
+
+  ///Khusus Imam Pelayanan
+  static Pelayanan(
+    ObjectId idGereja,
+    int kapasitas,
+    DateTime jadwalBuka,
+    DateTime jadwalTutup,
+    int status,
+    String jenis,
+    DateTime createdAt,
+    ObjectId createdBy,
+    DateTime updatedAt,
+    ObjectId updatedBy,
+  ) {
+    var model = {
+      "idGereja": idGereja,
+      "jenis": jenis,
+      "status": status,
+      "kapasitas": kapasitas,
+      "jadwalBuka": jadwalBuka,
+      "jadwalTutup": jadwalTutup,
+      "updatedAt": updatedAt,
+      "updatedBy": updatedBy,
+      "createdAt": createdAt,
+      "createdBy": createdBy,
     };
     return model;
   }

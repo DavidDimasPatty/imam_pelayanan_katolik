@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:imam_pelayanan_katolik/DatabaseFolder/modelDB.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -229,15 +230,8 @@ class AgentPendaftaran extends Agent {
         MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
 
     if (data[4] == true) {
-      DateTime now = new DateTime.now();
-      DateTime date = new DateTime(
-          now.year, now.month, now.day, now.hour, now.minute, now.second);
-      final filename = date.toString();
-      final destination = 'files/Imam Pelayanan Katolik/pengumuman/$filename';
-      UploadTask? task = FirebaseApi.uploadFile(destination, data[3]);
-      final snapshot = await task!.whenComplete(() {});
-      final urlDownload = await snapshot.ref.getDownloadURL();
-
+      var urlDownload = await FirebaseApi.configureUpload(
+          'files/Imam Pelayanan Katolik/pengumuman/', data[3]);
       var update = await pengumumanCollection.updateOne(
           where.eq('_id', data[2]),
           modify
@@ -282,34 +276,28 @@ class AgentPendaftaran extends Agent {
     }
     if (data[0] == "umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-      var PengumumanCollection =
-          MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
-      DateTime now = new DateTime.now();
-      DateTime date = new DateTime(
-          now.year, now.month, now.day, now.hour, now.minute, now.second);
-      final filename = date.toString();
-      final destination =
-          'files/Imam Pelayanan Katolik/kegiatan umum/$filename';
-      UploadTask? task = FirebaseApi.uploadFile(destination, data[11]);
-      final snapshot = await task!.whenComplete(() {});
-      final urlDownload = await snapshot.ref.getDownloadURL();
-      var add = await pelayananCollection.insertOne({
-        'idGereja': data[1],
-        'namaKegiatan': data[2],
-        'temaKegiatan': data[3],
-        'jenisKegiatan': data[4],
-        'deskripsiKegiatan': data[5],
-        'tamu': data[6],
-        'tanggal': DateTime.parse(data[7]),
-        'kapasitas': int.parse(data[8]),
-        'lokasi': data[9],
-        "picture": urlDownload,
-        'status': 0,
-        "createdAt": DateTime.now(),
-        "createdBy": data[10],
-        "updatedAt": DateTime.now(),
-        "updatedBy": data[10],
-      });
+
+      String urlDownload = await FirebaseApi.configureUpload(
+          'files/Imam Pelayanan Katolik/kegiatan umum/', data[11]);
+      var configJson = modelDB.umum(
+        data[1],
+        data[2],
+        data[3],
+        data[4],
+        data[5],
+        data[6],
+        DateTime.parse(data[7]),
+        int.parse(data[8]),
+        data[9],
+        urlDownload,
+        0,
+        DateTime.now(),
+        data[10],
+        DateTime.now(),
+        data[10],
+      );
+
+      var add = await pelayananCollection.insertOne(configJson);
       if (add.isSuccess) {
         Message message = Message(agentName, sender, "INFORM",
             Tasks('status modifikasi data', "oke"));
@@ -320,19 +308,20 @@ class AgentPendaftaran extends Agent {
         return message;
       }
     }
+    var configJson = modelDB.Pelayanan(
+      data[1],
+      int.parse(data[2]),
+      DateTime.parse(data[3]),
+      DateTime.parse(data[4]),
+      0,
+      data[6],
+      DateTime.now(),
+      data[5],
+      DateTime.now(),
+      data[5],
+    );
 
-    var add = await pelayananCollection.insertOne({
-      'idGereja': data[1],
-      'kapasitas': int.parse(data[2]),
-      'jadwalBuka': DateTime.parse(data[3]),
-      'jadwalTutup': DateTime.parse(data[4]),
-      'status': 0,
-      'jenis': data[6],
-      "createdAt": DateTime.now(),
-      "createdBy": data[5],
-      "updatedAt": DateTime.now(),
-      "updatedBy": data[5],
-    });
+    var add = await pelayananCollection.insertOne(configJson);
     if (add.isSuccess) {
       Message message = Message(
           agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
@@ -358,7 +347,6 @@ class AgentPendaftaran extends Agent {
     if (data[0] == "umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
     }
-
     var update = await pelayananCollection.updateOne(
         where.eq('_id', data[1]),
         modify
@@ -412,15 +400,8 @@ class AgentPendaftaran extends Agent {
     if (data[0] == "umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
       if (data[12] == true) {
-        DateTime now = new DateTime.now();
-        DateTime date = new DateTime(
-            now.year, now.month, now.day, now.hour, now.minute, now.second);
-        final filename = date.toString();
-        final destination =
-            'files/Imam Pelayanan Katolik/kegiatan umum/$filename';
-        UploadTask? task = FirebaseApi.uploadFile(destination, data[11]);
-        final snapshot = await task!.whenComplete(() {});
-        final urlDownload = await snapshot.ref.getDownloadURL();
+        var urlDownload = await FirebaseApi.configureUpload(
+            'files/Imam Pelayanan Katolik/kegiatan umum/', data[11]);
         var update = await pelayananCollection.updateOne(
             where.eq('_id', data[1]),
             modify
@@ -495,28 +476,21 @@ class AgentPendaftaran extends Agent {
   Future<Message> addPengumuman(dynamic data, String sender) async {
     var PengumumanCollection =
         MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(
-        now.year, now.month, now.day, now.hour, now.minute, now.second);
-    final filename = date.toString();
-    final destination = 'files/Imam Pelayanan Katolik/pengumuman/$filename';
-    UploadTask? task = FirebaseApi.uploadFile(destination, data[1]);
-    final snapshot = await task!.whenComplete(() {});
-    final urlDownload = await snapshot.ref.getDownloadURL();
+    var urlDownload = await FirebaseApi.configureUpload(
+        'files/Imam Pelayanan Katolik/pengumuman/', data[1]);
 
-    var add = await PengumumanCollection.insertOne({
-      'idGereja': data[0],
-      'gambar': urlDownload,
-      'caption': data[2],
-      'tanggal': DateTime.now(),
-      'status': 0,
-      'title': data[3],
-      "createdAt": DateTime.now(),
-      "createdBy": data[4],
-      "updatedAt": DateTime.now(),
-      "updatedBy": data[4],
-    });
-
+    var configJson = modelDB.gambarGereja(
+      data[0],
+      urlDownload,
+      data[2],
+      0,
+      data[3],
+      DateTime.now(),
+      data[4],
+      DateTime.now(),
+      data[4],
+    );
+    var add = await PengumumanCollection.insertOne(configJson);
     if (add.isSuccess) {
       Message message = Message('Agent Pendaftaran', sender, "INFORM",
           Tasks('status modifikasi data', "oke"));
