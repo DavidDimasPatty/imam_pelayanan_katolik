@@ -65,7 +65,7 @@ class _HistorySakramentali extends State<HistorySakramentali> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['userDaftar'][0]['name']
+        if (item['userDaftar'][0]['nama']
             .toLowerCase()
             .contains(query.toLowerCase())) {
           listOMaps.add(item);
@@ -212,7 +212,7 @@ class _HistorySakramentali extends State<HistorySakramentali> {
                                 //Color(Colors.blue);
 
                                 Text(
-                                  i['userDaftar'][0]['name'],
+                                  i['userDaftar'][0]['nama'],
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 26.0,

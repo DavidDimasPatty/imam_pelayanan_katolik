@@ -70,7 +70,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['userRekoleksi'][0]['name']
+        if (item['userRekoleksi'][0]['nama']
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase())) {
@@ -299,7 +299,7 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
 
                                 Text(
                                   "Nama :" +
-                                      i['userRekoleksi'][0]['name'].toString(),
+                                      i['userRekoleksi'][0]['nama'].toString(),
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20.0,

@@ -172,7 +172,7 @@ class _HomePage extends State<HomePage> {
                                                   Text(
                                                     "Halo, \n" +
                                                         snapshot.data[4][0]
-                                                            ['name'],
+                                                            ['nama'],
                                                     style: TextStyle(
                                                       color: Colors.blue,
                                                       fontSize: 13.0,

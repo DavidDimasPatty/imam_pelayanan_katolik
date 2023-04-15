@@ -65,7 +65,7 @@ class _BaptisUser extends State<BaptisUser> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['userBaptis'][0]['name']
+        if (item['userBaptis'][0]['nama']
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase())) {
@@ -84,7 +84,7 @@ class _BaptisUser extends State<BaptisUser> {
     }
   }
 
-  void updateReject(id, token, idTarget, notif) async {
+  Future updateReject(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -128,7 +128,7 @@ class _BaptisUser extends State<BaptisUser> {
     }
   }
 
-  void updateAccept(id, token, idTarget, notif) async {
+  Future updateAccept(id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -295,7 +295,7 @@ class _BaptisUser extends State<BaptisUser> {
 
                                 Text(
                                   "Nama :" +
-                                      i['userBaptis'][0]['name'].toString(),
+                                      i['userBaptis'][0]['nama'].toString(),
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20.0,
