@@ -23,39 +23,39 @@ class AgentAkun extends Agent {
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
       case "login":
-        return login(data.task.data, sender);
+        return _login(data.task.data, sender);
       case "edit status":
-        return changeStatus(data.task.data, sender);
+        return _changeStatus(data.task.data, sender);
       case "cari profile":
-        return cariProfile(data.task.data, sender);
+        return _cariProfile(data.task.data, sender);
       case "cari data gereja":
-        return cariProfileGereja(data.task.data, sender);
+        return _cariProfileGereja(data.task.data, sender);
       case "cari data aturan pelayanan":
-        return cariDataAturanPelayanan(data.task.data, sender);
+        return _cariDataAturanPelayanan(data.task.data, sender);
       case "edit profile gereja":
-        return EditProfileGereja(data.task.data, sender);
+        return _EditProfileGereja(data.task.data, sender);
       case "edit profile imam":
-        return EditProfileImam(data.task.data, sender);
+        return _EditProfileImam(data.task.data, sender);
       case "edit aturan pelayanan":
-        return EditAturanPelayanan(data.task.data, sender);
+        return _EditAturanPelayanan(data.task.data, sender);
       case "cari data imam":
-        return cariDataImam(data.task.data, sender);
+        return _cariDataImam(data.task.data, sender);
       case "update notification":
-        return updateNotification(data.task.data, sender);
+        return _updateNotification(data.task.data, sender);
       case "find password":
-        return cariPassword(data.task.data, sender);
+        return _cariPassword(data.task.data, sender);
       case "change password":
-        return gantiPassword(data.task.data, sender);
+        return _gantiPassword(data.task.data, sender);
       case "change profile picture":
-        return changeProfilePicture(data.task.data, sender);
+        return _changeProfilePicture(data.task.data, sender);
       case "cari jumlah":
-        return cariJumlah(data.task.data, sender);
+        return _cariJumlah(data.task.data, sender);
       default:
         return rejectTask(data, sender);
     }
   }
 
-  Future<Message> cariJumlah(dynamic data, String sender) async {
+  Future<Message> _cariJumlah(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
 
     final pipeliner = AggregationPipelineBuilder()
@@ -83,7 +83,7 @@ class AgentAkun extends Agent {
     return message;
   }
 
-  Future<Message> login(dynamic data, String sender) async {
+  Future<Message> _login(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection
         .find({'email': data[0], 'password': data[1], 'banned': 0}).toList();
@@ -101,7 +101,7 @@ class AgentAkun extends Agent {
     messagePassing.sendMessage(message);
   }
 
-  Future<Message> changeStatus(dynamic data, String sender) async {
+  Future<Message> _changeStatus(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     String change = "";
     if (data[2] == "sakramentali") {
@@ -130,7 +130,7 @@ class AgentAkun extends Agent {
     }
   }
 
-  Future<Message> cariProfile(dynamic data, String sender) async {
+  Future<Message> _cariProfile(dynamic data, String sender) async {
     var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     final pipeline5 = AggregationPipelineBuilder()
         .addStage(Lookup(
@@ -157,7 +157,7 @@ class AgentAkun extends Agent {
     return message;
   }
 
-  Future<Message> cariProfileGereja(dynamic data, String sender) async {
+  Future<Message> _cariProfileGereja(dynamic data, String sender) async {
     var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
     var conn = await gerejaCollection.find({'_id': data}).toList();
     Message message = Message(agentName, sender, "INFORM",
@@ -166,8 +166,7 @@ class AgentAkun extends Agent {
     return message;
   }
 
-  Future<Message> cariDataAturanPelayanan(dynamic data, String sender) async {
-  
+  Future<Message> _cariDataAturanPelayanan(dynamic data, String sender) async {
     var aturanPelayananCollection =
         MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
     var conn =
@@ -178,7 +177,7 @@ class AgentAkun extends Agent {
     return message;
   }
 
-  Future<Message> EditProfileGereja(dynamic data, String sender) async {
+  Future<Message> _EditProfileGereja(dynamic data, String sender) async {
     if (data[7] == true) {
       var urlDownload = await FirebaseApi.configureUpload(
           'files/Imam Pelayanan Katolik/gereja/', data[6]);
@@ -227,7 +226,7 @@ class AgentAkun extends Agent {
     }
   }
 
-  Future<Message> EditAturanPelayanan(dynamic data, String sender) async {
+  Future<Message> _EditAturanPelayanan(dynamic data, String sender) async {
     var aturanPelayananCollection =
         MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
 
@@ -254,7 +253,7 @@ class AgentAkun extends Agent {
     }
   }
 
-  Future<Message> cariEditProfileImam(dynamic data, String sender) async {
+  Future<Message> _cariEditProfileImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection.find({'_id': data[1][0]});
     Message message = Message(agentName, sender, "INFORM",
@@ -262,7 +261,7 @@ class AgentAkun extends Agent {
     return message;
   }
 
-  Future<Message> EditProfileImam(dynamic data, String sender) async {
+  Future<Message> _EditProfileImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
 
     var update = await imamCollection.updateOne(
@@ -283,7 +282,7 @@ class AgentAkun extends Agent {
     }
   }
 
-  Future<Message> cariDataImam(dynamic data, String sender) async {
+  Future<Message> _cariDataImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection.find({'_id': data}).toList();
     print(conn);
@@ -292,7 +291,7 @@ class AgentAkun extends Agent {
     return message;
   }
 
-  Future<Message> updateNotification(dynamic data, String sender) async {
+  Future<Message> _updateNotification(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var update = await imamCollection.updateOne(
         where.eq('_id', data[0]), modify.set('notif', data[1]));
@@ -307,7 +306,7 @@ class AgentAkun extends Agent {
     }
   }
 
-  Future<Message> cariPassword(dynamic data, String sender) async {
+  Future<Message> _cariPassword(dynamic data, String sender) async {
     var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await userCollection
         .find({'_id': data[0], 'password': data[1]}).toList();
@@ -328,7 +327,7 @@ class AgentAkun extends Agent {
     }
   }
 
-  Future<Message> gantiPassword(dynamic data, String sender) async {
+  Future<Message> _gantiPassword(dynamic data, String sender) async {
     var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await userCollection.updateOne(
         where.eq('_id', data[0]), modify.set('password', data[1]));
@@ -343,7 +342,7 @@ class AgentAkun extends Agent {
     }
   }
 
-  Future<Message> changeProfilePicture(dynamic data, String sender) async {
+  Future<Message> _changeProfilePicture(dynamic data, String sender) async {
     var urlDownload = await FirebaseApi.configureUpload(
         'files/Imam Pelayanan Katolik/imam/', data[1]);
     var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);

@@ -34,10 +34,6 @@ class _editBaptis extends State<editBaptis> {
   final iduser;
   final idGereja;
   final idBaptis;
-  String _selectedDate = '';
-  String _dateCount = '';
-  String _range = '';
-  String _rangeCount = '';
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
@@ -48,21 +44,10 @@ class _editBaptis extends State<editBaptis> {
     setState(() {
       print(args.toString());
       if (args.value is PickerDateRange) {
-        _range = '${DateFormat('yyyy-MM-dd').format(args.value.startDate)} -'
-            // ignore: lines_longer_than_80_chars
-            ' ${DateFormat('yyyy-MM-dd').format(args.value.endDate ?? args.value.startDate)}';
         tanggalBuka =
             '${DateFormat('yyyy-MM-dd').format(args.value.startDate)}';
         tanggalTutup =
             '${DateFormat('yyyy-MM-dd').format(args.value.endDate ?? args.value.startDate)}';
-        print(tanggalBuka);
-        print(tanggalTutup);
-      } else if (args.value is DateTime) {
-        _selectedDate = args.value.toString();
-      } else if (args.value is List<DateTime>) {
-        _dateCount = args.value.length.toString();
-      } else {
-        _rangeCount = args.value.length.toString();
       }
     });
   }

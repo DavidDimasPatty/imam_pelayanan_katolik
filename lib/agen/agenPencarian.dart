@@ -19,33 +19,33 @@ class AgentPencarian extends Agent {
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
       case "cari aturan pelayanan":
-        return cariAturanPelayanan(data.task.data, sender);
+        return _cariAturanPelayanan(data.task.data, sender);
       case "cari pengumuman edit":
-        return cariPengumumanEdit(data.task.data, sender);
+        return _cariPengumumanEdit(data.task.data, sender);
       case "cari pengumuman":
-        return cariPengumuman(data.task.data, sender);
+        return _cariPengumuman(data.task.data, sender);
       case "cari pelayanan":
-        return cariPelayanan(data.task.data, sender);
+        return _cariPelayanan(data.task.data, sender);
       case "cari pelayanan user":
-        return cariPelayananUser(data.task.data, sender);
+        return _cariPelayananUser(data.task.data, sender);
       case "cari pelayanan pendaftaran":
-        return cariPelayananPendaftaran(data.task.data, sender);
+        return _cariPelayananPendaftaran(data.task.data, sender);
       case "cari data edit pelayanan":
-        return cariEditPelayanan(data.task.data, sender);
+        return _cariEditPelayanan(data.task.data, sender);
       case "cari jumlah":
-        return cariJumlah(data.task.data, sender);
+        return _cariJumlah(data.task.data, sender);
       case "cari jumlah sakramen":
-        return cariJumlahSakramen(data.task.data, sender);
+        return _cariJumlahSakramen(data.task.data, sender);
       case "cari jumlah umum":
-        return cariJumlahUmum(data.task.data, sender);
+        return _cariJumlahUmum(data.task.data, sender);
       case "cari profile":
-        return cariProfile(data.task.data, sender);
+        return _cariProfile(data.task.data, sender);
       default:
         return rejectTask(data, sender);
     }
   }
 
-  Future<Message> cariProfile(dynamic data, String sender) async {
+  Future<Message> _cariProfile(dynamic data, String sender) async {
     var userKrismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
     var userBaptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
     var userKomuniCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
@@ -153,7 +153,7 @@ class AgentPencarian extends Agent {
     return message;
   }
 
-  Future<Message> cariAturanPelayanan(dynamic data, String sender) async {
+  Future<Message> _cariAturanPelayanan(dynamic data, String sender) async {
     var aturanPelayananCollection =
         MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
     var conn =
@@ -163,7 +163,7 @@ class AgentPencarian extends Agent {
     return message;
   }
 
-  Future<Message> cariPengumuman(dynamic data, String sender) async {
+  Future<Message> _cariPengumuman(dynamic data, String sender) async {
     var pengumumanCollection =
         MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
     var conn =
@@ -173,7 +173,7 @@ class AgentPencarian extends Agent {
     return message;
   }
 
-  Future<Message> cariPelayananUser(dynamic data, String sender) async {
+  Future<Message> _cariPelayananUser(dynamic data, String sender) async {
     var userPelayananCollection;
     String initial = "";
     String id = "";
@@ -241,7 +241,7 @@ class AgentPencarian extends Agent {
     }
   }
 
-  Future<Message> cariPengumumanEdit(dynamic data, String sender) async {
+  Future<Message> _cariPengumumanEdit(dynamic data, String sender) async {
     var pengumumanCollection =
         MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
     var conn = await pengumumanCollection.find({'_id': data[0]}).toList();
@@ -250,7 +250,7 @@ class AgentPencarian extends Agent {
     return message;
   }
 
-  Future<Message> cariPelayananPendaftaran(dynamic data, String sender) async {
+  Future<Message> _cariPelayananPendaftaran(dynamic data, String sender) async {
     var PelayananCollection;
     if (data[0] == "baptis") {
       PelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
@@ -277,7 +277,7 @@ class AgentPencarian extends Agent {
     return message;
   }
 
-  Future<Message> cariPelayanan(dynamic data, String sender) async {
+  Future<Message> _cariPelayanan(dynamic data, String sender) async {
     var pelayananCollection;
     var currentOrHistory;
     String id = "idGereja";
@@ -419,7 +419,7 @@ class AgentPencarian extends Agent {
     }
   }
 
-  Future<Message> cariEditPelayanan(dynamic data, String sender) async {
+  Future<Message> _cariEditPelayanan(dynamic data, String sender) async {
     var pelayananCollection;
 
     if (data[1] == "baptis") {
@@ -438,7 +438,7 @@ class AgentPencarian extends Agent {
     return message;
   }
 
-  Future<Message> cariJumlah(dynamic data, String sender) async {
+  Future<Message> _cariJumlah(dynamic data, String sender) async {
     var userKrismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
     var userBaptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
     var userKomuniCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
@@ -560,7 +560,7 @@ class AgentPencarian extends Agent {
     return message;
   }
 
-  Future<Message> cariJumlahSakramen(dynamic data, String sender) async {
+  Future<Message> _cariJumlahSakramen(dynamic data, String sender) async {
     var userKrismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
     var userBaptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
     var userKomuniCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
@@ -655,7 +655,7 @@ class AgentPencarian extends Agent {
     return message;
   }
 
-  Future<Message> cariJumlahUmum(dynamic data, String sender) async {
+  Future<Message> _cariJumlahUmum(dynamic data, String sender) async {
     var userKegiatanCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
     var count = 0;
 

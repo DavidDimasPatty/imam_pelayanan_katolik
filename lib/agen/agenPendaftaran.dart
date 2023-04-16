@@ -27,28 +27,28 @@ class AgentPendaftaran extends Agent {
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
       case "update pelayanan user":
-        return updatePelayananUser(data.task.data, sender);
+        return _updatePelayananUser(data.task.data, sender);
       case "edit pengumuman":
-        return editPengumuman(data.task.data, sender);
+        return _editPengumuman(data.task.data, sender);
       case "add pelayanan":
-        return addPelayanan(data.task.data, sender);
+        return _addPelayanan(data.task.data, sender);
       case "edit pelayanan":
-        return editPelayanan(data.task.data, sender);
+        return _editPelayanan(data.task.data, sender);
       case "add pengumuman":
-        return addPengumuman(data.task.data, sender);
+        return _addPengumuman(data.task.data, sender);
       case "update status pelayanan":
-        return updateStatusPelayanan(data.task.data, sender);
+        return _updateStatusPelayanan(data.task.data, sender);
       case "update status pengumuman":
-        return updateStatusPengumuman(data.task.data, sender);
+        return _updateStatusPengumuman(data.task.data, sender);
       case "send FCM":
-        return sendFCM(data.task.data, sender);
+        return _sendFCM(data.task.data, sender);
 
       default:
         return rejectTask(data, data);
     }
   }
 
-  Future<Message> updatePelayananUser(dynamic data, String sender) async {
+  Future<Message> _updatePelayananUser(dynamic data, String sender) async {
     var userPelayananCollection;
     if (data[0] == "baptis") {
       userPelayananCollection =
@@ -98,7 +98,7 @@ class AgentPendaftaran extends Agent {
     }
   }
 
-  Future<Message> sendFCM(dynamic data, String sender) async {
+  Future<Message> _sendFCM(dynamic data, String sender) async {
     String Pelayanan = "";
     DateTime tanggal = DateTime.now();
 
@@ -225,7 +225,7 @@ class AgentPendaftaran extends Agent {
     }
   }
 
-  Future<Message> editPengumuman(dynamic data, String sender) async {
+  Future<Message> _editPengumuman(dynamic data, String sender) async {
     var pengumumanCollection =
         MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
 
@@ -263,7 +263,7 @@ class AgentPendaftaran extends Agent {
     }
   }
 
-  Future<Message> addPelayanan(dynamic data, String sender) async {
+  Future<Message> _addPelayanan(dynamic data, String sender) async {
     var pelayananCollection;
     if (data[0] == "baptis") {
       pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
@@ -333,7 +333,7 @@ class AgentPendaftaran extends Agent {
     }
   }
 
-  Future<Message> updateStatusPelayanan(dynamic data, String sender) async {
+  Future<Message> _updateStatusPelayanan(dynamic data, String sender) async {
     var pelayananCollection;
     if (data[0] == "baptis") {
       pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
@@ -365,7 +365,7 @@ class AgentPendaftaran extends Agent {
     }
   }
 
-  Future<Message> updateStatusPengumuman(dynamic data, String sender) async {
+  Future<Message> _updateStatusPengumuman(dynamic data, String sender) async {
     var pengumumanCollection =
         MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
     var update = await pengumumanCollection.updateOne(
@@ -386,7 +386,7 @@ class AgentPendaftaran extends Agent {
     }
   }
 
-  Future<Message> editPelayanan(dynamic data, String sender) async {
+  Future<Message> _editPelayanan(dynamic data, String sender) async {
     var pelayananCollection;
     if (data[0] == "baptis") {
       pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
@@ -473,7 +473,7 @@ class AgentPendaftaran extends Agent {
     }
   }
 
-  Future<Message> addPengumuman(dynamic data, String sender) async {
+  Future<Message> _addPengumuman(dynamic data, String sender) async {
     var PengumumanCollection =
         MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
     var urlDownload = await FirebaseApi.configureUpload(

@@ -26,7 +26,6 @@ class PengumumanGereja extends StatefulWidget {
 
 class _PengumumanGereja extends State<PengumumanGereja> {
   var role;
-  var distance;
   List hasil = [];
   StreamController _controller = StreamController();
   ScrollController _scrollController = ScrollController();

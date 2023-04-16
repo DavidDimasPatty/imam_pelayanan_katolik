@@ -27,20 +27,20 @@ class AgentSetting extends Agent {
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
       case "setting user":
-        return settingUser(data.task.data, sender);
+        return _settingUser(data.task.data, sender);
 
       case "save data":
-        return saveData(data.task.data, sender);
+        return _saveData(data.task.data, sender);
 
       case "log out":
-        return logOut(data.task.data, sender);
+        return _logOut(data.task.data, sender);
 
       default:
         return rejectTask(data, sender);
     }
   }
 
-  Future<Message> settingUser(dynamic data, String sender) async {
+  Future<Message> _settingUser(dynamic data, String sender) async {
     var date = DateTime.now();
     var hour = date.hour;
 
@@ -82,7 +82,7 @@ class AgentSetting extends Agent {
     }
   }
 
-  Future<Message> saveData(dynamic data, String sender) async {
+  Future<Message> _saveData(dynamic data, String sender) async {
     final directory = await getApplicationDocumentsDirectory();
     var path = directory.path;
     print(data);
@@ -115,7 +115,7 @@ class AgentSetting extends Agent {
     return message;
   }
 
-  Future<Message> logOut(dynamic data, String sender) async {
+  Future<Message> _logOut(dynamic data, String sender) async {
     final directory = await getApplicationDocumentsDirectory();
     var path = directory.path;
 
