@@ -167,29 +167,21 @@ class AgentAkun extends Agent {
   }
 
   Future<Message> cariDataAturanPelayanan(dynamic data, String sender) async {
-    print(data);
-    print("here");
+  
     var aturanPelayananCollection =
         MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
     var conn =
         await aturanPelayananCollection.find({'idGereja': data}).toList();
     Message message = Message(agentName, sender, "INFORM",
         Tasks("status modifikasi/ pencarian data akun", conn));
-    print(conn);
+
     return message;
   }
 
   Future<Message> EditProfileGereja(dynamic data, String sender) async {
     if (data[7] == true) {
-      DateTime now = new DateTime.now();
-      DateTime date = new DateTime(
-          now.year, now.month, now.day, now.hour, now.minute, now.second);
-      final filename = date.toString();
-      final destination = 'files/Imam Pelayanan Katolik/gereja/$filename';
-      UploadTask? task = FirebaseApi.uploadFile(destination, data[6]);
-      final snapshot = await task!.whenComplete(() {});
-      final urlDownload = await snapshot.ref.getDownloadURL();
-
+      var urlDownload = await FirebaseApi.configureUpload(
+          'files/Imam Pelayanan Katolik/gereja/', data[6]);
       var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
 
       var update = await gerejaCollection.updateOne(
@@ -352,15 +344,8 @@ class AgentAkun extends Agent {
   }
 
   Future<Message> changeProfilePicture(dynamic data, String sender) async {
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(
-        now.year, now.month, now.day, now.hour, now.minute, now.second);
-    final filename = date.toString();
-    final destination = 'files/Imam Pelayanan Katolik/imam/$filename';
-    UploadTask? task = FirebaseApi.uploadFile(destination, data[1]);
-    final snapshot = await task!.whenComplete(() {});
-    final urlDownload = await snapshot.ref.getDownloadURL();
-
+    var urlDownload = await FirebaseApi.configureUpload(
+        'files/Imam Pelayanan Katolik/imam/', data[1]);
     var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await userCollection.updateOne(
         where.eq('_id', data[0]), modify.set('picture', urlDownload));
