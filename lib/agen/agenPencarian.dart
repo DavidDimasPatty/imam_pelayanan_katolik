@@ -315,7 +315,8 @@ class AgentPencarian extends Agent {
               localField: 'idUser',
               foreignField: '_id',
               as: 'userDaftar'))
-          .addStage(Match(where.eq('idImam', data[0]).map['\$query']))
+          .addStage(
+              Match(where.eq('idImam', data[0]).ne("status", 0).map['\$query']))
           .build();
       var conn =
           await PerkawinanCollection.aggregateToStream(pipeline).toList();
@@ -360,7 +361,8 @@ class AgentPencarian extends Agent {
               localField: 'idUser',
               foreignField: '_id',
               as: 'userDaftar'))
-          .addStage(Match(where.eq('idImam', data[0]).map['\$query']))
+          .addStage(
+              Match(where.eq('idImam', data[0]).ne("status", 0).map['\$query']))
           .build();
       var conn =
           await PemberkatanCollection.aggregateToStream(pipeline).toList();

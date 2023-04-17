@@ -47,7 +47,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     return await hasil;
   }
 
-  void updateAccept(token, idTarget, notif) async {
+  Future updateAccept(token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -70,7 +70,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
 
     if (hasil == "fail") {
       Fluttertoast.showToast(
-          msg: "Gagal Menerima Pelayanan Perkawinan",
+          msg: "Gagal Menyelsaikan Pelayanan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -79,7 +79,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
-          msg: "Berhasil Menerima Pelayanan Perkawinan",
+          msg: "Terima Kasih Sudah Menyelsaikan Pelayanan!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -92,7 +92,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     });
   }
 
-  void updateReject(token, idTarget, notif) async {
+  Future updateReject(token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -106,6 +106,50 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           -1,
           iduser,
           notif
+        ]));
+
+    MessagePassing messagePassing = MessagePassing();
+    await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasil = await await AgentPage.getDataPencarian();
+    if (hasil == "fail") {
+      Fluttertoast.showToast(
+          msg: "Gagal Menolak Pelayanan Perkawinan",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Berhasil Menolak Pelayanan Perkawinan",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+    setState(() {
+      callDb();
+    });
+  }
+
+  Future updateDone(token, idTarget, notif) async {
+    Completer<void> completer = Completer<void>();
+    Message message = Message(
+        'Agent Page',
+        'Agent Pendaftaran',
+        "REQUEST",
+        Tasks('update pelayanan user', [
+          "perkawinan",
+          idPerkawinan,
+          token,
+          idPerkawinan,
+          2,
+          iduser,
+          false
         ]));
 
     MessagePassing messagePassing = MessagePassing();
@@ -196,7 +240,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
-                              Text(snapshot.data[1][0]["name"])
+                              Text(snapshot.data[1][0]["nama"])
                             ],
                           ),
                           Padding(
@@ -321,6 +365,8 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                                 Text("Menunggu"),
                               if (snapshot.data[0][0]["status"] == 1)
                                 Text("Diterima"),
+                              if (snapshot.data[0][0]["status"] == 2)
+                                Text("Selesai"),
                               if (snapshot.data[0][0]["status"] == -1)
                                 Text("Ditolak")
                             ],
@@ -328,103 +374,153 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 11),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: RaisedButton(
-                                      textColor: Colors.white,
-                                      color: Colors.lightBlue,
-                                      child: Text("Accept"),
-                                      shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0),
-                                      ),
-                                      onPressed: () async {
-                                        showDialog<String>(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              AlertDialog(
-                                            title: const Text('Confirm Accept'),
-                                            content: const Text(
-                                                'Yakin ingin melakukan pelayanan perkawinan ini?'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    context, 'Cancel'),
-                                                child: const Text('Tidak'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  updateAccept(
-                                                      snapshot.data[1][0]
-                                                          ['token'],
-                                                      snapshot.data[1][0]
-                                                          ['_id'],
-                                                      snapshot.data[1][0]
-                                                          ['notifGD']);
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('Ya'),
-                                              ),
-                                            ],
+                          if (snapshot.data[0][0]["status"] != 2)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                if (snapshot.data[0][0]["status"] == -1)
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: RaisedButton(
+                                          textColor: Colors.white,
+                                          color: Colors.lightBlue,
+                                          child: Text("Accept"),
+                                          shape: new RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(30.0),
                                           ),
-                                        );
-                                      }),
-                                ),
-                              ),
-                              Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 20)),
-                              Expanded(
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: RaisedButton(
-                                      textColor: Colors.white,
-                                      color: Colors.lightBlue,
-                                      child: Text("Reject"),
-                                      shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0),
-                                      ),
-                                      onPressed: () async {
-                                        showDialog<String>(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              AlertDialog(
-                                            title: const Text('Confirm Reject'),
-                                            content: const Text(
-                                                'Yakin ingin menolak pelayanan perkawinan ini?'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    context, 'Cancel'),
-                                                child: const Text('Tidak'),
+                                          onPressed: () async {
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title: const Text(
+                                                    'Confirm Accept'),
+                                                content: const Text(
+                                                    'Yakin ingin melakukan pelayanan perkawinan ini?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'Cancel'),
+                                                    child: const Text('Tidak'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      updateAccept(
+                                                          snapshot.data[1][0]
+                                                              ['token'],
+                                                          snapshot.data[1][0]
+                                                              ['_id'],
+                                                          snapshot.data[1][0]
+                                                              ['notifGD']);
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('Ya'),
+                                                  ),
+                                                ],
                                               ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  updateReject(
-                                                      snapshot.data[1][0]
-                                                          ['token'],
-                                                      snapshot.data[1][0]
-                                                          ['_id'],
-                                                      snapshot.data[1][0]
-                                                          ['notifGD']);
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('Ya'),
-                                              ),
-                                            ],
+                                            );
+                                          }),
+                                    ),
+                                  ),
+                                if (snapshot.data[0][0]["status"] == 1)
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: RaisedButton(
+                                          textColor: Colors.white,
+                                          color: Colors.lightBlue,
+                                          child: Text("Selesai"),
+                                          shape: new RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(30.0),
                                           ),
-                                        );
-                                      }),
+                                          onPressed: () async {
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title: const Text(
+                                                    'Confirm Selesai'),
+                                                content: const Text(
+                                                    'Yakin sudah melakukan pelayanan perkawinan ini?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'Cancel'),
+                                                    child: const Text('Tidak'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      updateDone(
+                                                          snapshot.data[1][0]
+                                                              ['token'],
+                                                          snapshot.data[1][0]
+                                                              ['_id'],
+                                                          snapshot.data[1][0]
+                                                              ['notifGD']);
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('Ya'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }),
+                                    ),
+                                  ),
+                                Expanded(
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: RaisedButton(
+                                        textColor: Colors.white,
+                                        color: Colors.lightBlue,
+                                        child: Text("Reject"),
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(30.0),
+                                        ),
+                                        onPressed: () async {
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                              title:
+                                                  const Text('Confirm Reject'),
+                                              content: const Text(
+                                                  'Yakin ingin menolak pelayanan perkawinan ini?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          context, 'Cancel'),
+                                                  child: const Text('Tidak'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    updateReject(
+                                                        snapshot.data[1][0]
+                                                            ['token'],
+                                                        snapshot.data[1][0]
+                                                            ['_id'],
+                                                        snapshot.data[1][0]
+                                                            ['notifGD']);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Ya'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 15),
                           ),

@@ -254,6 +254,12 @@ class _HistoryPerkawinan extends State<HistoryPerkawinan> {
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 15),
                                   ),
+                                if (i["status"] == 2)
+                                  Text(
+                                    "Status : Selesai",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
                                 if (i["status"] == -1)
                                   Text(
                                     "Status : Ditolak",

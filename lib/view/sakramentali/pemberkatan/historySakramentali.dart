@@ -246,6 +246,12 @@ class _HistorySakramentali extends State<HistorySakramentali> {
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 12),
                                   ),
+                                if (i['status'] == 2)
+                                  Text(
+                                    'Status: Selesai',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 12),
+                                  ),
                                 if (i['status'] == -1)
                                   Text(
                                     'Status: Reject',
