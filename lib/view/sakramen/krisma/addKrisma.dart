@@ -91,7 +91,7 @@ class _addKrisma extends State<addKrisma> {
 
       await completer.future;
 
-      if (hasil == "fail") {
+      if (hasil == "failed") {
         Fluttertoast.showToast(
             msg: "Gagal Mendaftarkan Krisma",
             toastLength: Toast.LENGTH_SHORT,

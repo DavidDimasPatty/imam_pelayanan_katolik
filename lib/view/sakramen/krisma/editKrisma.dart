@@ -97,7 +97,7 @@ class _editKrisma extends State<editKrisma> {
       completer.complete();
       var hasil = await await AgentPage.getDataPencarian();
 
-      if (hasil == "fail") {
+      if (hasil == "failed") {
         Fluttertoast.showToast(
             msg: "Gagal Edit Krisma",
             toastLength: Toast.LENGTH_SHORT,

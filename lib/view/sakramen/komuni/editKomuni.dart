@@ -97,7 +97,7 @@ class _editKomuni extends State<editKomuni> {
       completer.complete();
       var hasil = await await AgentPage.getDataPencarian();
 
-      if (hasil == "fail") {
+      if (hasil == "failed") {
         Fluttertoast.showToast(
             msg: "Gagal Edit Komuni",
             toastLength: Toast.LENGTH_SHORT,

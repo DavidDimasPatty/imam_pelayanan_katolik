@@ -70,7 +70,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     completer.complete();
     var hasil = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasil == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Menerima Pelayanan Pemberkatan",
           toastLength: Toast.LENGTH_SHORT,
@@ -115,7 +115,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     completer.complete();
     var hasil = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasil == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Menolak Pelayanan Pemberkatan",
           toastLength: Toast.LENGTH_SHORT,
@@ -160,7 +160,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     completer.complete();
     var hasil = await await AgentPage.getDataPencarian();
 
-    if (hasil == "fail") {
+    if (hasil == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Menyelsaikan Pelayanan",
           toastLength: Toast.LENGTH_SHORT,

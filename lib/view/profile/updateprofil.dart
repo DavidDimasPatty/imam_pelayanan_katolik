@@ -67,7 +67,7 @@ class _UpdateProfile extends State<UpdateProfile> {
 
       await completer.future;
 
-      if (hasil == "fail") {
+      if (hasil == "failed") {
         Fluttertoast.showToast(
             msg: "Gagal Update Informasi Gereja",
             toastLength: Toast.LENGTH_SHORT,
@@ -114,7 +114,7 @@ class _UpdateProfile extends State<UpdateProfile> {
       var hasil = await await AgentPage.getDataPencarian();
 
       await completer.future;
-      if (hasil == "fail") {
+      if (hasil == "failed") {
         Fluttertoast.showToast(
             msg: "Gagal Update Informasi Gereja",
             toastLength: Toast.LENGTH_SHORT,

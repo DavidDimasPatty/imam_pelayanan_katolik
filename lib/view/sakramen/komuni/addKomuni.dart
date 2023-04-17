@@ -89,7 +89,7 @@ class _addKomuni extends State<addKomuni> {
 
       await completer.future;
 
-      if (hasil == "fail") {
+      if (hasil == "failed") {
         Fluttertoast.showToast(
             msg: "Gagal Mendaftarkan Komuni",
             toastLength: Toast.LENGTH_SHORT,
