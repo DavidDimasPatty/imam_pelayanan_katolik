@@ -35,7 +35,7 @@ class _HomePage extends State<HomePage> {
   Future callJumlah() async {
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
-        Tasks('cari jumlah', [idGereja, iduser]));
+        Tasks('cari jumlah', [idGereja, iduser, role]));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
@@ -391,70 +391,73 @@ class _HomePage extends State<HomePage> {
                                                       ),
                                                     ),
                                                   ),
-                                                Expanded(
-                                                  child: Card(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 5.0,
-                                                            vertical: 5.0),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30.0),
-                                                    ),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    color: Colors.white,
-                                                    elevation: 20.0,
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Expanded(
-                                                          child: Column(
-                                                            children: <Widget>[
-                                                              SizedBox(
-                                                                height: 5.0,
-                                                              ),
-                                                              Text(
-                                                                "Umum",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  fontSize:
-                                                                      15.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                if (role == 1)
+                                                  Expanded(
+                                                    child: Card(
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 5.0,
+                                                              vertical: 5.0),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30.0),
+                                                      ),
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      color: Colors.white,
+                                                      elevation: 20.0,
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Column(
+                                                              children: <
+                                                                  Widget>[
+                                                                SizedBox(
+                                                                  height: 5.0,
                                                                 ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 5.0,
-                                                              ),
-                                                              Text(
-                                                                snapshot.data[3]
-                                                                    .toString(),
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                Text(
+                                                                  "Umum",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    fontSize:
+                                                                        15.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 5.0,
-                                                              ),
-                                                            ],
+                                                                SizedBox(
+                                                                  height: 5.0,
+                                                                ),
+                                                                Text(
+                                                                  snapshot
+                                                                      .data[3]
+                                                                      .toString(),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    fontSize:
+                                                                        16.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 5.0,
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                )
+                                                  )
                                               ])
                                             ],
                                           ),

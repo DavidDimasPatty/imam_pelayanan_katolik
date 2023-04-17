@@ -33,7 +33,7 @@ class _Sakramen extends State<Sakramen> {
   Future callJumlah() async {
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
-        Tasks('cari jumlah sakramen', [idGereja, iduser]));
+        Tasks('cari jumlah sakramen', [idGereja, iduser, role]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
@@ -144,159 +144,165 @@ class _Sakramen extends State<Sakramen> {
                                         height: 10,
                                       ),
                                       Row(children: <Widget>[
-                                        Expanded(
-                                          child: Card(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 5.0, vertical: 5.0),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30.0),
-                                            ),
-                                            clipBehavior: Clip.antiAlias,
-                                            color: Colors.white,
-                                            elevation: 20.0,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                      Text(
-                                                        "Baptis",
-                                                        style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontSize: 15.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                        if (role == 1)
+                                          Expanded(
+                                            child: Card(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 5.0,
+                                                  vertical: 5.0),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30.0),
+                                              ),
+                                              clipBehavior: Clip.antiAlias,
+                                              color: Colors.white,
+                                              elevation: 20.0,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: 5.0,
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                      Text(
-                                                        snapshot.data[1]
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                        Text(
+                                                          "Baptis",
+                                                          style: TextStyle(
+                                                            color: Colors.blue,
+                                                            fontSize: 15.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                    ],
+                                                        SizedBox(
+                                                          height: 5.0,
+                                                        ),
+                                                        Text(
+                                                          snapshot.data[1]
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            color: Colors.blue,
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5.0,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Card(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 5.0, vertical: 5.0),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30.0),
-                                            ),
-                                            clipBehavior: Clip.antiAlias,
-                                            color: Colors.white,
-                                            elevation: 20.0,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                      Text(
-                                                        "Komuni",
-                                                        style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontSize: 12.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                        if (role == 1)
+                                          Expanded(
+                                            child: Card(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 5.0,
+                                                  vertical: 5.0),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30.0),
+                                              ),
+                                              clipBehavior: Clip.antiAlias,
+                                              color: Colors.white,
+                                              elevation: 20.0,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: 5.0,
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 10.0,
-                                                      ),
-                                                      Text(
-                                                        snapshot.data[2]
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                        Text(
+                                                          "Komuni",
+                                                          style: TextStyle(
+                                                            color: Colors.blue,
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                    ],
+                                                        SizedBox(
+                                                          height: 10.0,
+                                                        ),
+                                                        Text(
+                                                          snapshot.data[2]
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            color: Colors.blue,
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5.0,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Card(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 5.0, vertical: 5.0),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30.0),
-                                            ),
-                                            clipBehavior: Clip.antiAlias,
-                                            color: Colors.white,
-                                            elevation: 20.0,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                      Text(
-                                                        "Krisma",
-                                                        style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontSize: 15.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                        if (role == 1)
+                                          Expanded(
+                                            child: Card(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 5.0,
+                                                  vertical: 5.0),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30.0),
+                                              ),
+                                              clipBehavior: Clip.antiAlias,
+                                              color: Colors.white,
+                                              elevation: 20.0,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: 5.0,
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                      Text(
-                                                        snapshot.data[3]
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                        Text(
+                                                          "Krisma",
+                                                          style: TextStyle(
+                                                            color: Colors.blue,
+                                                            fontSize: 15.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                    ],
+                                                        SizedBox(
+                                                          height: 5.0,
+                                                        ),
+                                                        Text(
+                                                          snapshot.data[3]
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            color: Colors.blue,
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5.0,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
                                         if (role == 0)
                                           Expanded(
                                             child: Card(
@@ -319,7 +325,7 @@ class _Sakramen extends State<Sakramen> {
                                                           height: 5.0,
                                                         ),
                                                         Text(
-                                                          "Kawin",
+                                                          "Perkawinan",
                                                           style: TextStyle(
                                                             color: Colors.blue,
                                                             fontSize: 15.0,

@@ -70,7 +70,7 @@ class AgentAkun extends Agent {
 
     Completer<void> completer = Completer<void>();
     Message message2 = Message(sender, 'Agent Pencarian', "REQUEST",
-        Tasks("cari jumlah", [data[0], data[1], conn]));
+        Tasks("cari jumlah", [data[0], data[1], conn, data[2]]));
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message2);
 

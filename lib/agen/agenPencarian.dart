@@ -498,7 +498,7 @@ class AgentPencarian extends Agent {
         await userKegiatanCollection.aggregateToStream(pipeline4).toList();
 
     var countP = await userPemberkatanCollection
-        .find({'idGereja': data[0], 'status': 0}).length;
+        .find({'idImam': data[1], 'status': 0}).length;
 
     var totalB = 0;
     var totalKo = 0;
@@ -546,18 +546,28 @@ class AgentPencarian extends Agent {
     var totalKa = await perkawinanCollection
         .find({'idImam': data[1], 'status': 0}).length;
 
-    Message message = Message(
-        'Agent Pencarian',
-        sender,
-        "INFORM",
-        Tasks('hasil pencarian', [
-          totalB + totalKo + countP + totalKr + totalU + totalKa,
-          totalB + totalKo + totalKr + totalKa,
-          countP,
-          totalU,
-          data[2]
-        ]));
-    return message;
+    if (data[3] == 1) {
+      Message message = Message(
+          'Agent Pencarian',
+          sender,
+          "INFORM",
+          Tasks('hasil pencarian', [
+            totalB + totalKo + totalKr + totalU,
+            totalB + totalKo + totalKr,
+            countP,
+            totalU,
+            data[2]
+          ]));
+      return message;
+    } else {
+      Message message = Message(
+          'Agent Pencarian',
+          sender,
+          "INFORM",
+          Tasks('hasil pencarian',
+              [countP + totalKa, totalKa, countP, totalU, data[2]]));
+      return message;
+    }
   }
 
   Future<Message> _cariJumlahSakramen(dynamic data, String sender) async {
@@ -641,18 +651,23 @@ class AgentPencarian extends Agent {
     var totalKa = await perkawinanCollection
         .find({'idImam': data[1], 'status': 0}).length;
 
-    Message message = Message(
-        agentName,
-        sender,
-        "INFORM",
-        Tasks('hasil pencarian', [
-          totalB + totalKo + totalKr + totalKa,
-          totalB,
-          totalKo,
-          totalKr,
-          totalKa
-        ]));
-    return message;
+    if (data[2] == 1) {
+      Message message = Message(
+          agentName,
+          sender,
+          "INFORM",
+          Tasks('hasil pencarian',
+              [totalB + totalKo + totalKr, totalB, totalKo, totalKr, totalKa]));
+      return message;
+    } else {
+      Message message = Message(
+          agentName,
+          sender,
+          "INFORM",
+          Tasks(
+              'hasil pencarian', [totalKa, totalB, totalKo, totalKr, totalKa]));
+      return message;
+    }
   }
 
   Future<Message> _cariJumlahUmum(dynamic data, String sender) async {
