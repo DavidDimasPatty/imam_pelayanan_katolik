@@ -63,7 +63,6 @@ class _addPA extends State<addPA> {
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
-      print(args.toString());
       if (args.value is PickerDateRange) {
         _range = '${DateFormat('yyyy-MM-dd').format(args.value.startDate)} -'
             // ignore: lines_longer_than_80_chars

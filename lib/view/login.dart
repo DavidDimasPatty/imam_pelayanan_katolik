@@ -195,7 +195,6 @@ class Login extends StatelessWidget {
                                         .then((ret) async {
                                       try {
                                         if (ret.length > 0) {
-                                          print(ret[0]["_id"]);
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(

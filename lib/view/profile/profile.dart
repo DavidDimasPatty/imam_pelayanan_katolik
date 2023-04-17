@@ -47,7 +47,7 @@ class _Profile extends State<Profile> {
     var result = await await AgentPage.getDataPencarian();
 
     await completer.future;
-    print(result[1]);
+
     return result;
   }
 

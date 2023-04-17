@@ -141,7 +141,6 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                   future: callDb(),
                   builder: (context, AsyncSnapshot snapshot) {
                     try {
-                      print(snapshot.data);
                       if (snapshot.data[0]['baptis'] != null) {
                         baptisController.text = snapshot.data[0]['baptis'];
                       }

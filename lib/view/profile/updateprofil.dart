@@ -300,8 +300,7 @@ class _UpdateProfile extends State<UpdateProfile> {
                                 GeoCode geoCode = GeoCode();
                                 Coordinates coordinates = await geoCode
                                     .forwardGeocoding(address: address.text);
-                                print("Latitude: ${coordinates.latitude}");
-                                print("Longitude: ${coordinates.longitude}");
+
                                 setState(() {
                                   lattitude = coordinates.latitude;
                                   longttitude = coordinates.longitude;

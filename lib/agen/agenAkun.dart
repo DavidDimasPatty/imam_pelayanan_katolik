@@ -285,7 +285,7 @@ class AgentAkun extends Agent {
   Future<Message> _cariDataImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection.find({'_id': data}).toList();
-    print(conn);
+
     Message message = Message(agentName, sender, "INFORM",
         Tasks('status modifikasi/ pencarian data akun', conn));
     return message;

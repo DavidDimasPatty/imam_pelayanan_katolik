@@ -133,7 +133,6 @@ class _editPengumuman extends State<editPengumuman> {
       }
     } else {
       if (fileImage != null && caption.text != "" && title.text != "") {
-        print(fileImage.runtimeType);
         Completer<void> completer = Completer<void>();
         Message message = Message(
             'Agent Page',

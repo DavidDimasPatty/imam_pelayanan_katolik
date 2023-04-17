@@ -40,7 +40,6 @@ callTampilan(tampilan) {
             int.parse(tampilan[0][0][2])),
       ));
     } else {
-      print("Morning!");
       runApp(MaterialApp(
         title: 'Navigation Basics',
         theme: ThemeData(
@@ -52,14 +51,13 @@ callTampilan(tampilan) {
     }
   } else {
     if (tampilan[0][0].length != 0 && tampilan[0][0] != "nothing") {
-      print(tampilan);
       var object2 = tampilan[0][0][1]
           .toString()
           .substring(10, tampilan[0][0][1].length - 2);
       var object1 = tampilan[0][0][0]
           .toString()
           .substring(10, tampilan[0][0][0].length - 2);
-      print("Night!");
+
       runApp(MaterialApp(
         title: 'Navigation Basics',
         theme: ThemeData(

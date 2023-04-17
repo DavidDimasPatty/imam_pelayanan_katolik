@@ -39,8 +39,6 @@ class gantiPassword extends StatelessWidget {
       passBaruController.text = "";
       passUlBaruController.text = "";
     } else {
-      print(passLamaController.text);
-
       Completer<void> completer = Completer<void>();
       Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
           Tasks('find password', [iduser, passLamaController.text]));

@@ -189,7 +189,7 @@ class AgentPendaftaran extends Agent {
         )
             .then((value) {
           FCMStatus = value.statusCode;
-          print(value.statusCode);
+
           print("success fcm for soon!");
         });
       }
@@ -206,7 +206,6 @@ class AgentPendaftaran extends Agent {
       )
           .then((value) {
         FCMStatus = value.statusCode;
-        print(value.statusCode);
       });
     } catch (e) {
       print(e);

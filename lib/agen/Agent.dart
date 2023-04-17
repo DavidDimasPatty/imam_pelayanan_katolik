@@ -88,7 +88,6 @@ abstract class Agent {
   }
 
   Message rejectTask(dynamic task, sender) {
-    print(task.task.action);
     Message message = Message(
         agentName,
         sender,

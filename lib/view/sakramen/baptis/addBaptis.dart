@@ -40,7 +40,6 @@ class _addBaptis extends State<addBaptis> {
   String jenisSelected = "";
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
-      print(args.toString());
       if (args.value is PickerDateRange) {
         tanggalBuka =
             '${DateFormat('yyyy-MM-dd').format(args.value.startDate)}';

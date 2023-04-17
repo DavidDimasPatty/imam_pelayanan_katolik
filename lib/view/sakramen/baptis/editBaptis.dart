@@ -42,7 +42,6 @@ class _editBaptis extends State<editBaptis> {
   String jenisSelected = "";
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
-      print(args.toString());
       if (args.value is PickerDateRange) {
         tanggalBuka =
             '${DateFormat('yyyy-MM-dd').format(args.value.startDate)}';
@@ -179,10 +178,9 @@ class _editBaptis extends State<editBaptis> {
                 future: callDb(),
                 builder: (context, AsyncSnapshot snapshot) {
                   try {
-                    print(snapshot.data);
                     kapasitas.text = snapshot.data[0]['kapasitas'].toString();
                     jenisSelected = snapshot.data[0]['jenis'];
-                    print(tanggalBuka);
+
                     return Column(children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,

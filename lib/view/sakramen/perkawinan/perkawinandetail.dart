@@ -178,7 +178,6 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                   future: callDb(),
                   builder: (context, AsyncSnapshot snapshot) {
                     try {
-                      print(snapshot.data[0][0]);
                       return ListView(
                         shrinkWrap: true,
                         padding: EdgeInsets.only(right: 15, left: 15),

@@ -85,7 +85,7 @@ class AgentSetting extends Agent {
   Future<Message> _saveData(dynamic data, String sender) async {
     final directory = await getApplicationDocumentsDirectory();
     var path = directory.path;
-    print(data);
+
     try {
       if (await File('$path/loginImam.txt').exists()) {
         final file = await File('$path/loginImam.txt');
