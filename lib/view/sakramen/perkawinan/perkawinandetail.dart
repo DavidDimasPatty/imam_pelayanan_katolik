@@ -379,7 +379,8 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                if (snapshot.data[0][0]["status"] == -1)
+                                if (snapshot.data[0][0]["status"] == -1 ||
+                                    snapshot.data[0][0]["status"] == 0)
                                   Expanded(
                                     child: SizedBox(
                                       width: double.infinity,
