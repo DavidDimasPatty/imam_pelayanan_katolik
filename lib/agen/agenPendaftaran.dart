@@ -21,8 +21,17 @@ class AgentPendaftaran extends Agent {
   AgentPendaftaran() {
     _initAgent();
   }
-
   static int _estimatedTime = 5;
+  static Map<String, int> timeAction = {
+    "add pelayanan": _estimatedTime,
+    "add pengumuman": _estimatedTime,
+    "edit pelayanan": _estimatedTime,
+    "edit pengumuman": _estimatedTime,
+    "update status pelayanan": _estimatedTime,
+    "update status pengumuman": _estimatedTime,
+    "update pelayanan user": _estimatedTime,
+    "send FCM": _estimatedTime,
+  };
 
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
@@ -502,8 +511,8 @@ class AgentPendaftaran extends Agent {
   }
 
   @override
-  addEstimatedTime() {
-    _estimatedTime++;
+  addEstimatedTime(String goals) {
+    timeAction[goals] = timeAction[goals]! + 1;
   }
 
   _initAgent() {
@@ -519,14 +528,17 @@ class AgentPendaftaran extends Agent {
       Plan("send FCM", "INFORM"),
     ];
     goals = [
-      Goals("add pelayanan", String, _estimatedTime),
-      Goals("add pengumuman", String, _estimatedTime),
-      Goals("edit pelayanan", String, _estimatedTime),
-      Goals("edit pengumuman", String, _estimatedTime),
-      Goals("update status pelayanan", String, _estimatedTime),
-      Goals("update status pengumuman", String, _estimatedTime),
-      Goals("update pelayanan user", String, _estimatedTime),
-      Goals("send FCM", String, _estimatedTime),
+      Goals("add pelayanan", String, timeAction["add pelayanan"]),
+      Goals("add pengumuman", String, timeAction["add pengumuman"]),
+      Goals("edit pelayanan", String, timeAction["edit pelayanan"]),
+      Goals("edit pengumuman", String, timeAction["edit pengumuman"]),
+      Goals("update status pelayanan", String,
+          timeAction["update status pelayanan"]),
+      Goals("update status pengumuman", String,
+          timeAction["update status pengumuman"]),
+      Goals(
+          "update pelayanan user", String, timeAction["update pelayanan user"]),
+      Goals("send FCM", String, timeAction["send FCM"]),
     ];
   }
 }

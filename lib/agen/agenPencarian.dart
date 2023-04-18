@@ -14,7 +14,20 @@ class AgentPencarian extends Agent {
     _initAgent();
   }
 
-  static int _estimatedTime = 5;
+  static int _estimatedTime = 2;
+  static Map<String, int> timeAction = {
+    "cari aturan pelayanan": _estimatedTime,
+    "cari pengumuman edit": _estimatedTime,
+    "cari pengumuman": _estimatedTime,
+    "cari pelayanan": _estimatedTime,
+    "cari pelayanan user": _estimatedTime,
+    "cari pelayanan pendaftaran": _estimatedTime,
+    "cari data edit pelayanan": _estimatedTime,
+    "cari jumlah": _estimatedTime,
+    "cari jumlah sakramen": _estimatedTime,
+    "cari jumlah umum": _estimatedTime,
+    "cari profile": _estimatedTime,
+  };
 
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
@@ -784,8 +797,8 @@ class AgentPencarian extends Agent {
   }
 
   @override
-  addEstimatedTime() {
-    _estimatedTime++;
+  addEstimatedTime(String goals) {
+    timeAction[goals] = timeAction[goals]! + 1;
   }
 
   _initAgent() {
@@ -806,21 +819,28 @@ class AgentPencarian extends Agent {
       Plan("cari profile", "REQUEST"),
     ];
     goals = [
-      Goals(
-          "cari aturan pelayanan", List<Map<String, Object?>>, _estimatedTime),
-      Goals("cari pengumuman edit", List<Map<String, Object?>>, _estimatedTime),
-      Goals("cari pengumuman", List<Map<String, Object?>>, _estimatedTime),
-      Goals("cari pelayanan", List<Map<String, Object?>>, _estimatedTime),
-      Goals("cari profile", List<dynamic>, _estimatedTime),
-      Goals("cari pelayanan", List<dynamic>, _estimatedTime),
-      Goals("cari pelayanan user", List<Map<String, Object?>>, _estimatedTime),
-      Goals("cari pelayanan pendaftaran", List<dynamic>, _estimatedTime),
+      Goals("cari aturan pelayanan", List<Map<String, Object?>>,
+          timeAction["cari aturan pelayanan"]),
+      Goals("cari pengumuman edit", List<Map<String, Object?>>,
+          timeAction["cari pengumuman edit"]),
+      Goals("cari pengumuman", List<Map<String, Object?>>,
+          timeAction["cari pengumuman"]),
+      Goals("cari pelayanan", List<Map<String, Object?>>,
+          timeAction["cari pelayanan"]),
+      Goals("cari profile", List<dynamic>, timeAction["cari profile"]),
+      Goals("cari pelayanan", List<dynamic>, timeAction["cari pelayanan"]),
+      Goals("cari pelayanan user", List<Map<String, Object?>>,
+          timeAction["cari pelayanan user"]),
+      Goals("cari pelayanan pendaftaran", List<dynamic>,
+          timeAction["cari pelayanan pendaftaran"]),
       Goals("cari data edit pelayanan", List<Map<String, Object?>>,
-          _estimatedTime),
-      Goals("cari pelayanan user", List<Map<String, Object?>>, _estimatedTime),
-      Goals("cari jumlah", List<dynamic>, _estimatedTime),
-      Goals("cari jumlah sakramen", List<dynamic>, _estimatedTime),
-      Goals("cari jumlah umum", List<dynamic>, _estimatedTime),
+          timeAction["cari data edit pelayanan"]),
+      Goals("cari pelayanan user", List<Map<String, Object?>>,
+          timeAction["cari pelayanan user"]),
+      Goals("cari jumlah", List<dynamic>, timeAction["cari jumlah"]),
+      Goals("cari jumlah sakramen", List<dynamic>,
+          timeAction["cari jumlah sakramen"]),
+      Goals("cari jumlah umum", List<dynamic>, timeAction["cari jumlah umum"]),
     ];
   }
 }

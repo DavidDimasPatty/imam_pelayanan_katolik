@@ -61,7 +61,7 @@ class AgentPage extends Agent {
   }
 
   @override
-  addEstimatedTime() {
+  addEstimatedTime(String goals) {
     // TODO: implement addEstimatedTime
     throw UnimplementedError();
   }

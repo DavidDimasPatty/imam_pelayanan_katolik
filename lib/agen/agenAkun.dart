@@ -19,6 +19,22 @@ class AgentAkun extends Agent {
   }
 
   static int _estimatedTime = 5;
+  static Map<String, int> timeAction = {
+    "login": _estimatedTime,
+    "edit status": _estimatedTime,
+    "edit profile gereja": _estimatedTime,
+    "edit profile imam": _estimatedTime,
+    "edit aturan pelayanan": _estimatedTime,
+    "cari data imam": _estimatedTime,
+    "update notification": _estimatedTime,
+    "find password": _estimatedTime,
+    "change password": _estimatedTime,
+    "change profile picture": _estimatedTime,
+    "cari profile": _estimatedTime,
+    "cari data gereja": _estimatedTime,
+    "cari data aturan pelayanan": _estimatedTime,
+    "cari jumlah": _estimatedTime,
+  };
 
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
@@ -360,8 +376,8 @@ class AgentAkun extends Agent {
   }
 
   @override
-  addEstimatedTime() {
-    _estimatedTime++;
+  addEstimatedTime(String goals) {
+    timeAction[goals] = timeAction[goals]! + 1;
   }
 
   _initAgent() {
@@ -383,21 +399,25 @@ class AgentAkun extends Agent {
       Plan("cari jumlah", "REQUEST"),
     ];
     goals = [
-      Goals("login", List<Map<String, Object?>>, _estimatedTime),
-      Goals("edit status", String, _estimatedTime),
-      Goals("edit profile gereja", String, _estimatedTime),
-      Goals("edit profile imam", String, _estimatedTime),
-      Goals("edit aturan pelayanan", String, _estimatedTime),
-      Goals("cari data imam", List<Map<String, Object?>>, _estimatedTime),
-      Goals("update notification", String, _estimatedTime),
-      Goals("find password", String, _estimatedTime),
-      Goals("cari jumlah", String, _estimatedTime),
-      Goals("change password", String, _estimatedTime),
-      Goals("change profile picture", String, _estimatedTime),
-      Goals("cari profile", List<dynamic>, _estimatedTime),
-      Goals("cari data gereja", List<Map<String, Object?>>, _estimatedTime),
+      Goals("login", List<Map<String, Object?>>, timeAction["login"]),
+      Goals("edit status", String, timeAction["edit status"]),
+      Goals("edit profile gereja", String, timeAction["edit profile gereja"]),
+      Goals("edit profile imam", String, timeAction["edit profile imam"]),
+      Goals(
+          "edit aturan pelayanan", String, timeAction["edit aturan pelayanan"]),
+      Goals("cari data imam", List<Map<String, Object?>>,
+          timeAction["cari data imam"]),
+      Goals("update notification", String, timeAction["update notification"]),
+      Goals("find password", String, timeAction["find password"]),
+      Goals("cari jumlah", String, timeAction["cari jumlah"]),
+      Goals("change password", String, timeAction["change password"]),
+      Goals("change profile picture", String,
+          timeAction["change profile picture"]),
+      Goals("cari profile", List<dynamic>, timeAction["cari profile"]),
+      Goals("cari data gereja", List<Map<String, Object?>>,
+          timeAction["cari data gereja"]),
       Goals("cari data aturan pelayanan", List<Map<String, Object?>>,
-          _estimatedTime),
+          timeAction["cari data aturan pelayanan"]),
     ];
   }
 }

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
 import 'package:imam_pelayanan_katolik/view/setting/gantiPasword.dart';
-import 'package:imam_pelayanan_katolik/view/setting/notification.dart';
 import 'dart:io';
 
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
@@ -85,43 +84,43 @@ class privacySafety extends StatelessWidget {
                     ),
                   ),
                 )),
-            Padding(padding: EdgeInsets.symmetric(vertical: 14)),
-            RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              notification(iduser, idGereja, role)));
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(80.0)),
-                elevation: 10.0,
-                padding: EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueAccent,
-                          Colors.lightBlue,
-                        ]),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Container(
-                    constraints: BoxConstraints(
-                        maxWidth: double.maxFinite, minHeight: 50.0),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Notification",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
-                    ),
-                  ),
-                )),
+            // Padding(padding: EdgeInsets.symmetric(vertical: 14)),
+            // RaisedButton(
+            //     onPressed: () {
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (context) =>
+            //                   notification(iduser, idGereja, role)));
+            //     },
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(80.0)),
+            //     elevation: 10.0,
+            //     padding: EdgeInsets.all(0.0),
+            //     child: Ink(
+            //       decoration: BoxDecoration(
+            //         gradient: LinearGradient(
+            //             begin: Alignment.topRight,
+            //             end: Alignment.topLeft,
+            //             colors: [
+            //               Colors.blueAccent,
+            //               Colors.lightBlue,
+            //             ]),
+            //         borderRadius: BorderRadius.circular(30.0),
+            //       ),
+            //       child: Container(
+            //         constraints: BoxConstraints(
+            //             maxWidth: double.maxFinite, minHeight: 50.0),
+            //         alignment: Alignment.center,
+            //         child: Text(
+            //           "Notification",
+            //           style: TextStyle(
+            //               color: Colors.white,
+            //               fontSize: 26.0,
+            //               fontWeight: FontWeight.w300),
+            //         ),
+            //       ),
+            //     )),
 
             /////////
           ],

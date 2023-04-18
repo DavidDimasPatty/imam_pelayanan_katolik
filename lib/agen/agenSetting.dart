@@ -6,14 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
-import 'package:mongo_dart/mongo_dart.dart';
-import 'package:firebase_core/firebase_core.dart';
-import '../DatabaseFolder/data.dart';
 import '../DatabaseFolder/mongodb.dart';
-import '../view/login.dart';
 import 'Agent.dart';
 import 'Goals.dart';
-import 'MessagePassing.dart';
 import 'Plan.dart';
 import 'Task.dart';
 
@@ -23,7 +18,11 @@ class AgentSetting extends Agent {
   }
 
   static int _estimatedTime = 10;
-
+  static Map<String, int> timeAction = {
+    "setting user": _estimatedTime,
+    "log out": _estimatedTime,
+    "save data": _estimatedTime,
+  };
   Future<Message> action(String goals, dynamic data, String sender) async {
     switch (goals) {
       case "setting user":
@@ -128,8 +127,8 @@ class AgentSetting extends Agent {
   }
 
   @override
-  addEstimatedTime() {
-    _estimatedTime++;
+  addEstimatedTime(String goals) {
+    timeAction[goals] = timeAction[goals]! + 1;
   }
 
   _initAgent() {
@@ -140,9 +139,9 @@ class AgentSetting extends Agent {
       Plan("save data", "REQUEST"),
     ];
     goals = [
-      Goals("setting user", List<List<dynamic>>, _estimatedTime),
-      Goals("log out", String, _estimatedTime),
-      Goals("save data", String, _estimatedTime),
+      Goals("setting user", List<List<dynamic>>, timeAction["setting user"]),
+      Goals("log out", String, timeAction["log out"]),
+      Goals("save data", String, timeAction["save data"]),
     ];
   }
 }
