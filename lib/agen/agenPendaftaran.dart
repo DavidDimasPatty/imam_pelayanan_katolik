@@ -22,7 +22,7 @@ class AgentPendaftaran extends Agent {
     _initAgent();
   }
   static int _estimatedTime = 5;
-  static Map<String, int> timeAction = {
+  static Map<String, int> _timeAction = {
     "add pelayanan": _estimatedTime,
     "add pengumuman": _estimatedTime,
     "edit pelayanan": _estimatedTime,
@@ -512,7 +512,7 @@ class AgentPendaftaran extends Agent {
 
   @override
   addEstimatedTime(String goals) {
-    timeAction[goals] = timeAction[goals]! + 1;
+    _timeAction[goals] = _timeAction[goals]! + 1;
   }
 
   _initAgent() {
@@ -528,17 +528,17 @@ class AgentPendaftaran extends Agent {
       Plan("send FCM", "INFORM"),
     ];
     goals = [
-      Goals("add pelayanan", String, timeAction["add pelayanan"]),
-      Goals("add pengumuman", String, timeAction["add pengumuman"]),
-      Goals("edit pelayanan", String, timeAction["edit pelayanan"]),
-      Goals("edit pengumuman", String, timeAction["edit pengumuman"]),
+      Goals("add pelayanan", String, _timeAction["add pelayanan"]),
+      Goals("add pengumuman", String, _timeAction["add pengumuman"]),
+      Goals("edit pelayanan", String, _timeAction["edit pelayanan"]),
+      Goals("edit pengumuman", String, _timeAction["edit pengumuman"]),
       Goals("update status pelayanan", String,
-          timeAction["update status pelayanan"]),
+          _timeAction["update status pelayanan"]),
       Goals("update status pengumuman", String,
-          timeAction["update status pengumuman"]),
-      Goals(
-          "update pelayanan user", String, timeAction["update pelayanan user"]),
-      Goals("send FCM", String, timeAction["send FCM"]),
+          _timeAction["update status pengumuman"]),
+      Goals("update pelayanan user", String,
+          _timeAction["update pelayanan user"]),
+      Goals("send FCM", String, _timeAction["send FCM"]),
     ];
   }
 }

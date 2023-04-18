@@ -19,7 +19,7 @@ class AgentAkun extends Agent {
   }
 
   static int _estimatedTime = 5;
-  static Map<String, int> timeAction = {
+  static Map<String, int> _timeAction = {
     "login": _estimatedTime,
     "edit status": _estimatedTime,
     "edit profile gereja": _estimatedTime,
@@ -377,7 +377,7 @@ class AgentAkun extends Agent {
 
   @override
   addEstimatedTime(String goals) {
-    timeAction[goals] = timeAction[goals]! + 1;
+    _timeAction[goals] = _timeAction[goals]! + 1;
   }
 
   _initAgent() {
@@ -399,25 +399,25 @@ class AgentAkun extends Agent {
       Plan("cari jumlah", "REQUEST"),
     ];
     goals = [
-      Goals("login", List<Map<String, Object?>>, timeAction["login"]),
-      Goals("edit status", String, timeAction["edit status"]),
-      Goals("edit profile gereja", String, timeAction["edit profile gereja"]),
-      Goals("edit profile imam", String, timeAction["edit profile imam"]),
-      Goals(
-          "edit aturan pelayanan", String, timeAction["edit aturan pelayanan"]),
+      Goals("login", List<Map<String, Object?>>, _timeAction["login"]),
+      Goals("edit status", String, _timeAction["edit status"]),
+      Goals("edit profile gereja", String, _timeAction["edit profile gereja"]),
+      Goals("edit profile imam", String, _timeAction["edit profile imam"]),
+      Goals("edit aturan pelayanan", String,
+          _timeAction["edit aturan pelayanan"]),
       Goals("cari data imam", List<Map<String, Object?>>,
-          timeAction["cari data imam"]),
-      Goals("update notification", String, timeAction["update notification"]),
-      Goals("find password", String, timeAction["find password"]),
-      Goals("cari jumlah", String, timeAction["cari jumlah"]),
-      Goals("change password", String, timeAction["change password"]),
+          _timeAction["cari data imam"]),
+      Goals("update notification", String, _timeAction["update notification"]),
+      Goals("find password", String, _timeAction["find password"]),
+      Goals("cari jumlah", String, _timeAction["cari jumlah"]),
+      Goals("change password", String, _timeAction["change password"]),
       Goals("change profile picture", String,
-          timeAction["change profile picture"]),
-      Goals("cari profile", List<dynamic>, timeAction["cari profile"]),
+          _timeAction["change profile picture"]),
+      Goals("cari profile", List<dynamic>, _timeAction["cari profile"]),
       Goals("cari data gereja", List<Map<String, Object?>>,
-          timeAction["cari data gereja"]),
+          _timeAction["cari data gereja"]),
       Goals("cari data aturan pelayanan", List<Map<String, Object?>>,
-          timeAction["cari data aturan pelayanan"]),
+          _timeAction["cari data aturan pelayanan"]),
     ];
   }
 }

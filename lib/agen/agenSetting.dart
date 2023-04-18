@@ -18,7 +18,7 @@ class AgentSetting extends Agent {
   }
 
   static int _estimatedTime = 10;
-  static Map<String, int> timeAction = {
+  static Map<String, int> _timeAction = {
     "setting user": _estimatedTime,
     "log out": _estimatedTime,
     "save data": _estimatedTime,
@@ -128,7 +128,7 @@ class AgentSetting extends Agent {
 
   @override
   addEstimatedTime(String goals) {
-    timeAction[goals] = timeAction[goals]! + 1;
+    _timeAction[goals] = _timeAction[goals]! + 1;
   }
 
   _initAgent() {
@@ -139,9 +139,9 @@ class AgentSetting extends Agent {
       Plan("save data", "REQUEST"),
     ];
     goals = [
-      Goals("setting user", List<List<dynamic>>, timeAction["setting user"]),
-      Goals("log out", String, timeAction["log out"]),
-      Goals("save data", String, timeAction["save data"]),
+      Goals("setting user", List<List<dynamic>>, _timeAction["setting user"]),
+      Goals("log out", String, _timeAction["log out"]),
+      Goals("save data", String, _timeAction["save data"]),
     ];
   }
 }
