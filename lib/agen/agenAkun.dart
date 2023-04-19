@@ -283,7 +283,7 @@ class AgentAkun extends Agent {
     var update = await imamCollection.updateOne(
         where.eq('_id', data[0]),
         modify
-            .set('name', data[1])
+            .set('nama', data[1])
             .set('email', data[2])
             .set('notelp', data[3]));
 
