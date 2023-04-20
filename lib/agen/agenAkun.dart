@@ -46,8 +46,8 @@ class AgentAkun extends Agent {
         return _cariProfile(data.task.data, sender);
       case "cari data gereja":
         return _cariProfileGereja(data.task.data, sender);
-      case "cari data aturan pelayanan":
-        return _cariDataAturanPelayanan(data.task.data, sender);
+      // case "cari data aturan pelayanan":
+      //   return _cariDataAturanPelayanan(data.task.data, sender);
       case "edit profile gereja":
         return _EditProfileGereja(data.task.data, sender);
       case "edit profile imam":
@@ -56,8 +56,8 @@ class AgentAkun extends Agent {
         return _EditAturanPelayanan(data.task.data, sender);
       case "cari data imam":
         return _cariDataImam(data.task.data, sender);
-      case "update notification":
-        return _updateNotification(data.task.data, sender);
+      // case "update notification":
+      //   return _updateNotification(data.task.data, sender);
       case "find password":
         return _cariPassword(data.task.data, sender);
       case "change password":
@@ -182,16 +182,16 @@ class AgentAkun extends Agent {
     return message;
   }
 
-  Future<Message> _cariDataAturanPelayanan(dynamic data, String sender) async {
-    var aturanPelayananCollection =
-        MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
-    var conn =
-        await aturanPelayananCollection.find({'idGereja': data}).toList();
-    Message message = Message(agentName, sender, "INFORM",
-        Tasks("status modifikasi/ pencarian data akun", conn));
+  // Future<Message> _cariDataAturanPelayanan(dynamic data, String sender) async {
+  //   var aturanPelayananCollection =
+  //       MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
+  //   var conn =
+  //       await aturanPelayananCollection.find({'idGereja': data}).toList();
+  //   Message message = Message(agentName, sender, "INFORM",
+  //       Tasks("status modifikasi/ pencarian data akun", conn));
 
-    return message;
-  }
+  //   return message;
+  // }
 
   Future<Message> _EditProfileGereja(dynamic data, String sender) async {
     if (data[7] == true) {

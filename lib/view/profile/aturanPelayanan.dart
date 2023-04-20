@@ -38,8 +38,8 @@ class _AturanPelayanan extends State<AturanPelayanan> {
 
   Future callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
-        Tasks('cari data aturan pelayanan', idGereja));
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
+        Tasks('cari aturan pelayanan', idGereja));
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);

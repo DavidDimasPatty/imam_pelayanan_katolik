@@ -170,9 +170,9 @@ class AgentPencarian extends Agent {
     var aturanPelayananCollection =
         MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
     var conn =
-        await aturanPelayananCollection.find({'idGereja': data[0]}).toList();
-    Message message = Message(
-        'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', [conn]));
+        await aturanPelayananCollection.find({'idGereja': data}).toList();
+    Message message =
+        Message(agentName, sender, "INFORM", Tasks('hasil pencarian', conn));
     return message;
   }
 
