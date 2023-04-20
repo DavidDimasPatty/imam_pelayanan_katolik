@@ -10,6 +10,7 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
+import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import '../../profile/profile.dart';
 
 class DetailSakramentali extends StatefulWidget {
@@ -211,7 +212,13 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Settings(iduser, idGereja, role)),
+              );
+            },
           ),
         ],
       ),

@@ -8,6 +8,7 @@ import 'package:imam_pelayanan_katolik/view/setting/gantiPasword.dart';
 import 'dart:io';
 
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
+import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import '../profile/profile.dart';
 
 class privacySafety extends StatelessWidget {
@@ -37,7 +38,13 @@ class privacySafety extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Settings(iduser, idGereja, role)),
+              );
+            },
           ),
         ],
       ),

@@ -9,6 +9,7 @@ import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
+import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 
 class AturanPelayanan extends StatefulWidget {
   final role;
@@ -129,7 +130,13 @@ class _AturanPelayanan extends State<AturanPelayanan> {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Settings(iduser, idGereja, role)),
+              );
+            },
           ),
         ],
       ),

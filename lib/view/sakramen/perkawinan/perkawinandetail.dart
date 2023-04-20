@@ -7,6 +7,7 @@ import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
+import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 
 import '../../history.dart';
 import '../../profile/profile.dart';
@@ -207,7 +208,13 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Settings(iduser, idGereja, role)),
+              );
+            },
           ),
         ],
       ),

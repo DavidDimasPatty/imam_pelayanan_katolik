@@ -10,6 +10,7 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
+import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -118,7 +119,13 @@ class _EditProfile extends State<EditProfile> {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Settings(iduser, idGereja, role)),
+              );
+            },
           ),
         ],
       ),

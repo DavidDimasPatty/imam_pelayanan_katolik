@@ -11,6 +11,7 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/setting/privacySafety.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
+import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import '../profile/profile.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
@@ -114,7 +115,13 @@ class gantiPassword extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Settings(iduser, idGereja, role)),
+              );
+            },
           ),
         ],
       ),
