@@ -42,7 +42,7 @@ class _UpdateProfile extends State<UpdateProfile> {
   double? longttitude = 0;
   _UpdateProfile(this.iduser, this.idGereja, this.role);
 
-  void submit() async {
+  Future submit() async {
     if (imageChange == false) {
       Completer<void> completer = Completer<void>();
       Message message = Message(

@@ -31,6 +31,7 @@ class AgentPendaftaran extends Agent {
     "update status pengumuman": _estimatedTime,
     "update pelayanan user": _estimatedTime,
     "send FCM": _estimatedTime,
+    "edit aturan pelayanan": _estimatedTime,
   };
 
   Future<Message> action(String goals, dynamic data, String sender) async {
@@ -43,6 +44,8 @@ class AgentPendaftaran extends Agent {
         return _addPelayanan(data.task.data, sender);
       case "edit pelayanan":
         return _editPelayanan(data.task.data, sender);
+      case "edit aturan pelayanan":
+        return _EditAturanPelayanan(data.task.data, sender);
       case "add pengumuman":
         return _addPengumuman(data.task.data, sender);
       case "update status pelayanan":
@@ -54,6 +57,33 @@ class AgentPendaftaran extends Agent {
 
       default:
         return rejectTask(data, data);
+    }
+  }
+
+  Future<Message> _EditAturanPelayanan(dynamic data, String sender) async {
+    var aturanPelayananCollection =
+        MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
+
+    var update = await aturanPelayananCollection.updateOne(
+        where.eq('idGereja', data[0]),
+        modify
+            .set('baptis', data[1])
+            .set('komuni', data[2])
+            .set('krisma', data[3])
+            .set('perkawinan', data[4])
+            .set('perminyakan', data[5])
+            .set('tobat', data[6])
+            .set('pemberkatan', data[7])
+            .set('updatedAt', DateTime.now())
+            .set('updatedBy', data[8]));
+    if (update.isSuccess) {
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "oke"));
+      return message;
+    } else {
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "failed"));
+      return message;
     }
   }
 
@@ -526,6 +556,7 @@ class AgentPendaftaran extends Agent {
       Plan("update status pengumuman", "REQUEST"),
       Plan("update pelayanan user", "REQUEST"),
       Plan("send FCM", "INFORM"),
+      Plan("edit aturan pelayanan", "REQUEST"),
     ];
     goals = [
       Goals("add pelayanan", String, _timeAction["add pelayanan"]),
@@ -539,6 +570,8 @@ class AgentPendaftaran extends Agent {
       Goals("update pelayanan user", String,
           _timeAction["update pelayanan user"]),
       Goals("send FCM", String, _timeAction["send FCM"]),
+      Goals("edit aturan pelayanan", String,
+          _timeAction["edit aturan pelayanan"]),
     ];
   }
 }

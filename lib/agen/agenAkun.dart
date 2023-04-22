@@ -24,7 +24,6 @@ class AgentAkun extends Agent {
     "edit status": _estimatedTime,
     "edit profile gereja": _estimatedTime,
     "edit profile imam": _estimatedTime,
-    "edit aturan pelayanan": _estimatedTime,
     "cari data imam": _estimatedTime,
     "update notification": _estimatedTime,
     "find password": _estimatedTime,
@@ -52,8 +51,7 @@ class AgentAkun extends Agent {
         return _EditProfileGereja(data.task.data, sender);
       case "edit profile imam":
         return _EditProfileImam(data.task.data, sender);
-      case "edit aturan pelayanan":
-        return _EditAturanPelayanan(data.task.data, sender);
+
       case "cari data imam":
         return _cariDataImam(data.task.data, sender);
       // case "update notification":
@@ -242,33 +240,6 @@ class AgentAkun extends Agent {
     }
   }
 
-  Future<Message> _EditAturanPelayanan(dynamic data, String sender) async {
-    var aturanPelayananCollection =
-        MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
-
-    var update = await aturanPelayananCollection.updateOne(
-        where.eq('idGereja', data[0]),
-        modify
-            .set('baptis', data[1])
-            .set('komuni', data[2])
-            .set('krisma', data[3])
-            .set('perkawinan', data[4])
-            .set('perminyakan', data[5])
-            .set('tobat', data[6])
-            .set('pemberkatan', data[7])
-            .set('updatedAt', DateTime.now())
-            .set('updatedBy', data[8]));
-    if (update.isSuccess) {
-      Message message = Message(agentName, sender, "INFORM",
-          Tasks("status modifikasi/ pencarian data akun", "oke"));
-      return message;
-    } else {
-      Message message = Message(agentName, sender, "INFORM",
-          Tasks("status modifikasi/ pencarian data akun", "failed"));
-      return message;
-    }
-  }
-
   Future<Message> _cariEditProfileImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection.find({'_id': data[1][0]});
@@ -387,7 +358,6 @@ class AgentAkun extends Agent {
       Plan("edit status", "REQUEST"),
       Plan("edit profile gereja", "REQUEST"),
       Plan("edit profile imam", "REQUEST"),
-      Plan("edit aturan pelayanan", "REQUEST"),
       Plan("cari data imam", "REQUEST"),
       Plan("update notification", "REQUEST"),
       Plan("find password", "REQUEST"),
@@ -403,8 +373,6 @@ class AgentAkun extends Agent {
       Goals("edit status", String, _timeAction["edit status"]),
       Goals("edit profile gereja", String, _timeAction["edit profile gereja"]),
       Goals("edit profile imam", String, _timeAction["edit profile imam"]),
-      Goals("edit aturan pelayanan", String,
-          _timeAction["edit aturan pelayanan"]),
       Goals("cari data imam", List<Map<String, Object?>>,
           _timeAction["cari data imam"]),
       Goals("update notification", String, _timeAction["update notification"]),
