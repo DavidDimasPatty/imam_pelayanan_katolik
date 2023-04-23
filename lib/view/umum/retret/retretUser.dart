@@ -43,7 +43,7 @@ class _RetretUser extends State<RetretUser> {
 
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
-    var hasilPencarian = await AgentPage.getDataPencarian();
+    var hasilPencarian = await AgentPage.getData();
 
     completer.complete();
 
@@ -97,7 +97,7 @@ class _RetretUser extends State<RetretUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasilDaftar = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getData();
 
     if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
@@ -141,7 +141,7 @@ class _RetretUser extends State<RetretUser> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasilDaftar = await await AgentPage.getDataPencarian();
+    var hasilDaftar = await await AgentPage.getData();
 
     if (hasilDaftar == "failed") {
       Fluttertoast.showToast(

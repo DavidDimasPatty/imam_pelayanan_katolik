@@ -40,7 +40,7 @@ class _HomePage extends State<HomePage> {
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasil = await await AgentPage.getData();
 
     await completer.future;
     return hasil;
@@ -60,7 +60,7 @@ class _HomePage extends State<HomePage> {
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasil = await await AgentPage.getData();
 
     await completer.future;
 

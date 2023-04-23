@@ -42,7 +42,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasil = await await AgentPage.getData();
 
     await completer.future;
     return await hasil;
@@ -67,7 +67,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasil = await await AgentPage.getData();
 
     if (hasil == "failed") {
       Fluttertoast.showToast(
@@ -112,7 +112,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasil = await await AgentPage.getData();
     if (hasil == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Menolak Pelayanan Perkawinan",
@@ -156,7 +156,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await await AgentPage.getDataPencarian();
+    var hasil = await await AgentPage.getData();
     if (hasil == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Menolak Pelayanan Perkawinan",

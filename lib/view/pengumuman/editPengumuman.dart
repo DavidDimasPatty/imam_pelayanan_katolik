@@ -49,7 +49,7 @@ class _editPengumuman extends State<editPengumuman> {
     MessagePassing messagePassing = MessagePassing();
     var data = await messagePassing.sendMessage(message);
     completer.complete();
-    var result = await await AgentPage.getDataPencarian();
+    var result = await await AgentPage.getData();
 
     await completer.future;
 
@@ -93,7 +93,7 @@ class _editPengumuman extends State<editPengumuman> {
         MessagePassing messagePassing = MessagePassing();
         var data = await messagePassing.sendMessage(message);
         completer.complete();
-        var hasil = await await AgentPage.getDataPencarian();
+        var hasil = await await AgentPage.getData();
 
         await completer.future;
 
@@ -149,7 +149,7 @@ class _editPengumuman extends State<editPengumuman> {
         MessagePassing messagePassing = MessagePassing();
         var data = await messagePassing.sendMessage(message);
         completer.complete();
-        var hasil = await await AgentPage.getDataPencarian();
+        var hasil = await await AgentPage.getData();
 
         await completer.future;
 

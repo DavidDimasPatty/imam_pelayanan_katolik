@@ -38,7 +38,7 @@ class _Sakramen extends State<Sakramen> {
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
     completer.complete();
-    var hasil = await AgentPage.getDataPencarian();
+    var hasil = await AgentPage.getData();
 
     await completer.future;
 

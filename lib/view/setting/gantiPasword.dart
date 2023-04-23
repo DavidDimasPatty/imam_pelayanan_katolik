@@ -47,7 +47,7 @@ class gantiPassword extends StatelessWidget {
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
       completer.complete();
-      var value = await await AgentPage.getDataPencarian();
+      var value = await await AgentPage.getData();
 
       await completer.future;
 
@@ -71,7 +71,7 @@ class gantiPassword extends StatelessWidget {
         MessagePassing messagePassing = MessagePassing();
         var data = await messagePassing.sendMessage(message);
         completer.complete();
-        var value = await await AgentPage.getDataPencarian();
+        var value = await await AgentPage.getData();
 
         await completer.future;
 

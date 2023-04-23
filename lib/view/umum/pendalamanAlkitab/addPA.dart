@@ -113,7 +113,7 @@ class _addPA extends State<addPA> {
       MessagePassing messagePassing = MessagePassing();
       await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await await AgentPage.getDataPencarian();
+      var hasil = await await AgentPage.getData();
 
       await completer.future;
 

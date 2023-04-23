@@ -72,7 +72,7 @@ class _addBaptis extends State<addBaptis> {
       MessagePassing messagePassing = MessagePassing();
       var data = await messagePassing.sendMessage(message);
       completer.complete();
-      var hasil = await await AgentPage.getDataPencarian();
+      var hasil = await await AgentPage.getData();
 
       await completer.future;
 
