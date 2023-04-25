@@ -76,6 +76,15 @@ class _UpdateProfile extends State<UpdateProfile> {
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
+      } else if (hasil == 'nama') {
+        Fluttertoast.showToast(
+            msg: "Nama sudah digunakan",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
             msg: "Berhasil Update Informasi Gereja",

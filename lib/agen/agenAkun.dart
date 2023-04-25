@@ -192,10 +192,22 @@ class AgentAkun extends Agent {
   // }
 
   Future<Message> _EditProfileGereja(dynamic data, String sender) async {
+    var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
+
+    var checkName;
+    checkName = await gerejaCollection
+        .find(where.eq('nama', data[1]).ne('_id', data[0]))
+        .toList();
+
+    if (checkName.length > 0) {
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "nama"));
+      return message;
+    }
+
     if (data[7] == true) {
       var urlDownload = await FirebaseApi.configureUpload(
           'files/Imam Pelayanan Katolik/gereja/', data[6]);
-      var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
 
       var update = await gerejaCollection.updateOne(
           where.eq('_id', data[0]),
@@ -251,6 +263,25 @@ class AgentAkun extends Agent {
   Future<Message> _EditProfileImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
 
+    var checkEmail;
+    var checkName;
+    checkName = await imamCollection
+        .find(where.eq('nama', data[1]).ne('_id', data[0]))
+        .toList();
+
+    checkEmail = await imamCollection
+        .find(where.eq('email', data[2]).ne('_id', data[0]))
+        .toList();
+
+    if (checkName.length > 0) {
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "nama"));
+      return message;
+    } else if (checkEmail.length > 0) {
+      Message message = Message(agentName, sender, "INFORM",
+          Tasks("status modifikasi/ pencarian data akun", "email"));
+      return message;
+    }
     var update = await imamCollection.updateOne(
         where.eq('_id', data[0]),
         modify

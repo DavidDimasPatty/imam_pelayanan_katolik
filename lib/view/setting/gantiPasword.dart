@@ -39,6 +39,18 @@ class gantiPassword extends StatelessWidget {
       passLamaController.text = "";
       passBaruController.text = "";
       passUlBaruController.text = "";
+    } else if (passBaruController.text == passLamaController.text) {
+      Fluttertoast.showToast(
+          msg: "Password Baru Tidak Boleh Sama dengan Password Lama",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      passLamaController.text = "";
+      passBaruController.text = "";
+      passUlBaruController.text = "";
     } else {
       Completer<void> completer = Completer<void>();
       Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
