@@ -114,7 +114,7 @@ class _editBaptis extends State<editBaptis> {
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
-            msg: "Berhasil Edit Baptis",
+            msg: "Berhasil memperbarui Baptis",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 2,

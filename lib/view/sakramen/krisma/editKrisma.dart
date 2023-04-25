@@ -108,7 +108,7 @@ class _editKrisma extends State<editKrisma> {
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
-            msg: "Berhasil Edit Krisma",
+            msg: "Berhasil memperbarui Krisma",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 2,

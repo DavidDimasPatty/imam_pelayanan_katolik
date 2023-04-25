@@ -137,7 +137,7 @@ class _editRekoleksi extends State<editRekoleksi> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
-              msg: "Berhasil Edit Rekoleksi",
+              msg: "Berhasil memperbarui Rekoleksi",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,
@@ -206,7 +206,7 @@ class _editRekoleksi extends State<editRekoleksi> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
-              msg: "Berhasil Edit Rekoleksi",
+              msg: "Berhasil memperbarui Rekoleksi",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,

@@ -136,7 +136,7 @@ class _editRetret extends State<editRetret> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
-              msg: "Berhasil Edit Retret",
+              msg: "Berhasil memperbarui Retret",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,
@@ -205,7 +205,7 @@ class _editRetret extends State<editRetret> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
-              msg: "Berhasil Edit Retret",
+              msg: "Berhasil memperbarui Retret",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,

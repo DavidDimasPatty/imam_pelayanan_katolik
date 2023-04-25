@@ -68,7 +68,7 @@ class _EditProfile extends State<EditProfile> {
 
       if (hasil == 'oke') {
         Fluttertoast.showToast(
-            msg: "Berhasil Edit Profile Imam",
+            msg: "Berhasil memperbarui Profile Imam",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 2,

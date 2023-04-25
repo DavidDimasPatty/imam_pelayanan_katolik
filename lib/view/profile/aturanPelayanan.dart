@@ -80,7 +80,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
 
     if (hasil == 'oke') {
       Fluttertoast.showToast(
-          msg: "Berhasil Edit Aturan Pelayanan Gereja",
+          msg: "Berhasil memperbarui Aturan Pelayanan Gereja",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,

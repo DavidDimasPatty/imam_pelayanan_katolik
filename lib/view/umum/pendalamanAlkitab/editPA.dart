@@ -137,7 +137,7 @@ class _editPA extends State<editPA> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
-              msg: "Berhasil Edit Pendalaman Alkitab",
+              msg: "Berhasil memperbarui Pendalaman Alkitab",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,
@@ -205,7 +205,7 @@ class _editPA extends State<editPA> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
-              msg: "Berhasil Edit Pendalaman Alkitab",
+              msg: "Berhasil memperbarui Pendalaman Alkitab",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,

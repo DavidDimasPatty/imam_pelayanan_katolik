@@ -108,7 +108,7 @@ class _editKomuni extends State<editKomuni> {
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
-            msg: "Berhasil Edit Komuni",
+            msg: "Berhasil memperbarui Komuni",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 2,
