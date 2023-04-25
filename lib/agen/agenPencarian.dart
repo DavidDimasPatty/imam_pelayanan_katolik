@@ -412,6 +412,7 @@ class AgentPencarian extends Agent {
         var conn = await rekoleksiCollection.find({
           'idGereja': data[0],
           'jenisKegiatan': data[3],
+          "status": 1
         }).toList();
 
         Message message = Message('Agent Pencarian', sender, "INFORM",
@@ -426,7 +427,8 @@ class AgentPencarian extends Agent {
             Tasks('hasil pencarian', conn));
         return message;
       } else {
-        var conn = await pelayananCollection.find({id: data[0]}).toList();
+        var conn =
+            await pelayananCollection.find({id: data[0], "status": 1}).toList();
         Message message = Message('Agent Pencarian', sender, "INFORM",
             Tasks('hasil pencarian', conn));
         return message;

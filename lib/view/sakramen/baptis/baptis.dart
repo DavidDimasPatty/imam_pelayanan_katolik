@@ -66,7 +66,7 @@ class _Baptis extends State<Baptis> {
     });
   }
 
-  void updateKegiatan(id, status) async {
+  Future updateKegiatan(id, status) async {
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
         Tasks('update status pelayanan', ["baptis", id, status, iduser]));

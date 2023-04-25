@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
@@ -97,6 +98,47 @@ class _HistoryRetret extends State<HistoryRetret> {
         _controller.add(result);
       });
     });
+  }
+
+  Future updateKegiatan(id, status) async {
+    Completer<void> completer = Completer<void>();
+    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
+        Tasks('update status pelayanan', ["umum", id, status, iduser]));
+
+    MessagePassing messagePassing = MessagePassing();
+    await messagePassing.sendMessage(message);
+    completer.complete();
+    var hasilDaftar = await await AgentPage.getData();
+
+    await completer.future;
+    if (hasilDaftar == "failed") {
+      Fluttertoast.showToast(
+          msg: "Gagal Mengaktifkan Retret",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Berhasil Mengaktifkan Retret",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      callDb().then((result) {
+        setState(() {
+          hasil.clear();
+          dummyTemp.clear();
+          hasil.addAll(result);
+          dummyTemp.addAll(result);
+          _controller.add(result);
+        });
+      });
+    }
   }
 
   TextEditingController editingController = TextEditingController();
@@ -230,6 +272,42 @@ class _HistoryRetret extends State<HistoryRetret> {
                                   'Tanggal: ' + i['tanggal'].toString(),
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: RaisedButton(
+                                      textColor: Colors.white,
+                                      color: Colors.lightBlue,
+                                      child: Text("Activate Kegiatan"),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0),
+                                      ),
+                                      onPressed: () async {
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title: const Text('Confirm Active'),
+                                            content: const Text(
+                                                'Yakin ingin mengaktifkan Retret ini?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, 'Cancel'),
+                                                child: const Text('Tidak'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () async {
+                                                  updateKegiatan(i["_id"], 0);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('Ya'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
                                 ),
                               ])),
                         ),
