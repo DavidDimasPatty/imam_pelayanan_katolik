@@ -90,7 +90,7 @@ class _Retret extends State<Retret> {
   void updateKegiatan(idKegiatan) async {
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update status pelayanan', ["umum", idKegiatan, -1, iduser]));
+        Tasks('update status pelayanan', ["umum", idKegiatan, 1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);

@@ -96,7 +96,7 @@ class _PA extends State<PA> {
   void updateKegiatan(id) async {
     Completer<void> completer = Completer<void>();
     Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update status pelayanan', ["umum", id, -1, iduser]));
+        Tasks('update status pelayanan', ["umum", id, 1, iduser]));
 
     MessagePassing messagePassing = MessagePassing();
     await messagePassing.sendMessage(message);
