@@ -89,7 +89,7 @@ class AgentAkun extends Agent {
     await messagePassing.sendMessage(message2);
 
     Message message = Message(
-        agentName, sender, "INFORM", Tasks('wait', "Wait agent pencarian"));
+        agentName, sender, "INFORM", Tasks('done', "Wait agent pencarian"));
     // Future.delayed(Duration(seconds: 1));
     completer.complete();
 
@@ -163,7 +163,7 @@ class AgentAkun extends Agent {
     await messagePassing.sendMessage(message2);
 
     Message message = Message(
-        agentName, sender, "INFORM", Tasks('wait', "Wait agent pencarian"));
+        agentName, sender, "INFORM", Tasks('done', "Wait agent pencarian"));
     // Future.delayed(Duration(seconds: 1));
     completer.complete();
 
