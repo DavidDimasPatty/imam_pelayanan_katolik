@@ -1,4 +1,5 @@
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:imam_pelayanan_katolik/DatabaseFolder/modelDB.dart';
 
@@ -202,6 +203,7 @@ class AgentPendaftaran extends Agent {
     }
 
     var FCMStatus = 0;
+    String FCMKEY = dotenv.env['FCM'].toString();
     try {
       if (data[0][4] == 1) {
         String constructFCMPayloadSoon(String token) {
@@ -221,8 +223,7 @@ class AgentPendaftaran extends Agent {
           Uri.parse('https://fcm.googleapis.com/fcm/send'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization':
-                'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+            'Authorization': FCMKEY
           },
           body: constructFCMPayloadSoon(data[0][2]),
         )
@@ -238,8 +239,7 @@ class AgentPendaftaran extends Agent {
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization':
-              'key=AAAAYYV30kU:APA91bGB3D4X8KgkLH0ZNAOoYspjk9RjYoMk9EFguX6STuz1IUnRkfx2JCwT1HIekpUVPMcISFZ7n1rDSeZ7z-OLprkZv1Jyzb-hI8EcFK_HYUkUBJZ1UBw1T9RpALWxLGAS91VPct_V'
+          'Authorization': FCMKEY
         },
         body: constructFCMPayload(data[0][2]),
       )
