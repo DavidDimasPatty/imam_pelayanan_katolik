@@ -41,12 +41,17 @@ class _Profile extends State<Profile> {
     Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('cari profile', [idGereja, iduser]));
 
-    MessagePassing messagePassing = MessagePassing();
-    var data = await messagePassing.sendMessage(message);
-    completer.complete();
-    var result = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var result = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
 
     return result;
   }
@@ -56,12 +61,17 @@ class _Profile extends State<Profile> {
     Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('edit status', [iduser, status, pelayanan]));
 
-    MessagePassing messagePassing = MessagePassing();
-    var data = await messagePassing.sendMessage(message);
-    completer.complete();
-    var result = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var result = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
 
     if (result == 'oke') {
       Fluttertoast.showToast(
@@ -89,12 +99,17 @@ class _Profile extends State<Profile> {
     Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('change profile picture', [iduser, file]));
 
-    MessagePassing messagePassing = MessagePassing();
-    var data = await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
     if (hasil == 'oke') {
       Fluttertoast.showToast(
           msg: "Berhasil Ganti Profile Picture",

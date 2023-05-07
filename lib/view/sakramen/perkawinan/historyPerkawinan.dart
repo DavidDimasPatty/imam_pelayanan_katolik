@@ -42,13 +42,18 @@ class _HistoryPerkawinan extends State<HistoryPerkawinan> {
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [iduser, "perkawinan", "history"]));
 
-    MessagePassing messagePassing = MessagePassing();
-    var data = await messagePassing.sendMessage(message);
-    var hasilPencarian = await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    var hasilPencarian =
+        await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-    completer.complete();
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
     return await hasilPencarian;
   }
 

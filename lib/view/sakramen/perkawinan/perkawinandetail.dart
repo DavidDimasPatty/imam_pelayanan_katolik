@@ -39,12 +39,17 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [idPerkawinan, "perkawinan", "detail"]));
 
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
     return await hasil;
   }
 
@@ -64,10 +69,13 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           notif
         ]));
 
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
     if (hasil == "failed") {
       Fluttertoast.showToast(
@@ -109,10 +117,13 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           notif
         ]));
 
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
     if (hasil == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Menolak Pelayanan Perkawinan",
@@ -153,10 +164,13 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           false
         ]));
 
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
     if (hasil == "failed") {
       Fluttertoast.showToast(
           msg: "Gagal Menolak Pelayanan Perkawinan",

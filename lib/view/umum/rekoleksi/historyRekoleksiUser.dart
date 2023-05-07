@@ -44,13 +44,18 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan user', [idRekoleksi, "rekoleksi", "history"]));
 
-    MessagePassing messagePassing = MessagePassing();
-    var data = await messagePassing.sendMessage(message);
-    var hasilPencarian = await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    var hasilPencarian =
+        await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-    completer.complete();
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
     return await hasilPencarian;
   }
 
@@ -98,10 +103,13 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
         Tasks('update pelayanan user',
             ["umum", id, token, idTarget, -1, iduser, notif]));
 
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasilDaftar = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasilDaftar = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
     if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
@@ -141,10 +149,13 @@ class _HistoryRekoleksiUser extends State<HistoryRekoleksiUser> {
         "REQUEST",
         Tasks('update pelayanan user',
             ["umum", id, token, idTarget, 1, iduser, notif]));
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasilDaftar = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasilDaftar = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
     if (hasilDaftar == "failed") {
       Fluttertoast.showToast(

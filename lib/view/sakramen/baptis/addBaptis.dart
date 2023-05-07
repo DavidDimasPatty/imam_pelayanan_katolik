@@ -69,12 +69,17 @@ class _addBaptis extends State<addBaptis> {
             jenisSelected
           ]));
 
-      MessagePassing messagePassing = MessagePassing();
-      var data = await messagePassing.sendMessage(message);
-      completer.complete();
-      var hasil = await await AgentPage.getData();
+      MessagePassing messagePassing =
+          MessagePassing(); //Memanggil distributor pesan
+      var data = await messagePassing
+          .sendMessage(message); //Mengirim pesan ke distributor pesan
+      completer.complete(); //Batas pengerjaan yang memerlukan completer
+      var hasil = await await AgentPage
+          .getData(); //Memanggil data yang tersedia di agen Page
 
-      await completer.future;
+      await completer
+          .future; //Proses penungguan sudah selesai ketika varibel hasil
+      //memiliki nilai
 
       if (hasil == "failed") {
         Fluttertoast.showToast(

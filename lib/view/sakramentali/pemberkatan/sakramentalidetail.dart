@@ -40,12 +40,17 @@ class _DetailSakramentali extends State<DetailSakramentali> {
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari pelayanan', [idPemberkatan, "sakramentali", "detail"]));
 
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
 
     return await hasil;
   }
@@ -66,10 +71,13 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           notif
         ]));
 
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
     if (hasil == "failed") {
       Fluttertoast.showToast(
@@ -111,10 +119,13 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           notif
         ]));
 
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
     if (hasil == "failed") {
       Fluttertoast.showToast(
@@ -156,10 +167,13 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           false
         ]));
 
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
     if (hasil == "failed") {
       Fluttertoast.showToast(

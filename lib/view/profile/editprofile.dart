@@ -43,12 +43,17 @@ class _EditProfile extends State<EditProfile> {
     Message message = Message(
         'Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data imam', iduser));
 
-    MessagePassing messagePassing = MessagePassing();
-    var data = await messagePassing.sendMessage(message);
-    completer.complete();
-    var result = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var result = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
 
     return result;
   }
@@ -59,12 +64,17 @@ class _EditProfile extends State<EditProfile> {
       Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
           Tasks('edit profile imam', [iduser, nama, email, notelp]));
 
-      MessagePassing messagePassing = MessagePassing();
-      var data = await messagePassing.sendMessage(message);
-      completer.complete();
-      var hasil = await await AgentPage.getData();
+      MessagePassing messagePassing =
+          MessagePassing(); //Memanggil distributor pesan
+      var data = await messagePassing
+          .sendMessage(message); //Mengirim pesan ke distributor pesan
+      completer.complete(); //Batas pengerjaan yang memerlukan completer
+      var hasil = await await AgentPage
+          .getData(); //Memanggil data yang tersedia di agen Page
 
-      await completer.future;
+      await completer
+          .future; //Proses penungguan sudah selesai ketika varibel hasil
+      //memiliki nilai
 
       if (hasil == 'oke') {
         Fluttertoast.showToast(

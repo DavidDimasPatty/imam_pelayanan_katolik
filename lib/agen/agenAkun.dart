@@ -15,10 +15,12 @@ import 'Plan.dart';
 
 class AgentAkun extends Agent {
   AgentAkun() {
+    //Konstruktor agen memanggil fungsi initAgent
     _initAgent();
   }
 
   static int _estimatedTime = 5;
+  //Batas waktu awal pengerjaan seluruh tugas agen
   static Map<String, int> _timeAction = {
     "login": _estimatedTime,
     "edit status": _estimatedTime,
@@ -35,7 +37,11 @@ class AgentAkun extends Agent {
     "cari jumlah": _estimatedTime,
   };
 
+  //Daftar batas waktu pengerjaan masing-masing tugas
+
   Future<Message> action(String goals, dynamic data, String sender) async {
+    //Daftar fungsi tindakan yang bisa dilakukan oleh agen, fungsi ini memilih tindakan
+    //berdasarkan tugas yang berada pada isi pesan
     switch (goals) {
       case "login":
         return _login(data.task.data, sender);
@@ -45,17 +51,12 @@ class AgentAkun extends Agent {
         return _cariProfile(data.task.data, sender);
       case "cari data gereja":
         return _cariProfileGereja(data.task.data, sender);
-      // case "cari data aturan pelayanan":
-      //   return _cariDataAturanPelayanan(data.task.data, sender);
       case "edit profile gereja":
         return _EditProfileGereja(data.task.data, sender);
       case "edit profile imam":
         return _EditProfileImam(data.task.data, sender);
-
       case "cari data imam":
         return _cariDataImam(data.task.data, sender);
-      // case "update notification":
-      //   return _updateNotification(data.task.data, sender);
       case "find password":
         return _cariPassword(data.task.data, sender);
       case "change password":
@@ -71,7 +72,6 @@ class AgentAkun extends Agent {
 
   Future<Message> _cariJumlah(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-
     final pipeliner = AggregationPipelineBuilder()
         .addStage(Lookup(
             from: 'Gereja',
@@ -80,42 +80,50 @@ class AgentAkun extends Agent {
             as: 'userGereja'))
         .addStage(Match(where.eq('_id', data[1]).map['\$query']))
         .build();
+    //Melakukan join dengan collection Gereja dan imam
     var conn = await imamCollection.aggregateToStream(pipeliner).toList();
-
+    //Mendapatkan data dari join
     Completer<void> completer = Completer<void>();
     Message message2 = Message(sender, 'Agent Pencarian', "REQUEST",
         Tasks("cari jumlah", [data[0], data[1], conn, data[2]]));
-    MessagePassing messagePassing = MessagePassing();
+    //Membuat pesan kepada agen Pencarian
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message2);
-
     Message message = Message(
         agentName, sender, "INFORM", Tasks('done', "Wait agent pencarian"));
-    // Future.delayed(Duration(seconds: 1));
-    completer.complete();
-
-    await completer.future;
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
     return message;
   }
 
   Future<Message> _login(dynamic data, String sender) async {
+    //Fungsi tindakan yang digunakan saat pengguna login
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection
         .find({'email': data[0], 'password': data[1], 'banned': 0}).toList();
-
+    //Pencarian berdasarkan
+    //password dan email
     sendToAgenSetting(conn, agentName);
+    //Berkoordinasi dengan agen Setting
     Message message = Message(agentName, sender, "INFORM",
         Tasks("status modifikasi/ pencarian data akun", conn));
     return message;
   }
 
   void sendToAgenSetting(dynamic data, String sender) async {
+    //Fungsi tindakan yang membuat pesan dengan tugas "save data" untuk dikirim ke agen Setting
     Message message =
         Message(sender, "Agent Setting", "REQUEST", Tasks('save data', data));
-    MessagePassing messagePassing = MessagePassing();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
     messagePassing.sendMessage(message);
   }
 
   Future<Message> _changeStatus(dynamic data, String sender) async {
+    //Fungsi tindakan menganti setatus pelayanan Imam
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     String change = "";
     if (data[2] == "sakramentali") {
@@ -133,6 +141,7 @@ class AgentAkun extends Agent {
 
     var update = await imamCollection.updateOne(where.eq('_id', data[0]),
         modify.set(change, data[1]).set("updatedAt", DateTime.now()));
+    //Memperbarui data status dan updatedAt pada collection imam
     if (update.isSuccess) {
       Message message = Message(agentName, sender, "INFORM",
           Tasks("status modifikasi/ pencarian data akun", "oke"));
@@ -145,6 +154,8 @@ class AgentAkun extends Agent {
   }
 
   Future<Message> _cariProfile(dynamic data, String sender) async {
+    //Fungsi tindakan untuk mencari tampilan halaman profile dan berkooperasi dengan
+    //agen Pencarian
     var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     final pipeline5 = AggregationPipelineBuilder()
         .addStage(Lookup(
@@ -154,50 +165,43 @@ class AgentAkun extends Agent {
             as: 'userGereja'))
         .addStage(Match(where.eq('_id', data[1]).map['\$query']))
         .build();
+    //join pada collection imam dan Gereja berdasarkan id imam
     var conn = await userCollection.aggregateToStream(pipeline5).toList();
     Completer<void> completer = Completer<void>();
     Message message2 = Message(sender, "Agent Pencarian", "REQUEST",
         Tasks("cari profile", [data[0], data[1], conn]));
-
-    MessagePassing messagePassing = MessagePassing();
+    // Membuat pesan dengan tugas "cari profile" untuk dikirim ke agen Pencarian
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message2);
 
     Message message = Message(
         agentName, sender, "INFORM", Tasks('done', "Wait agent pencarian"));
-    // Future.delayed(Duration(seconds: 1));
-    completer.complete();
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
     return message;
   }
 
   Future<Message> _cariProfileGereja(dynamic data, String sender) async {
     var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
     var conn = await gerejaCollection.find({'_id': data}).toList();
+    //Pencarian pada collection Gereja berdasarkan id
     Message message = Message(agentName, sender, "INFORM",
         Tasks("status modifikasi/ pencarian data akun", conn));
 
     return message;
   }
 
-  // Future<Message> _cariDataAturanPelayanan(dynamic data, String sender) async {
-  //   var aturanPelayananCollection =
-  //       MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
-  //   var conn =
-  //       await aturanPelayananCollection.find({'idGereja': data}).toList();
-  //   Message message = Message(agentName, sender, "INFORM",
-  //       Tasks("status modifikasi/ pencarian data akun", conn));
-
-  //   return message;
-  // }
-
   Future<Message> _EditProfileGereja(dynamic data, String sender) async {
     var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
-
     var checkName;
     checkName = await gerejaCollection
         .find(where.eq('nama', data[1]).ne('_id', data[0]))
         .toList();
+    //Check jika nama sudah digunakan
 
     if (checkName.length > 0) {
       Message message = Message(agentName, sender, "INFORM",
@@ -206,9 +210,10 @@ class AgentAkun extends Agent {
     }
 
     if (data[7] == true) {
+      //Jika ada perubahan gambar
       var urlDownload = await FirebaseApi.configureUpload(
           'files/Imam Pelayanan Katolik/gereja/', data[6]);
-
+      //Upload ke Firebase
       var update = await gerejaCollection.updateOne(
           where.eq('_id', data[0]),
           modify
@@ -218,7 +223,7 @@ class AgentAkun extends Agent {
               .set('lingkungan', data[4])
               .set('deskripsi', data[5])
               .set("gambar", urlDownload));
-
+      //Update data Gereja
       if (update.isSuccess) {
         Message message = Message(agentName, sender, "INFORM",
             Tasks("status modifikasi/ pencarian data akun", "oke"));
@@ -229,8 +234,8 @@ class AgentAkun extends Agent {
         return message;
       }
     } else {
+      //Jika tidak ada perubahan gambar
       var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
-
       var update = await gerejaCollection.updateOne(
           where.eq('_id', data[0]),
           modify
@@ -239,7 +244,7 @@ class AgentAkun extends Agent {
               .set('paroki', data[3])
               .set('lingkungan', data[4])
               .set('deskripsi', data[5]));
-
+      //Update data Gereja
       if (update.isSuccess) {
         Message message = Message(agentName, sender, "INFORM",
             Tasks("status modifikasi/ pencarian data akun", "oke"));
@@ -255,6 +260,7 @@ class AgentAkun extends Agent {
   Future<Message> _cariEditProfileImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection.find({'_id': data[1][0]});
+    //Pencarian pada collection imam berdasarkan id
     Message message = Message(agentName, sender, "INFORM",
         Tasks("status modifikasi/ pencarian data akun", conn));
     return message;
@@ -262,7 +268,6 @@ class AgentAkun extends Agent {
 
   Future<Message> _EditProfileImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
-
     var checkEmail;
     var checkName;
     checkName = await imamCollection
@@ -272,12 +277,13 @@ class AgentAkun extends Agent {
     checkEmail = await imamCollection
         .find(where.eq('email', data[2]).ne('_id', data[0]))
         .toList();
-
     if (checkName.length > 0) {
+      //Pengecekan jika nama imam sudah digunakan
       Message message = Message(agentName, sender, "INFORM",
           Tasks("status modifikasi/ pencarian data akun", "nama"));
       return message;
     } else if (checkEmail.length > 0) {
+      //Pengecekan jika email imam sudah digunakan
       Message message = Message(agentName, sender, "INFORM",
           Tasks("status modifikasi/ pencarian data akun", "email"));
       return message;
@@ -288,7 +294,7 @@ class AgentAkun extends Agent {
             .set('nama', data[1])
             .set('email', data[2])
             .set('notelp', data[3]));
-
+    //Update pada collection imam
     if (update.isSuccess) {
       Message message = Message(agentName, sender, "INFORM",
           Tasks("status modifikasi/ pencarian data akun", "oke"));
@@ -303,7 +309,7 @@ class AgentAkun extends Agent {
   Future<Message> _cariDataImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection.find({'_id': data}).toList();
-
+    //Pencarian pada collection imam berdasarkan id
     Message message = Message(agentName, sender, "INFORM",
         Tasks('status modifikasi/ pencarian data akun', conn));
     return message;
@@ -328,12 +334,15 @@ class AgentAkun extends Agent {
     var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await userCollection
         .find({'_id': data[0], 'password': data[1]}).toList();
+    //Pencarian pada collection imam berdasarkan id dan password
     try {
       if (conn[0]['_id'] == null) {
+        //Jika tidak ditemukan
         Message message = Message(agentName, sender, "INFORM",
             Tasks("status modifikasi/ pencarian data akun", "not"));
         return message;
       } else {
+        //Jika ditemukan
         Message message = Message(agentName, sender, "INFORM",
             Tasks("status modifikasi/ pencarian data akun", "found"));
         return message;
@@ -349,6 +358,7 @@ class AgentAkun extends Agent {
     var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await userCollection.updateOne(
         where.eq('_id', data[0]), modify.set('password', data[1]));
+    //Memperbarui data password pada collection imam
     if (conn.isSuccess) {
       Message message = Message(agentName, sender, "INFORM",
           Tasks("status modifikasi/ pencarian data akun", "not"));
@@ -363,9 +373,11 @@ class AgentAkun extends Agent {
   Future<Message> _changeProfilePicture(dynamic data, String sender) async {
     var urlDownload = await FirebaseApi.configureUpload(
         'files/Imam Pelayanan Katolik/imam/', data[1]);
+    //Upload ke firebase
     var userCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await userCollection.updateOne(
         where.eq('_id', data[0]), modify.set('picture', urlDownload));
+    //Memperbarui data picture pada collection imam berdasarkan id
     if (conn.isSuccess) {
       Message message = Message(agentName, sender, "INFORM",
           Tasks("status modifikasi/ pencarian data akun", "not"));
@@ -379,11 +391,14 @@ class AgentAkun extends Agent {
 
   @override
   addEstimatedTime(String goals) {
+    //Fungsi menambahkan batas waktu pengerjaan tugas dengan 1 detik
     _timeAction[goals] = _timeAction[goals]! + 1;
   }
 
   _initAgent() {
+    //Inisialisasi identitas agen
     agentName = "Agent Akun";
+    //nama agen
     plan = [
       Plan("login", "REQUEST"),
       Plan("edit status", "REQUEST"),
@@ -399,6 +414,7 @@ class AgentAkun extends Agent {
       Plan("cari data aturan pelayanan", "REQUEST"),
       Plan("cari jumlah", "REQUEST"),
     ];
+    //Perencanaan agen
     goals = [
       Goals("login", List<Map<String, Object?>>, _timeAction["login"]),
       Goals("edit status", String, _timeAction["edit status"]),

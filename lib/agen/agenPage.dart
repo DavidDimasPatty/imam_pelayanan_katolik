@@ -9,6 +9,7 @@ import 'Task.dart';
 
 class AgentPage extends Agent {
   AgentPage() {
+    //Konstruktor agen memanggil fungsi initAgent
     _initAgent();
   }
   static List<dynamic> dataView = [];
@@ -46,7 +47,9 @@ class AgentPage extends Agent {
   }
 
   void _initAgent() {
+    //Inisialisasi identitas agen
     agentName = "Agent Page";
+    //nama agen
     plan = [
       Plan("status modifikasi data", "INFORM"), //come from agen Pendaftaran
       Plan("hasil pencarian", "INFORM"), //come from agen Pencarian
@@ -55,6 +58,7 @@ class AgentPage extends Agent {
           "INFORM"), //come from agen Akun
       Plan("error", "INFORM")
     ];
+    //Perencanaan agen
     goals = [
       Goals("status modifikasi data", String, 1),
       Goals("hasil pencarian", String, 1),
@@ -77,6 +81,8 @@ class AgentPage extends Agent {
 
   @override
   addEstimatedTime(String goals) {
+    //Fungsi menambahkan batas waktu pengerjaan tugas dengan 1 detik
+
     // TODO: implement addEstimatedTime
     throw UnimplementedError();
   }

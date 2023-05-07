@@ -60,12 +60,17 @@ class _UpdateProfile extends State<UpdateProfile> {
             imageChange
           ]));
 
-      MessagePassing messagePassing = MessagePassing();
-      var data = await messagePassing.sendMessage(message);
-      completer.complete();
-      var hasil = await await AgentPage.getData();
+      MessagePassing messagePassing =
+          MessagePassing(); //Memanggil distributor pesan
+      var data = await messagePassing
+          .sendMessage(message); //Mengirim pesan ke distributor pesan
+      completer.complete(); //Batas pengerjaan yang memerlukan completer
+      var hasil = await await AgentPage
+          .getData(); //Memanggil data yang tersedia di agen Page
 
-      await completer.future;
+      await completer
+          .future; //Proses penungguan sudah selesai ketika varibel hasil
+      //memiliki nilai
 
       if (hasil == "failed") {
         Fluttertoast.showToast(
@@ -117,12 +122,17 @@ class _UpdateProfile extends State<UpdateProfile> {
             imageChange
           ]));
 
-      MessagePassing messagePassing = MessagePassing();
-      var data = await messagePassing.sendMessage(message);
-      completer.complete();
-      var hasil = await await AgentPage.getData();
+      MessagePassing messagePassing =
+          MessagePassing(); //Memanggil distributor pesan
+      var data = await messagePassing
+          .sendMessage(message); //Mengirim pesan ke distributor pesan
+      completer.complete(); //Batas pengerjaan yang memerlukan completer
+      var hasil = await await AgentPage
+          .getData(); //Memanggil data yang tersedia di agen Page
 
-      await completer.future;
+      await completer
+          .future; //Proses penungguan sudah selesai ketika varibel hasil
+      //memiliki nilai
       if (hasil == "failed") {
         Fluttertoast.showToast(
             msg: "Gagal Update Informasi Gereja",
@@ -167,12 +177,17 @@ class _UpdateProfile extends State<UpdateProfile> {
     Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
         Tasks('cari data gereja', idGereja));
 
-    MessagePassing messagePassing = MessagePassing();
-    var data = await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
     return hasil;
   }
 

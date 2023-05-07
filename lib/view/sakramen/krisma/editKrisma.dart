@@ -92,10 +92,13 @@ class _editKrisma extends State<editKrisma> {
             jenisSelected
           ]));
 
-      MessagePassing messagePassing = MessagePassing();
-      await messagePassing.sendMessage(message);
-      completer.complete();
-      var hasil = await await AgentPage.getData();
+      MessagePassing messagePassing =
+          MessagePassing(); //Memanggil distributor pesan
+      await messagePassing
+          .sendMessage(message); //Mengirim pesan ke distributor pesan
+      completer.complete(); //Batas pengerjaan yang memerlukan completer
+      var hasil = await await AgentPage
+          .getData(); //Memanggil data yang tersedia di agen Page
 
       if (hasil == "failed") {
         Fluttertoast.showToast(
@@ -139,12 +142,17 @@ class _editKrisma extends State<editKrisma> {
     Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
         Tasks('cari data edit pelayanan', [idKrisma, "krisma"]));
 
-    MessagePassing messagePassing = MessagePassing();
-    await messagePassing.sendMessage(message);
-    completer.complete();
-    var hasil = await await AgentPage.getData();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
+    var hasil = await await AgentPage
+        .getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
     return await hasil;
   }
 

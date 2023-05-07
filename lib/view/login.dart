@@ -5,52 +5,68 @@ import 'package:imam_pelayanan_katolik/FadeAnimation.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
-//import 'package:pelayanan_iman_katolik/forgetPassword.dart';
-//import 'package:pelayanan_iman_katolik/singup.dart';
-//import 'package:pelayanan_iman_katolik/homePage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 
 class Login extends StatelessWidget {
+  ////////Inisialisasi variabel untuk mengkontrol input field//////////////
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+  //////////////////////////////////////////////////////////////////////////
+
   Future login(id, password) async {
+    ///Fungsi pengiriman pesan untuk melakukan pengecekan kepada input field
+    ///pegguna dan melakukan pengecekan pada collection imam
+    ///
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page', 'Agent Akun', "REQUEST", Tasks('login', [id, password]));
 
-    MessagePassing messagePassing = MessagePassing();
-    var data = await messagePassing.sendMessage(message);
-    var hasil = await await AgentPage.getData();
-    completer.complete();
+    MessagePassing messagePassing =
+        MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing
+        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    var hasil =
+        await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    completer.complete(); //Batas pengerjaan yang memerlukan completer
 
-    await completer.future;
+    await completer
+        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    //memiliki nilai
     return await hasil;
   }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = new TextEditingController();
-    TextEditingController passwordController = new TextEditingController();
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
+          //Widget SingleChildScrollView digunakan agar halaman login bisa discroll
           child: Container(
             child: Column(
+              //Widget Column digunakan untuk tempat widget berada pada children
               children: <Widget>[
                 Container(
+                  //Container digunakan untuk tempat dekorasi halaman login
                   height: 400,
                   decoration: BoxDecoration(
+                      //Background halaman login
                       image: DecorationImage(
                           image: NetworkImage(
                               'https://firebasestorage.googleapis.com/v0/b/pelayananimankatolik.appspot.com/o/imageedit_2_4702386825.png?alt=media&token=53776f41-1d60-4057-adeb-899f82d0ae67'),
                           fit: BoxFit.fill)),
                   child: Stack(
+                    //Widget Stack agar widget saling bertumpuk satu sama lain
+                    //khususnya dengan background halaman login
                     children: <Widget>[
                       Positioned(
+                        //Widget Positioned untuk memposisikan gambar pada halaman login
                         left: 30,
                         width: 80,
                         height: 200,
                         child: FadeAnimation(
+                            //Animasi  untuk widget
                             1,
                             Container(
                               decoration: BoxDecoration(
@@ -112,6 +128,14 @@ class Login extends StatelessWidget {
                   padding: EdgeInsets.all(30.0),
                   child: Column(
                     children: <Widget>[
+                      ///////////////////////////////////////////Pembuatan Input Field///////////////////////////////////////////////////////////////////////////////
+                      ///Setiap Input Field akan dianimasikan oleh
+                      ///dari itu menggunakan widget FadeAnimation,
+                      ///dimana memiliki parameter waktu animasi dan
+                      ///widget TextField sebagai input field
+                      ///di dalam masing-masing widget textfield terdapat komponen
+                      ///controller untuk mengkontrol input user (mendapatkan nilai,
+                      ///menghapus nilai)
                       FadeAnimation(
                           1.8,
                           Container(
@@ -169,6 +193,10 @@ class Login extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: RaisedButton(
+                                //Widget yang membuat tombol, pada widget ini
+                                //tombol memiliki aksi jika ditekan (onPressed),
+                                //dan memiliki dekorasi seperti(warna,child yang
+                                //berupa widgetText, dan bentuk tombol)
                                 textColor: Colors.white,
                                 color: Colors.lightBlue,
                                 child: Text("Login"),
