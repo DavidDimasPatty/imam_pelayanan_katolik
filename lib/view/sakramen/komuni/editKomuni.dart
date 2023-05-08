@@ -102,6 +102,7 @@ class _editKomuni extends State<editKomuni> {
 
       if (hasil == "failed") {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Gagal Edit Komuni",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -111,6 +112,7 @@ class _editKomuni extends State<editKomuni> {
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Berhasil memperbarui Komuni",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -126,6 +128,7 @@ class _editKomuni extends State<editKomuni> {
       }
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Isi semua bidang",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -157,6 +160,7 @@ class _editKomuni extends State<editKomuni> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     setState(() {
       callDb();
     });
@@ -164,7 +168,11 @@ class _editKomuni extends State<editKomuni> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text("Edit Kegiatan Komuni"),
         shape: RoundedRectangleBorder(
@@ -193,7 +201,9 @@ class _editKomuni extends State<editKomuni> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+        //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
           children: [

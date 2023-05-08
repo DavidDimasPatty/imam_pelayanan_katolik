@@ -56,6 +56,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     callDb().then((result) {
       setState(() {
         data = 5;
@@ -84,6 +85,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
 
     if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Update Status Pengumuman Gereja",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -93,6 +95,7 @@ class _PengumumanGereja extends State<PengumumanGereja> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Berhasil Update Status Pengumuman Gereja",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -162,7 +165,11 @@ class _PengumumanGereja extends State<PengumumanGereja> {
       }
     });
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
@@ -191,7 +198,9 @@ class _PengumumanGereja extends State<PengumumanGereja> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+        //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
           controller: _scrollController,

@@ -74,6 +74,7 @@ class _editPengumuman extends State<editPengumuman> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     setState(() {
       callDb();
     });
@@ -109,6 +110,7 @@ class _editPengumuman extends State<editPengumuman> {
 
         if (hasil == "failed") {
           Fluttertoast.showToast(
+              /////// Widget toast untuk menampilkan pesan pada halaman
               msg: "Gagal Memperbarui Pengumuman",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
@@ -118,6 +120,7 @@ class _editPengumuman extends State<editPengumuman> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
+              /////// Widget toast untuk menampilkan pesan pada halaman
               msg: "Berhasil Memperbarui Pengumuman",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
@@ -133,6 +136,7 @@ class _editPengumuman extends State<editPengumuman> {
         }
       } else {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Isi semua bidang",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -170,6 +174,7 @@ class _editPengumuman extends State<editPengumuman> {
 
         if (hasil == "failed") {
           Fluttertoast.showToast(
+              /////// Widget toast untuk menampilkan pesan pada halaman
               msg: "Gagal Memperbarui Pengumuman",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
@@ -179,6 +184,7 @@ class _editPengumuman extends State<editPengumuman> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
+              /////// Widget toast untuk menampilkan pesan pada halaman
               msg: "Berhasil Memperbarui Pengumuman",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
@@ -194,6 +200,7 @@ class _editPengumuman extends State<editPengumuman> {
         }
       } else {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Isi semua bidang",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -207,7 +214,11 @@ class _editPengumuman extends State<editPengumuman> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text("Edit Pengumuman Gereja"),
         shape: RoundedRectangleBorder(
@@ -236,7 +247,9 @@ class _editPengumuman extends State<editPengumuman> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+        //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(children: [
           FutureBuilder(

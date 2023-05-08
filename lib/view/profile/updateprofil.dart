@@ -74,6 +74,7 @@ class _UpdateProfile extends State<UpdateProfile> {
 
       if (hasil == "failed") {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Gagal Update Informasi Gereja",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -83,6 +84,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             fontSize: 16.0);
       } else if (hasil == 'nama') {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Nama sudah digunakan",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -92,6 +94,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Berhasil Update Informasi Gereja",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -135,6 +138,7 @@ class _UpdateProfile extends State<UpdateProfile> {
       //memiliki nilai
       if (hasil == "failed") {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Gagal Update Informasi Gereja",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -144,6 +148,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Berhasil Update Informasi Gereja",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -193,7 +198,11 @@ class _UpdateProfile extends State<UpdateProfile> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text("Update Gereja"),
         shape: RoundedRectangleBorder(

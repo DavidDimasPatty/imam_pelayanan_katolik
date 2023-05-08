@@ -83,6 +83,7 @@ class _addBaptis extends State<addBaptis> {
 
       if (hasil == "failed") {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Gagal Mendaftarkan Baptis",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -92,6 +93,7 @@ class _addBaptis extends State<addBaptis> {
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Berhasil Mendaftarkan Baptis",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -107,6 +109,7 @@ class _addBaptis extends State<addBaptis> {
       }
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Isi semua bidang",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -119,7 +122,11 @@ class _addBaptis extends State<addBaptis> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text("Tambah Kegiatan Baptis"),
         shape: RoundedRectangleBorder(

@@ -78,6 +78,7 @@ class _EditProfile extends State<EditProfile> {
 
       if (hasil == 'oke') {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Berhasil memperbarui Profile Imam",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -92,6 +93,7 @@ class _EditProfile extends State<EditProfile> {
         );
       } else if (hasil == 'nama') {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Nama sudah digunakan",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -101,6 +103,7 @@ class _EditProfile extends State<EditProfile> {
             fontSize: 16.0);
       } else if (hasil == 'email') {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Email sudah digunakan",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -111,6 +114,7 @@ class _EditProfile extends State<EditProfile> {
       }
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Isi semua bidang",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -122,6 +126,7 @@ class _EditProfile extends State<EditProfile> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     setState(() {
       callDb();
     });
@@ -129,7 +134,11 @@ class _EditProfile extends State<EditProfile> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         title: Text('Edit Profile'),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
@@ -157,7 +166,9 @@ class _EditProfile extends State<EditProfile> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+          //Widget untuk refresh body halaman
           onRefresh: pullRefresh,
           child: ListView(
             children: <Widget>[

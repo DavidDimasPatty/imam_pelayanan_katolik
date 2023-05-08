@@ -72,6 +72,7 @@ class _editBaptis extends State<editBaptis> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     setState(() {
       // callDb();
     });
@@ -113,6 +114,7 @@ class _editBaptis extends State<editBaptis> {
 
       if (hasil == "failed") {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Gagal Edit Baptis",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -122,6 +124,7 @@ class _editBaptis extends State<editBaptis> {
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Berhasil memperbarui Baptis",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -137,6 +140,7 @@ class _editBaptis extends State<editBaptis> {
       }
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Isi semua bidang",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -149,7 +153,11 @@ class _editBaptis extends State<editBaptis> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text("Edit Kegiatan Baptis"),
         shape: RoundedRectangleBorder(
@@ -178,7 +186,9 @@ class _editBaptis extends State<editBaptis> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+        //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
           children: [

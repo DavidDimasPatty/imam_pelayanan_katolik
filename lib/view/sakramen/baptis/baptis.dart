@@ -58,6 +58,7 @@ class _Baptis extends State<Baptis> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     callDb().then((result) {
       setState(() {
         data = 5;
@@ -89,6 +90,7 @@ class _Baptis extends State<Baptis> {
     //memiliki nilai
     if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Deactive Kegiatan Baptis",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -98,6 +100,7 @@ class _Baptis extends State<Baptis> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Berhasil Deactive Kegiatan Baptis",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -167,7 +170,11 @@ class _Baptis extends State<Baptis> {
       }
     });
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
@@ -196,7 +203,9 @@ class _Baptis extends State<Baptis> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+        //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
           controller: _scrollController,

@@ -77,6 +77,7 @@ class _addPengumuman extends State<addPengumuman> {
 
       if (hasil == "failed") {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Gagal Mendaftarkan Pengumuman",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -86,6 +87,7 @@ class _addPengumuman extends State<addPengumuman> {
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Berhasil Mendaftarkan Pengumuman",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -101,6 +103,7 @@ class _addPengumuman extends State<addPengumuman> {
       }
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Isi semua bidang",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -113,7 +116,11 @@ class _addPengumuman extends State<addPengumuman> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text("Tambah Pengumuman Gereja"),
         shape: RoundedRectangleBorder(

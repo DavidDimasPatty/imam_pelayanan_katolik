@@ -79,6 +79,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
 
     if (hasil == "failed") {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Menyelsaikan Pelayanan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -88,6 +89,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Terima Kasih Sudah Menyelsaikan Pelayanan!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -126,6 +128,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
         .getData(); //Memanggil data yang tersedia di agen Page
     if (hasil == "failed") {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Menolak Pelayanan Perkawinan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -135,6 +138,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Berhasil Menolak Pelayanan Perkawinan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -173,6 +177,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
         .getData(); //Memanggil data yang tersedia di agen Page
     if (hasil == "failed") {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Menolak Pelayanan Perkawinan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -182,6 +187,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Berhasil Menolak Pelayanan Perkawinan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -196,6 +202,7 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     setState(() {
       callDb();
     });
@@ -203,7 +210,11 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text('Detail Perkawinan'),
         shape: RoundedRectangleBorder(
@@ -232,7 +243,9 @@ class _DetailPerkawinan extends State<DetailPerkawinan> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+          //Widget untuk refresh body halaman
           onRefresh: pullRefresh,
           child: ListView(
             children: [

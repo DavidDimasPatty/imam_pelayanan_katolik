@@ -53,6 +53,7 @@ class _KegiatanUmum extends State<KegiatanUmum> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     setState(() {
       callJumlah();
     });
@@ -61,7 +62,11 @@ class _KegiatanUmum extends State<KegiatanUmum> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text("Kegiatan Umum"),
         shape: RoundedRectangleBorder(
@@ -90,7 +95,9 @@ class _KegiatanUmum extends State<KegiatanUmum> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+        //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
           shrinkWrap: true,

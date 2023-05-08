@@ -17,7 +17,11 @@ class HistoryKegiatanUmum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text("History Kegiatan Umum"),
         shape: RoundedRectangleBorder(

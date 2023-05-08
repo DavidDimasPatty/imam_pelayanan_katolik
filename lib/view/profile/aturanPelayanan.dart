@@ -90,6 +90,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
 
     if (hasil == 'oke') {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Berhasil memperbarui Aturan Pelayanan Gereja",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -104,6 +105,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
       );
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Edit Aturan Pelayanan Gereja",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -115,6 +117,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     setState(() {
       callDb();
     });
@@ -122,7 +125,11 @@ class _AturanPelayanan extends State<AturanPelayanan> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         title: Text('Edit Aturan Pelayanan'),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
@@ -150,7 +157,9 @@ class _AturanPelayanan extends State<AturanPelayanan> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+          //Widget untuk refresh body halaman
           onRefresh: pullRefresh,
           child: ListView(
             children: <Widget>[

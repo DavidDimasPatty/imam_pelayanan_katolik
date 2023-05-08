@@ -40,6 +40,9 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // Widget untuk membangun struktur halaman
+        //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           //Widget SingleChildScrollView digunakan agar halaman login bisa discroll
@@ -204,9 +207,12 @@ class Login extends StatelessWidget {
                                   borderRadius: new BorderRadius.circular(30.0),
                                 ),
                                 onPressed: () async {
+                                  //Pengecekan jika email dan password kosong
                                   if (emailController.text == "" ||
                                       passwordController.text == "") {
                                     Fluttertoast.showToast(
+                                        /////// Widget toast untuk menampilkan pesan pada halaman
+                                        /////// Widget toast untuk menampilkan pesan pada halaman
                                         msg:
                                             "Email atau Password Tidak Boleh Kosong",
                                         toastLength: Toast.LENGTH_SHORT,
@@ -218,11 +224,14 @@ class Login extends StatelessWidget {
                                     emailController.clear();
                                     passwordController.clear();
                                   } else {
+                                    //Jika email dan password tidak kosong
                                     await login(emailController.text,
                                             passwordController.text)
                                         .then((ret) async {
                                       try {
                                         if (ret.length > 0) {
+                                          //Jika berhasil login maka akan
+                                          //dipanggil kelas homePage
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
@@ -233,6 +242,7 @@ class Login extends StatelessWidget {
                                           );
                                         } else {
                                           Fluttertoast.showToast(
+                                              /////// Widget toast untuk menampilkan pesan pada halaman
                                               msg: "Email dan Password Salah",
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.CENTER,
@@ -245,6 +255,7 @@ class Login extends StatelessWidget {
                                         }
                                       } catch (e) {
                                         Fluttertoast.showToast(
+                                            /////// Widget toast untuk menampilkan pesan pada halaman
                                             msg: "Connection Problem",
                                             toastLength: Toast.LENGTH_SHORT,
                                             gravity: ToastGravity.CENTER,

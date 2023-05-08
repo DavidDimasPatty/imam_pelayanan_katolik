@@ -112,6 +112,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
 
     if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Reject User",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -121,6 +122,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Berhasil Reject User",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -158,6 +160,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
 
     if (hasilDaftar == "failed") {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Accept User",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -167,6 +170,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Berhasil Accept User",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -187,6 +191,7 @@ class _RekoleksiUser extends State<RekoleksiUser> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     callDb().then((result) {
       setState(() {
         data = 5;
@@ -215,7 +220,11 @@ class _RekoleksiUser extends State<RekoleksiUser> {
       }
     });
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -243,7 +252,9 @@ class _RekoleksiUser extends State<RekoleksiUser> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+        //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
           controller: _scrollController,

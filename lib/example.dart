@@ -30,8 +30,13 @@
 
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       appBar: AppBar(
-//         automaticallyImplyLeading: false,
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
+//        appBar: AppBar(
+        // widget Top Navigation Bar
+//        automaticallyImplyLeading: false,
+        //Tombol back halaman dimatikan
 //         title: Text('Imam Pelayanan Katolik'),
 //         shape: RoundedRectangleBorder(
 //           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),

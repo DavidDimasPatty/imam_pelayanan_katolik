@@ -92,6 +92,7 @@ class _HistoryPerkawinan extends State<HistoryPerkawinan> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     callDb().then((result) {
       setState(() {
         data = 5;
@@ -120,7 +121,11 @@ class _HistoryPerkawinan extends State<HistoryPerkawinan> {
       }
     });
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
@@ -149,7 +154,9 @@ class _HistoryPerkawinan extends State<HistoryPerkawinan> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+        //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
           controller: _scrollController,

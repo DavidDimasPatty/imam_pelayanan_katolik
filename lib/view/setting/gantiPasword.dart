@@ -29,6 +29,7 @@ class gantiPassword extends StatelessWidget {
   checkPassword(context) async {
     if (passBaruController.text != passUlBaruController.text) {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Password Baru Tidak Cocok",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -41,6 +42,7 @@ class gantiPassword extends StatelessWidget {
       passUlBaruController.text = "";
     } else if (passBaruController.text == passLamaController.text) {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Password Baru Tidak Boleh Sama dengan Password Lama",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -70,6 +72,7 @@ class gantiPassword extends StatelessWidget {
 
       if (value == "not") {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Password Lama Tidak Cocok",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -101,6 +104,7 @@ class gantiPassword extends StatelessWidget {
         passBaruController.text = "";
         passUlBaruController.text = "";
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Berhasil Ganti Password",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -119,7 +123,11 @@ class gantiPassword extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         title: Text('Ganti Password'),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),

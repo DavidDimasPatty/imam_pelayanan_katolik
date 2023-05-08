@@ -51,6 +51,7 @@ class _Sakramen extends State<Sakramen> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     setState(() {
       callJumlah();
     });
@@ -59,7 +60,11 @@ class _Sakramen extends State<Sakramen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text("Sakramen"),
         shape: RoundedRectangleBorder(
@@ -88,7 +93,9 @@ class _Sakramen extends State<Sakramen> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+        //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
           shrinkWrap: true,

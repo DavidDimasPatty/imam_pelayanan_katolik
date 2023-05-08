@@ -14,7 +14,11 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       appBar: AppBar(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
+//        appBar: AppBar(
+        // widget Top Navigation Bar
 //         title: Text('Terms & Conditions'),
 //         shape: RoundedRectangleBorder(
 //           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),

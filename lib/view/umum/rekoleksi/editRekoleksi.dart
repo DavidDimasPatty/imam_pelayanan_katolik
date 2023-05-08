@@ -131,6 +131,7 @@ class _editRekoleksi extends State<editRekoleksi> {
 
         if (hasil == "failed") {
           Fluttertoast.showToast(
+              /////// Widget toast untuk menampilkan pesan pada halaman
               msg: "Gagal Edit Rekoleksi",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
@@ -140,6 +141,7 @@ class _editRekoleksi extends State<editRekoleksi> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
+              /////// Widget toast untuk menampilkan pesan pada halaman
               msg: "Berhasil memperbarui Rekoleksi",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
@@ -155,6 +157,7 @@ class _editRekoleksi extends State<editRekoleksi> {
         }
       } else {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Isi semua bidang",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -203,6 +206,7 @@ class _editRekoleksi extends State<editRekoleksi> {
 
         if (hasil == "failed") {
           Fluttertoast.showToast(
+              /////// Widget toast untuk menampilkan pesan pada halaman
               msg: "Gagal Edit Rekoleksi",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
@@ -212,6 +216,7 @@ class _editRekoleksi extends State<editRekoleksi> {
               fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
+              /////// Widget toast untuk menampilkan pesan pada halaman
               msg: "Berhasil memperbarui Rekoleksi",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
@@ -227,6 +232,7 @@ class _editRekoleksi extends State<editRekoleksi> {
         }
       } else {
         Fluttertoast.showToast(
+            /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Isi semua bidang",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -259,6 +265,7 @@ class _editRekoleksi extends State<editRekoleksi> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     setState(() {
       callDb();
     });
@@ -266,7 +273,11 @@ class _editRekoleksi extends State<editRekoleksi> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text("Edit Kegiatan Rekoleksi"),
         shape: RoundedRectangleBorder(
@@ -295,7 +306,9 @@ class _editRekoleksi extends State<editRekoleksi> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+        //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
           children: [

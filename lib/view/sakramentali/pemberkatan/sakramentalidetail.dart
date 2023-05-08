@@ -81,6 +81,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
 
     if (hasil == "failed") {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Menerima Pelayanan Pemberkatan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -90,6 +91,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Berhasil Menerima Pelayanan Pemberkatan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -129,6 +131,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
 
     if (hasil == "failed") {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Menolak Pelayanan Pemberkatan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -138,6 +141,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Berhasil Menolak Menerima Pelayanan Pemberkatan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -177,6 +181,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
 
     if (hasil == "failed") {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Gagal Menyelsaikan Pelayanan",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -186,6 +191,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
           msg: "Terima Kasih Sudah Menyelsaikan Pelayanan!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
@@ -200,6 +206,7 @@ class _DetailSakramentali extends State<DetailSakramentali> {
   }
 
   Future pullRefresh() async {
+    //Fungsi refresh halaman akan memanggil fungsi callDb
     setState(() {
       callDb();
     });
@@ -207,7 +214,11 @@ class _DetailSakramentali extends State<DetailSakramentali> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      // Widget untuk membangun struktur halaman
+      //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
+
       appBar: AppBar(
+        // widget Top Navigation Bar
         automaticallyImplyLeading: true,
         title: Text('Detail Pemberkatan'),
         shape: RoundedRectangleBorder(
@@ -236,7 +247,9 @@ class _DetailSakramentali extends State<DetailSakramentali> {
           ),
         ],
       ),
+      //////////////////////////////////////Pembuatan Body Halaman////////////////////////////////////////////////////////////////
       body: RefreshIndicator(
+          //Widget untuk refresh body halaman
           onRefresh: pullRefresh,
           child: ListView(
             children: [
