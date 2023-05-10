@@ -320,16 +320,16 @@ class AgentPendaftaran extends Agent {
   Future<Message> _addPelayanan(dynamic data, String sender) async {
     var pelayananCollection;
     //Memberi nilai pada variabel berdasarkan data pada isi pesan
-    if (data[0] == "baptis") {
+    if (data[0] == "Baptis") {
       pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
     }
-    if (data[0] == "komuni") {
+    if (data[0] == "Komuni") {
       pelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
     }
-    if (data[0] == "krisma") {
+    if (data[0] == "Krisma") {
       pelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
     }
-    if (data[0] == "umum") {
+    if (data[0] == "Umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
 
       String urlDownload = await FirebaseApi.configureUpload(
@@ -392,16 +392,16 @@ class AgentPendaftaran extends Agent {
   Future<Message> _updateStatusPelayanan(dynamic data, String sender) async {
     //Memberi nilai pada variabel berdasarkan data pada isi pesan
     var pelayananCollection;
-    if (data[0] == "baptis") {
+    if (data[0] == "Baptis") {
       pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
     }
-    if (data[0] == "komuni") {
+    if (data[0] == "Komuni") {
       pelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
     }
-    if (data[0] == "krisma") {
+    if (data[0] == "Krisma") {
       pelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
     }
-    if (data[0] == "umum") {
+    if (data[0] == "Umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
     }
     var update = await pelayananCollection.updateOne(

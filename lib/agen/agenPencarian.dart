@@ -26,8 +26,8 @@ class AgentPencarian extends Agent {
     "cari pelayanan pendaftaran": _estimatedTime,
     "cari data edit pelayanan": _estimatedTime,
     "cari jumlah": _estimatedTime,
-    "cari jumlah sakramen": _estimatedTime,
-    "cari jumlah umum": _estimatedTime,
+    "cari jumlah Sakramen": _estimatedTime,
+    "cari jumlah Umum": _estimatedTime,
     "cari profile": _estimatedTime,
   };
 
@@ -53,9 +53,9 @@ class AgentPencarian extends Agent {
         return _cariEditPelayanan(data.task.data, sender);
       case "cari jumlah":
         return _cariJumlah(data.task.data, sender);
-      case "cari jumlah sakramen":
+      case "cari jumlah Sakramen":
         return _cariJumlahSakramen(data.task.data, sender);
-      case "cari jumlah umum":
+      case "cari jumlah Umum":
         return _cariJumlahUmum(data.task.data, sender);
       case "cari profile":
         return _cariProfile(data.task.data, sender);
@@ -311,20 +311,166 @@ class AgentPencarian extends Agent {
     return message;
   }
 
+  // Future<Message> _cariPelayanan(dynamic data, String sender) async {
+  //   var pelayananCollection;
+  //   var currentOrHistory;
+  //   String id = "idGereja";
+  //   //Memberi nilai pada variabel berdasarkan data pada isi pesan
+  //   if (data[1] == "baptis") {
+  //     pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
+  //   } else if (data[1] == "komuni") {
+  //     pelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
+  //   } else if (data[1] == "krisma") {
+  //     pelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
+  //   } else if (data[1] == "umum") {
+  //     pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
+  //   } else if (data[1] == "perkawinan" && data[2] == "current") {
+  //     var PerkawinanCollection =
+  //         MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+  //     final pipeline = AggregationPipelineBuilder()
+  //         .addStage(Lookup(
+  //             from: 'user',
+  //             localField: 'idUser',
+  //             foreignField: '_id',
+  //             as: 'userDaftar'))
+  //         .addStage(
+  //             Match(where.eq('idImam', data[0]).eq('status', 0).map['\$query']))
+  //         .build();
+  //     var conn =
+  //         await PerkawinanCollection.aggregateToStream(pipeline).toList();
+  //     Message message = Message(
+  //         'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+  //     return message;
+  //   } else if (data[1] == "perkawinan" && data[2] == "history") {
+  //     var PerkawinanCollection =
+  //         MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+  //     final pipeline = AggregationPipelineBuilder()
+  //         .addStage(Lookup(
+  //             from: 'user',
+  //             localField: 'idUser',
+  //             foreignField: '_id',
+  //             as: 'userDaftar'))
+  //         .addStage(
+  //             Match(where.eq('idImam', data[0]).ne("status", 0).map['\$query']))
+  //         .build();
+  //     var conn =
+  //         await PerkawinanCollection.aggregateToStream(pipeline).toList();
+  //     Message message = Message(
+  //         'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+  //     return message;
+  //   } else if (data[1] == "perkawinan" && data[2] == "detail") {
+  //     var perkawinanCollection =
+  //         MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+  //     var conn = await perkawinanCollection.find({'_id': data[0]}).toList();
+
+  //     var userCollection = MongoDatabase.db.collection(USER_COLLECTION);
+  //     var conn2 =
+  //         await userCollection.find({'_id': conn[0]['idUser']}).toList();
+
+  //     Message message = Message('Agent Pencarian', sender, "INFORM",
+  //         Tasks('hasil pencarian', [conn, conn2]));
+  //     return message;
+  //   } else if (data[1] == "sakramentali" && data[2] == "current") {
+  //     var PemberkatanCollection =
+  //         MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+  //     final pipeline = AggregationPipelineBuilder()
+  //         .addStage(Lookup(
+  //             from: 'user',
+  //             localField: 'idUser',
+  //             foreignField: '_id',
+  //             as: 'userDaftar'))
+  //         .addStage(
+  //             Match(where.eq('idImam', data[0]).eq('status', 0).map['\$query']))
+  //         .build();
+  //     var conn =
+  //         await PemberkatanCollection.aggregateToStream(pipeline).toList();
+  //     Message message = Message(
+  //         'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+  //     return message;
+  //   } else if (data[1] == "sakramentali" && data[2] == "history") {
+  //     var PemberkatanCollection =
+  //         MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+  //     final pipeline = AggregationPipelineBuilder()
+  //         .addStage(Lookup(
+  //             from: 'user',
+  //             localField: 'idUser',
+  //             foreignField: '_id',
+  //             as: 'userDaftar'))
+  //         .addStage(
+  //             Match(where.eq('idImam', data[0]).ne("status", 0).map['\$query']))
+  //         .build();
+  //     var conn =
+  //         await PemberkatanCollection.aggregateToStream(pipeline).toList();
+  //     Message message = Message(
+  //         'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+  //     return message;
+  //   } else if (data[1] == "sakramentali" && data[2] == "detail") {
+  //     var pemberkatanCollection =
+  //         MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+  //     var conn = await pemberkatanCollection.find({'_id': data[0]}).toList();
+
+  //     var userCollection = MongoDatabase.db.collection(USER_COLLECTION);
+  //     var conn2 =
+  //         await userCollection.find({'_id': conn[0]['idUser']}).toList();
+
+  //     Message message = Message('Agent Pencarian', sender, "INFORM",
+  //         Tasks('hasil pencarian', [conn, conn2]));
+  //     return message;
+  //   }
+  //   if (data[1] == "umum") {
+  //     if (data[2] == "current") {
+  //       var rekoleksiCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
+  //       var conn = await rekoleksiCollection.find({
+  //         'idGereja': data[0],
+  //         'jenisKegiatan': data[3],
+  //         'status': 0
+  //       }).toList();
+
+  //       Message message = Message('Agent Pencarian', sender, "INFORM",
+  //           Tasks('hasil pencarian', conn));
+  //       return message;
+  //     } else {
+  //       var rekoleksiCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
+  //       var conn = await rekoleksiCollection.find({
+  //         'idGereja': data[0],
+  //         'jenisKegiatan': data[3],
+  //         "status": 1
+  //       }).toList();
+
+  //       Message message = Message('Agent Pencarian', sender, "INFORM",
+  //           Tasks('hasil pencarian', conn));
+  //       return message;
+  //     }
+  //   } else {
+  //     if (data[2] == "current") {
+  //       var conn =
+  //           await pelayananCollection.find({id: data[0], 'status': 0}).toList();
+  //       Message message = Message('Agent Pencarian', sender, "INFORM",
+  //           Tasks('hasil pencarian', conn));
+  //       return message;
+  //     } else {
+  //       var conn =
+  //           await pelayananCollection.find({id: data[0], "status": 1}).toList();
+  //       Message message = Message('Agent Pencarian', sender, "INFORM",
+  //           Tasks('hasil pencarian', conn));
+  //       return message;
+  //     }
+  //   }
+  // }
   Future<Message> _cariPelayanan(dynamic data, String sender) async {
     var pelayananCollection;
     var currentOrHistory;
     String id = "idGereja";
     //Memberi nilai pada variabel berdasarkan data pada isi pesan
-    if (data[1] == "baptis") {
+    if (data[1] == "Baptis") {
       pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
-    } else if (data[1] == "komuni") {
+    } else if (data[1] == "Komuni") {
       pelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
-    } else if (data[1] == "krisma") {
+    } else if (data[1] == "Krisma") {
       pelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
-    } else if (data[1] == "umum") {
+    } else if (data[1] == "Umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-    } else if (data[1] == "perkawinan" && data[2] == "current") {
+    } else if (data[1] == "Perkawinan" && data[2] == "current") {
       var PerkawinanCollection =
           MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
       final pipeline = AggregationPipelineBuilder()
@@ -341,7 +487,7 @@ class AgentPencarian extends Agent {
       Message message = Message(
           'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
-    } else if (data[1] == "perkawinan" && data[2] == "history") {
+    } else if (data[1] == "Perkawinan" && data[2] == "history") {
       var PerkawinanCollection =
           MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
       final pipeline = AggregationPipelineBuilder()
@@ -358,7 +504,7 @@ class AgentPencarian extends Agent {
       Message message = Message(
           'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
-    } else if (data[1] == "perkawinan" && data[2] == "detail") {
+    } else if (data[1] == "Perkawinan" && data[2] == "detail") {
       var perkawinanCollection =
           MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
       var conn = await perkawinanCollection.find({'_id': data[0]}).toList();
@@ -370,7 +516,7 @@ class AgentPencarian extends Agent {
       Message message = Message('Agent Pencarian', sender, "INFORM",
           Tasks('hasil pencarian', [conn, conn2]));
       return message;
-    } else if (data[1] == "sakramentali" && data[2] == "current") {
+    } else if (data[1] == "Pemberkatan" && data[2] == "current") {
       var PemberkatanCollection =
           MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
       final pipeline = AggregationPipelineBuilder()
@@ -387,7 +533,7 @@ class AgentPencarian extends Agent {
       Message message = Message(
           'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
-    } else if (data[1] == "sakramentali" && data[2] == "history") {
+    } else if (data[1] == "Pemberkatan" && data[2] == "history") {
       var PemberkatanCollection =
           MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
       final pipeline = AggregationPipelineBuilder()
@@ -404,7 +550,7 @@ class AgentPencarian extends Agent {
       Message message = Message(
           'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
-    } else if (data[1] == "sakramentali" && data[2] == "detail") {
+    } else if (data[1] == "Pemberkatan" && data[2] == "detail") {
       var pemberkatanCollection =
           MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
       var conn = await pemberkatanCollection.find({'_id': data[0]}).toList();
@@ -417,7 +563,7 @@ class AgentPencarian extends Agent {
           Tasks('hasil pencarian', [conn, conn2]));
       return message;
     }
-    if (data[1] == "umum") {
+    if (data[1] == "Umum") {
       if (data[2] == "current") {
         var rekoleksiCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
         var conn = await rekoleksiCollection.find({
@@ -461,13 +607,13 @@ class AgentPencarian extends Agent {
   Future<Message> _cariEditPelayanan(dynamic data, String sender) async {
     var pelayananCollection;
     //Memberi nilai pada variabel berdasarkan data pada isi pesan
-    if (data[1] == "baptis") {
+    if (data[1] == "Baptis") {
       pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
-    } else if (data[1] == "komuni") {
+    } else if (data[1] == "Komuni") {
       pelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
-    } else if (data[1] == "krisma") {
+    } else if (data[1] == "Krisma") {
       pelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
-    } else if (data[1] == "umum") {
+    } else if (data[1] == "Umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
     }
 
@@ -762,25 +908,25 @@ class AgentPencarian extends Agent {
     var countU3 =
         await userKegiatanCollection.aggregateToStream(pipeline3).toList();
 
-    final pipeline4 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userUmum',
-            localField: '_id',
-            foreignField: 'idKegiatan',
-            as: 'userKegiatan'))
-        .addStage(Match(where
-            .eq('idGereja', data[0])
-            .eq('status', 0)
-            .eq('jenisKegiatan', "Pendalaman Alkitab")
-            .map['\$query']))
-        .build();
-    var countU4 =
-        await userKegiatanCollection.aggregateToStream(pipeline4).toList();
+    // final pipeline4 = AggregationPipelineBuilder()
+    //     .addStage(Lookup(
+    //         from: 'userUmum',
+    //         localField: '_id',
+    //         foreignField: 'idKegiatan',
+    //         as: 'userKegiatan'))
+    //     .addStage(Match(where
+    //         .eq('idGereja', data[0])
+    //         .eq('status', 0)
+    //         .eq('jenisKegiatan', "Pendalaman Alkitab")
+    //         .map['\$query']))
+    //     .build();
+    // var countU4 =
+    //     await userKegiatanCollection.aggregateToStream(pipeline4).toList();
 
     var totalU1 = 0;
     var totalU2 = 0;
     var totalU3 = 0;
-    var totalU4 = 0;
+    // var totalU4 = 0;
 
 //mencari jumlah user yang mendaftar ke pelayanan kegiatan umum
     for (var i = 0; i < countU.length; i++) {
@@ -813,18 +959,18 @@ class AgentPencarian extends Agent {
       }
     }
 
-    for (var i = 0; i < countU4.length; i++) {
-      if (countU4[i]['userKegiatan'] != null) {
-        for (var j = 0; j < countU4[i]['userKegiatan'].length; j++) {
-          if (countU4[i]['userKegiatan'][j]['status'] == 0) {
-            totalU4++;
-          }
-        }
-      }
-    }
+    // for (var i = 0; i < countU4.length; i++) {
+    //   if (countU4[i]['userKegiatan'] != null) {
+    //     for (var j = 0; j < countU4[i]['userKegiatan'].length; j++) {
+    //       if (countU4[i]['userKegiatan'][j]['status'] == 0) {
+    //         totalU4++;
+    //       }
+    //     }
+    //   }
+    // }
 
     Message message = Message('Agent Pencarian', sender, "INFORM",
-        Tasks('hasil pencarian', [totalU1, totalU2, totalU3, totalU4]));
+        Tasks('hasil pencarian', [totalU1, totalU2, totalU3]));
     return message;
   }
 
@@ -850,8 +996,8 @@ class AgentPencarian extends Agent {
       Plan("cari data edit pelayanan", "REQUEST"),
       Plan("cari pelayanan user", "REQUEST"),
       Plan("cari jumlah", "REQUEST"),
-      Plan("cari jumlah sakramen", "REQUEST"),
-      Plan("cari jumlah umum", "REQUEST"),
+      Plan("cari jumlah Sakramen", "REQUEST"),
+      Plan("cari jumlah Umum", "REQUEST"),
       Plan("cari profile", "REQUEST"),
     ];
     //Perencanaan agen
@@ -875,9 +1021,10 @@ class AgentPencarian extends Agent {
       Goals("cari pelayanan user", List<Map<String, Object?>>,
           _timeAction["cari pelayanan user"]),
       Goals("cari jumlah", List<dynamic>, _timeAction["cari jumlah"]),
-      Goals("cari jumlah sakramen", List<dynamic>,
-          _timeAction["cari jumlah sakramen"]),
-      Goals("cari jumlah umum", List<dynamic>, _timeAction["cari jumlah umum"]),
+      Goals("cari jumlah Sakramen", List<dynamic>,
+          _timeAction["cari jumlah Sakramen"]),
+      Goals("cari jumlah Umum", List<int>, _timeAction["cari jumlah Umum"]),
+      Goals("cari jumlah Umum", List<dynamic>, _timeAction["cari jumlah Umum"]),
     ];
   }
 }
