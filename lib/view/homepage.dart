@@ -8,6 +8,7 @@ import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
 import 'package:imam_pelayanan_katolik/view/login.dart';
+import 'package:imam_pelayanan_katolik/view/pelayanan/daftarPelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/pelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
@@ -567,8 +568,13 @@ class _HomePage extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              Sakramentali(iduser, idGereja, role)),
+                          builder: (context) => daftarPelayanan(
+                              iduser,
+                              idGereja,
+                              role,
+                              "Sakramentali",
+                              "current",
+                              "Pemberkatan")),
                     );
                   },
                   child: Container(

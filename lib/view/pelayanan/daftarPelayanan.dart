@@ -10,6 +10,8 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/addPelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/editPelayanan.dart';
+import 'package:imam_pelayanan_katolik/view/pelayanan/pelayananDetail.dart';
+import 'package:imam_pelayanan_katolik/view/pelayanan/pelayananUser.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/baptis/addBaptis.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/baptis/baptisUser.dart';
@@ -191,12 +193,37 @@ class _daftarPelayanan extends State<daftarPelayanan> {
   filterSearchResults(String query) {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
+
       for (var item in dummyTemp) {
-        if (item['jadwalBuka']
-            .toString()
-            .toLowerCase()
-            .contains(query.toLowerCase())) {
-          listOMaps.add(item);
+        if (jenisPelayanan == "Sakramen" &&
+            jenisSelectedPelayanan != "Perkawinan") {
+          if (item['jadwalBuka']
+              .toString()
+              .toLowerCase()
+              .contains(query.toLowerCase())) {
+            listOMaps.add(item);
+          }
+        }
+        if (jenisPelayanan == "Umum") {
+          if (item['namaKegiatan']
+              .toString()
+              .toLowerCase()
+              .contains(query.toLowerCase())) {
+            listOMaps.add(item);
+          }
+        }
+        if (jenisPelayanan == "Sakramen" &&
+            jenisSelectedPelayanan == "Perkawinan") {
+          if (item['userDaftar'][0]['nama']
+              .toLowerCase()
+              .contains(query.toLowerCase())) {
+            listOMaps.add(item);
+          }
+        }
+        if (jenisPelayanan == "Sakramentali") {
+          if (item['namaLengkap'].toLowerCase().contains(query.toLowerCase())) {
+            listOMaps.add(item);
+          }
         }
       }
       setState(() {
@@ -273,7 +300,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                 autoFocus: false,
                 width: 400,
                 rtl: true,
-                helpText: 'Cari Baptis',
+                helpText: 'Cari ' + jenisSelectedPelayanan,
                 textController: editingController,
                 onSuffixTap: () {
                   setState(() {
@@ -338,12 +365,34 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BaptisUser(
-                                      iduser, idGereja, role, i['_id'])),
-                            );
+                            if (jenisSelectedPelayanan == "Perkawinan" ||
+                                jenisSelectedPelayanan == "Pemberkatan") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => pelayananDetail(
+                                        iduser,
+                                        idGereja,
+                                        role,
+                                        jenisPelayanan,
+                                        jenisPencarian,
+                                        jenisSelectedPelayanan,
+                                        i['_id'])),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => pelayananUser(
+                                        iduser,
+                                        idGereja,
+                                        role,
+                                        jenisPelayanan,
+                                        jenisPencarian,
+                                        jenisSelectedPelayanan,
+                                        i['_id'])),
+                              );
+                            }
                           },
                           child: Container(
                               margin: EdgeInsets.only(
@@ -424,8 +473,54 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                                       ),
                                     ],
                                   ),
-                                if (jenisSelectedPelayanan == "Perkawinan" ||
-                                    jenisSelectedPelayanan == "Sakramentali")
+                                if (jenisSelectedPelayanan == "Perkawinan")
+                                  Column(children: [
+                                    Text(
+                                      i['userDaftar'][0]['nama'],
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 26.0,
+                                          fontWeight: FontWeight.w300),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    Text(
+                                      'Alamat: ' + i['alamat'],
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
+                                    ),
+                                    Text(
+                                      'Tanggal: ' +
+                                          i['tanggal']
+                                              .toString()
+                                              .substring(0, 10),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
+                                    ),
+                                    Text(
+                                      'Jam: ' +
+                                          i['tanggal']
+                                              .toString()
+                                              .substring(10, 16),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
+                                    ),
+                                    if (i["status"] == 1)
+                                      Text("Diterima",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15)),
+                                    if (i["status"] == 2)
+                                      Text("Selesai",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15)),
+                                    if (i["status"] == -1)
+                                      Text("Ditolak",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15))
+                                  ]),
+                                if (jenisSelectedPelayanan == "Pemberkatan")
                                   Column(
                                     children: [
                                       Text(
@@ -462,10 +557,27 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 15),
                                       ),
+                                      if (i["status"] == 0)
+                                        Text("Menunggu Konfirmasi"),
+                                      if (i["status"] == 1)
+                                        Text("Diterima",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15)),
+                                      if (i["status"] == 2)
+                                        Text("Selesai",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15)),
+                                      if (i["status"] == -1)
+                                        Text("Ditolak",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15))
                                     ],
                                   ),
-                                if (jenisSelectedPelayanan != "Perkawinan" ||
-                                    jenisSelectedPelayanan != "Sakramentali")
+                                if (jenisSelectedPelayanan != "Perkawinan" &&
+                                    jenisSelectedPelayanan != "Pemberkatan")
                                   SizedBox(
                                     width: double.infinity,
                                     child: RaisedButton(
@@ -493,46 +605,49 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                                           );
                                         }),
                                   ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: RaisedButton(
-                                      textColor: Colors.white,
-                                      color: Colors.lightBlue,
-                                      child: Text(
-                                          "Deactive " + jenisSelectedPelayanan),
-                                      shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0),
-                                      ),
-                                      onPressed: () async {
-                                        showDialog<String>(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              AlertDialog(
-                                            title:
-                                                const Text('Confirm Deactive'),
-                                            content: Text(
-                                                'Yakin ingin mendeactive ' +
-                                                    jenisSelectedPelayanan +
-                                                    ' ini?'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    context, 'Cancel'),
-                                                child: const Text('Tidak'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () async {
-                                                  updateKegiatan(i["_id"], 1);
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('Ya'),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                ),
+                                if (jenisSelectedPelayanan != "Perkawinan" &&
+                                    jenisSelectedPelayanan != "Pemberkatan")
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: RaisedButton(
+                                        textColor: Colors.white,
+                                        color: Colors.lightBlue,
+                                        child: Text("Deactive " +
+                                            jenisSelectedPelayanan),
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(30.0),
+                                        ),
+                                        onPressed: () async {
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                              title: const Text(
+                                                  'Confirm Deactive'),
+                                              content: Text(
+                                                  'Yakin ingin mendeactive ' +
+                                                      jenisSelectedPelayanan +
+                                                      ' ini?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          context, 'Cancel'),
+                                                  child: const Text('Tidak'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    updateKegiatan(i["_id"], 1);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Ya'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                  ),
                               ])),
                         )
                     ]);

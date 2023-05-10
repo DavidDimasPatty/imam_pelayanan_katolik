@@ -18,11 +18,18 @@ class pelayananUser extends StatefulWidget {
   final idPelayanan;
   String jenisPelayanan;
   String jenisPencarian;
+  String jenisSelectedPelayanan;
   pelayananUser(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.idPelayanan);
+      this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
   @override
-  _pelayananUser createState() => _pelayananUser(this.iduser, this.idGereja,
-      this.role, this.jenisPelayanan, this.jenisPencarian, this.idPelayanan);
+  _pelayananUser createState() => _pelayananUser(
+      this.iduser,
+      this.idGereja,
+      this.role,
+      this.jenisPelayanan,
+      this.jenisPencarian,
+      this.jenisSelectedPelayanan,
+      this.idPelayanan);
 }
 
 class _pelayananUser extends State<pelayananUser> {
@@ -37,13 +44,18 @@ class _pelayananUser extends State<pelayananUser> {
   final idPelayanan;
   String jenisPelayanan;
   String jenisPencarian;
+  String jenisSelectedPelayanan;
   _pelayananUser(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.idPelayanan);
+      this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
 
   Future<List> callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan user', [idPelayanan, "baptis", "current"]));
+    Message message = Message(
+        'Agent Page',
+        'Agent Pencarian',
+        "REQUEST",
+        Tasks('cari pelayanan user',
+            [idPelayanan, jenisSelectedPelayanan, jenisPencarian]));
 
     MessagePassing messagePassing =
         MessagePassing(); //Memanggil distributor pesan
@@ -76,7 +88,7 @@ class _pelayananUser extends State<pelayananUser> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['userBaptis'][0]['nama']
+        if (item['userPelayanan'][0]['nama']
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase())) {
@@ -95,63 +107,18 @@ class _pelayananUser extends State<pelayananUser> {
     }
   }
 
-  Future updateReject(id, token, idTarget, notif) async {
+  Future updateUserStatus(status, id, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page',
-        'Agent Pendaftaran',
-        "REQUEST",
-        Tasks('update pelayanan user',
-            ["baptis", id, token, idTarget, -1, iduser, notif]));
-
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
-    completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasilDaftar = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
-
-    if (hasilDaftar == "failed") {
-      Fluttertoast.showToast(
-          /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Gagal Reject User",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    } else {
-      Fluttertoast.showToast(
-          /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Berhasil Reject User",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      callDb().then((result) {
-        setState(() {
-          hasil.clear();
-          dummyTemp.clear();
-          hasil.addAll(result);
-          dummyTemp.addAll(result);
-          _controller.add(result);
-        });
-      });
+    String umumSakramen = jenisSelectedPelayanan;
+    if (jenisPelayanan == "Umum") {
+      umumSakramen = jenisPelayanan;
     }
-  }
-
-  Future updateAccept(id, token, idTarget, notif) async {
-    Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user',
-            ["baptis", id, token, idTarget, 1, iduser, notif]));
+            [umumSakramen, id, token, idTarget, status, iduser, notif]));
     MessagePassing messagePassing =
         MessagePassing(); //Memanggil distributor pesan
     await messagePassing
@@ -160,20 +127,14 @@ class _pelayananUser extends State<pelayananUser> {
     var hasilDaftar = await await AgentPage
         .getData(); //Memanggil data yang tersedia di agen Page
 
-    if (hasilDaftar == "failed") {
+    String statusKonfirmasi = "Menerima";
+    if (hasilDaftar == "oke") {
+      if (status == -1) {
+        statusKonfirmasi = "Menolak";
+      }
       Fluttertoast.showToast(
           /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Gagal Accept User",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    } else {
-      Fluttertoast.showToast(
-          /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Berhasil Accept User",
+          msg: "Berhasil " + statusKonfirmasi + " User",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -189,6 +150,16 @@ class _pelayananUser extends State<pelayananUser> {
           _controller.add(result);
         });
       });
+    } else {
+      Fluttertoast.showToast(
+          /////// Widget toast untuk menampilkan pesan pada halaman
+          msg: "Gagal " + statusKonfirmasi + " User",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
@@ -231,7 +202,7 @@ class _pelayananUser extends State<pelayananUser> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
-        title: Text('Baptis'),
+        title: Text(jenisSelectedPelayanan),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.account_circle_rounded),
@@ -323,7 +294,7 @@ class _pelayananUser extends State<pelayananUser> {
 
                                 Text(
                                   "Nama :" +
-                                      i['userBaptis'][0]['nama'].toString(),
+                                      i['userPelayanan'][0]['nama'].toString(),
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20.0,
@@ -351,6 +322,18 @@ class _pelayananUser extends State<pelayananUser> {
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 15),
                                   ),
+                                if (i['status'] == 1)
+                                  Text(
+                                    'Status: Accept',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
+                                if (i['status'] == -1)
+                                  Text(
+                                    'Status: Reject',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
                                 Padding(
                                     padding: EdgeInsets.symmetric(vertical: 5)),
                                 Row(
@@ -369,11 +352,26 @@ class _pelayananUser extends State<pelayananUser> {
                                                 new BorderRadius.circular(30.0),
                                           ),
                                           onPressed: () async {
-                                            updateAccept(
-                                                i['_id'],
-                                                i['userBaptis'][0]['token'],
-                                                i['idBaptis'],
-                                                i['userBaptis'][0]['notifGD']);
+                                            if (jenisPelayanan == "Sakramen") {
+                                              updateUserStatus(
+                                                  1,
+                                                  i['_id'],
+                                                  i['userPelayanan'][0]
+                                                      ['token'],
+                                                  i['id' +
+                                                      jenisSelectedPelayanan],
+                                                  i['userPelayanan'][0]
+                                                      ['notifGD']);
+                                            } else {
+                                              updateUserStatus(
+                                                  1,
+                                                  i['_id'],
+                                                  i['userPelayanan'][0]
+                                                      ['token'],
+                                                  i['id' + jenisPelayanan],
+                                                  i['userPelayanan'][0]
+                                                      ['notifGD']);
+                                            }
                                           },
                                         ),
                                       ),
@@ -394,12 +392,27 @@ class _pelayananUser extends State<pelayananUser> {
                                                       30.0),
                                             ),
                                             onPressed: () async {
-                                              updateReject(
-                                                  i['_id'],
-                                                  i['userBaptis'][0]['token'],
-                                                  i['idBaptis'],
-                                                  i['userBaptis'][0]
-                                                      ['notifGD']);
+                                              if (jenisPelayanan ==
+                                                  "Sakramen") {
+                                                updateUserStatus(
+                                                    -1,
+                                                    i['_id'],
+                                                    i['userPelayanan'][0]
+                                                        ['token'],
+                                                    i['id' +
+                                                        jenisSelectedPelayanan],
+                                                    i['userPelayanan'][0]
+                                                        ['notifGD']);
+                                              } else {
+                                                updateUserStatus(
+                                                    -1,
+                                                    i['_id'],
+                                                    i['userPelayanan'][0]
+                                                        ['token'],
+                                                    i['id' + jenisPelayanan],
+                                                    i['userPelayanan'][0]
+                                                        ['notifGD']);
+                                              }
                                             }),
                                       ),
                                     ),

@@ -204,38 +204,33 @@ class AgentPencarian extends Agent {
 
   Future<Message> _cariPelayananUser(dynamic data, String sender) async {
     var userPelayananCollection;
-    String initial = "";
+    String initial = "userPelayanan";
     String id = "";
     //Memberi nilai variabel berdasarkan data yang berada di pesan
-    if (data[1] == "baptis") {
+    if (data[1] == "Baptis") {
       userPelayananCollection =
           MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
-      initial = "userBaptis";
+      // initial = "userBaptis";
       id = "idBaptis";
-    } else if (data[1] == "komuni") {
+    } else if (data[1] == "Komuni") {
       userPelayananCollection =
           MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
-      initial = "userKomuni";
+      // initial = "userKomuni";
       id = "idKomuni";
-    } else if (data[1] == "krisma") {
+    } else if (data[1] == "Krisma") {
       userPelayananCollection =
           MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
-      initial = "userKrisma";
+      // initial = "userKrisma";
       id = "idKrisma";
-    } else if (data[1] == "pendalaman alkitab") {
+    } else if (data[1] == "Retret") {
       userPelayananCollection =
           MongoDatabase.db.collection(USER_UMUM_COLLECTION);
-      initial = "userPA";
+      // initial = "userRetret";
       id = "idKegiatan";
-    } else if (data[1] == "retret") {
+    } else if (data[1] == "Rekoleksi") {
       userPelayananCollection =
           MongoDatabase.db.collection(USER_UMUM_COLLECTION);
-      initial = "userRetret";
-      id = "idKegiatan";
-    } else if (data[1] == "rekoleksi") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(USER_UMUM_COLLECTION);
-      initial = "userRekoleksi";
+      // initial = "userRekoleksi";
       id = "idKegiatan";
     }
     if (data[2] == "current") {
@@ -262,7 +257,8 @@ class AgentPencarian extends Agent {
               localField: 'idUser',
               foreignField: '_id',
               as: initial))
-          .addStage(Match(where.eq(id, data[0]).map['\$query']))
+          .addStage(
+              Match(where.eq(id, data[0]).ne('status', -2).map['\$query']))
           .build();
       var conn =
           await userPelayananCollection.aggregateToStream(pipeline).toList();
@@ -286,22 +282,22 @@ class AgentPencarian extends Agent {
   Future<Message> _cariPelayananPendaftaran(dynamic data, String sender) async {
     var PelayananCollection;
     //Memberi nilai pada variabel berdasarkan data pada isi pesan
-    if (data[0] == "baptis") {
+    if (data[0] == "Baptis") {
       PelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
     }
-    if (data[0] == "komuni") {
+    if (data[0] == "Komuni") {
       PelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
     }
-    if (data[0] == "krisma") {
+    if (data[0] == "Krisma") {
       PelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
     }
-    if (data[0] == "umum") {
+    if (data[0] == "Umum") {
       PelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
     }
-    if (data[0] == "sakramentali") {
+    if (data[0] == "Pemberkatan") {
       PelayananCollection = MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
     }
-    if (data[0] == "perkawinan") {
+    if (data[0] == "Perkawinan") {
       PelayananCollection = MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
     }
     var conn = await PelayananCollection.find({"_id": data[3]}).toList();
@@ -505,6 +501,8 @@ class AgentPencarian extends Agent {
           'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
     } else if (data[1] == "Perkawinan" && data[2] == "detail") {
+      print("MASUKKKKKKKKKKK");
+      print(data[0]);
       var perkawinanCollection =
           MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
       var conn = await perkawinanCollection.find({'_id': data[0]}).toList();

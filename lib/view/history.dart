@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
+import 'package:imam_pelayanan_katolik/view/pelayanan/daftarPelayanan.dart';
+import 'package:imam_pelayanan_katolik/view/pelayanan/pelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/umum/historyKegiatanUmum.dart';
 import 'package:imam_pelayanan_katolik/view/sakramen/historySakramen.dart';
@@ -65,8 +67,8 @@ class History extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          HistorySakramen(iduser, idGereja, role)),
+                      builder: (context) => pelayanan(
+                          iduser, idGereja, role, "Sakramen", "history")),
                 );
               },
               child: Container(
@@ -105,8 +107,8 @@ class History extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HistorySakramentali(iduser, idGereja, role)),
+                        builder: (context) => daftarPelayanan(iduser, idGereja,
+                            role, "Sakramentali", "history", "Pemberkatan")),
                   );
                 },
                 child: Container(
@@ -144,8 +146,8 @@ class History extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            HistoryKegiatanUmum(iduser, idGereja, role)),
+                        builder: (context) => pelayanan(
+                            iduser, idGereja, role, "Umum", "history")),
                   );
                 },
                 child: Container(

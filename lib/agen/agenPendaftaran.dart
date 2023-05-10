@@ -98,27 +98,27 @@ class AgentPendaftaran extends Agent {
   Future<Message> _updatePelayananUser(dynamic data, String sender) async {
     //Memberi nilai pada variabel berdasarkan data pada isi pesan
     var userPelayananCollection;
-    if (data[0] == "baptis") {
+    if (data[0] == "Baptis") {
       userPelayananCollection =
           MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
     }
-    if (data[0] == "komuni") {
+    if (data[0] == "Komuni") {
       userPelayananCollection =
           MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
     }
-    if (data[0] == "krisma") {
+    if (data[0] == "Krisma") {
       userPelayananCollection =
           MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
     }
-    if (data[0] == "umum") {
+    if (data[0] == "Umum") {
       userPelayananCollection =
           MongoDatabase.db.collection(USER_UMUM_COLLECTION);
     }
-    if (data[0] == "sakramentali") {
+    if (data[0] == "Pemberkatan") {
       userPelayananCollection =
           MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
     }
-    if (data[0] == "perkawinan") {
+    if (data[0] == "Perkawinan") {
       userPelayananCollection =
           MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
     }
@@ -151,27 +151,27 @@ class AgentPendaftaran extends Agent {
     String Pelayanan = "";
     DateTime tanggal = DateTime.now();
     //Memberi nilai pada variabel berdasarkan data pada isi pesan
-    if (data[0][0] == "baptis") {
+    if (data[0][0] == "Baptis") {
       Pelayanan = "Baptis";
       tanggal = data[1][0]['jadwalBuka'];
     }
-    if (data[0][0] == "komuni") {
+    if (data[0][0] == "Komuni") {
       Pelayanan = "Komuni";
       tanggal = data[1][0]['jadwalBuka'];
     }
-    if (data[0][0] == "krisma") {
+    if (data[0][0] == "Krisma") {
       Pelayanan = "Krisma";
       tanggal = data[1][0]['jadwalBuka'];
     }
-    if (data[0][0] == "umum") {
+    if (data[0][0] == "Umum") {
       Pelayanan = "Kegiatan Umum";
       tanggal = data[1][0]['tanggal'];
     }
-    if (data[0][0] == "sakramentali") {
+    if (data[0][0] == "Pemberkatan") {
       Pelayanan = "Pemberkatan";
       tanggal = data[1][0]['tanggal'];
     }
-    if (data[0][0] == "perkawinan") {
+    if (data[0][0] == "Perkawinan") {
       Pelayanan = "Perkawinan";
       tanggal = data[1][0]['tanggal'];
     }

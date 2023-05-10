@@ -133,382 +133,419 @@ class _pelayanan extends State<pelayanan> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10),
                         ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          margin: EdgeInsets.symmetric(horizontal: 20.0),
-                          clipBehavior: Clip.antiAlias,
-                          color: Colors.white,
-                          elevation: 20.0,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 7.0, vertical: 22.0),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "Total Pendaftaran " +
-                                            jenisPelayanan +
-                                            " :",
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 17.0,
-                                          fontWeight: FontWeight.bold,
+                        if (jenisPencarian == "current")
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            margin: EdgeInsets.symmetric(horizontal: 20.0),
+                            clipBehavior: Clip.antiAlias,
+                            color: Colors.white,
+                            elevation: 20.0,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 7.0, vertical: 22.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          "Total Pendaftaran " +
+                                              jenisPelayanan +
+                                              " :",
+                                          style: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 17.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      Text(
-                                        snapshot.data[0].toString(),
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 17.0,
-                                          fontWeight: FontWeight.bold,
+                                        SizedBox(
+                                          height: 5.0,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(children: <Widget>[
-                                        if (role == 1 &&
-                                            jenisPelayanan == "Sakramen")
-                                          Expanded(
-                                            child: Card(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 5.0,
-                                                  vertical: 5.0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                              ),
-                                              clipBehavior: Clip.antiAlias,
-                                              color: Colors.white,
-                                              elevation: 20.0,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                        Text(
-                                                          "Baptis",
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 15.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                        Text(
+                                          snapshot.data[0].toString(),
+                                          style: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 17.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(children: <Widget>[
+                                          if (role == 1 &&
+                                              jenisPelayanan == "Sakramen" &&
+                                              jenisPencarian == "current")
+                                            Expanded(
+                                              child: Card(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 5.0,
+                                                    vertical: 5.0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                ),
+                                                clipBehavior: Clip.antiAlias,
+                                                color: Colors.white,
+                                                elevation: 20.0,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          SizedBox(
+                                                            height: 5.0,
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                        Text(
-                                                          snapshot.data[1]
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                          Text(
+                                                            "Baptis",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 15.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                      ],
+                                                          SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                          Text(
+                                                            snapshot.data[1]
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        if (role == 1 &&
-                                            jenisPelayanan == "Sakramen")
-                                          Expanded(
-                                            child: Card(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 5.0,
-                                                  vertical: 5.0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                              ),
-                                              clipBehavior: Clip.antiAlias,
-                                              color: Colors.white,
-                                              elevation: 20.0,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                        Text(
-                                                          "Komuni",
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 12.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                          if (role == 1 &&
+                                              jenisPelayanan == "Sakramen" &&
+                                              jenisPencarian == "current")
+                                            Expanded(
+                                              child: Card(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 5.0,
+                                                    vertical: 5.0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                ),
+                                                clipBehavior: Clip.antiAlias,
+                                                color: Colors.white,
+                                                elevation: 20.0,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          SizedBox(
+                                                            height: 5.0,
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10.0,
-                                                        ),
-                                                        Text(
-                                                          snapshot.data[2]
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                          Text(
+                                                            "Komuni",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 12.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                      ],
+                                                          SizedBox(
+                                                            height: 10.0,
+                                                          ),
+                                                          Text(
+                                                            snapshot.data[2]
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        if (role == 1 &&
-                                            jenisPelayanan == "Sakramen")
-                                          Expanded(
-                                            child: Card(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 5.0,
-                                                  vertical: 5.0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                              ),
-                                              clipBehavior: Clip.antiAlias,
-                                              color: Colors.white,
-                                              elevation: 20.0,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                        Text(
-                                                          "Krisma",
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 15.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                          if (role == 1 &&
+                                              jenisPelayanan == "Sakramen" &&
+                                              jenisPencarian == "current")
+                                            Expanded(
+                                              child: Card(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 5.0,
+                                                    vertical: 5.0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                ),
+                                                clipBehavior: Clip.antiAlias,
+                                                color: Colors.white,
+                                                elevation: 20.0,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          SizedBox(
+                                                            height: 5.0,
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                        Text(
-                                                          snapshot.data[3]
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                          Text(
+                                                            "Krisma",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 15.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                      ],
+                                                          SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                          Text(
+                                                            snapshot.data[3]
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        if (role == 0 &&
-                                            jenisPelayanan == "Sakramen")
-                                          Expanded(
-                                            child: Card(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 5.0,
-                                                  vertical: 5.0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                              ),
-                                              clipBehavior: Clip.antiAlias,
-                                              color: Colors.white,
-                                              elevation: 20.0,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                        Text(
-                                                          "Perkawinan",
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 15.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                          if (role == 0 &&
+                                              jenisPelayanan == "Sakramen" &&
+                                              jenisPencarian == "current")
+                                            Expanded(
+                                              child: Card(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 5.0,
+                                                    vertical: 5.0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                ),
+                                                clipBehavior: Clip.antiAlias,
+                                                color: Colors.white,
+                                                elevation: 20.0,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          SizedBox(
+                                                            height: 5.0,
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                        Text(
-                                                          snapshot.data[4]
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                          Text(
+                                                            "Perkawinan",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 15.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                      ],
+                                                          SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                          Text(
+                                                            snapshot.data[4]
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        if (role == 1 &&
-                                            jenisPelayanan == "Umum")
-                                          Expanded(
-                                            child: Card(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 5.0,
-                                                  vertical: 5.0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                              ),
-                                              clipBehavior: Clip.antiAlias,
-                                              color: Colors.white,
-                                              elevation: 20.0,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                        Text(
-                                                          "Rekoleksi",
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 15.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                          if (role == 1 &&
+                                              jenisPelayanan == "Umum" &&
+                                              jenisPencarian == "current")
+                                            Expanded(
+                                              child: Card(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 5.0,
+                                                    vertical: 5.0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                ),
+                                                clipBehavior: Clip.antiAlias,
+                                                color: Colors.white,
+                                                elevation: 20.0,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          SizedBox(
+                                                            height: 5.0,
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                        Text(
-                                                          snapshot.data[1]
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                          Text(
+                                                            "Rekoleksi",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 15.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                      ],
+                                                          SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                          Text(
+                                                            snapshot.data[1]
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        if (role == 1 &&
-                                            jenisPelayanan == "Umum")
-                                          Expanded(
-                                            child: Card(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 5.0,
-                                                  vertical: 5.0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                              ),
-                                              clipBehavior: Clip.antiAlias,
-                                              color: Colors.white,
-                                              elevation: 20.0,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                        Text(
-                                                          "Retret",
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 15.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                          if (role == 1 &&
+                                              jenisPelayanan == "Umum")
+                                            Expanded(
+                                              child: Card(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 5.0,
+                                                    vertical: 5.0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                ),
+                                                clipBehavior: Clip.antiAlias,
+                                                color: Colors.white,
+                                                elevation: 20.0,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          SizedBox(
+                                                            height: 5.0,
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10.0,
-                                                        ),
-                                                        Text(
-                                                          snapshot.data[2]
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                          Text(
+                                                            "Retret",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 15.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.0,
-                                                        ),
-                                                      ],
+                                                          SizedBox(
+                                                            height: 10.0,
+                                                          ),
+                                                          Text(
+                                                            snapshot.data[2]
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                      ])
-                                    ],
+                                        ])
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
                         SizedBox(
                           height: 40,
                         ),
@@ -528,8 +565,13 @@ class _pelayanan extends State<pelayanan> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => daftarPelayanan(iduser,
-                                idGereja, role, jenisPelayanan, "current", i)),
+                            builder: (context) => daftarPelayanan(
+                                iduser,
+                                idGereja,
+                                role,
+                                jenisPelayanan,
+                                jenisPencarian,
+                                i)),
                       );
                     },
                     child: Container(
@@ -568,8 +610,13 @@ class _pelayanan extends State<pelayanan> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => daftarPelayanan(iduser,
-                                idGereja, role, jenisPelayanan, "current", i)),
+                            builder: (context) => daftarPelayanan(
+                                iduser,
+                                idGereja,
+                                role,
+                                jenisPelayanan,
+                                jenisPencarian,
+                                i)),
                       );
                     },
                     child: Container(
@@ -609,8 +656,13 @@ class _pelayanan extends State<pelayanan> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => daftarPelayanan(iduser,
-                              idGereja, role, jenisPelayanan, "current", i)),
+                          builder: (context) => daftarPelayanan(
+                              iduser,
+                              idGereja,
+                              role,
+                              jenisPelayanan,
+                              jenisPencarian,
+                              i)),
                     );
                   },
                   child: Container(

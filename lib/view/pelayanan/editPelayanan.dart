@@ -67,15 +67,20 @@ class _editPelayanan extends State<editPelayanan> {
 
   List jenis = ["Dewasa", "Anak"];
   String jenisSelected = "";
-  void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    setState(() {
-      if (args.value is PickerDateRange) {
-        tanggalBuka =
-            '${DateFormat('yyyy-MM-dd').format(args.value.startDate)}';
-        tanggalTutup =
-            '${DateFormat('yyyy-MM-dd').format(args.value.endDate ?? args.value.startDate)}';
-      }
-    });
+  _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+    if (jenisPelayanan == "Sakramen") {
+      setState(() {
+        if (args.value is PickerDateRange) {
+          tanggalBuka =
+              '${DateFormat('yyyy-MM-dd').format(args.value.startDate)}';
+          tanggalTutup =
+              '${DateFormat('yyyy-MM-dd').format(args.value.endDate ?? args.value.startDate)}';
+        }
+      });
+    }
+    if (jenisPelayanan == "Umum") {
+      _selectedDate = args.value.toString();
+    }
   }
 
   Future selectFile(context) async {
@@ -697,7 +702,7 @@ class _editPelayanan extends State<editPelayanan> {
                               ],
                             ),
                             Text(
-                              "Gambar Rekoleksi",
+                              "Gambar " + jenisSelectedPelayanan,
                               textAlign: TextAlign.left,
                             ),
                             Padding(

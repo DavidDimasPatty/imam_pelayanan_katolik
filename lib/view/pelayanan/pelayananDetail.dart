@@ -21,30 +21,41 @@ class pelayananDetail extends StatefulWidget {
   final idPelayanan;
   String jenisPelayanan;
   String jenisPencarian;
+  String jenisSelectedPelayanan;
 
   pelayananDetail(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.idPelayanan);
+      this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
   @override
-  _pelayananDetail createState() => _pelayananDetail(this.iduser, this.idGereja,
-      this.role, this.jenisPelayanan, this.jenisPencarian, this.idPelayanan);
+  _pelayananDetail createState() => _pelayananDetail(
+      this.iduser,
+      this.idGereja,
+      this.role,
+      this.jenisPelayanan,
+      this.jenisPencarian,
+      this.jenisSelectedPelayanan,
+      this.idPelayanan);
 }
 
 class _pelayananDetail extends State<pelayananDetail> {
   final role;
-
   final iduser;
   final idGereja;
   final idPelayanan;
   String jenisPelayanan;
   String jenisPencarian;
+  String jenisSelectedPelayanan;
   _pelayananDetail(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.idPelayanan);
+      this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
 
   @override
   Future<List> callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
-        Tasks('cari pelayanan', [idPelayanan, "sakramentali", "detail"]));
+    Message message = Message(
+        'Agent Page',
+        'Agent Pencarian',
+        "REQUEST",
+        Tasks(
+            'cari pelayanan', [idPelayanan, jenisSelectedPelayanan, "detail"]));
 
     MessagePassing messagePassing =
         MessagePassing(); //Memanggil distributor pesan
@@ -61,18 +72,18 @@ class _pelayananDetail extends State<pelayananDetail> {
     return await hasil;
   }
 
-  Future updateAccept(token, idTarget, notif) async {
+  Future updatePelayananUser(status, token, idTarget, notif) async {
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
         'Agent Pendaftaran',
         "REQUEST",
         Tasks('update pelayanan user', [
-          "sakramentali",
+          jenisSelectedPelayanan,
           idPelayanan,
           token,
           idPelayanan,
-          1,
+          status,
           iduser,
           notif
         ]));
@@ -88,7 +99,7 @@ class _pelayananDetail extends State<pelayananDetail> {
     if (hasil == "failed") {
       Fluttertoast.showToast(
           /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Gagal Menerima Pelayanan Pemberkatan",
+          msg: "Gagal Menolak Pelayanan " + jenisSelectedPelayanan,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -98,107 +109,7 @@ class _pelayananDetail extends State<pelayananDetail> {
     } else {
       Fluttertoast.showToast(
           /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Berhasil Menerima Pelayanan Pemberkatan",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    }
-    setState(() {
-      callDb();
-    });
-  }
-
-  Future updateReject(token, idTarget, notif) async {
-    Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page',
-        'Agent Pendaftaran',
-        "REQUEST",
-        Tasks('update pelayanan user', [
-          "sakramentali",
-          idPelayanan,
-          token,
-          idPelayanan,
-          -1,
-          iduser,
-          notif
-        ]));
-
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
-    completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
-
-    if (hasil == "failed") {
-      Fluttertoast.showToast(
-          /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Gagal Menolak Pelayanan Pemberkatan",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    } else {
-      Fluttertoast.showToast(
-          /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Berhasil Menolak Menerima Pelayanan Pemberkatan",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    }
-    setState(() {
-      callDb();
-    });
-  }
-
-  Future updateDone(token, idTarget, notif) async {
-    Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page',
-        'Agent Pendaftaran',
-        "REQUEST",
-        Tasks('update pelayanan user', [
-          "sakramentali",
-          idPelayanan,
-          token,
-          idPelayanan,
-          2,
-          iduser,
-          false
-        ]));
-
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
-    completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
-
-    if (hasil == "failed") {
-      Fluttertoast.showToast(
-          /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Gagal Menyelsaikan Pelayanan",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    } else {
-      Fluttertoast.showToast(
-          /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Terima Kasih Sudah Menyelsaikan Pelayanan!",
+          msg: "Berhasil Menolak Menerima Pelayanan " + jenisSelectedPelayanan,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -226,7 +137,7 @@ class _pelayananDetail extends State<pelayananDetail> {
       appBar: AppBar(
         // widget Top Navigation Bar
         automaticallyImplyLeading: true,
-        title: Text('Detail Pemberkatan'),
+        title: Text('Detail ' + jenisSelectedPelayanan),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
@@ -262,330 +173,666 @@ class _pelayananDetail extends State<pelayananDetail> {
               Padding(
                 padding: EdgeInsets.only(right: 10, left: 10, top: 10),
               ),
-              FutureBuilder<List>(
+              FutureBuilder(
                   future: callDb(),
                   builder: (context, AsyncSnapshot snapshot) {
                     try {
-                      return ListView(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.only(right: 15, left: 15),
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Nama Lengkap",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              Text(snapshot.data[0][0]["namaLengkap"])
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Paroki",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              Text(snapshot.data[0][0]["paroki"])
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Lingkungan",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              Text(snapshot.data[0][0]["lingkungan"])
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Nomor Telephone",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              Text(snapshot.data[0][0]["notelp"])
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Alamat Lengkap",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              Text(snapshot.data[0][0]["alamat"])
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Jenis Pemberkatan",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              Text(snapshot.data[0][0]["jenis"])
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Tanggal",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              Text(snapshot.data[0][0]["tanggal"].toString())
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Note Tambahan",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              Text(snapshot.data[0][0]["note"])
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Status",
-                                textAlign: TextAlign.left,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              if (snapshot.data[0][0]["status"] == 0)
-                                Text("Menunggu Konfirmasi"),
-                              if (snapshot.data[0][0]["status"] == 1)
-                                Text("Diterima"),
-                              if (snapshot.data[0][0]["status"] == 2)
-                                Text("Selesai"),
-                              if (snapshot.data[0][0]["status"] == -1)
-                                Text("Ditolak")
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          if (snapshot.data[0][0]["status"] != 2)
+                      if (jenisSelectedPelayanan == "Perkawinan") {
+                        return ListView(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.only(right: 15, left: 15),
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                if (snapshot.data[0][0]["status"] == -1 ||
-                                    snapshot.data[0][0]["status"] == 0)
-                                  Expanded(
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      child: RaisedButton(
-                                          textColor: Colors.white,
-                                          color: Colors.lightBlue,
-                                          child: Text("Accept"),
-                                          shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(30.0),
-                                          ),
-                                          onPressed: () async {
-                                            showDialog<String>(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  AlertDialog(
-                                                title: const Text(
-                                                    'Confirm Accept'),
-                                                content: const Text(
-                                                    'Yakin ingin melakukan pelayanan perkawinan ini?'),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            context, 'Cancel'),
-                                                    child: const Text('Tidak'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      updateAccept(
-                                                          snapshot.data[1][0]
-                                                              ['token'],
-                                                          snapshot.data[1][0]
-                                                              ['_id'],
-                                                          snapshot.data[1][0]
-                                                              ['notifGD']);
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('Ya'),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          }),
-                                    ),
-                                  ),
-                                if (snapshot.data[0][0]["status"] == 1)
-                                  Expanded(
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      child: RaisedButton(
-                                          textColor: Colors.white,
-                                          color: Colors.lightBlue,
-                                          child: Text("Selesai"),
-                                          shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(30.0),
-                                          ),
-                                          onPressed: () async {
-                                            showDialog<String>(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  AlertDialog(
-                                                title: const Text(
-                                                    'Confirm Selesai'),
-                                                content: const Text(
-                                                    'Yakin sudah melakukan pelayanan perkawinan ini?'),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            context, 'Cancel'),
-                                                    child: const Text('Tidak'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      updateDone(
-                                                          snapshot.data[1][0]
-                                                              ['token'],
-                                                          snapshot.data[1][0]
-                                                              ['_id'],
-                                                          snapshot.data[1][0]
-                                                              ['notifGD']);
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('Ya'),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          }),
-                                    ),
-                                  ),
-                                Expanded(
-                                  child: SizedBox(
-                                    width: double.infinity,
-                                    child: RaisedButton(
-                                        textColor: Colors.white,
-                                        color: Colors.lightBlue,
-                                        child: Text("Reject"),
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0),
-                                        ),
-                                        onPressed: () async {
-                                          showDialog<String>(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              title:
-                                                  const Text('Confirm Reject'),
-                                              content: const Text(
-                                                  'Yakin ingin menolak pelayanan perkawinan ini?'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Cancel'),
-                                                  child: const Text('Tidak'),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    updateReject(
-                                                        snapshot.data[1][0]
-                                                            ['token'],
-                                                        snapshot.data[1][0]
-                                                            ['_id'],
-                                                        snapshot.data[1][0]
-                                                            ['notifGD']);
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text('Ya'),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }),
-                                  ),
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Nama Pendaftar : ",
+                                  textAlign: TextAlign.left,
                                 ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[1][0]["nama"])
                               ],
                             ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                          ),
-                        ],
-                      );
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Nama Pria dan Wanita: ",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["namaPria"] +
+                                    " & " +
+                                    snapshot.data[0][0]["namaPerempuan"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Nomor Telephone :",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["notelp"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Email :",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["email"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Alamat Pernikahan :",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["alamat"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Tanggal Pernikahan :",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["tanggal"].toString())
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Note Tambahan",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["note"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Status :",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                if (snapshot.data[0][0]["status"] == 0)
+                                  Text("Menunggu"),
+                                if (snapshot.data[0][0]["status"] == 1)
+                                  Text("Diterima"),
+                                if (snapshot.data[0][0]["status"] == 2)
+                                  Text("Selesai"),
+                                if (snapshot.data[0][0]["status"] == -1)
+                                  Text("Ditolak")
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            if (snapshot.data[0][0]["status"] != 2)
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  if (snapshot.data[0][0]["status"] == -1 ||
+                                      snapshot.data[0][0]["status"] == 0)
+                                    Expanded(
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: RaisedButton(
+                                            textColor: Colors.white,
+                                            color: Colors.lightBlue,
+                                            child: Text("Accept"),
+                                            shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      30.0),
+                                            ),
+                                            onPressed: () async {
+                                              showDialog<String>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        AlertDialog(
+                                                  title: const Text(
+                                                      'Confirm Accept'),
+                                                  content: Text(
+                                                      'Yakin ingin melakukan pelayanan ' +
+                                                          jenisSelectedPelayanan +
+                                                          ' ini?'),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(context,
+                                                              'Cancel'),
+                                                      child:
+                                                          const Text('Tidak'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        updatePelayananUser(
+                                                            1,
+                                                            snapshot.data[1][0]
+                                                                ['token'],
+                                                            snapshot.data[1][0]
+                                                                ['_id'],
+                                                            snapshot.data[1][0]
+                                                                ['notifGD']);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text('Ya'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }),
+                                      ),
+                                    ),
+                                  if (snapshot.data[0][0]["status"] == 1)
+                                    Expanded(
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: RaisedButton(
+                                            textColor: Colors.white,
+                                            color: Colors.lightBlue,
+                                            child: Text("Selesai"),
+                                            shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      30.0),
+                                            ),
+                                            onPressed: () async {
+                                              showDialog<String>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        AlertDialog(
+                                                  title:
+                                                      Text('Confirm Selesai'),
+                                                  content: Text(
+                                                      'Yakin sudah melakukan pelayanan ' +
+                                                          jenisSelectedPelayanan +
+                                                          ' ini?'),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(context,
+                                                              'Cancel'),
+                                                      child:
+                                                          const Text('Tidak'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        updatePelayananUser(
+                                                            2,
+                                                            snapshot.data[1][0]
+                                                                ['token'],
+                                                            snapshot.data[1][0]
+                                                                ['_id'],
+                                                            false);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text('Ya'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }),
+                                      ),
+                                    ),
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: RaisedButton(
+                                          textColor: Colors.white,
+                                          color: Colors.lightBlue,
+                                          child: Text("Reject"),
+                                          shape: new RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(30.0),
+                                          ),
+                                          onPressed: () async {
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title: const Text(
+                                                    'Confirm Reject'),
+                                                content: Text(
+                                                    'Yakin ingin menolak pelayanan ' +
+                                                        jenisSelectedPelayanan +
+                                                        ' ini?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'Cancel'),
+                                                    child: const Text('Tidak'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      updatePelayananUser(
+                                                          -1,
+                                                          snapshot.data[1][0]
+                                                              ['token'],
+                                                          snapshot.data[1][0]
+                                                              ['_id'],
+                                                          snapshot.data[1][0]
+                                                              ['notifGD']);
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('Ya'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return ListView(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.only(right: 15, left: 15),
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Nama Lengkap",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["namaLengkap"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Paroki",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["paroki"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Lingkungan",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["lingkungan"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Nomor Telephone",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["notelp"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Alamat Lengkap",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["alamat"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Jenis Pemberkatan",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["jenis"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Tanggal",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["tanggal"].toString())
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Note Tambahan",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                Text(snapshot.data[0][0]["note"])
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Status",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                ),
+                                if (snapshot.data[0][0]["status"] == 0)
+                                  Text("Menunggu Konfirmasi"),
+                                if (snapshot.data[0][0]["status"] == 1)
+                                  Text("Diterima"),
+                                if (snapshot.data[0][0]["status"] == 2)
+                                  Text("Selesai"),
+                                if (snapshot.data[0][0]["status"] == -1)
+                                  Text("Ditolak")
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 11),
+                            ),
+                            if (snapshot.data[0][0]["status"] != 2)
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  if (snapshot.data[0][0]["status"] == -1 ||
+                                      snapshot.data[0][0]["status"] == 0)
+                                    Expanded(
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: RaisedButton(
+                                            textColor: Colors.white,
+                                            color: Colors.lightBlue,
+                                            child: Text("Accept"),
+                                            shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      30.0),
+                                            ),
+                                            onPressed: () async {
+                                              showDialog<String>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        AlertDialog(
+                                                  title: Text('Confirm Accept'),
+                                                  content: Text(
+                                                      'Yakin ingin melakukan pelayanan ' +
+                                                          jenisSelectedPelayanan +
+                                                          ' ini?'),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(context,
+                                                              'Cancel'),
+                                                      child:
+                                                          const Text('Tidak'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        updatePelayananUser(
+                                                            1,
+                                                            snapshot.data[1][0]
+                                                                ['token'],
+                                                            snapshot.data[1][0]
+                                                                ['_id'],
+                                                            snapshot.data[1][0]
+                                                                ['notifGD']);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text('Ya'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }),
+                                      ),
+                                    ),
+                                  if (snapshot.data[0][0]["status"] == 1)
+                                    Expanded(
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: RaisedButton(
+                                            textColor: Colors.white,
+                                            color: Colors.lightBlue,
+                                            child: Text("Selesai"),
+                                            shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      30.0),
+                                            ),
+                                            onPressed: () async {
+                                              showDialog<String>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        AlertDialog(
+                                                  title:
+                                                      Text('Confirm Selesai'),
+                                                  content: Text(
+                                                      'Yakin sudah melakukan pelayanan ' +
+                                                          jenisSelectedPelayanan +
+                                                          ' ini?'),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(context,
+                                                              'Cancel'),
+                                                      child:
+                                                          const Text('Tidak'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        updatePelayananUser(
+                                                            2,
+                                                            snapshot.data[1][0]
+                                                                ['token'],
+                                                            snapshot.data[1][0]
+                                                                ['_id'],
+                                                            false);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text('Ya'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }),
+                                      ),
+                                    ),
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: RaisedButton(
+                                          textColor: Colors.white,
+                                          color: Colors.lightBlue,
+                                          child: Text("Reject"),
+                                          shape: new RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(30.0),
+                                          ),
+                                          onPressed: () async {
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title: Text('Confirm Reject'),
+                                                content: Text(
+                                                    'Yakin ingin menolak pelayanan ' +
+                                                        jenisSelectedPelayanan +
+                                                        ' ini?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'Cancel'),
+                                                    child: const Text('Tidak'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      updatePelayananUser(
+                                                          -1,
+                                                          snapshot.data[1][0]
+                                                              ['token'],
+                                                          snapshot.data[1][0]
+                                                              ['_id'],
+                                                          snapshot.data[1][0]
+                                                              ['notifGD']);
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('Ya'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                            ),
+                          ],
+                        );
+                      }
                     } catch (e) {
                       print(e);
                       return Center(child: CircularProgressIndicator());
