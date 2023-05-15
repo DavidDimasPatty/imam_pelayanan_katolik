@@ -150,11 +150,11 @@
 //     }
 //   }
 
-//   TextEditingController editingController = TextEditingController();
+//   TextEditingController searchController = TextEditingController();
 //   @override
 //   Widget build(BuildContext context) {
-//     editingController.addListener(() async {
-//       await filterSearchResults(editingController.text);
+//     searchController.addListener(() async {
+//       await filterSearchResults(searchController.text);
 //     });
 //     _scrollController.addListener(() {
 //       if (_scrollController.position.pixels ==
@@ -214,7 +214,7 @@
 //                 width: 400,
 //                 rtl: true,
 //                 helpText: 'Cari Pengumuman',
-//                 textController: editingController,
+//                 textController: searchController,
 //                 onSuffixTap: () {
 //                   setState(() {
 //                     editingController.clear();

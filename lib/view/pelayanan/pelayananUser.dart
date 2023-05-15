@@ -37,6 +37,7 @@ class _pelayananUser extends State<pelayananUser> {
   List hasil = [];
   StreamController _controller = StreamController();
   ScrollController _scrollController = ScrollController();
+  TextEditingController searchController = TextEditingController();
   int data = 5;
   List dummyTemp = [];
   final iduser;
@@ -107,7 +108,7 @@ class _pelayananUser extends State<pelayananUser> {
     }
   }
 
-  Future updateUserStatus(status, id, token, idTarget, notif) async {
+  Future updateUserStatus(int status, id, token, idTarget, bool notif) async {
     Completer<void> completer = Completer<void>();
     String umumSakramen = jenisSelectedPelayanan;
     if (jenisPelayanan == "Umum") {
@@ -178,11 +179,10 @@ class _pelayananUser extends State<pelayananUser> {
     });
   }
 
-  TextEditingController editingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    editingController.addListener(() async {
-      await filterSearchResults(editingController.text);
+    searchController.addListener(() async {
+      await filterSearchResults(searchController.text);
     });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -231,6 +231,7 @@ class _pelayananUser extends State<pelayananUser> {
         //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
+          physics: AlwaysScrollableScrollPhysics(),
           controller: _scrollController,
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
@@ -242,10 +243,10 @@ class _pelayananUser extends State<pelayananUser> {
                 width: 400,
                 rtl: true,
                 helpText: 'Cari Umat',
-                textController: editingController,
+                textController: searchController,
                 onSuffixTap: () {
                   setState(() {
-                    editingController.clear();
+                    searchController.clear();
                   });
                 },
               ),

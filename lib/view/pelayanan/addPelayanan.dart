@@ -47,8 +47,6 @@ class _addPelayanan extends State<addPelayanan> {
   String jenisSelectedPelayanan;
   String jenisPelayanan;
   String jenisPencarian;
-  _addPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan);
   String tanggalBuka = "";
   String tanggalTutup = "";
   TextEditingController kapasitas = new TextEditingController();
@@ -61,7 +59,10 @@ class _addPelayanan extends State<addPelayanan> {
   List jenis = ["Dewasa", "Anak"];
   String jenisSelected = "";
   var fileImage;
-  void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+  _addPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
+      this.jenisPencarian, this.jenisSelectedPelayanan);
+
+  _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     if (jenisPelayanan == "Sakramen") {
       setState(() {
         if (args.value is PickerDateRange) {
@@ -78,7 +79,7 @@ class _addPelayanan extends State<addPelayanan> {
     }
   }
 
-  Future selectFile(context) async {
+  Future selectFile() async {
     final result = await FilePicker.platform.pickFiles(allowMultiple: false);
     if (result == null) return;
     File file;
@@ -568,7 +569,7 @@ class _addPelayanan extends State<addPelayanan> {
               Container(
                 child: RaisedButton(
                     onPressed: () async {
-                      await selectFile(context);
+                      await selectFile();
                     },
                     elevation: 0.0,
                     child: Ink(

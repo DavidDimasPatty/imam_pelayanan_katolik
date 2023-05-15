@@ -183,52 +183,62 @@ class _HomePage extends State<HomePage> {
                                         Expanded(
                                           child: Column(
                                             children: <Widget>[
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "Halo, \n" +
-                                                        snapshot.data[4][0]
-                                                            ['nama'],
-                                                    style: TextStyle(
-                                                      color: Colors.blue,
-                                                      fontSize: 13.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 8),
-                                                  Column(children: <Widget>[
-                                                    //control flow statement
-                                                    if (snapshot.data[4][0]
-                                                            ['picture'] !=
-                                                        null)
-                                                      CircleAvatar(
-                                                        backgroundImage:
-                                                            NetworkImage(
-                                                                snapshot.data[4]
-                                                                        [0][
+                                              FittedBox(
+                                                  fit: BoxFit.fitWidth,
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      FittedBox(
+                                                        fit: BoxFit.fitWidth,
+                                                        child: Text(
+                                                          "Halo, \n" +
+                                                              snapshot.data[4]
+                                                                  [0]['nama'],
+                                                          style: TextStyle(
+                                                            color: Colors.blue,
+                                                            fontSize: 13.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 2),
+                                                      Column(children: <Widget>[
+                                                        //control flow statement
+                                                        if (snapshot.data[4][0]
+                                                                ['picture'] !=
+                                                            null)
+                                                          CircleAvatar(
+                                                            backgroundImage:
+                                                                NetworkImage(snapshot
+                                                                            .data[
+                                                                        4][0][
                                                                     'picture']),
-                                                        backgroundColor:
-                                                            Colors.greenAccent,
-                                                        radius: 30.0,
-                                                      ),
-                                                    if (snapshot.data[4][0]
-                                                            ['picture'] ==
-                                                        null)
-                                                      CircleAvatar(
-                                                        backgroundImage:
-                                                            NetworkImage(''),
-                                                        backgroundColor:
-                                                            Colors.greenAccent,
-                                                        radius: 30.0,
-                                                      ),
-                                                  ])
-                                                ],
-                                              ),
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .greenAccent,
+                                                            radius: 30.0,
+                                                          ),
+                                                        if (snapshot.data[4][0]
+                                                                ['picture'] ==
+                                                            null)
+                                                          CircleAvatar(
+                                                            backgroundImage:
+                                                                NetworkImage(
+                                                                    ''),
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .greenAccent,
+                                                            radius: 30.0,
+                                                          ),
+                                                      ])
+                                                    ],
+                                                  )),
                                             ],
                                           ),
                                         ),
@@ -497,7 +507,6 @@ class _HomePage extends State<HomePage> {
                           }
                         })
                   ])),
-
               InkWell(
                 onTap: () {
                   Navigator.push(
@@ -537,25 +546,31 @@ class _HomePage extends State<HomePage> {
                         width: 10,
                       ),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            "Pendaftaran Sakramen",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w300),
-                            textAlign: TextAlign.right,
+                          FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              "Pendaftaran Sakramen",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w300),
+                            ),
                           ),
                           SizedBox(
                             height: 5,
                           ),
-                          Text(
-                            "Buat kegiatan pelayanan sakramen baru, \n active/ deactive kegiatan  \n pelayanan sakramen, \n Konfirmasi pendaftaran user",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.0,
+                          FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              "Buat kegiatan pelayanan sakramen \n baru, active/ deactive kegiatan  \n pelayanan sakramen, \n Konfirmasi pendaftaran user",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.0,
+                              ),
                             ),
-                            textAlign: TextAlign.right,
                           ),
                         ],
                       ),
@@ -592,32 +607,6 @@ class _HomePage extends State<HomePage> {
                         ),
                       ),
                       child: Row(children: <Widget>[
-                        Column(
-                          children: [
-                            Text(
-                              "Pendaftaran Sakramentali",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w300),
-                              textAlign: TextAlign.right,
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              " Konfirmasi pendaftaran user yang \n mendaftarkan pelayanan pemberkatan \npada gereja",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.0,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
                         Container(
                           height: 119,
                           width: 123,
@@ -628,6 +617,38 @@ class _HomePage extends State<HomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(50)),
                           ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                "Pendaftaran Sakramentali",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                " Konfirmasi pendaftaran user \n yang mendaftarkan pelayanan\n pemberkatan pada gereja",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ])),
                 ),
@@ -672,96 +693,36 @@ class _HomePage extends State<HomePage> {
                           width: 10,
                         ),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                              "Pendaftaran Kegiatan Umum",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w300),
-                              textAlign: TextAlign.right,
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                "Pendaftaran Umum",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w300),
+                              ),
                             ),
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              "Buat kegiatan umum gereja, active/ \n  deactive kegiatan  \n umum gereja,  Konfirmasi \n pendaftaran user",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.0,
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                "Buat kegiatan umum gereja,\n  active/  deactive kegiatan  \n umum gereja,  Konfirmasi \n pendaftaran user",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.0,
+                                ),
                               ),
-                              textAlign: TextAlign.right,
                             ),
                           ],
                         ),
                       ])),
                 ),
-              // if (role == 1)
-              //   InkWell(
-              //     borderRadius: new BorderRadius.circular(24),
-              //     onTap: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (context) =>
-              //                 PengumumanGereja(iduser, idGereja, role)),
-              //       );
-              //     },
-              //     child: Container(
-              //         height: 120,
-              //         decoration: BoxDecoration(
-              //           gradient: LinearGradient(
-              //               begin: Alignment.topRight,
-              //               end: Alignment.topLeft,
-              //               colors: [
-              //                 Colors.blueGrey,
-              //                 Colors.lightBlue,
-              //               ]),
-              //           border: Border.all(
-              //             color: Colors.lightBlue,
-              //           ),
-              //         ),
-              //         child: Row(children: <Widget>[
-              //           Column(
-              //             children: [
-              //               Text(
-              //                 "Buat Pengumuman Gereja",
-              //                 style: TextStyle(
-              //                     color: Colors.white,
-              //                     fontSize: 20.0,
-              //                     fontWeight: FontWeight.w300),
-              //                 textAlign: TextAlign.right,
-              //               ),
-              //               SizedBox(
-              //                 height: 5,
-              //               ),
-              //               Text(
-              //                 "Buat Pengumuman untuk para Umat \n Katolik mengenai Gereja",
-              //                 style: TextStyle(
-              //                   color: Colors.white,
-              //                   fontSize: 12.0,
-              //                 ),
-              //                 textAlign: TextAlign.right,
-              //               ),
-              //             ],
-              //           ),
-              //           SizedBox(
-              //             width: 10,
-              //           ),
-              //           Container(
-              //             height: 119,
-              //             width: 123,
-              //             child: Image.network(
-              //               'https://cdn.pixabay.com/photo/2013/02/09/04/33/church-79607_960_720.jpg',
-              //               fit: BoxFit.cover,
-              //             ),
-              //             decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.all(Radius.circular(50)),
-              //             ),
-              //           ),
-              //         ])),
-              //   ),
-              /////////
             ],
           )),
       bottomNavigationBar: Container(

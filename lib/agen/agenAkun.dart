@@ -222,7 +222,9 @@ class AgentAkun extends Agent {
               .set('paroki', data[3])
               .set('lingkungan', data[4])
               .set('deskripsi', data[5])
-              .set("gambar", urlDownload));
+              .set("gambar", urlDownload)
+              .set("lat", data[8])
+              .set("lng", data[9]));
       //Update data Gereja
       if (update.isSuccess) {
         Message message = Message(agentName, sender, "INFORM",
@@ -243,7 +245,9 @@ class AgentAkun extends Agent {
               .set('address', data[2])
               .set('paroki', data[3])
               .set('lingkungan', data[4])
-              .set('deskripsi', data[5]));
+              .set('deskripsi', data[5])
+              .set("lat", data[8])
+              .set("lng", data[9]));
       //Update data Gereja
       if (update.isSuccess) {
         Message message = Message(agentName, sender, "INFORM",

@@ -52,11 +52,11 @@ class _daftarPelayanan extends State<daftarPelayanan> {
   List dummyTemp = [];
   final iduser;
   final idGereja;
-  TextEditingController editingController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
   _daftarPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
       this.jenisPencarian, this.jenisSelectedPelayanan);
 
-  Future<List> callDb() async {
+  Future callDb() async {
     Message message;
     Completer<void> completer = Completer<void>();
     if (jenisPelayanan == "Sakramen" &&
@@ -240,8 +240,8 @@ class _daftarPelayanan extends State<daftarPelayanan> {
 
   @override
   Widget build(BuildContext context) {
-    editingController.addListener(() async {
-      await filterSearchResults(editingController.text);
+    searchController.addListener(() async {
+      await filterSearchResults(searchController.text);
     });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -290,6 +290,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
         //Widget untuk refresh body halaman
         onRefresh: pullRefresh,
         child: ListView(
+          physics: AlwaysScrollableScrollPhysics(),
           controller: _scrollController,
           shrinkWrap: true,
           padding: EdgeInsets.only(right: 15, left: 15),
@@ -301,10 +302,10 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                 width: 400,
                 rtl: true,
                 helpText: 'Cari ' + jenisSelectedPelayanan,
-                textController: editingController,
+                textController: searchController,
                 onSuffixTap: () {
                   setState(() {
-                    editingController.clear();
+                    searchController.clear();
                   });
                 },
               ),

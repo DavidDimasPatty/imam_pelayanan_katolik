@@ -47,9 +47,9 @@ class _editPelayanan extends State<editPelayanan> {
   final iduser;
   final idGereja;
   final idPelayanan;
-  var imageChange = false;
-  var fileImage;
-  var fileChange;
+  bool imageChange = false;
+  var fileImage; //file
+  var fileChange; //file
   String jenisSelectedPelayanan;
   String jenisPencarian;
   String jenisPelayanan;
@@ -64,9 +64,10 @@ class _editPelayanan extends State<editPelayanan> {
   TextEditingController lokasi = new TextEditingController();
   _editPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
       this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
-
+  List hasil = [];
   List jenis = ["Dewasa", "Anak"];
   String jenisSelected = "";
+
   _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     if (jenisPelayanan == "Sakramen") {
       setState(() {
@@ -83,7 +84,7 @@ class _editPelayanan extends State<editPelayanan> {
     }
   }
 
-  Future selectFile(context) async {
+  Future selectFile() async {
     final result = await FilePicker.platform.pickFiles(allowMultiple: false);
     if (result == null) return;
     File file;
@@ -95,7 +96,6 @@ class _editPelayanan extends State<editPelayanan> {
     });
   }
 
-  var hasil = [];
   Future callDb() async {
     Completer<void> completer = Completer<void>();
 
@@ -132,7 +132,7 @@ class _editPelayanan extends State<editPelayanan> {
     });
   }
 
-  Future submit(tanggalbuka, tanggaltutup) async {
+  Future submit(String tanggalbuka, String tanggaltutup) async {
     if (jenisPelayanan == "Sakramen") {
       if (tanggalBuka == "") {
         tanggalBuka = tanggalbuka;
@@ -712,7 +712,7 @@ class _editPelayanan extends State<editPelayanan> {
                               child: RaisedButton(
                                   onPressed: () async {
                                     imageChange = true;
-                                    await selectFile(context);
+                                    await selectFile();
                                   },
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
@@ -783,7 +783,7 @@ class _editPelayanan extends State<editPelayanan> {
                                   onPressed: () async {
                                     submit(
                                         snapshot.data[0]['tanggal'].toString(),
-                                        null);
+                                        "");
                                   }),
                             ),
                           ],

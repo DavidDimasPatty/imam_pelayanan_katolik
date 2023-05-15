@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
@@ -10,7 +11,6 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import 'package:geocode/geocode.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
 
@@ -38,8 +38,8 @@ class _UpdateProfile extends State<UpdateProfile> {
   TextEditingController paroki = new TextEditingController(text: "");
   TextEditingController lingkungan = new TextEditingController(text: "");
   TextEditingController deskripsi = new TextEditingController(text: "");
-  double? lattitude = 0;
-  double? longttitude = 0;
+  TextEditingController lattitude = new TextEditingController();
+  TextEditingController longttitude = new TextEditingController();
   _UpdateProfile(this.iduser, this.idGereja, this.role);
 
   Future submit() async {
@@ -57,7 +57,9 @@ class _UpdateProfile extends State<UpdateProfile> {
             lingkungan.text,
             deskripsi.text,
             fileImage,
-            imageChange
+            imageChange,
+            double.parse(lattitude.text),
+            double.parse(longttitude.text),
           ]));
 
       MessagePassing messagePassing =
@@ -122,7 +124,9 @@ class _UpdateProfile extends State<UpdateProfile> {
             lingkungan.text,
             deskripsi.text,
             fileImage,
-            imageChange
+            imageChange,
+            double.parse(lattitude.text),
+            double.parse(longttitude.text),
           ]));
 
       MessagePassing messagePassing =
@@ -242,6 +246,8 @@ class _UpdateProfile extends State<UpdateProfile> {
                   paroki.text = snapshot.data[0]['paroki'];
                   lingkungan.text = snapshot.data[0]['lingkungan'];
                   deskripsi.text = snapshot.data[0]['deskripsi'];
+                  lattitude.text = snapshot.data[0]['lat'].toString();
+                  longttitude.text = snapshot.data[0]['lng'].toString();
                   fileImage = snapshot.data[0]['gambar'];
                   return Column(children: <Widget>[
                     Column(
@@ -321,53 +327,79 @@ class _UpdateProfile extends State<UpdateProfile> {
                                 borderRadius: BorderRadius.circular(10),
                               )),
                         ),
-                        RaisedButton(
-                            textColor: Colors.white,
-                            color: Colors.lightBlue,
-                            child: Text("Generate Coordinate"),
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
-                            ),
-                            onPressed: () async {
-                              try {
-                                GeoCode geoCode = GeoCode();
-                                Coordinates coordinates = await geoCode
-                                    .forwardGeocoding(address: address.text);
-
-                                setState(() {
-                                  lattitude = coordinates.latitude;
-                                  longttitude = coordinates.longitude;
-                                });
-                              } catch (e) {
-                                print(e);
-                              }
-                            }),
-                        Row(
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  "Lattitude",
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                    ),
+                    Text(
+                      "Lattitude dan Longttitude",
+                      textAlign: TextAlign.left,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9.-]")),
+                            ],
+                            controller: lattitude,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
                                 ),
-                                Text(
-                                  lattitude.toString(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ],
-                            ),
-                            Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5)),
-                            Column(
-                              children: [
-                                Text(
-                                  "Longtittude",
+                                hintText: "Lattitude",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9.-]")),
+                            ],
+                            controller: longttitude,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
                                 ),
-                                Text(
-                                  longttitude.toString(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ],
-                            )
-                          ],
-                        )
+                                hintText: "Longttitude",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                        ),
                       ],
                     ),
                     Padding(
