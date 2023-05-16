@@ -239,6 +239,7 @@ class _pelayananUser extends State<pelayananUser> {
             Padding(
               padding: EdgeInsets.only(right: 10, left: 10),
               child: AnimSearchBar(
+                color: Colors.blue,
                 autoFocus: false,
                 width: 400,
                 rtl: true,

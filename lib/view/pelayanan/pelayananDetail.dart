@@ -73,6 +73,12 @@ class _pelayananDetail extends State<pelayananDetail> {
   }
 
   Future updatePelayananUser(status, token, idTarget, notif) async {
+    String statusKonfirmasi = "";
+    if (status == 1) {
+      statusKonfirmasi = "Menerima";
+    } else {
+      statusKonfirmasi = "Menolak";
+    }
     Completer<void> completer = Completer<void>();
     Message message = Message(
         'Agent Page',
@@ -99,7 +105,10 @@ class _pelayananDetail extends State<pelayananDetail> {
     if (hasil == "failed") {
       Fluttertoast.showToast(
           /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Gagal Menolak Pelayanan " + jenisSelectedPelayanan,
+          msg: "Gagal " +
+              statusKonfirmasi +
+              " Pelayanan " +
+              jenisSelectedPelayanan,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -109,7 +118,10 @@ class _pelayananDetail extends State<pelayananDetail> {
     } else {
       Fluttertoast.showToast(
           /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Berhasil Menolak Menerima Pelayanan " + jenisSelectedPelayanan,
+          msg: "Berhasil " +
+              statusKonfirmasi +
+              " Pelayanan " +
+              jenisSelectedPelayanan,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,

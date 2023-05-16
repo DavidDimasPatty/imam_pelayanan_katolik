@@ -298,6 +298,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
             Padding(
               padding: EdgeInsets.only(right: 10, left: 10),
               child: AnimSearchBar(
+                color: Colors.blue,
                 autoFocus: false,
                 width: 400,
                 rtl: true,
@@ -337,7 +338,10 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                         },
                         splashColor: Colors.blue,
                         splashRadius: 30,
-                        icon: Icon(Icons.add),
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),

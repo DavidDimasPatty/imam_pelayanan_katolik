@@ -193,20 +193,55 @@ class _HomePage extends State<HomePage> {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      FittedBox(
-                                                        fit: BoxFit.fitWidth,
-                                                        child: Text(
-                                                          "Halo, \n" +
-                                                              snapshot.data[4]
-                                                                  [0]['nama'],
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 13.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                      if (snapshot
+                                                              .data[4][0]
+                                                                  ['nama']
+                                                              .length <
+                                                          20)
+                                                        FittedBox(
+                                                          fit: BoxFit.fitWidth,
+                                                          child: Text(
+                                                            "Halo, \n" +
+                                                                snapshot.data[4]
+                                                                        [0]
+                                                                        ['nama']
+                                                                    .toString(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 13.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
+                                                      if (snapshot
+                                                              .data[4][0]
+                                                                  ['nama']
+                                                              .length >=
+                                                          20)
+                                                        FittedBox(
+                                                          fit: BoxFit.fitWidth,
+                                                          child: Text(
+                                                            "Halo, \n" +
+                                                                snapshot.data[4]
+                                                                        [0]
+                                                                        ['nama']
+                                                                    .toString()
+                                                                    .substring(
+                                                                        0, 20) +
+                                                                "...",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.blue,
+                                                              fontSize: 13.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
                                                       SizedBox(width: 2),
                                                       Column(children: <Widget>[
                                                         //control flow statement
