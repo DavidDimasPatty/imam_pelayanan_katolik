@@ -1,18 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
-
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/daftarPelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/baptis/baptis.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/komuni/komuni.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/krisma/krisma.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/perkawinan/perkawinan.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
 
@@ -23,10 +17,8 @@ class pelayanan extends StatefulWidget {
   String jenisPelayanan;
   String jenisPencarian;
 
-  pelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian);
-  _pelayanan createState() => _pelayanan(this.iduser, this.idGereja, this.role,
-      this.jenisPelayanan, this.jenisPencarian);
+  pelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian);
+  _pelayanan createState() => _pelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian);
 }
 
 class _pelayanan extends State<pelayanan> {
@@ -44,24 +36,18 @@ class _pelayanan extends State<pelayanan> {
     ],
     "Sakramentali": ["Pemberkatan"]
   };
-  _pelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian);
+  _pelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian);
 
   Future callJumlah() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
-        Tasks('cari jumlah ' + jenisPelayanan, [idGereja, iduser, role]));
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari jumlah ' + jenisPelayanan, [idGereja, iduser, role]));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil =
-        await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    var hasil = await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
 
     return await hasil;
@@ -76,8 +62,7 @@ class _pelayanan extends State<pelayanan> {
 
   @override
   Widget build(BuildContext context) {
-    if (pelayananValue.containsKey(jenisPelayanan))
-      selectedPelayanan = pelayananValue[jenisPelayanan];
+    if (pelayananValue.containsKey(jenisPelayanan)) selectedPelayanan = pelayananValue[jenisPelayanan];
     return Scaffold(
       // Widget untuk membangun struktur halaman
       //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
@@ -95,8 +80,7 @@ class _pelayanan extends State<pelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -105,8 +89,7 @@ class _pelayanan extends State<pelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -143,21 +126,16 @@ class _pelayanan extends State<pelayanan> {
                             color: Colors.white,
                             elevation: 20.0,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 7.0, vertical: 22.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 7.0, vertical: 22.0),
                               child: Row(
                                 children: <Widget>[
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
-                                          "Total Pendaftaran " +
-                                              jenisPelayanan +
-                                              " :",
+                                          "Total Pendaftaran " + jenisPelayanan + " :",
                                           style: TextStyle(
                                             color: Colors.blue,
                                             fontSize: 17.0,
@@ -179,18 +157,12 @@ class _pelayanan extends State<pelayanan> {
                                           height: 10,
                                         ),
                                         Row(children: <Widget>[
-                                          if (role == 1 &&
-                                              jenisPelayanan == "Sakramen" &&
-                                              jenisPencarian == "current")
+                                          if (role == 1 && jenisPelayanan == "Sakramen" && jenisPencarian == "current")
                                             Expanded(
                                               child: Card(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 5.0,
-                                                    vertical: 5.0),
+                                                margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
+                                                  borderRadius: BorderRadius.circular(30.0),
                                                 ),
                                                 clipBehavior: Clip.antiAlias,
                                                 color: Colors.white,
@@ -206,27 +178,20 @@ class _pelayanan extends State<pelayanan> {
                                                           Text(
                                                             "Baptis",
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 15.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
                                                             height: 5.0,
                                                           ),
                                                           Text(
-                                                            snapshot.data[1]
-                                                                .toString(),
+                                                            snapshot.data[1].toString(),
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 16.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
@@ -239,18 +204,12 @@ class _pelayanan extends State<pelayanan> {
                                                 ),
                                               ),
                                             ),
-                                          if (role == 1 &&
-                                              jenisPelayanan == "Sakramen" &&
-                                              jenisPencarian == "current")
+                                          if (role == 1 && jenisPelayanan == "Sakramen" && jenisPencarian == "current")
                                             Expanded(
                                               child: Card(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 5.0,
-                                                    vertical: 5.0),
+                                                margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
+                                                  borderRadius: BorderRadius.circular(30.0),
                                                 ),
                                                 clipBehavior: Clip.antiAlias,
                                                 color: Colors.white,
@@ -266,27 +225,20 @@ class _pelayanan extends State<pelayanan> {
                                                           Text(
                                                             "Komuni",
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 12.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
                                                             height: 10.0,
                                                           ),
                                                           Text(
-                                                            snapshot.data[2]
-                                                                .toString(),
+                                                            snapshot.data[2].toString(),
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 16.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
@@ -299,18 +251,12 @@ class _pelayanan extends State<pelayanan> {
                                                 ),
                                               ),
                                             ),
-                                          if (role == 1 &&
-                                              jenisPelayanan == "Sakramen" &&
-                                              jenisPencarian == "current")
+                                          if (role == 1 && jenisPelayanan == "Sakramen" && jenisPencarian == "current")
                                             Expanded(
                                               child: Card(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 5.0,
-                                                    vertical: 5.0),
+                                                margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
+                                                  borderRadius: BorderRadius.circular(30.0),
                                                 ),
                                                 clipBehavior: Clip.antiAlias,
                                                 color: Colors.white,
@@ -326,27 +272,20 @@ class _pelayanan extends State<pelayanan> {
                                                           Text(
                                                             "Krisma",
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 15.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
                                                             height: 5.0,
                                                           ),
                                                           Text(
-                                                            snapshot.data[3]
-                                                                .toString(),
+                                                            snapshot.data[3].toString(),
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 16.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
@@ -359,18 +298,12 @@ class _pelayanan extends State<pelayanan> {
                                                 ),
                                               ),
                                             ),
-                                          if (role == 0 &&
-                                              jenisPelayanan == "Sakramen" &&
-                                              jenisPencarian == "current")
+                                          if (role == 0 && jenisPelayanan == "Sakramen" && jenisPencarian == "current")
                                             Expanded(
                                               child: Card(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 5.0,
-                                                    vertical: 5.0),
+                                                margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
+                                                  borderRadius: BorderRadius.circular(30.0),
                                                 ),
                                                 clipBehavior: Clip.antiAlias,
                                                 color: Colors.white,
@@ -386,27 +319,20 @@ class _pelayanan extends State<pelayanan> {
                                                           Text(
                                                             "Perkawinan",
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 15.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
                                                             height: 5.0,
                                                           ),
                                                           Text(
-                                                            snapshot.data[4]
-                                                                .toString(),
+                                                            snapshot.data[4].toString(),
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 16.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
@@ -419,18 +345,12 @@ class _pelayanan extends State<pelayanan> {
                                                 ),
                                               ),
                                             ),
-                                          if (role == 1 &&
-                                              jenisPelayanan == "Umum" &&
-                                              jenisPencarian == "current")
+                                          if (role == 1 && jenisPelayanan == "Umum" && jenisPencarian == "current")
                                             Expanded(
                                               child: Card(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 5.0,
-                                                    vertical: 5.0),
+                                                margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
+                                                  borderRadius: BorderRadius.circular(30.0),
                                                 ),
                                                 clipBehavior: Clip.antiAlias,
                                                 color: Colors.white,
@@ -446,27 +366,20 @@ class _pelayanan extends State<pelayanan> {
                                                           Text(
                                                             "Rekoleksi",
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 15.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
                                                             height: 5.0,
                                                           ),
                                                           Text(
-                                                            snapshot.data[1]
-                                                                .toString(),
+                                                            snapshot.data[1].toString(),
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 16.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
@@ -479,17 +392,12 @@ class _pelayanan extends State<pelayanan> {
                                                 ),
                                               ),
                                             ),
-                                          if (role == 1 &&
-                                              jenisPelayanan == "Umum")
+                                          if (role == 1 && jenisPelayanan == "Umum")
                                             Expanded(
                                               child: Card(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 5.0,
-                                                    vertical: 5.0),
+                                                margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
+                                                  borderRadius: BorderRadius.circular(30.0),
                                                 ),
                                                 clipBehavior: Clip.antiAlias,
                                                 color: Colors.white,
@@ -505,27 +413,20 @@ class _pelayanan extends State<pelayanan> {
                                                           Text(
                                                             "Retret",
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 15.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
                                                             height: 10.0,
                                                           ),
                                                           Text(
-                                                            snapshot.data[2]
-                                                                .toString(),
+                                                            snapshot.data[2].toString(),
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 16.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                           SizedBox(
@@ -564,27 +465,16 @@ class _pelayanan extends State<pelayanan> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => daftarPelayanan(
-                                iduser,
-                                idGereja,
-                                role,
-                                jenisPelayanan,
-                                jenisPencarian,
-                                i)),
+                        MaterialPageRoute(builder: (context) => daftarPelayanan(iduser, idGereja, role, jenisPelayanan, jenisPencarian, i)),
                       );
                     },
                     child: Container(
-                        margin:
-                            EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                        margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.topLeft,
-                              colors: [
-                                Colors.blueGrey,
-                                Colors.lightBlue,
-                              ]),
+                          gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
                           border: Border.all(
                             color: Colors.lightBlue,
                           ),
@@ -593,10 +483,7 @@ class _pelayanan extends State<pelayanan> {
                         child: Column(children: <Widget>[
                           Text(
                             i,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 26.0,
-                                fontWeight: FontWeight.w300),
+                            style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                             textAlign: TextAlign.left,
                           ),
                         ])),
@@ -609,27 +496,16 @@ class _pelayanan extends State<pelayanan> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => daftarPelayanan(
-                                iduser,
-                                idGereja,
-                                role,
-                                jenisPelayanan,
-                                jenisPencarian,
-                                i)),
+                        MaterialPageRoute(builder: (context) => daftarPelayanan(iduser, idGereja, role, jenisPelayanan, jenisPencarian, i)),
                       );
                     },
                     child: Container(
-                        margin:
-                            EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                        margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.topLeft,
-                              colors: [
-                                Colors.blueGrey,
-                                Colors.lightBlue,
-                              ]),
+                          gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                            Colors.blueGrey,
+                            Colors.lightBlue,
+                          ]),
                           border: Border.all(
                             color: Colors.lightBlue,
                           ),
@@ -640,10 +516,7 @@ class _pelayanan extends State<pelayanan> {
 
                           Text(
                             i,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 26.0,
-                                fontWeight: FontWeight.w300),
+                            style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                             textAlign: TextAlign.left,
                           ),
                         ])),
@@ -655,26 +528,16 @@ class _pelayanan extends State<pelayanan> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => daftarPelayanan(
-                              iduser,
-                              idGereja,
-                              role,
-                              jenisPelayanan,
-                              jenisPencarian,
-                              i)),
+                      MaterialPageRoute(builder: (context) => daftarPelayanan(iduser, idGereja, role, jenisPelayanan, jenisPencarian, i)),
                     );
                   },
                   child: Container(
                       margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.topLeft,
-                            colors: [
-                              Colors.blueGrey,
-                              Colors.lightBlue,
-                            ]),
+                        gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                          Colors.blueGrey,
+                          Colors.lightBlue,
+                        ]),
                         border: Border.all(
                           color: Colors.lightBlue,
                         ),
@@ -685,10 +548,7 @@ class _pelayanan extends State<pelayanan> {
 
                         Text(
                           i,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 26.0,
-                              fontWeight: FontWeight.w300),
+                          style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                           textAlign: TextAlign.left,
                         ),
                       ])),
@@ -701,8 +561,7 @@ class _pelayanan extends State<pelayanan> {
       ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -730,14 +589,12 @@ class _pelayanan extends State<pelayanan> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

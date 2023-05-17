@@ -22,8 +22,7 @@ class UpdateProfile extends StatefulWidget {
   UpdateProfile(this.iduser, this.idGereja, this.role);
 
   @override
-  _UpdateProfile createState() =>
-      _UpdateProfile(this.iduser, this.idGereja, this.role);
+  _UpdateProfile createState() => _UpdateProfile(this.iduser, this.idGereja, this.role);
 }
 
 class _UpdateProfile extends State<UpdateProfile> {
@@ -62,16 +61,12 @@ class _UpdateProfile extends State<UpdateProfile> {
             double.parse(longttitude.text),
           ]));
 
-      MessagePassing messagePassing =
-          MessagePassing(); //Memanggil distributor pesan
-      var data = await messagePassing
-          .sendMessage(message); //Mengirim pesan ke distributor pesan
+      MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+      var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
       completer.complete(); //Batas pengerjaan yang memerlukan completer
-      var hasil = await await AgentPage
-          .getData(); //Memanggil data yang tersedia di agen Page
+      var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-      await completer
-          .future; //Proses penungguan sudah selesai ketika varibel hasil
+      await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
       //memiliki nilai
 
       if (hasil == "failed") {
@@ -106,8 +101,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             fontSize: 16.0);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) => Profile(iduser, idGereja, role)),
+          MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
         );
       }
     } else {
@@ -129,16 +123,12 @@ class _UpdateProfile extends State<UpdateProfile> {
             double.parse(longttitude.text),
           ]));
 
-      MessagePassing messagePassing =
-          MessagePassing(); //Memanggil distributor pesan
-      var data = await messagePassing
-          .sendMessage(message); //Mengirim pesan ke distributor pesan
+      MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+      var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
       completer.complete(); //Batas pengerjaan yang memerlukan completer
-      var hasil = await await AgentPage
-          .getData(); //Memanggil data yang tersedia di agen Page
+      var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-      await completer
-          .future; //Proses penungguan sudah selesai ketika varibel hasil
+      await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
       //memiliki nilai
       if (hasil == "failed") {
         Fluttertoast.showToast(
@@ -162,8 +152,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             fontSize: 16.0);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) => Profile(iduser, idGereja, role)),
+          MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
         );
       }
     }
@@ -183,19 +172,14 @@ class _UpdateProfile extends State<UpdateProfile> {
 
   Future callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
-        Tasks('cari data gereja', idGereja));
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data gereja', idGereja));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    var data = await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
+    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
     return hasil;
   }
@@ -218,8 +202,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -228,8 +211,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -344,8 +326,7 @@ class _UpdateProfile extends State<UpdateProfile> {
                         Expanded(
                           child: TextField(
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9.-]")),
+                              FilteringTextInputFormatter.allow(RegExp("[0-9.-]")),
                             ],
                             controller: lattitude,
                             style: TextStyle(color: Colors.black),
@@ -375,8 +356,7 @@ class _UpdateProfile extends State<UpdateProfile> {
                         Expanded(
                           child: TextField(
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9.-]")),
+                              FilteringTextInputFormatter.allow(RegExp("[0-9.-]")),
                             ],
                             controller: longttitude,
                             style: TextStyle(color: Colors.black),
@@ -541,24 +521,19 @@ class _UpdateProfile extends State<UpdateProfile> {
                             imageChange = true;
                             await selectFile(context);
                           },
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(80.0)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
                           elevation: 0.0,
                           padding: EdgeInsets.all(0.0),
                           child: Ink(
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.topLeft,
-                                  colors: [
-                                    Colors.blueAccent,
-                                    Colors.lightBlue,
-                                  ]),
+                              gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                                Colors.blueAccent,
+                                Colors.lightBlue,
+                              ]),
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                             child: Container(
-                              constraints: BoxConstraints(
-                                  maxWidth: 170.0, minHeight: 50.0),
+                              constraints: BoxConstraints(maxWidth: 170.0, minHeight: 50.0),
                               alignment: Alignment.center,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -569,10 +544,7 @@ class _UpdateProfile extends State<UpdateProfile> {
                                   ),
                                   Text(
                                     "Upload Image",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w600),
+                                    style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w600),
                                   )
                                 ],
                               ),
@@ -580,14 +552,10 @@ class _UpdateProfile extends State<UpdateProfile> {
                           )),
                     ),
                     SizedBox(height: 10),
-                    if (fileImage == null ||
-                        fileImage == "" && imageChange == false)
+                    if (fileImage == null || fileImage == "" && imageChange == false)
                       Text(
                         "Belum ada Gambar",
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w400),
+                        style: TextStyle(color: Colors.grey, fontSize: 12.0, fontWeight: FontWeight.w400),
                       ),
                     if (fileImage != null && imageChange == false)
                       Center(
@@ -599,10 +567,7 @@ class _UpdateProfile extends State<UpdateProfile> {
                     if (imageChange == true)
                       Text(
                         "File Image Path: \n" + fileChange.toString(),
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w400),
+                        style: TextStyle(color: Colors.black, fontSize: 12.0, fontWeight: FontWeight.w400),
                       ),
                     SizedBox(
                       width: double.infinity,
@@ -627,8 +592,7 @@ class _UpdateProfile extends State<UpdateProfile> {
       ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -656,14 +620,12 @@ class _UpdateProfile extends State<UpdateProfile> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

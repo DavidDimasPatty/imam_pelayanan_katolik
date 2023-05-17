@@ -19,17 +19,9 @@ class pelayananUser extends StatefulWidget {
   String jenisPelayanan;
   String jenisPencarian;
   String jenisSelectedPelayanan;
-  pelayananUser(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
+  pelayananUser(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
   @override
-  _pelayananUser createState() => _pelayananUser(
-      this.iduser,
-      this.idGereja,
-      this.role,
-      this.jenisPelayanan,
-      this.jenisPencarian,
-      this.jenisSelectedPelayanan,
-      this.idPelayanan);
+  _pelayananUser createState() => _pelayananUser(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
 }
 
 class _pelayananUser extends State<pelayananUser> {
@@ -46,29 +38,19 @@ class _pelayananUser extends State<pelayananUser> {
   String jenisPelayanan;
   String jenisPencarian;
   String jenisSelectedPelayanan;
-  _pelayananUser(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
+  _pelayananUser(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
 
   Future<List> callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page',
-        'Agent Pencarian',
-        "REQUEST",
-        Tasks('cari pelayanan user',
-            [idPelayanan, jenisSelectedPelayanan, jenisPencarian]));
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan user', [idPelayanan, jenisSelectedPelayanan, jenisPencarian]));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    var data = await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
-    var hasilPencarian =
-        await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
+    var hasilPencarian = await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
     completer.complete(); //Batas pengerjaan yang memerlukan completer
 
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
     return await hasilPencarian;
   }
@@ -89,10 +71,7 @@ class _pelayananUser extends State<pelayananUser> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
       for (var item in dummyTemp) {
-        if (item['userPelayanan'][0]['nama']
-            .toString()
-            .toLowerCase()
-            .contains(query.toLowerCase())) {
+        if (item['userPelayanan'][0]['nama'].toString().toLowerCase().contains(query.toLowerCase())) {
           listOMaps.add(item);
         }
       }
@@ -114,19 +93,11 @@ class _pelayananUser extends State<pelayananUser> {
     if (jenisPelayanan == "Umum") {
       umumSakramen = jenisPelayanan;
     }
-    Message message = Message(
-        'Agent Page',
-        'Agent Pendaftaran',
-        "REQUEST",
-        Tasks('update pelayanan user',
-            [umumSakramen, id, token, idTarget, status, iduser, notif]));
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('update pelayanan user', [umumSakramen, id, token, idTarget, status, iduser, notif]));
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasilDaftar = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
+    var hasilDaftar = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
     String statusKonfirmasi = "Menerima";
     if (hasilDaftar == "oke") {
@@ -185,8 +156,7 @@ class _pelayananUser extends State<pelayananUser> {
       await filterSearchResults(searchController.text);
     });
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         setState(() {
           data = data + 5;
         });
@@ -209,8 +179,7 @@ class _pelayananUser extends State<pelayananUser> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -219,8 +188,7 @@ class _pelayananUser extends State<pelayananUser> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -275,69 +243,48 @@ class _pelayananUser extends State<pelayananUser> {
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {},
                           child: Container(
-                              margin: EdgeInsets.only(
-                                  right: 15, left: 15, bottom: 20),
+                              margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topRight,
-                                    end: Alignment.topLeft,
-                                    colors: [
-                                      Colors.blueGrey,
-                                      Colors.lightBlue,
-                                    ]),
+                                gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                                  Colors.blueGrey,
+                                  Colors.lightBlue,
+                                ]),
                                 border: Border.all(
                                   color: Colors.lightBlue,
                                 ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               child: Column(children: <Widget>[
                                 //Color(Colors.blue);
 
                                 Text(
-                                  "Nama :" +
-                                      i['userPelayanan'][0]['nama'].toString(),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w300),
+                                  "Nama :" + i['userPelayanan'][0]['nama'].toString(),
+                                  style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w300),
                                   textAlign: TextAlign.left,
                                 ),
-                                Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 5)),
+                                Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                                 Text(
-                                  "Tanggal Daftar :" +
-                                      i['tanggalDaftar']
-                                          .toString()
-                                          .substring(0, 10),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.w300),
+                                  "Tanggal Daftar :" + i['tanggalDaftar'].toString().substring(0, 10),
+                                  style: TextStyle(color: Colors.white, fontSize: 15.0, fontWeight: FontWeight.w300),
                                   textAlign: TextAlign.left,
                                 ),
-                                Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 5)),
+                                Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                                 if (i['status'] == "0")
                                   Text(
                                     'Status: Menunggu',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 15),
+                                    style: TextStyle(color: Colors.white, fontSize: 15),
                                   ),
                                 if (i['status'] == 1)
                                   Text(
                                     'Status: Accept',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 15),
+                                    style: TextStyle(color: Colors.white, fontSize: 15),
                                   ),
                                 if (i['status'] == -1)
                                   Text(
                                     'Status: Reject',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 15),
+                                    style: TextStyle(color: Colors.white, fontSize: 15),
                                   ),
-                                Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 5)),
+                                Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -350,37 +297,19 @@ class _pelayananUser extends State<pelayananUser> {
                                           color: Colors.lightBlue,
                                           child: Text("Accept"),
                                           shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(30.0),
+                                            borderRadius: new BorderRadius.circular(30.0),
                                           ),
                                           onPressed: () async {
                                             if (jenisPelayanan == "Sakramen") {
-                                              updateUserStatus(
-                                                  1,
-                                                  i['_id'],
-                                                  i['userPelayanan'][0]
-                                                      ['token'],
-                                                  i['id' +
-                                                      jenisSelectedPelayanan],
-                                                  i['userPelayanan'][0]
-                                                      ['notifGD']);
+                                              updateUserStatus(1, i['_id'], i['userPelayanan'][0]['token'], i['id' + jenisSelectedPelayanan], i['userPelayanan'][0]['notifGD']);
                                             } else {
-                                              updateUserStatus(
-                                                  1,
-                                                  i['_id'],
-                                                  i['userPelayanan'][0]
-                                                      ['token'],
-                                                  i['id' + jenisPelayanan],
-                                                  i['userPelayanan'][0]
-                                                      ['notifGD']);
+                                              updateUserStatus(1, i['_id'], i['userPelayanan'][0]['token'], i['id' + jenisPelayanan], i['userPelayanan'][0]['notifGD']);
                                             }
                                           },
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10)),
+                                    Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
                                     Expanded(
                                       child: SizedBox(
                                         width: double.infinity,
@@ -389,31 +318,13 @@ class _pelayananUser extends State<pelayananUser> {
                                             color: Colors.lightBlue,
                                             child: Text("Reject"),
                                             shape: new RoundedRectangleBorder(
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      30.0),
+                                              borderRadius: new BorderRadius.circular(30.0),
                                             ),
                                             onPressed: () async {
-                                              if (jenisPelayanan ==
-                                                  "Sakramen") {
-                                                updateUserStatus(
-                                                    -1,
-                                                    i['_id'],
-                                                    i['userPelayanan'][0]
-                                                        ['token'],
-                                                    i['id' +
-                                                        jenisSelectedPelayanan],
-                                                    i['userPelayanan'][0]
-                                                        ['notifGD']);
+                                              if (jenisPelayanan == "Sakramen") {
+                                                updateUserStatus(-1, i['_id'], i['userPelayanan'][0]['token'], i['id' + jenisSelectedPelayanan], i['userPelayanan'][0]['notifGD']);
                                               } else {
-                                                updateUserStatus(
-                                                    -1,
-                                                    i['_id'],
-                                                    i['userPelayanan'][0]
-                                                        ['token'],
-                                                    i['id' + jenisPelayanan],
-                                                    i['userPelayanan'][0]
-                                                        ['notifGD']);
+                                                updateUserStatus(-1, i['_id'], i['userPelayanan'][0]['token'], i['id' + jenisPelayanan], i['userPelayanan'][0]['notifGD']);
                                               }
                                             }),
                                       ),
@@ -434,8 +345,7 @@ class _pelayananUser extends State<pelayananUser> {
       ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -463,14 +373,12 @@ class _pelayananUser extends State<pelayananUser> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

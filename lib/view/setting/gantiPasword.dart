@@ -1,8 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
@@ -55,21 +51,15 @@ class gantiPassword extends StatelessWidget {
       passUlBaruController.text = "";
     } else {
       Completer<void> completer = Completer<void>();
-      Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
-          Tasks('find password', [iduser, passLamaController.text]));
+      Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('find password', [iduser, passLamaController.text]));
 
-      MessagePassing messagePassing =
-          MessagePassing(); //Memanggil distributor pesan
-      var data = await messagePassing
-          .sendMessage(message); //Mengirim pesan ke distributor pesan
+      MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+      var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
       completer.complete(); //Batas pengerjaan yang memerlukan completer
-      var value = await await AgentPage
-          .getData(); //Memanggil data yang tersedia di agen Page
+      var value = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-      await completer
-          .future; //Proses penungguan sudah selesai ketika varibel hasil
+      await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
       //memiliki nilai
-
       if (value == "not") {
         Fluttertoast.showToast(
             /////// Widget toast untuk menampilkan pesan pada halaman
@@ -85,19 +75,14 @@ class gantiPassword extends StatelessWidget {
         passUlBaruController.text = "";
       } else {
         Completer<void> completer = Completer<void>();
-        Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
-            Tasks('change password', [iduser, passBaruController.text]));
+        Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('change password', [iduser, passBaruController.text]));
 
-        MessagePassing messagePassing =
-            MessagePassing(); //Memanggil distributor pesan
-        var data = await messagePassing
-            .sendMessage(message); //Mengirim pesan ke distributor pesan
+        MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+        var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
         completer.complete(); //Batas pengerjaan yang memerlukan completer
-        var value = await await AgentPage
-            .getData(); //Memanggil data yang tersedia di agen Page
+        var value = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-        await completer
-            .future; //Proses penungguan sudah selesai ketika varibel hasil
+        await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
         //memiliki nilai
 
         passLamaController.text = "";
@@ -114,8 +99,7 @@ class gantiPassword extends StatelessWidget {
             fontSize: 16.0);
         Navigator.pop(
           context,
-          MaterialPageRoute(
-              builder: (context) => privacySafety(iduser, idGereja, role)),
+          MaterialPageRoute(builder: (context) => privacySafety(iduser, idGereja, role)),
         );
       }
     }
@@ -138,8 +122,7 @@ class gantiPassword extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -148,8 +131,7 @@ class gantiPassword extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -218,8 +200,7 @@ class gantiPassword extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: ButtonBar(
                   alignment: MainAxisAlignment.center,
-                  buttonPadding:
-                      EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  buttonPadding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   children: [
                     RaisedButton(
                         child: Text("Ganti Password"),
@@ -237,8 +218,7 @@ class gantiPassword extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -266,14 +246,12 @@ class gantiPassword extends StatelessWidget {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

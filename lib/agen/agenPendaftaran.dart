@@ -1,14 +1,10 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:imam_pelayanan_katolik/DatabaseFolder/modelDB.dart';
-
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-
 import '../DatabaseFolder/data.dart';
 import '../DatabaseFolder/fireBase.dart';
 import '../DatabaseFolder/mongodb.dart';
@@ -68,8 +64,7 @@ class AgentPendaftaran extends Agent {
   }
 
   Future<Message> _EditAturanPelayanan(dynamic data, String sender) async {
-    var aturanPelayananCollection =
-        MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
+    var aturanPelayananCollection = MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
 
     var update = await aturanPelayananCollection.updateOne(
         where.eq('idGereja', data[0]),
@@ -85,12 +80,10 @@ class AgentPendaftaran extends Agent {
             .set('updatedBy', data[8]));
     //Update data aturan pelayanan berdasarkan idGereja
     if (update.isSuccess) {
-      Message message = Message(agentName, sender, "INFORM",
-          Tasks("status modifikasi/ pencarian data akun", "oke"));
+      Message message = Message(agentName, sender, "INFORM", Tasks("status modifikasi/ pencarian data akun", "oke"));
       return message;
     } else {
-      Message message = Message(agentName, sender, "INFORM",
-          Tasks("status modifikasi/ pencarian data akun", "failed"));
+      Message message = Message(agentName, sender, "INFORM", Tasks("status modifikasi/ pencarian data akun", "failed"));
       return message;
     }
   }
@@ -99,50 +92,35 @@ class AgentPendaftaran extends Agent {
     //Memberi nilai pada variabel berdasarkan data pada isi pesan
     var userPelayananCollection;
     if (data[0] == "Baptis") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
     }
     if (data[0] == "Komuni") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
     }
     if (data[0] == "Krisma") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
     }
     if (data[0] == "Umum") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(USER_UMUM_COLLECTION);
     }
     if (data[0] == "Pemberkatan") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
     }
     if (data[0] == "Perkawinan") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
     }
-    var update = await userPelayananCollection.updateOne(
-        where.eq('_id', data[1]),
-        modify
-            .set('status', data[4])
-            .set('updatedAt', DateTime.now())
-            .set("updatedBy", data[5]));
+    var update = await userPelayananCollection.updateOne(where.eq('_id', data[1]), modify.set('status', data[4]).set('updatedAt', DateTime.now()).set("updatedBy", data[5]));
     //Melakukan update data pelayanan berdasakran id pelayanan
     if (update.isSuccess) {
-      Message message = Message(
-          agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
+      Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
       if (data[6] == true) {
-        Message message2 = Message(agentName, 'Agent Pencarian', "REQUEST",
-            Tasks('cari pelayanan pendaftaran', data));
-        MessagePassing messagePassing =
-            MessagePassing(); //Memanggil distributor pesan
+        Message message2 = Message(agentName, 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan pendaftaran', data));
+        MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
         await messagePassing.sendMessage(message2);
       }
       return message;
     } else {
-      Message message = Message(agentName, sender, "INFORM",
-          Tasks('status modifikasi data', "failed"));
+      Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
@@ -186,20 +164,12 @@ class AgentPendaftaran extends Agent {
     try {
       if (data[0][4] == 1) {
         status = "Permintaan " + Pelayanan + " Diterima";
-        body = "Permintaan baptis pada tanggal " +
-            tanggal.toString().substring(0, 10) +
-            " telah dikonfirmasi";
+        body = "Permintaan baptis pada tanggal " + tanggal.toString().substring(0, 10) + " telah dikonfirmasi";
         statusSoon = "Baptis " + tanggal.toString().substring(0, 10);
-        bodySoon = "Besok, Baptis " +
-            tanggal.toString().substring(0, 10) +
-            " Akan Dilaksakan";
+        bodySoon = "Besok, Baptis " + tanggal.toString().substring(0, 10) + " Akan Dilaksakan";
       } else {
         status = "Permintaan" + Pelayanan + "Ditolak";
-        body = "Maaf, permintaan " +
-            Pelayanan +
-            " pada tanggal " +
-            tanggal.toString().substring(0, 10) +
-            " ditolak";
+        body = "Maaf, permintaan " + Pelayanan + " pada tanggal " + tanggal.toString().substring(0, 10) + " ditolak";
       }
 
       String constructFCMPayload(String token) {
@@ -219,12 +189,7 @@ class AgentPendaftaran extends Agent {
         String constructFCMPayloadSoon(String token) {
           return jsonEncode({
             'to': token,
-            'data': {
-              "title": statusSoon,
-              "message": bodySoon,
-              "isScheduled": "true",
-              "scheduledTime": tanggal.subtract(Duration(days: 1)).toString()
-            },
+            'data': {"title": statusSoon, "message": bodySoon, "isScheduled": "true", "scheduledTime": tanggal.subtract(Duration(days: 1)).toString()},
           });
         }
 
@@ -232,10 +197,7 @@ class AgentPendaftaran extends Agent {
         await http
             .post(
           Uri.parse('https://fcm.googleapis.com/fcm/send'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': FCMKEY
-          },
+          headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8', 'Authorization': FCMKEY},
           body: constructFCMPayloadSoon(data[0][2]),
         )
             .then((value) {
@@ -249,10 +211,7 @@ class AgentPendaftaran extends Agent {
       await http
           .post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': FCMKEY
-        },
+        headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8', 'Authorization': FCMKEY},
         body: constructFCMPayload(data[0][2]),
       )
           .then((value) {
@@ -263,55 +222,40 @@ class AgentPendaftaran extends Agent {
     }
 
     if (FCMStatus == 200) {
-      Message message = Message(agentName, "agent Page", "INFORM",
-          Tasks('status modifikasi data', "oke"));
+      Message message = Message(agentName, "agent Page", "INFORM", Tasks('status modifikasi data', "oke"));
       print('FCM request for device sent!');
       return message;
     } else {
-      Message message = Message(agentName, "agent Page", "INFORM",
-          Tasks('status modifikasi data', "failed"));
+      Message message = Message(agentName, "agent Page", "INFORM", Tasks('status modifikasi data', "failed"));
       print('FCM request for device failed!');
       return message;
     }
   }
 
   Future<Message> _editPengumuman(dynamic data, String sender) async {
-    var pengumumanCollection =
-        MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
+    var pengumumanCollection = MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
     if (data[4] == true) {
       //Jika ada perubahan gambar
-      var urlDownload = await FirebaseApi.configureUpload(
-          'files/Imam Pelayanan Katolik/pengumuman/', data[3]);
+      var urlDownload = await FirebaseApi.configureUpload('files/Imam Pelayanan Katolik/pengumuman/', data[3]);
       //Upload ke firebase
-      var update = await pengumumanCollection.updateOne(
-          where.eq('_id', data[2]),
-          modify
-              .set('title', data[1])
-              .set("caption", data[2])
-              .set("gambar", urlDownload));
+      var update = await pengumumanCollection.updateOne(where.eq('_id', data[2]), modify.set('title', data[1]).set("caption", data[2]).set("gambar", urlDownload));
       //Update data pada collection pengumuman
       if (update.isSuccess) {
-        Message message = Message('Agent Pendaftaran', sender, "INFORM",
-            Tasks('status modifikasi data', "oke"));
+        Message message = Message('Agent Pendaftaran', sender, "INFORM", Tasks('status modifikasi data', "oke"));
         return message;
       } else {
-        Message message = Message('Agent Pendaftaran', sender, "INFORM",
-            Tasks('status modifikasi data', "failed"));
+        Message message = Message('Agent Pendaftaran', sender, "INFORM", Tasks('status modifikasi data', "failed"));
         return message;
       }
     } else {
       //Jika tidak ada perubahan gambar
-      var update = await pengumumanCollection.updateOne(
-          where.eq('_id', data[0]),
-          modify.set('title', data[1]).set("caption", data[2]));
+      var update = await pengumumanCollection.updateOne(where.eq('_id', data[0]), modify.set('title', data[1]).set("caption", data[2]));
       //Update data pada collection pengumuman
       if (update.isSuccess) {
-        Message message = Message('Agent Pendaftaran', sender, "INFORM",
-            Tasks('status modifikasi data', "oke"));
+        Message message = Message('Agent Pendaftaran', sender, "INFORM", Tasks('status modifikasi data', "oke"));
         return message;
       } else {
-        Message message = Message('Agent Pendaftaran', sender, "INFORM",
-            Tasks('status modifikasi data', "failed"));
+        Message message = Message('Agent Pendaftaran', sender, "INFORM", Tasks('status modifikasi data', "failed"));
         return message;
       }
     }
@@ -332,8 +276,7 @@ class AgentPendaftaran extends Agent {
     if (data[0] == "Umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
 
-      String urlDownload = await FirebaseApi.configureUpload(
-          'files/Imam Pelayanan Katolik/kegiatan umum/', data[11]);
+      String urlDownload = await FirebaseApi.configureUpload('files/Imam Pelayanan Katolik/kegiatan umum/', data[11]);
       //upload ke firebase kegiatan umum
       var configJson = modelDB.umum(
         data[1],
@@ -355,12 +298,10 @@ class AgentPendaftaran extends Agent {
       var add = await pelayananCollection.insertOne(configJson);
       //Menambahkan data pada collection umum
       if (add.isSuccess) {
-        Message message = Message(agentName, sender, "INFORM",
-            Tasks('status modifikasi data', "oke"));
+        Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
         return message;
       } else {
-        Message message = Message(agentName, sender, "INFORM",
-            Tasks('status modifikasi data', "failed"));
+        Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "failed"));
         return message;
       }
     }
@@ -379,12 +320,10 @@ class AgentPendaftaran extends Agent {
 
     var add = await pelayananCollection.insertOne(configJson);
     if (add.isSuccess) {
-      Message message = Message(
-          agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
+      Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
       return message;
     } else {
-      Message message = Message(agentName, sender, "INFORM",
-          Tasks('status modifikasi data', "failed"));
+      Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
@@ -404,41 +343,26 @@ class AgentPendaftaran extends Agent {
     if (data[0] == "Umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
     }
-    var update = await pelayananCollection.updateOne(
-        where.eq('_id', data[1]),
-        modify
-            .set('status', data[2])
-            .set("updatedAt", DateTime.now())
-            .set("updatedBy", data[3]));
+    var update = await pelayananCollection.updateOne(where.eq('_id', data[1]), modify.set('status', data[2]).set("updatedAt", DateTime.now()).set("updatedBy", data[3]));
     //Upadate data status pada collection pelayanan
     if (update.isSuccess) {
-      Message message = Message(
-          agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
+      Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
       return message;
     } else {
-      Message message = Message(agentName, sender, "INFORM",
-          Tasks('status modifikasi data', "failed"));
+      Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
 
   Future<Message> _updateStatusPengumuman(dynamic data, String sender) async {
-    var pengumumanCollection =
-        MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
-    var update = await pengumumanCollection.updateOne(
-        where.eq('_id', data[0]),
-        modify
-            .set('status', data[1])
-            .set("updatedAt", DateTime.now())
-            .set("updatedBy", data[2]));
+    var pengumumanCollection = MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
+    var update = await pengumumanCollection.updateOne(where.eq('_id', data[0]), modify.set('status', data[1]).set("updatedAt", DateTime.now()).set("updatedBy", data[2]));
     //Upadate data status pada collection pengumuman
     if (update.isSuccess) {
-      Message message = Message(
-          agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
+      Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
       return message;
     } else {
-      Message message = Message(agentName, sender, "INFORM",
-          Tasks('status modifikasi data', "failed"));
+      Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
@@ -459,8 +383,7 @@ class AgentPendaftaran extends Agent {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
       if (data[12] == true) {
         //Jika ada perubahan gambar
-        var urlDownload = await FirebaseApi.configureUpload(
-            'files/Imam Pelayanan Katolik/kegiatan umum/', data[11]);
+        var urlDownload = await FirebaseApi.configureUpload('files/Imam Pelayanan Katolik/kegiatan umum/', data[11]);
         var update = await pelayananCollection.updateOne(
             where.eq('_id', data[1]),
             modify
@@ -477,12 +400,10 @@ class AgentPendaftaran extends Agent {
                 .set("updatedBy", data[10]));
         //update data pada collection umum
         if (update.isSuccess) {
-          Message message = Message(agentName, sender, "INFORM",
-              Tasks('status modifikasi data', "oke"));
+          Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
           return message;
         } else {
-          Message message = Message(agentName, sender, "INFORM",
-              Tasks('status modifikasi data', "failed"));
+          Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "failed"));
           return message;
         }
       } else {
@@ -501,12 +422,10 @@ class AgentPendaftaran extends Agent {
                 .set("updatedBy", data[10]));
         //update data pada collection umum
         if (update.isSuccess) {
-          Message message = Message(agentName, sender, "INFORM",
-              Tasks('status modifikasi data', "oke"));
+          Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
           return message;
         } else {
-          Message message = Message(agentName, sender, "INFORM",
-              Tasks('status modifikasi data', "failed"));
+          Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "failed"));
           return message;
         }
       }
@@ -523,21 +442,17 @@ class AgentPendaftaran extends Agent {
             .set("updatedBy", data[5]));
     //update data pada collection pelayanan
     if (update.isSuccess) {
-      Message message = Message(
-          agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
+      Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
       return message;
     } else {
-      Message message = Message(agentName, sender, "INFORM",
-          Tasks('status modifikasi data', "failed"));
+      Message message = Message(agentName, sender, "INFORM", Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
 
   Future<Message> _addPengumuman(dynamic data, String sender) async {
-    var PengumumanCollection =
-        MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
-    var urlDownload = await FirebaseApi.configureUpload(
-        'files/Imam Pelayanan Katolik/pengumuman/', data[1]);
+    var PengumumanCollection = MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
+    var urlDownload = await FirebaseApi.configureUpload('files/Imam Pelayanan Katolik/pengumuman/', data[1]);
     //Upload data ke firebase pengumuman
     var configJson = modelDB.gambarGereja(
       data[0],
@@ -553,12 +468,10 @@ class AgentPendaftaran extends Agent {
     var add = await PengumumanCollection.insertOne(configJson);
     //menambahkan data baru pada collection gambarGereja
     if (add.isSuccess) {
-      Message message = Message('Agent Pendaftaran', sender, "INFORM",
-          Tasks('status modifikasi data', "oke"));
+      Message message = Message('Agent Pendaftaran', sender, "INFORM", Tasks('status modifikasi data', "oke"));
       return message;
     } else {
-      Message message = Message('Agent Pendaftaran', sender, "INFORM",
-          Tasks('status modifikasi data', "failed"));
+      Message message = Message('Agent Pendaftaran', sender, "INFORM", Tasks('status modifikasi data', "failed"));
       return message;
     }
   }
@@ -591,15 +504,11 @@ class AgentPendaftaran extends Agent {
       Goals("add pengumuman", String, _timeAction["add pengumuman"]),
       Goals("edit pelayanan", String, _timeAction["edit pelayanan"]),
       Goals("edit pengumuman", String, _timeAction["edit pengumuman"]),
-      Goals("update status pelayanan", String,
-          _timeAction["update status pelayanan"]),
-      Goals("update status pengumuman", String,
-          _timeAction["update status pengumuman"]),
-      Goals("update pelayanan user", String,
-          _timeAction["update pelayanan user"]),
+      Goals("update status pelayanan", String, _timeAction["update status pelayanan"]),
+      Goals("update status pengumuman", String, _timeAction["update status pengumuman"]),
+      Goals("update pelayanan user", String, _timeAction["update pelayanan user"]),
       Goals("send FCM", String, _timeAction["send FCM"]),
-      Goals("edit aturan pelayanan", String,
-          _timeAction["edit aturan pelayanan"]),
+      Goals("edit aturan pelayanan", String, _timeAction["edit aturan pelayanan"]),
     ];
   }
 }

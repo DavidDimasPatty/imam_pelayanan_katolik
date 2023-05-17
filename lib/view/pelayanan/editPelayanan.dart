@@ -12,7 +12,6 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/daftarPelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/baptis/baptis.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
@@ -28,18 +27,9 @@ class editPelayanan extends StatefulWidget {
   String jenisSelectedPelayanan;
   String jenisPencarian;
   String jenisPelayanan;
-  editPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
-
+  editPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
   @override
-  _editPelayanan createState() => _editPelayanan(
-      this.iduser,
-      this.idGereja,
-      this.role,
-      this.jenisPelayanan,
-      this.jenisPencarian,
-      this.jenisSelectedPelayanan,
-      this.idPelayanan);
+  _editPelayanan createState() => _editPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
 }
 
 class _editPelayanan extends State<editPelayanan> {
@@ -62,8 +52,7 @@ class _editPelayanan extends State<editPelayanan> {
   TextEditingController deskripsiKegiatan = new TextEditingController();
   TextEditingController tamuKegiatan = new TextEditingController();
   TextEditingController lokasi = new TextEditingController();
-  _editPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
+  _editPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
   List hasil = [];
   List jenis = ["Dewasa", "Anak"];
   String jenisSelected = "";
@@ -72,10 +61,8 @@ class _editPelayanan extends State<editPelayanan> {
     if (jenisPelayanan == "Sakramen") {
       setState(() {
         if (args.value is PickerDateRange) {
-          tanggalBuka =
-              '${DateFormat('yyyy-MM-dd').format(args.value.startDate)}';
-          tanggalTutup =
-              '${DateFormat('yyyy-MM-dd').format(args.value.endDate ?? args.value.startDate)}';
+          tanggalBuka = '${DateFormat('yyyy-MM-dd').format(args.value.startDate)}';
+          tanggalTutup = '${DateFormat('yyyy-MM-dd').format(args.value.endDate ?? args.value.startDate)}';
         }
       });
     }
@@ -98,29 +85,17 @@ class _editPelayanan extends State<editPelayanan> {
 
   Future callDb() async {
     Completer<void> completer = Completer<void>();
-
     Message message;
     if (jenisPelayanan == "Sakramen") {
-      message = Message(
-          'Agent Page',
-          'Agent Pencarian',
-          "REQUEST",
-          Tasks('cari data edit pelayanan',
-              [idPelayanan, jenisSelectedPelayanan]));
+      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari data edit pelayanan', [idPelayanan, jenisSelectedPelayanan]));
     } else {
-      message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
-          Tasks('cari data edit pelayanan', [idPelayanan, jenisPelayanan]));
+      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari data edit pelayanan', [idPelayanan, jenisPelayanan]));
     }
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
-
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
     return await hasil;
   }
@@ -140,32 +115,15 @@ class _editPelayanan extends State<editPelayanan> {
       if (tanggalTutup == "") {
         tanggalTutup = tanggaltutup;
       }
-      if (kapasitas != "" &&
-          tanggalBuka != "" &&
-          tanggalTutup != "" &&
-          jenisSelected != "") {
+      if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "" && jenisSelected != "") {
         Completer<void> completer = Completer<void>();
-        Message message = Message(
-            'Agent Page',
-            'Agent Pendaftaran',
-            "REQUEST",
-            Tasks('edit pelayanan', [
-              jenisSelectedPelayanan,
-              idPelayanan,
-              kapasitas.text,
-              tanggalBuka.toString(),
-              tanggalTutup.toString(),
-              iduser,
-              jenisSelected
-            ]));
+        Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
+            Tasks('edit pelayanan', [jenisSelectedPelayanan, idPelayanan, kapasitas.text, tanggalBuka.toString(), tanggalTutup.toString(), iduser, jenisSelected]));
 
-        MessagePassing messagePassing =
-            MessagePassing(); //Memanggil distributor pesan
-        await messagePassing
-            .sendMessage(message); //Mengirim pesan ke distributor pesan
+        MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+        await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
         completer.complete(); //Batas pengerjaan yang memerlukan completer
-        var hasil = await await AgentPage
-            .getData(); //Memanggil data yang tersedia di agen Page
+        var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
         if (hasil == "oke") {
           Fluttertoast.showToast(
@@ -179,9 +137,7 @@ class _editPelayanan extends State<editPelayanan> {
               fontSize: 16.0);
           Navigator.pop(
             context,
-            MaterialPageRoute(
-                builder: (context) => daftarPelayanan(iduser, idGereja, role,
-                    jenisPelayanan, jenisPencarian, jenisSelectedPelayanan)),
+            MaterialPageRoute(builder: (context) => daftarPelayanan(iduser, idGereja, role, jenisPelayanan, jenisPencarian, jenisSelectedPelayanan)),
           );
         } else {
           Fluttertoast.showToast(
@@ -240,13 +196,10 @@ class _editPelayanan extends State<editPelayanan> {
                 imageChange
               ]));
 
-          MessagePassing messagePassing =
-              MessagePassing(); //Memanggil distributor pesan
-          await messagePassing
-              .sendMessage(message); //Mengirim pesan ke distributor pesan
+          MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+          await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
           completer.complete(); //Batas pengerjaan yang memerlukan completer
-          var hasil = await await AgentPage
-              .getData(); //Memanggil data yang tersedia di agen Page
+          var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
           if (hasil == "oke") {
             Fluttertoast.showToast(
@@ -261,9 +214,7 @@ class _editPelayanan extends State<editPelayanan> {
 
             Navigator.pop(
               context,
-              MaterialPageRoute(
-                  builder: (context) => daftarPelayanan(iduser, idGereja, role,
-                      jenisPelayanan, jenisPencarian, jenisSelectedPelayanan)),
+              MaterialPageRoute(builder: (context) => daftarPelayanan(iduser, idGereja, role, jenisPelayanan, jenisPencarian, jenisSelectedPelayanan)),
             );
           } else {
             Fluttertoast.showToast(
@@ -317,13 +268,10 @@ class _editPelayanan extends State<editPelayanan> {
                 imageChange
               ]));
 
-          MessagePassing messagePassing =
-              MessagePassing(); //Memanggil distributor pesan
-          await messagePassing
-              .sendMessage(message); //Mengirim pesan ke distributor pesan
+          MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+          await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
           completer.complete(); //Batas pengerjaan yang memerlukan completer
-          var hasil = await await AgentPage
-              .getData(); //Memanggil data yang tersedia di agen Page
+          var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
           if (hasil == "oke") {
             Fluttertoast.showToast(
@@ -337,9 +285,7 @@ class _editPelayanan extends State<editPelayanan> {
                 fontSize: 16.0);
             Navigator.pop(
               context,
-              MaterialPageRoute(
-                  builder: (context) => daftarPelayanan(iduser, idGereja, role,
-                      jenisPelayanan, jenisPencarian, jenisSelectedPelayanan)),
+              MaterialPageRoute(builder: (context) => daftarPelayanan(iduser, idGereja, role, jenisPelayanan, jenisPencarian, jenisSelectedPelayanan)),
             );
           } else {
             Fluttertoast.showToast(
@@ -385,8 +331,7 @@ class _editPelayanan extends State<editPelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -395,8 +340,7 @@ class _editPelayanan extends State<editPelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -420,8 +364,7 @@ class _editPelayanan extends State<editPelayanan> {
                       kapasitas.text = snapshot.data[0]['kapasitas'].toString();
                       namaKegiatan.text = snapshot.data[0]['namaKegiatan'];
                       temaKegiatan.text = snapshot.data[0]['temaKegiatan'];
-                      deskripsiKegiatan.text =
-                          snapshot.data[0]['deskripsiKegiatan'];
+                      deskripsiKegiatan.text = snapshot.data[0]['deskripsiKegiatan'];
                       tamuKegiatan.text = snapshot.data[0]['tamu'];
                       lokasi.text = snapshot.data[0]['lokasi'];
                       fileImage = snapshot.data[0]['picture'];
@@ -607,8 +550,7 @@ class _editPelayanan extends State<editPelayanan> {
                                 ),
                                 TextField(
                                   inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp("[0-9]")),
+                                    FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                                   ],
                                   controller: kapasitas,
                                   style: TextStyle(color: Colors.black),
@@ -691,13 +633,9 @@ class _editPelayanan extends State<editPelayanan> {
                                 SfDateRangePicker(
                                   view: DateRangePickerView.month,
                                   onSelectionChanged: _onSelectionChanged,
-                                  selectionMode:
-                                      DateRangePickerSelectionMode.single,
-                                  monthViewSettings:
-                                      DateRangePickerMonthViewSettings(
-                                          firstDayOfWeek: 1),
-                                  initialSelectedDate: snapshot.data[0]
-                                      ['tanggal'],
+                                  selectionMode: DateRangePickerSelectionMode.single,
+                                  monthViewSettings: DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
+                                  initialSelectedDate: snapshot.data[0]['tanggal'],
                                 )
                               ],
                             ),
@@ -714,29 +652,22 @@ class _editPelayanan extends State<editPelayanan> {
                                     imageChange = true;
                                     await selectFile();
                                   },
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(80.0)),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
                                   elevation: 0.0,
                                   padding: EdgeInsets.all(0.0),
                                   child: Ink(
                                     decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                          begin: Alignment.topRight,
-                                          end: Alignment.topLeft,
-                                          colors: [
-                                            Colors.blueAccent,
-                                            Colors.lightBlue,
-                                          ]),
+                                      gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                                        Colors.blueAccent,
+                                        Colors.lightBlue,
+                                      ]),
                                       borderRadius: BorderRadius.circular(30.0),
                                     ),
                                     child: Container(
-                                      constraints: BoxConstraints(
-                                          maxWidth: 170.0, minHeight: 50.0),
+                                      constraints: BoxConstraints(maxWidth: 170.0, minHeight: 50.0),
                                       alignment: Alignment.center,
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(
                                             Icons.upload,
@@ -744,10 +675,7 @@ class _editPelayanan extends State<editPelayanan> {
                                           ),
                                           Text(
                                             "Upload Image",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.w600),
+                                            style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w600),
                                           )
                                         ],
                                       ),
@@ -765,10 +693,7 @@ class _editPelayanan extends State<editPelayanan> {
                             if (imageChange == true)
                               Text(
                                 "File Image Path: \n" + fileChange.toString(),
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w400),
+                                style: TextStyle(color: Colors.black, fontSize: 12.0, fontWeight: FontWeight.w400),
                               ),
                             SizedBox(
                               width: double.infinity,
@@ -777,13 +702,10 @@ class _editPelayanan extends State<editPelayanan> {
                                   color: Colors.lightBlue,
                                   child: Text("Submit Kegiatan"),
                                   shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(30.0),
+                                    borderRadius: new BorderRadius.circular(30.0),
                                   ),
                                   onPressed: () async {
-                                    submit(
-                                        snapshot.data[0]['tanggal'].toString(),
-                                        "");
+                                    submit(snapshot.data[0]['tanggal'].toString(), "");
                                   }),
                             ),
                           ],
@@ -807,8 +729,7 @@ class _editPelayanan extends State<editPelayanan> {
                               TextField(
                                 controller: kapasitas,
                                 inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp("[0-9]")),
+                                  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                                 ],
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
@@ -847,10 +768,6 @@ class _editPelayanan extends State<editPelayanan> {
                                 padding: EdgeInsets.symmetric(vertical: 5),
                               ),
                               DropdownSearch<dynamic>(
-                                // popupProps: PopupProps.menu(
-                                //   showSelectedItems: true,
-                                //   disabledItemFn: (String s) => s.startsWith('I'),
-                                // ),
                                 items: jenis,
                                 selectedItem: jenisSelected,
                                 dropdownDecoratorProps: DropDownDecoratorProps(
@@ -882,14 +799,9 @@ class _editPelayanan extends State<editPelayanan> {
                               SfDateRangePicker(
                                 view: DateRangePickerView.month,
                                 onSelectionChanged: _onSelectionChanged,
-                                selectionMode:
-                                    DateRangePickerSelectionMode.range,
-                                monthViewSettings:
-                                    DateRangePickerMonthViewSettings(
-                                        firstDayOfWeek: 1),
-                                initialSelectedRange: PickerDateRange(
-                                    snapshot.data[0]['jadwalBuka'],
-                                    snapshot.data[0]['jadwalTutup']),
+                                selectionMode: DateRangePickerSelectionMode.range,
+                                monthViewSettings: DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
+                                initialSelectedRange: PickerDateRange(snapshot.data[0]['jadwalBuka'], snapshot.data[0]['jadwalTutup']),
                               )
                             ],
                           ),
@@ -903,10 +815,7 @@ class _editPelayanan extends State<editPelayanan> {
                                   borderRadius: new BorderRadius.circular(30.0),
                                 ),
                                 onPressed: () async {
-                                  submit(
-                                      snapshot.data[0]['jadwalBuka'].toString(),
-                                      snapshot.data[0]['jadwalTutup']
-                                          .toString());
+                                  submit(snapshot.data[0]['jadwalBuka'].toString(), snapshot.data[0]['jadwalTutup'].toString());
                                 }),
                           ),
                         ])
@@ -922,8 +831,7 @@ class _editPelayanan extends State<editPelayanan> {
       ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -951,14 +859,12 @@ class _editPelayanan extends State<editPelayanan> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

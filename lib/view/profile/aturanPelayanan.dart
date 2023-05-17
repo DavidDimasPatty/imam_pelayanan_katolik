@@ -18,8 +18,7 @@ class AturanPelayanan extends StatefulWidget {
 
   AturanPelayanan(this.iduser, this.idGereja, this.role);
   @override
-  _AturanPelayanan createState() =>
-      _AturanPelayanan(this.iduser, this.idGereja, this.role);
+  _AturanPelayanan createState() => _AturanPelayanan(this.iduser, this.idGereja, this.role);
 }
 
 class _AturanPelayanan extends State<AturanPelayanan> {
@@ -39,53 +38,29 @@ class _AturanPelayanan extends State<AturanPelayanan> {
 
   Future callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST",
-        Tasks('cari aturan pelayanan', idGereja));
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari aturan pelayanan', idGereja));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    var data = await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var result = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
+    var result = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
 
     return result;
   }
 
-  submitForm(baptis, komuni, krisma, perkawinan, perminyakan, tobat,
-      pemberkatan, context) async {
+  submitForm(baptis, komuni, krisma, perkawinan, perminyakan, tobat, pemberkatan, context) async {
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page',
-        'Agent Pendaftaran',
-        "REQUEST",
-        Tasks('edit aturan pelayanan', [
-          idGereja,
-          baptis,
-          komuni,
-          krisma,
-          perkawinan,
-          perminyakan,
-          tobat,
-          pemberkatan,
-          iduser
-        ]));
+    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('edit aturan pelayanan', [idGereja, baptis, komuni, krisma, perkawinan, perminyakan, tobat, pemberkatan, iduser]));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    var data = await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
+    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
 
     if (hasil == 'oke') {
@@ -100,8 +75,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
           fontSize: 16.0);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) => Profile(iduser, idGereja, role)),
+        MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
       );
     } else {
       Fluttertoast.showToast(
@@ -140,8 +114,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -150,8 +123,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -177,19 +149,16 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                         krismaController.text = snapshot.data[0]['krisma'];
                       }
                       if (snapshot.data[0]['perkawinan'] != null) {
-                        perkawinanController.text =
-                            snapshot.data[0]['perkawinan'];
+                        perkawinanController.text = snapshot.data[0]['perkawinan'];
                       }
                       if (snapshot.data[0]['perminyakan'] != null) {
-                        perminyakanController.text =
-                            snapshot.data[0]['perminyakan'];
+                        perminyakanController.text = snapshot.data[0]['perminyakan'];
                       }
                       if (snapshot.data[0]['tobat'] != null) {
                         tobatController.text = snapshot.data[0]['tobat'];
                       }
                       if (snapshot.data[0]['pemberkatan'] != null) {
-                        pemberkatanController.text =
-                            snapshot.data[0]['pemberkatan'];
+                        pemberkatanController.text = snapshot.data[0]['pemberkatan'];
                       }
 
                       return Column(children: <Widget>[
@@ -486,15 +455,8 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                                 borderRadius: new BorderRadius.circular(30.0),
                               ),
                               onPressed: () async {
-                                await submitForm(
-                                    baptisController.text,
-                                    komuniController.text,
-                                    krismaController.text,
-                                    perkawinanController.text,
-                                    perminyakanController.text,
-                                    tobatController.text,
-                                    pemberkatanController.text,
-                                    context);
+                                await submitForm(baptisController.text, komuniController.text, krismaController.text, perkawinanController.text, perminyakanController.text, tobatController.text,
+                                    pemberkatanController.text, context);
                               }),
                         ),
                         Padding(padding: EdgeInsets.symmetric(vertical: 15))
@@ -508,8 +470,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
           )),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -537,14 +498,12 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

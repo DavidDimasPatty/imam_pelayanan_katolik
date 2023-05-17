@@ -1,21 +1,13 @@
 import 'dart:async';
-
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/login.dart';
-import 'package:imam_pelayanan_katolik/view/setting/aboutus.dart';
 import 'package:imam_pelayanan_katolik/view/setting/customerService.dart';
 import 'package:imam_pelayanan_katolik/view/setting/privacySafety.dart';
-import 'package:imam_pelayanan_katolik/view/setting/termsCondition.dart';
-import 'dart:io';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../profile/profile.dart';
@@ -29,19 +21,14 @@ class Settings extends StatelessWidget {
 
   Future LogOut() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page', 'Agent Setting', "REQUEST", Tasks('log out', null));
+    Message message = Message('Agent Page', 'Agent Setting', "REQUEST", Tasks('log out', null));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    var data = await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
+    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
 
     if (hasil == 'oke') {
@@ -77,8 +64,7 @@ class Settings extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -87,8 +73,7 @@ class Settings extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -102,149 +87,50 @@ class Settings extends StatelessWidget {
           children: <Widget>[
             RaisedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              privacySafety(this.iduser, this.idGereja, role)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => privacySafety(this.iduser, this.idGereja, role)));
                 },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(80.0)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
                 elevation: 10.0,
                 padding: EdgeInsets.all(0.0),
                 child: Ink(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueAccent,
-                          Colors.lightBlue,
-                        ]),
+                    gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                      Colors.blueAccent,
+                      Colors.lightBlue,
+                    ]),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Container(
-                    constraints: BoxConstraints(
-                        maxWidth: double.maxFinite, minHeight: 50.0),
+                    constraints: BoxConstraints(maxWidth: double.maxFinite, minHeight: 50.0),
                     alignment: Alignment.center,
                     child: Text(
                       "Privacy & Safety",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
+                      style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                     ),
                   ),
                 )),
             Padding(padding: EdgeInsets.symmetric(vertical: 14)),
-            // RaisedButton(
-            //     onPressed: () {
-            //       Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (context) => termsCondition(
-            //                   this.iduser, this.idGereja, role)));
-            //     },
-            //     shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(80.0)),
-            //     elevation: 10.0,
-            //     padding: EdgeInsets.all(0.0),
-            //     child: Ink(
-            //       decoration: BoxDecoration(
-            //         gradient: LinearGradient(
-            //             begin: Alignment.topRight,
-            //             end: Alignment.topLeft,
-            //             colors: [
-            //               Colors.blueAccent,
-            //               Colors.lightBlue,
-            //             ]),
-            //         borderRadius: BorderRadius.circular(30.0),
-            //       ),
-            //       child: Container(
-            //         constraints: BoxConstraints(
-            //             maxWidth: double.maxFinite, minHeight: 50.0),
-            //         alignment: Alignment.center,
-            //         child: Text(
-            //           "Terms & Conditions",
-            //           style: TextStyle(
-            //               color: Colors.white,
-            //               fontSize: 26.0,
-            //               fontWeight: FontWeight.w300),
-            //         ),
-            //       ),
-            //     )),
-            // Padding(padding: EdgeInsets.symmetric(vertical: 14)),
-            // RaisedButton(
-            //     onPressed: () {
-            //       Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (context) =>
-            //                   aboutus(this.iduser, this.idGereja, role)));
-            //     },
-            //     shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(80.0)),
-            //     elevation: 10.0,
-            //     padding: EdgeInsets.all(0.0),
-            //     child: Ink(
-            //       decoration: BoxDecoration(
-            //         gradient: LinearGradient(
-            //             begin: Alignment.topRight,
-            //             end: Alignment.topLeft,
-            //             colors: [
-            //               Colors.blueAccent,
-            //               Colors.lightBlue,
-            //             ]),
-            //         borderRadius: BorderRadius.circular(30.0),
-            //       ),
-            //       child: Container(
-            //         constraints: BoxConstraints(
-            //             maxWidth: double.maxFinite, minHeight: 50.0),
-            //         alignment: Alignment.center,
-            //         child: Text(
-            //           "About Us",
-            //           style: TextStyle(
-            //               color: Colors.white,
-            //               fontSize: 26.0,
-            //               fontWeight: FontWeight.w300),
-            //         ),
-            //       ),
-            //     )),
-            // Padding(padding: EdgeInsets.symmetric(vertical: 14)),
-
             RaisedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => customerService(
-                              this.iduser, this.idGereja, role)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => customerService(this.iduser, this.idGereja, role)));
                 },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(80.0)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
                 elevation: 10.0,
                 padding: EdgeInsets.all(0.0),
                 child: Ink(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueAccent,
-                          Colors.lightBlue,
-                        ]),
+                    gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                      Colors.blueAccent,
+                      Colors.lightBlue,
+                    ]),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Container(
-                    constraints: BoxConstraints(
-                        maxWidth: double.maxFinite, minHeight: 50.0),
+                    constraints: BoxConstraints(maxWidth: double.maxFinite, minHeight: 50.0),
                     alignment: Alignment.center,
                     child: Text(
                       "Customer Service",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
+                      style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                     ),
                   ),
                 )),
@@ -257,31 +143,23 @@ class Settings extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => Login()),
                   );
                 },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(80.0)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
                 elevation: 10.0,
                 padding: EdgeInsets.all(0.0),
                 child: Ink(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueAccent,
-                          Colors.lightBlue,
-                        ]),
+                    gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                      Colors.blueAccent,
+                      Colors.lightBlue,
+                    ]),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Container(
-                    constraints: BoxConstraints(
-                        maxWidth: double.maxFinite, minHeight: 50.0),
+                    constraints: BoxConstraints(maxWidth: double.maxFinite, minHeight: 50.0),
                     alignment: Alignment.center,
                     child: Text(
                       "Log Out",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
+                      style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                     ),
                   ),
                 )),
@@ -292,8 +170,7 @@ class Settings extends StatelessWidget {
       ])),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -321,14 +198,12 @@ class Settings extends StatelessWidget {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

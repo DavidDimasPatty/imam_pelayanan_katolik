@@ -1,4 +1,3 @@
-//import
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
@@ -10,12 +9,8 @@ import 'package:imam_pelayanan_katolik/view/history.dart';
 import 'package:imam_pelayanan_katolik/view/login.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/daftarPelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/pelayanan.dart';
-import 'package:imam_pelayanan_katolik/view/pengumuman/pengumumanGereja.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/sakramen.dart';
-import 'package:imam_pelayanan_katolik/view/sakramentali/pemberkatan/sakramentali.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import 'package:imam_pelayanan_katolik/view/umum/kegiatanUmum.dart';
 
 //stateless dan class
 class HomePage extends StatefulWidget {
@@ -30,25 +25,16 @@ class _HomePage extends State<HomePage> {
   var role;
   var iduser;
   var idGereja;
-
   _HomePage(this.iduser, this.idGereja, this.role);
-
   @override
   Future callJumlah() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
-        Tasks('cari jumlah', [idGereja, iduser, role]));
-
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    var data = await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('cari jumlah', [idGereja, iduser, role]));
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
-
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
     return hasil;
   }
@@ -62,19 +48,14 @@ class _HomePage extends State<HomePage> {
 
   Future LogOut() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page', 'Agent Setting', "REQUEST", Tasks('log out', null));
+    Message message = Message('Agent Page', 'Agent Setting', "REQUEST", Tasks('log out', null));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    var data = await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
+    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
 
     if (hasil == 'oke') {
@@ -112,8 +93,7 @@ class _HomePage extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -122,8 +102,7 @@ class _HomePage extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -145,9 +124,7 @@ class _HomePage extends State<HomePage> {
                   width: 100,
                   decoration: BoxDecoration(
                     color: Colors.indigo[100],
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                   ),
                   child: ListView(children: [
                     FutureBuilder(
@@ -170,14 +147,12 @@ class _HomePage extends State<HomePage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30.0),
                                   ),
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: 20.0, vertical: 5.0),
+                                  margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
                                   clipBehavior: Clip.antiAlias,
                                   color: Colors.white,
                                   elevation: 20.0,
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 7.0, vertical: 22.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 7.0, vertical: 22.0),
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(
@@ -186,89 +161,46 @@ class _HomePage extends State<HomePage> {
                                               FittedBox(
                                                   fit: BoxFit.fitWidth,
                                                   child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
-                                                      if (snapshot
-                                                              .data[4][0]
-                                                                  ['nama']
-                                                              .length <
-                                                          20)
+                                                      if (snapshot.data[4][0]['nama'].length < 20)
                                                         FittedBox(
                                                           fit: BoxFit.fitWidth,
                                                           child: Text(
-                                                            "Halo, \n" +
-                                                                snapshot.data[4]
-                                                                        [0]
-                                                                        ['nama']
-                                                                    .toString(),
+                                                            "Halo, \n" + snapshot.data[4][0]['nama'].toString(),
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 13.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                         ),
-                                                      if (snapshot
-                                                              .data[4][0]
-                                                                  ['nama']
-                                                              .length >=
-                                                          20)
+                                                      if (snapshot.data[4][0]['nama'].length >= 20)
                                                         FittedBox(
                                                           fit: BoxFit.fitWidth,
                                                           child: Text(
-                                                            "Halo, \n" +
-                                                                snapshot.data[4]
-                                                                        [0]
-                                                                        ['nama']
-                                                                    .toString()
-                                                                    .substring(
-                                                                        0, 20) +
-                                                                "...",
+                                                            "Halo, \n" + snapshot.data[4][0]['nama'].toString().substring(0, 20) + "...",
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Colors.blue,
                                                               fontSize: 13.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                         ),
                                                       SizedBox(width: 2),
                                                       Column(children: <Widget>[
                                                         //control flow statement
-                                                        if (snapshot.data[4][0]
-                                                                ['picture'] !=
-                                                            null)
+                                                        if (snapshot.data[4][0]['picture'] != null)
                                                           CircleAvatar(
-                                                            backgroundImage:
-                                                                NetworkImage(snapshot
-                                                                            .data[
-                                                                        4][0][
-                                                                    'picture']),
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .greenAccent,
+                                                            backgroundImage: NetworkImage(snapshot.data[4][0]['picture']),
+                                                            backgroundColor: Colors.greenAccent,
                                                             radius: 30.0,
                                                           ),
-                                                        if (snapshot.data[4][0]
-                                                                ['picture'] ==
-                                                            null)
+                                                        if (snapshot.data[4][0]['picture'] == null)
                                                           CircleAvatar(
-                                                            backgroundImage:
-                                                                NetworkImage(
-                                                                    ''),
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .greenAccent,
+                                                            backgroundImage: NetworkImage(''),
+                                                            backgroundColor: Colors.greenAccent,
                                                             radius: 30.0,
                                                           ),
                                                       ])
@@ -285,22 +217,18 @@ class _HomePage extends State<HomePage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30.0),
                                   ),
-                                  margin:
-                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  margin: EdgeInsets.symmetric(horizontal: 20.0),
                                   clipBehavior: Clip.antiAlias,
                                   color: Colors.white,
                                   elevation: 20.0,
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 7.0, vertical: 22.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 7.0, vertical: 22.0),
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
                                                 "Total User Mendaftar Pelayanan :",
@@ -327,18 +255,11 @@ class _HomePage extends State<HomePage> {
                                               Row(children: <Widget>[
                                                 Expanded(
                                                   child: Card(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 5.0,
-                                                            vertical: 5.0),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30.0),
+                                                    margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(30.0),
                                                     ),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
+                                                    clipBehavior: Clip.antiAlias,
                                                     color: Colors.white,
                                                     elevation: 20.0,
                                                     child: Row(
@@ -351,32 +272,21 @@ class _HomePage extends State<HomePage> {
                                                               ),
                                                               Text(
                                                                 "Sakramen",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  fontSize:
-                                                                      15.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                style: TextStyle(
+                                                                  color: Colors.blue,
+                                                                  fontSize: 15.0,
+                                                                  fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
                                                               SizedBox(
                                                                 height: 5.0,
                                                               ),
                                                               Text(
-                                                                snapshot.data[1]
-                                                                    .toString(),
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                snapshot.data[1].toString(),
+                                                                style: TextStyle(
+                                                                  color: Colors.blue,
+                                                                  fontSize: 16.0,
+                                                                  fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
                                                               SizedBox(
@@ -392,58 +302,38 @@ class _HomePage extends State<HomePage> {
                                                 if (role == 0)
                                                   Expanded(
                                                     child: Card(
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 5.0,
-                                                              vertical: 5.0),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30.0),
+                                                      margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(30.0),
                                                       ),
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
+                                                      clipBehavior: Clip.antiAlias,
                                                       color: Colors.white,
                                                       elevation: 20.0,
                                                       child: Row(
                                                         children: <Widget>[
                                                           Expanded(
                                                             child: Column(
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 SizedBox(
                                                                   height: 5.0,
                                                                 ),
                                                                 Text(
                                                                   "Sakramentali",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    fontSize:
-                                                                        12.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
+                                                                  style: TextStyle(
+                                                                    color: Colors.blue,
+                                                                    fontSize: 12.0,
+                                                                    fontWeight: FontWeight.bold,
                                                                   ),
                                                                 ),
                                                                 SizedBox(
                                                                   height: 10.0,
                                                                 ),
                                                                 Text(
-                                                                  snapshot
-                                                                      .data[2]
-                                                                      .toString(),
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
+                                                                  snapshot.data[2].toString(),
+                                                                  style: TextStyle(
+                                                                    color: Colors.blue,
+                                                                    fontSize: 16.0,
+                                                                    fontWeight: FontWeight.bold,
                                                                   ),
                                                                 ),
                                                                 SizedBox(
@@ -459,58 +349,38 @@ class _HomePage extends State<HomePage> {
                                                 if (role == 1)
                                                   Expanded(
                                                     child: Card(
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 5.0,
-                                                              vertical: 5.0),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30.0),
+                                                      margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(30.0),
                                                       ),
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
+                                                      clipBehavior: Clip.antiAlias,
                                                       color: Colors.white,
                                                       elevation: 20.0,
                                                       child: Row(
                                                         children: <Widget>[
                                                           Expanded(
                                                             child: Column(
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 SizedBox(
                                                                   height: 5.0,
                                                                 ),
                                                                 Text(
                                                                   "Umum",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    fontSize:
-                                                                        15.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
+                                                                  style: TextStyle(
+                                                                    color: Colors.blue,
+                                                                    fontSize: 15.0,
+                                                                    fontWeight: FontWeight.bold,
                                                                   ),
                                                                 ),
                                                                 SizedBox(
                                                                   height: 5.0,
                                                                 ),
                                                                 Text(
-                                                                  snapshot
-                                                                      .data[3]
-                                                                      .toString(),
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
+                                                                  snapshot.data[3].toString(),
+                                                                  style: TextStyle(
+                                                                    color: Colors.blue,
+                                                                    fontSize: 16.0,
+                                                                    fontWeight: FontWeight.bold,
                                                                   ),
                                                                 ),
                                                                 SizedBox(
@@ -546,21 +416,16 @@ class _HomePage extends State<HomePage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => pelayanan(
-                            iduser, idGereja, role, "Sakramen", "current")),
+                    MaterialPageRoute(builder: (context) => pelayanan(iduser, idGereja, role, "Sakramen", "current")),
                   );
                 },
                 child: Container(
                     height: 120,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.lightBlue,
-                          ]),
+                      gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                        Colors.blueGrey,
+                        Colors.lightBlue,
+                      ]),
                       border: Border.all(
                         color: Colors.lightBlue,
                       ),
@@ -588,10 +453,7 @@ class _HomePage extends State<HomePage> {
                             fit: BoxFit.fitWidth,
                             child: Text(
                               "Pendaftaran Sakramen",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w300),
+                              style: TextStyle(color: Colors.white, fontSize: 15.0, fontWeight: FontWeight.w300),
                             ),
                           ),
                           SizedBox(
@@ -617,26 +479,16 @@ class _HomePage extends State<HomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => daftarPelayanan(
-                              iduser,
-                              idGereja,
-                              role,
-                              "Sakramentali",
-                              "current",
-                              "Pemberkatan")),
+                      MaterialPageRoute(builder: (context) => daftarPelayanan(iduser, idGereja, role, "Sakramentali", "current", "Pemberkatan")),
                     );
                   },
                   child: Container(
                       height: 120,
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.topLeft,
-                            colors: [
-                              Colors.blueGrey,
-                              Colors.lightBlue,
-                            ]),
+                        gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                          Colors.blueGrey,
+                          Colors.lightBlue,
+                        ]),
                         border: Border.all(
                           color: Colors.lightBlue,
                         ),
@@ -664,10 +516,7 @@ class _HomePage extends State<HomePage> {
                               fit: BoxFit.fitWidth,
                               child: Text(
                                 "Pendaftaran Sakramentali",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w300),
+                                style: TextStyle(color: Colors.white, fontSize: 15.0, fontWeight: FontWeight.w300),
                               ),
                             ),
                             SizedBox(
@@ -693,21 +542,16 @@ class _HomePage extends State<HomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => pelayanan(
-                              iduser, idGereja, role, "Umum", "current")),
+                      MaterialPageRoute(builder: (context) => pelayanan(iduser, idGereja, role, "Umum", "current")),
                     );
                   },
                   child: Container(
                       height: 120,
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.topLeft,
-                            colors: [
-                              Colors.blueGrey,
-                              Colors.lightBlue,
-                            ]),
+                        gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                          Colors.blueGrey,
+                          Colors.lightBlue,
+                        ]),
                         border: Border.all(
                           color: Colors.lightBlue,
                         ),
@@ -735,10 +579,7 @@ class _HomePage extends State<HomePage> {
                               fit: BoxFit.fitWidth,
                               child: Text(
                                 "Pendaftaran Umum",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w300),
+                                style: TextStyle(color: Colors.white, fontSize: 15.0, fontWeight: FontWeight.w300),
                               ),
                             ),
                             SizedBox(
@@ -762,8 +603,7 @@ class _HomePage extends State<HomePage> {
           )),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -791,8 +631,7 @@ class _HomePage extends State<HomePage> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {}
               },

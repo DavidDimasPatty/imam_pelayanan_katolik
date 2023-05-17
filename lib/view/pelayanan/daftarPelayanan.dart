@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +12,6 @@ import 'package:imam_pelayanan_katolik/view/pelayanan/editPelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/pelayananDetail.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/pelayananUser.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/baptis/addBaptis.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/baptis/baptisUser.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/baptis/editBaptis.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
@@ -27,16 +23,9 @@ class daftarPelayanan extends StatefulWidget {
   String jenisSelectedPelayanan;
   String jenisPencarian;
   String jenisPelayanan;
-  daftarPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan);
+  daftarPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan);
   @override
-  _daftarPelayanan createState() => _daftarPelayanan(
-      this.iduser,
-      this.idGereja,
-      this.role,
-      this.jenisPelayanan,
-      this.jenisPencarian,
-      this.jenisSelectedPelayanan);
+  _daftarPelayanan createState() => _daftarPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan);
 }
 
 class _daftarPelayanan extends State<daftarPelayanan> {
@@ -53,58 +42,25 @@ class _daftarPelayanan extends State<daftarPelayanan> {
   final iduser;
   final idGereja;
   TextEditingController searchController = TextEditingController();
-  _daftarPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan);
+  _daftarPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan);
 
   Future callDb() async {
     Message message;
     Completer<void> completer = Completer<void>();
-    if (jenisPelayanan == "Sakramen" &&
-        jenisSelectedPelayanan != "Perkawinan") {
-      message = Message(
-          'Agent Page',
-          'Agent Pencarian',
-          "REQUEST",
-          Tasks('cari pelayanan',
-              [idGereja, jenisSelectedPelayanan, jenisPencarian]));
-    } else if (jenisPelayanan == "Sakramen" &&
-        jenisSelectedPelayanan == "Perkawinan") {
-      message = Message(
-          'Agent Page',
-          'Agent Pencarian',
-          "REQUEST",
-          Tasks('cari pelayanan',
-              [iduser, jenisSelectedPelayanan, jenisPencarian]));
+    if (jenisPelayanan == "Sakramen" && jenisSelectedPelayanan != "Perkawinan") {
+      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [idGereja, jenisSelectedPelayanan, jenisPencarian]));
+    } else if (jenisPelayanan == "Sakramen" && jenisSelectedPelayanan == "Perkawinan") {
+      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [iduser, jenisSelectedPelayanan, jenisPencarian]));
     } else if (jenisPelayanan == "Sakramentali") {
-      message = Message(
-          'Agent Page',
-          'Agent Pencarian',
-          "REQUEST",
-          Tasks('cari pelayanan',
-              [iduser, jenisSelectedPelayanan, jenisPencarian]));
+      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [iduser, jenisSelectedPelayanan, jenisPencarian]));
     } else {
-      message = Message(
-          'Agent Page',
-          'Agent Pencarian',
-          "REQUEST",
-          Tasks('cari pelayanan', [
-            idGereja,
-            jenisPelayanan,
-            jenisPencarian,
-            jenisSelectedPelayanan
-          ]));
+      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [idGereja, jenisPelayanan, jenisPencarian, jenisSelectedPelayanan]));
     }
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    var data = await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
-    var hasilPencarian =
-        await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
-
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
+    var hasilPencarian = await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
     return await hasilPencarian;
   }
@@ -132,19 +88,12 @@ class _daftarPelayanan extends State<daftarPelayanan> {
     } else {
       jenis = jenisSelectedPelayanan;
     }
-    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
-        Tasks('update status pelayanan', [jenis, id, status, iduser]));
-
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('update status pelayanan', [jenis, id, status, iduser]));
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasilDaftar = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
-
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    var hasilDaftar = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
     if (hasilDaftar == "oke") {
       Fluttertoast.showToast(
@@ -195,28 +144,18 @@ class _daftarPelayanan extends State<daftarPelayanan> {
       List<Map<String, dynamic>> listOMaps = <Map<String, dynamic>>[];
 
       for (var item in dummyTemp) {
-        if (jenisPelayanan == "Sakramen" &&
-            jenisSelectedPelayanan != "Perkawinan") {
-          if (item['jadwalBuka']
-              .toString()
-              .toLowerCase()
-              .contains(query.toLowerCase())) {
+        if (jenisPelayanan == "Sakramen" && jenisSelectedPelayanan != "Perkawinan") {
+          if (item['jadwalBuka'].toString().toLowerCase().contains(query.toLowerCase())) {
             listOMaps.add(item);
           }
         }
         if (jenisPelayanan == "Umum") {
-          if (item['namaKegiatan']
-              .toString()
-              .toLowerCase()
-              .contains(query.toLowerCase())) {
+          if (item['namaKegiatan'].toString().toLowerCase().contains(query.toLowerCase())) {
             listOMaps.add(item);
           }
         }
-        if (jenisPelayanan == "Sakramen" &&
-            jenisSelectedPelayanan == "Perkawinan") {
-          if (item['userDaftar'][0]['nama']
-              .toLowerCase()
-              .contains(query.toLowerCase())) {
+        if (jenisPelayanan == "Sakramen" && jenisSelectedPelayanan == "Perkawinan") {
+          if (item['userDaftar'][0]['nama'].toLowerCase().contains(query.toLowerCase())) {
             listOMaps.add(item);
           }
         }
@@ -244,8 +183,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
       await filterSearchResults(searchController.text);
     });
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         setState(() {
           data = data + 5;
         });
@@ -254,7 +192,6 @@ class _daftarPelayanan extends State<daftarPelayanan> {
     return Scaffold(
       // Widget untuk membangun struktur halaman
       //////////////////////////////////////Pembuatan Top Navigation Bar////////////////////////////////////////////////////////////////
-
       appBar: AppBar(
         // widget Top Navigation Bar
         automaticallyImplyLeading: true,
@@ -268,8 +205,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -278,8 +214,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -311,8 +246,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                 },
               ),
             ),
-            if (jenisSelectedPelayanan != "Perkawinan" &&
-                jenisSelectedPelayanan != "Pemberkatan")
+            if (jenisSelectedPelayanan != "Perkawinan" && jenisSelectedPelayanan != "Pemberkatan")
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -326,14 +260,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => addPelayanan(
-                                    iduser,
-                                    idGereja,
-                                    role,
-                                    jenisPelayanan,
-                                    jenisPencarian,
-                                    jenisSelectedPelayanan)),
+                            MaterialPageRoute(builder: (context) => addPelayanan(iduser, idGereja, role, jenisPelayanan, jenisPencarian, jenisSelectedPelayanan)),
                           );
                         },
                         splashColor: Colors.blue,
@@ -370,87 +297,51 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                         InkWell(
                           borderRadius: new BorderRadius.circular(24),
                           onTap: () {
-                            if (jenisSelectedPelayanan == "Perkawinan" ||
-                                jenisSelectedPelayanan == "Pemberkatan") {
+                            if (jenisSelectedPelayanan == "Perkawinan" || jenisSelectedPelayanan == "Pemberkatan") {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => pelayananDetail(
-                                        iduser,
-                                        idGereja,
-                                        role,
-                                        jenisPelayanan,
-                                        jenisPencarian,
-                                        jenisSelectedPelayanan,
-                                        i['_id'])),
+                                MaterialPageRoute(builder: (context) => pelayananDetail(iduser, idGereja, role, jenisPelayanan, jenisPencarian, jenisSelectedPelayanan, i['_id'])),
                               );
                             } else {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => pelayananUser(
-                                        iduser,
-                                        idGereja,
-                                        role,
-                                        jenisPelayanan,
-                                        jenisPencarian,
-                                        jenisSelectedPelayanan,
-                                        i['_id'])),
+                                MaterialPageRoute(builder: (context) => pelayananUser(iduser, idGereja, role, jenisPelayanan, jenisPencarian, jenisSelectedPelayanan, i['_id'])),
                               );
                             }
                           },
                           child: Container(
-                              margin: EdgeInsets.only(
-                                  right: 15, left: 15, bottom: 20),
+                              margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topRight,
-                                    end: Alignment.topLeft,
-                                    colors: [
-                                      Colors.blueGrey,
-                                      Colors.lightBlue,
-                                    ]),
+                                gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                                  Colors.blueGrey,
+                                  Colors.lightBlue,
+                                ]),
                                 border: Border.all(
                                   color: Colors.lightBlue,
                                 ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               child: Column(children: <Widget>[
                                 //Color(Colors.blue);
-                                if (jenisSelectedPelayanan == "Baptis" ||
-                                    jenisSelectedPelayanan == "Krisma" ||
-                                    jenisSelectedPelayanan == "Komuni")
+                                if (jenisSelectedPelayanan == "Baptis" || jenisSelectedPelayanan == "Krisma" || jenisSelectedPelayanan == "Komuni")
                                   Column(
                                     children: [
                                       Text(
-                                        jenisSelectedPelayanan +
-                                            " " +
-                                            i['jadwalBuka']
-                                                .toString()
-                                                .substring(0, 10),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.w300),
+                                        jenisSelectedPelayanan + " " + i['jadwalBuka'].toString().substring(0, 10),
+                                        style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w300),
                                         textAlign: TextAlign.left,
                                       ),
                                       Text(
-                                        'Kapasitas: ' +
-                                            i['kapasitas'].toString(),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
+                                        'Kapasitas: ' + i['kapasitas'].toString(),
+                                        style: TextStyle(color: Colors.white, fontSize: 12),
                                       ),
                                       Text(
                                         'Jenis: ' + i['jenis'].toString(),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
+                                        style: TextStyle(color: Colors.white, fontSize: 12),
                                       ),
                                       Text(
-                                        'Jadwal Tutup: ' +
-                                            i['jadwalTutup'].toString(),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
+                                        'Jadwal Tutup: ' + i['jadwalTutup'].toString(),
+                                        style: TextStyle(color: Colors.white, fontSize: 12),
                                       ),
                                     ],
                                   ),
@@ -459,22 +350,16 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                                     children: [
                                       Text(
                                         i['namaKegiatan'].toString(),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.w300),
+                                        style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w300),
                                         textAlign: TextAlign.left,
                                       ),
                                       Text(
-                                        'Kapasitas: ' +
-                                            i['kapasitas'].toString(),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
+                                        'Kapasitas: ' + i['kapasitas'].toString(),
+                                        style: TextStyle(color: Colors.white, fontSize: 12),
                                       ),
                                       Text(
                                         'Tanggal: ' + i['tanggal'].toString(),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
+                                        style: TextStyle(color: Colors.white, fontSize: 12),
                                       ),
                                     ],
                                   ),
@@ -482,163 +367,91 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                                   Column(children: [
                                     Text(
                                       i['userDaftar'][0]['nama'],
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 26.0,
-                                          fontWeight: FontWeight.w300),
+                                      style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                                       textAlign: TextAlign.left,
                                     ),
                                     Text(
                                       'Alamat: ' + i['alamat'],
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15),
+                                      style: TextStyle(color: Colors.white, fontSize: 15),
                                     ),
                                     Text(
-                                      'Tanggal: ' +
-                                          i['tanggal']
-                                              .toString()
-                                              .substring(0, 10),
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15),
+                                      'Tanggal: ' + i['tanggal'].toString().substring(0, 10),
+                                      style: TextStyle(color: Colors.white, fontSize: 15),
                                     ),
                                     Text(
-                                      'Jam: ' +
-                                          i['tanggal']
-                                              .toString()
-                                              .substring(10, 16),
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15),
+                                      'Jam: ' + i['tanggal'].toString().substring(10, 16),
+                                      style: TextStyle(color: Colors.white, fontSize: 15),
                                     ),
-                                    if (i["status"] == 1)
-                                      Text("Diterima",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15)),
-                                    if (i["status"] == 2)
-                                      Text("Selesai",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15)),
-                                    if (i["status"] == -1)
-                                      Text("Ditolak",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15))
+                                    if (i["status"] == 1) Text("Diterima", style: TextStyle(color: Colors.white, fontSize: 15)),
+                                    if (i["status"] == 2) Text("Selesai", style: TextStyle(color: Colors.white, fontSize: 15)),
+                                    if (i["status"] == -1) Text("Ditolak", style: TextStyle(color: Colors.white, fontSize: 15))
                                   ]),
                                 if (jenisSelectedPelayanan == "Pemberkatan")
                                   Column(
                                     children: [
                                       Text(
                                         i['namaLengkap'],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 26.0,
-                                            fontWeight: FontWeight.w300),
+                                        style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                                         textAlign: TextAlign.left,
                                       ),
                                       Text(
                                         'Jenis Pemberkatan: ' + i['jenis'],
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
+                                        style: TextStyle(color: Colors.white, fontSize: 15),
                                       ),
                                       Text(
                                         'Alamat: ' + i['alamat'],
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
+                                        style: TextStyle(color: Colors.white, fontSize: 15),
                                       ),
                                       Text(
-                                        'Tanggal: ' +
-                                            i['tanggal']
-                                                .toString()
-                                                .substring(0, 10),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
+                                        'Tanggal: ' + i['tanggal'].toString().substring(0, 10),
+                                        style: TextStyle(color: Colors.white, fontSize: 15),
                                       ),
                                       Text(
-                                        'Jam: ' +
-                                            i['tanggal']
-                                                .toString()
-                                                .substring(10, 16),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
+                                        'Jam: ' + i['tanggal'].toString().substring(10, 16),
+                                        style: TextStyle(color: Colors.white, fontSize: 15),
                                       ),
-                                      if (i["status"] == 0)
-                                        Text("Menunggu Konfirmasi"),
-                                      if (i["status"] == 1)
-                                        Text("Diterima",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15)),
-                                      if (i["status"] == 2)
-                                        Text("Selesai",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15)),
-                                      if (i["status"] == -1)
-                                        Text("Ditolak",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15))
+                                      if (i["status"] == 0) Text("Menunggu Konfirmasi"),
+                                      if (i["status"] == 1) Text("Diterima", style: TextStyle(color: Colors.white, fontSize: 15)),
+                                      if (i["status"] == 2) Text("Selesai", style: TextStyle(color: Colors.white, fontSize: 15)),
+                                      if (i["status"] == -1) Text("Ditolak", style: TextStyle(color: Colors.white, fontSize: 15))
                                     ],
                                   ),
-                                if (jenisSelectedPelayanan != "Perkawinan" &&
-                                    jenisSelectedPelayanan != "Pemberkatan")
+                                if (jenisSelectedPelayanan != "Perkawinan" && jenisSelectedPelayanan != "Pemberkatan")
                                   SizedBox(
                                     width: double.infinity,
                                     child: RaisedButton(
                                         textColor: Colors.white,
                                         color: Colors.lightBlue,
-                                        child: Text(
-                                            "Edit " + jenisSelectedPelayanan),
+                                        child: Text("Edit " + jenisSelectedPelayanan),
                                         shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0),
+                                          borderRadius: new BorderRadius.circular(30.0),
                                         ),
                                         onPressed: () async {
                                           Navigator.push(
                                             context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    editPelayanan(
-                                                        iduser,
-                                                        idGereja,
-                                                        role,
-                                                        jenisPelayanan,
-                                                        jenisPencarian,
-                                                        jenisSelectedPelayanan,
-                                                        i['_id'])),
+                                            MaterialPageRoute(builder: (context) => editPelayanan(iduser, idGereja, role, jenisPelayanan, jenisPencarian, jenisSelectedPelayanan, i['_id'])),
                                           );
                                         }),
                                   ),
-                                if (jenisSelectedPelayanan != "Perkawinan" &&
-                                    jenisSelectedPelayanan != "Pemberkatan")
+                                if (jenisSelectedPelayanan != "Perkawinan" && jenisSelectedPelayanan != "Pemberkatan")
                                   SizedBox(
                                     width: double.infinity,
                                     child: RaisedButton(
                                         textColor: Colors.white,
                                         color: Colors.lightBlue,
-                                        child: Text("Deactive " +
-                                            jenisSelectedPelayanan),
+                                        child: Text("Deactive " + jenisSelectedPelayanan),
                                         shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0),
+                                          borderRadius: new BorderRadius.circular(30.0),
                                         ),
                                         onPressed: () async {
                                           showDialog<String>(
                                             context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              title: const Text(
-                                                  'Confirm Deactive'),
-                                              content: Text(
-                                                  'Yakin ingin mendeactive ' +
-                                                      jenisSelectedPelayanan +
-                                                      ' ini?'),
+                                            builder: (BuildContext context) => AlertDialog(
+                                              title: const Text('Confirm Deactive'),
+                                              content: Text('Yakin ingin mendeactive ' + jenisSelectedPelayanan + ' ini?'),
                                               actions: <Widget>[
                                                 TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Cancel'),
+                                                  onPressed: () => Navigator.pop(context, 'Cancel'),
                                                   child: const Text('Tidak'),
                                                 ),
                                                 TextButton(
@@ -668,8 +481,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
       ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -697,14 +509,12 @@ class _daftarPelayanan extends State<daftarPelayanan> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/daftarPelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/baptis/baptis.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
@@ -27,17 +25,10 @@ class addPelayanan extends StatefulWidget {
   String jenisSelectedPelayanan;
   String jenisPelayanan;
   String jenisPencarian;
-  addPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan);
+  addPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan);
 
   @override
-  _addPelayanan createState() => _addPelayanan(
-      this.iduser,
-      this.idGereja,
-      this.role,
-      this.jenisPelayanan,
-      this.jenisPencarian,
-      this.jenisSelectedPelayanan);
+  _addPelayanan createState() => _addPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan);
 }
 
 class _addPelayanan extends State<addPelayanan> {
@@ -59,17 +50,14 @@ class _addPelayanan extends State<addPelayanan> {
   List jenis = ["Dewasa", "Anak"];
   String jenisSelected = "";
   var fileImage;
-  _addPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan);
+  _addPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan);
 
   _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     if (jenisPelayanan == "Sakramen") {
       setState(() {
         if (args.value is PickerDateRange) {
-          tanggalBuka =
-              '${DateFormat('yyyy-MM-dd').format(args.value.startDate)}';
-          tanggalTutup =
-              '${DateFormat('yyyy-MM-dd').format(args.value.endDate ?? args.value.startDate)}';
+          tanggalBuka = '${DateFormat('yyyy-MM-dd').format(args.value.startDate)}';
+          tanggalTutup = '${DateFormat('yyyy-MM-dd').format(args.value.endDate ?? args.value.startDate)}';
         }
       });
     } else {
@@ -93,35 +81,17 @@ class _addPelayanan extends State<addPelayanan> {
   Future submit() async {
     Message message;
     if (jenisPelayanan == "Sakramen") {
-      if (kapasitas != "" &&
-          tanggalBuka != "" &&
-          tanggalTutup != "" &&
-          jenisSelected != "") {
+      if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "" && jenisSelected != "") {
         Completer<void> completer = Completer<void>();
-        message = Message(
-            'Agent Page',
-            'Agent Pendaftaran',
-            "REQUEST",
-            Tasks('add pelayanan', [
-              jenisSelectedPelayanan,
-              idGereja,
-              kapasitas.text,
-              tanggalBuka.toString(),
-              tanggalTutup.toString(),
-              iduser,
-              jenisSelected
-            ]));
+        message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
+            Tasks('add pelayanan', [jenisSelectedPelayanan, idGereja, kapasitas.text, tanggalBuka.toString(), tanggalTutup.toString(), iduser, jenisSelected]));
 
-        MessagePassing messagePassing =
-            MessagePassing(); //Memanggil distributor pesan
-        var data = await messagePassing
-            .sendMessage(message); //Mengirim pesan ke distributor pesan
+        MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+        var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
         completer.complete(); //Batas pengerjaan yang memerlukan completer
-        var hasil = await await AgentPage
-            .getData(); //Memanggil data yang tersedia di agen Page
+        var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-        await completer
-            .future; //Proses penungguan sudah selesai ketika varibel hasil
+        await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
         //memiliki nilai
 
         if (hasil == "oke") {
@@ -136,14 +106,7 @@ class _addPelayanan extends State<addPelayanan> {
               fontSize: 16.0);
           Navigator.pop(
             context,
-            MaterialPageRoute(
-                builder: (context) => daftarPelayanan(
-                    this.iduser,
-                    this.idGereja,
-                    this.role,
-                    this.jenisPelayanan,
-                    this.jenisPencarian,
-                    this.jenisSelectedPelayanan)),
+            MaterialPageRoute(builder: (context) => daftarPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan)),
           );
         } else {
           Fluttertoast.showToast(
@@ -196,16 +159,12 @@ class _addPelayanan extends State<addPelayanan> {
               fileImage
             ]));
 
-        MessagePassing messagePassing =
-            MessagePassing(); //Memanggil distributor pesan
-        await messagePassing
-            .sendMessage(message); //Mengirim pesan ke distributor pesan
+        MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+        await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
         completer.complete(); //Batas pengerjaan yang memerlukan completer
-        var hasil = await await AgentPage
-            .getData(); //Memanggil data yang tersedia di agen Page
+        var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-        await completer
-            .future; //Proses penungguan sudah selesai ketika varibel hasil
+        await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
         //memiliki nilai
 
         if (hasil == "oke") {
@@ -220,14 +179,7 @@ class _addPelayanan extends State<addPelayanan> {
               fontSize: 16.0);
           Navigator.pop(
             context,
-            MaterialPageRoute(
-                builder: (context) => daftarPelayanan(
-                    this.iduser,
-                    this.idGereja,
-                    this.role,
-                    this.jenisPelayanan,
-                    this.jenisPencarian,
-                    this.jenisSelectedPelayanan)),
+            MaterialPageRoute(builder: (context) => daftarPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan)),
           );
         } else {
           Fluttertoast.showToast(
@@ -272,8 +224,7 @@ class _addPelayanan extends State<addPelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -282,8 +233,7 @@ class _addPelayanan extends State<addPelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -554,8 +504,7 @@ class _addPelayanan extends State<addPelayanan> {
                     view: DateRangePickerView.month,
                     onSelectionChanged: _onSelectionChanged,
                     selectionMode: DateRangePickerSelectionMode.single,
-                    monthViewSettings:
-                        DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
+                    monthViewSettings: DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
                   )
                 ],
               ),
@@ -574,13 +523,10 @@ class _addPelayanan extends State<addPelayanan> {
                     elevation: 0.0,
                     child: Ink(
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.topLeft,
-                            colors: [
-                              Colors.blueAccent,
-                              Colors.lightBlue,
-                            ]),
+                        gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                          Colors.blueAccent,
+                          Colors.lightBlue,
+                        ]),
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: Container(
@@ -594,10 +540,7 @@ class _addPelayanan extends State<addPelayanan> {
                             ),
                             Text(
                               "Upload Image",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w600),
+                              style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w600),
                             )
                           ],
                         ),
@@ -608,10 +551,7 @@ class _addPelayanan extends State<addPelayanan> {
               if (fileImage != null)
                 Text(
                   "File Image Path: \n" + fileImage.toString(),
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w400),
+                  style: TextStyle(color: Colors.black, fontSize: 12.0, fontWeight: FontWeight.w400),
                 ),
               SizedBox(height: 10),
               SizedBox(
@@ -721,8 +661,7 @@ class _addPelayanan extends State<addPelayanan> {
                     view: DateRangePickerView.month,
                     onSelectionChanged: _onSelectionChanged,
                     selectionMode: DateRangePickerSelectionMode.range,
-                    monthViewSettings:
-                        DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
+                    monthViewSettings: DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
                   )
                 ],
               ),
@@ -744,8 +683,7 @@ class _addPelayanan extends State<addPelayanan> {
       ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -773,14 +711,12 @@ class _addPelayanan extends State<addPelayanan> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

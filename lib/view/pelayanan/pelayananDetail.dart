@@ -23,17 +23,9 @@ class pelayananDetail extends StatefulWidget {
   String jenisPencarian;
   String jenisSelectedPelayanan;
 
-  pelayananDetail(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
+  pelayananDetail(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
   @override
-  _pelayananDetail createState() => _pelayananDetail(
-      this.iduser,
-      this.idGereja,
-      this.role,
-      this.jenisPelayanan,
-      this.jenisPencarian,
-      this.jenisSelectedPelayanan,
-      this.idPelayanan);
+  _pelayananDetail createState() => _pelayananDetail(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
 }
 
 class _pelayananDetail extends State<pelayananDetail> {
@@ -44,29 +36,19 @@ class _pelayananDetail extends State<pelayananDetail> {
   String jenisPelayanan;
   String jenisPencarian;
   String jenisSelectedPelayanan;
-  _pelayananDetail(this.iduser, this.idGereja, this.role, this.jenisPelayanan,
-      this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
+  _pelayananDetail(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan, this.idPelayanan);
 
   @override
   Future callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page',
-        'Agent Pencarian',
-        "REQUEST",
-        Tasks(
-            'cari pelayanan', [idPelayanan, jenisSelectedPelayanan, "detail"]));
+    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [idPelayanan, jenisSelectedPelayanan, "detail"]));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
+    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
 
     return await hasil;
@@ -80,35 +62,17 @@ class _pelayananDetail extends State<pelayananDetail> {
       statusKonfirmasi = "Menolak";
     }
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page',
-        'Agent Pendaftaran',
-        "REQUEST",
-        Tasks('update pelayanan user', [
-          jenisSelectedPelayanan,
-          idPelayanan,
-          token,
-          idPelayanan,
-          status,
-          iduser,
-          notif
-        ]));
+    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('update pelayanan user', [jenisSelectedPelayanan, idPelayanan, token, idPelayanan, status, iduser, notif]));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
+    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
     if (hasil == "failed") {
       Fluttertoast.showToast(
           /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Gagal " +
-              statusKonfirmasi +
-              " Pelayanan " +
-              jenisSelectedPelayanan,
+          msg: "Gagal " + statusKonfirmasi + " Pelayanan " + jenisSelectedPelayanan,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -118,10 +82,7 @@ class _pelayananDetail extends State<pelayananDetail> {
     } else {
       Fluttertoast.showToast(
           /////// Widget toast untuk menampilkan pesan pada halaman
-          msg: "Berhasil " +
-              statusKonfirmasi +
-              " Pelayanan " +
-              jenisSelectedPelayanan,
+          msg: "Berhasil " + statusKonfirmasi + " Pelayanan " + jenisSelectedPelayanan,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -159,8 +120,7 @@ class _pelayananDetail extends State<pelayananDetail> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -169,8 +129,7 @@ class _pelayananDetail extends State<pelayananDetail> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -221,9 +180,7 @@ class _pelayananDetail extends State<pelayananDetail> {
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 5),
                             ),
-                            Text(snapshot.data[0][0]["namaPria"] +
-                                " & " +
-                                snapshot.data[0][0]["namaPerempuan"])
+                            Text(snapshot.data[0][0]["namaPria"] + " & " + snapshot.data[0][0]["namaPerempuan"])
                           ],
                         ),
                         Padding(
@@ -325,14 +282,10 @@ class _pelayananDetail extends State<pelayananDetail> {
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 5),
                             ),
-                            if (snapshot.data[0][0]["status"] == 0)
-                              Text("Menunggu"),
-                            if (snapshot.data[0][0]["status"] == 1)
-                              Text("Diterima"),
-                            if (snapshot.data[0][0]["status"] == 2)
-                              Text("Selesai"),
-                            if (snapshot.data[0][0]["status"] == -1)
-                              Text("Ditolak")
+                            if (snapshot.data[0][0]["status"] == 0) Text("Menunggu"),
+                            if (snapshot.data[0][0]["status"] == 1) Text("Diterima"),
+                            if (snapshot.data[0][0]["status"] == 2) Text("Selesai"),
+                            if (snapshot.data[0][0]["status"] == -1) Text("Ditolak")
                           ],
                         ),
                         Padding(
@@ -343,8 +296,7 @@ class _pelayananDetail extends State<pelayananDetail> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              if (snapshot.data[0][0]["status"] == -1 ||
-                                  snapshot.data[0][0]["status"] == 0)
+                              if (snapshot.data[0][0]["status"] == -1 || snapshot.data[0][0]["status"] == 0)
                                 Expanded(
                                   child: SizedBox(
                                     width: double.infinity,
@@ -353,37 +305,22 @@ class _pelayananDetail extends State<pelayananDetail> {
                                         color: Colors.lightBlue,
                                         child: Text("Accept"),
                                         shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0),
+                                          borderRadius: new BorderRadius.circular(30.0),
                                         ),
                                         onPressed: () async {
                                           showDialog<String>(
                                             context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              title:
-                                                  const Text('Confirm Accept'),
-                                              content: Text(
-                                                  'Yakin ingin melakukan pelayanan ' +
-                                                      jenisSelectedPelayanan +
-                                                      ' ini?'),
+                                            builder: (BuildContext context) => AlertDialog(
+                                              title: const Text('Confirm Accept'),
+                                              content: Text('Yakin ingin melakukan pelayanan ' + jenisSelectedPelayanan + ' ini?'),
                                               actions: <Widget>[
                                                 TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Cancel'),
+                                                  onPressed: () => Navigator.pop(context, 'Cancel'),
                                                   child: const Text('Tidak'),
                                                 ),
                                                 TextButton(
                                                   onPressed: () {
-                                                    updatePelayananUser(
-                                                        1,
-                                                        snapshot.data[1][0]
-                                                            ['token'],
-                                                        snapshot.data[1][0]
-                                                            ['_id'],
-                                                        snapshot.data[1][0]
-                                                            ['notifGD']);
+                                                    updatePelayananUser(1, snapshot.data[1][0]['token'], snapshot.data[1][0]['_id'], snapshot.data[1][0]['notifGD']);
                                                     Navigator.pop(context);
                                                   },
                                                   child: const Text('Ya'),
@@ -403,35 +340,22 @@ class _pelayananDetail extends State<pelayananDetail> {
                                         color: Colors.lightBlue,
                                         child: Text("Selesai"),
                                         shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0),
+                                          borderRadius: new BorderRadius.circular(30.0),
                                         ),
                                         onPressed: () async {
                                           showDialog<String>(
                                             context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
+                                            builder: (BuildContext context) => AlertDialog(
                                               title: Text('Confirm Selesai'),
-                                              content: Text(
-                                                  'Yakin sudah melakukan pelayanan ' +
-                                                      jenisSelectedPelayanan +
-                                                      ' ini?'),
+                                              content: Text('Yakin sudah melakukan pelayanan ' + jenisSelectedPelayanan + ' ini?'),
                                               actions: <Widget>[
                                                 TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Cancel'),
+                                                  onPressed: () => Navigator.pop(context, 'Cancel'),
                                                   child: const Text('Tidak'),
                                                 ),
                                                 TextButton(
                                                   onPressed: () {
-                                                    updatePelayananUser(
-                                                        2,
-                                                        snapshot.data[1][0]
-                                                            ['token'],
-                                                        snapshot.data[1][0]
-                                                            ['_id'],
-                                                        false);
+                                                    updatePelayananUser(2, snapshot.data[1][0]['token'], snapshot.data[1][0]['_id'], false);
                                                     Navigator.pop(context);
                                                   },
                                                   child: const Text('Ya'),
@@ -450,35 +374,22 @@ class _pelayananDetail extends State<pelayananDetail> {
                                       color: Colors.lightBlue,
                                       child: Text("Reject"),
                                       shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0),
+                                        borderRadius: new BorderRadius.circular(30.0),
                                       ),
                                       onPressed: () async {
                                         showDialog<String>(
                                           context: context,
-                                          builder: (BuildContext context) =>
-                                              AlertDialog(
+                                          builder: (BuildContext context) => AlertDialog(
                                             title: const Text('Confirm Reject'),
-                                            content: Text(
-                                                'Yakin ingin menolak pelayanan ' +
-                                                    jenisSelectedPelayanan +
-                                                    ' ini?'),
+                                            content: Text('Yakin ingin menolak pelayanan ' + jenisSelectedPelayanan + ' ini?'),
                                             actions: <Widget>[
                                               TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    context, 'Cancel'),
+                                                onPressed: () => Navigator.pop(context, 'Cancel'),
                                                 child: const Text('Tidak'),
                                               ),
                                               TextButton(
                                                 onPressed: () {
-                                                  updatePelayananUser(
-                                                      -1,
-                                                      snapshot.data[1][0]
-                                                          ['token'],
-                                                      snapshot.data[1][0]
-                                                          ['_id'],
-                                                      snapshot.data[1][0]
-                                                          ['notifGD']);
+                                                  updatePelayananUser(-1, snapshot.data[1][0]['token'], snapshot.data[1][0]['_id'], snapshot.data[1][0]['notifGD']);
                                                   Navigator.pop(context);
                                                 },
                                                 child: const Text('Ya'),
@@ -652,14 +563,10 @@ class _pelayananDetail extends State<pelayananDetail> {
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 5),
                             ),
-                            if (snapshot.data[0][0]["status"] == 0)
-                              Text("Menunggu Konfirmasi"),
-                            if (snapshot.data[0][0]["status"] == 1)
-                              Text("Diterima"),
-                            if (snapshot.data[0][0]["status"] == 2)
-                              Text("Selesai"),
-                            if (snapshot.data[0][0]["status"] == -1)
-                              Text("Ditolak")
+                            if (snapshot.data[0][0]["status"] == 0) Text("Menunggu Konfirmasi"),
+                            if (snapshot.data[0][0]["status"] == 1) Text("Diterima"),
+                            if (snapshot.data[0][0]["status"] == 2) Text("Selesai"),
+                            if (snapshot.data[0][0]["status"] == -1) Text("Ditolak")
                           ],
                         ),
                         Padding(
@@ -670,8 +577,7 @@ class _pelayananDetail extends State<pelayananDetail> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              if (snapshot.data[0][0]["status"] == -1 ||
-                                  snapshot.data[0][0]["status"] == 0)
+                              if (snapshot.data[0][0]["status"] == -1 || snapshot.data[0][0]["status"] == 0)
                                 Expanded(
                                   child: SizedBox(
                                     width: double.infinity,
@@ -680,36 +586,22 @@ class _pelayananDetail extends State<pelayananDetail> {
                                         color: Colors.lightBlue,
                                         child: Text("Accept"),
                                         shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0),
+                                          borderRadius: new BorderRadius.circular(30.0),
                                         ),
                                         onPressed: () async {
                                           showDialog<String>(
                                             context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
+                                            builder: (BuildContext context) => AlertDialog(
                                               title: Text('Confirm Accept'),
-                                              content: Text(
-                                                  'Yakin ingin melakukan pelayanan ' +
-                                                      jenisSelectedPelayanan +
-                                                      ' ini?'),
+                                              content: Text('Yakin ingin melakukan pelayanan ' + jenisSelectedPelayanan + ' ini?'),
                                               actions: <Widget>[
                                                 TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Cancel'),
+                                                  onPressed: () => Navigator.pop(context, 'Cancel'),
                                                   child: const Text('Tidak'),
                                                 ),
                                                 TextButton(
                                                   onPressed: () {
-                                                    updatePelayananUser(
-                                                        1,
-                                                        snapshot.data[1][0]
-                                                            ['token'],
-                                                        snapshot.data[1][0]
-                                                            ['_id'],
-                                                        snapshot.data[1][0]
-                                                            ['notifGD']);
+                                                    updatePelayananUser(1, snapshot.data[1][0]['token'], snapshot.data[1][0]['_id'], snapshot.data[1][0]['notifGD']);
                                                     Navigator.pop(context);
                                                   },
                                                   child: const Text('Ya'),
@@ -729,35 +621,22 @@ class _pelayananDetail extends State<pelayananDetail> {
                                         color: Colors.lightBlue,
                                         child: Text("Selesai"),
                                         shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0),
+                                          borderRadius: new BorderRadius.circular(30.0),
                                         ),
                                         onPressed: () async {
                                           showDialog<String>(
                                             context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
+                                            builder: (BuildContext context) => AlertDialog(
                                               title: Text('Confirm Selesai'),
-                                              content: Text(
-                                                  'Yakin sudah melakukan pelayanan ' +
-                                                      jenisSelectedPelayanan +
-                                                      ' ini?'),
+                                              content: Text('Yakin sudah melakukan pelayanan ' + jenisSelectedPelayanan + ' ini?'),
                                               actions: <Widget>[
                                                 TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Cancel'),
+                                                  onPressed: () => Navigator.pop(context, 'Cancel'),
                                                   child: const Text('Tidak'),
                                                 ),
                                                 TextButton(
                                                   onPressed: () {
-                                                    updatePelayananUser(
-                                                        2,
-                                                        snapshot.data[1][0]
-                                                            ['token'],
-                                                        snapshot.data[1][0]
-                                                            ['_id'],
-                                                        false);
+                                                    updatePelayananUser(2, snapshot.data[1][0]['token'], snapshot.data[1][0]['_id'], false);
                                                     Navigator.pop(context);
                                                   },
                                                   child: const Text('Ya'),
@@ -776,35 +655,22 @@ class _pelayananDetail extends State<pelayananDetail> {
                                       color: Colors.lightBlue,
                                       child: Text("Reject"),
                                       shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0),
+                                        borderRadius: new BorderRadius.circular(30.0),
                                       ),
                                       onPressed: () async {
                                         showDialog<String>(
                                           context: context,
-                                          builder: (BuildContext context) =>
-                                              AlertDialog(
+                                          builder: (BuildContext context) => AlertDialog(
                                             title: Text('Confirm Reject'),
-                                            content: Text(
-                                                'Yakin ingin menolak pelayanan ' +
-                                                    jenisSelectedPelayanan +
-                                                    ' ini?'),
+                                            content: Text('Yakin ingin menolak pelayanan ' + jenisSelectedPelayanan + ' ini?'),
                                             actions: <Widget>[
                                               TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    context, 'Cancel'),
+                                                onPressed: () => Navigator.pop(context, 'Cancel'),
                                                 child: const Text('Tidak'),
                                               ),
                                               TextButton(
                                                 onPressed: () {
-                                                  updatePelayananUser(
-                                                      -1,
-                                                      snapshot.data[1][0]
-                                                          ['token'],
-                                                      snapshot.data[1][0]
-                                                          ['_id'],
-                                                      snapshot.data[1][0]
-                                                          ['notifGD']);
+                                                  updatePelayananUser(-1, snapshot.data[1][0]['token'], snapshot.data[1][0]['_id'], snapshot.data[1][0]['notifGD']);
                                                   Navigator.pop(context);
                                                 },
                                                 child: const Text('Ya'),
@@ -830,8 +696,7 @@ class _pelayananDetail extends State<pelayananDetail> {
               })),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -859,14 +724,12 @@ class _pelayananDetail extends State<pelayananDetail> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

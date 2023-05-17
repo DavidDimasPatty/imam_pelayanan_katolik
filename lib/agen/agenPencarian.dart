@@ -5,7 +5,6 @@ import '../DatabaseFolder/data.dart';
 import '../DatabaseFolder/mongodb.dart';
 import 'Agent.dart';
 import 'Goals.dart';
-import 'MessagePassing.dart';
 import 'Plan.dart';
 import 'Task.dart';
 
@@ -68,57 +67,35 @@ class AgentPencarian extends Agent {
     var userKrismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
     var userBaptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
     var userKomuniCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
-    var userPemberkatanCollection =
-        MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+    var userPemberkatanCollection = MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
     var userKegiatanCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
     var count = 0;
 
     final pipeline = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userBaptis',
-            localField: '_id',
-            foreignField: 'idBaptis',
-            as: 'userBaptis'))
+        .addStage(Lookup(from: 'userBaptis', localField: '_id', foreignField: 'idBaptis', as: 'userBaptis'))
         .addStage(Match(where.eq('idGereja', data[0]).map['\$query']))
         .build();
-    var countB =
-        await userBaptisCollection.aggregateToStream(pipeline).toList();
+    var countB = await userBaptisCollection.aggregateToStream(pipeline).toList();
     //Mencari data join antara baptis dan userBaptis berdasarkan idGereja
     final pipeline2 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userKomuni',
-            localField: '_id',
-            foreignField: 'idKomuni',
-            as: 'userKomuni'))
+        .addStage(Lookup(from: 'userKomuni', localField: '_id', foreignField: 'idKomuni', as: 'userKomuni'))
         .addStage(Match(where.eq('idGereja', data[0]).map['\$query']))
         .build();
-    var countKo =
-        await userKomuniCollection.aggregateToStream(pipeline2).toList();
+    var countKo = await userKomuniCollection.aggregateToStream(pipeline2).toList();
     //Mencari data join antara komuni dan userKomuni berdasarkan idGereja
     final pipeline3 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userKrisma',
-            localField: '_id',
-            foreignField: 'idKrisma',
-            as: 'userKrisma'))
+        .addStage(Lookup(from: 'userKrisma', localField: '_id', foreignField: 'idKrisma', as: 'userKrisma'))
         .addStage(Match(where.eq('idGereja', data[0]).map['\$query']))
         .build();
-    var countKr =
-        await userKrismaCollection.aggregateToStream(pipeline3).toList();
+    var countKr = await userKrismaCollection.aggregateToStream(pipeline3).toList();
     //Mencari data join antara krisma dan userKrisma berdasarkan idGereja
     final pipeline4 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userUmum',
-            localField: '_id',
-            foreignField: 'idKegiatan',
-            as: 'userKegiatan'))
+        .addStage(Lookup(from: 'userUmum', localField: '_id', foreignField: 'idKegiatan', as: 'userKegiatan'))
         .addStage(Match(where.eq('idGereja', data[0]).map['\$query']))
         .build();
-    var countU =
-        await userKegiatanCollection.aggregateToStream(pipeline4).toList();
+    var countU = await userKegiatanCollection.aggregateToStream(pipeline4).toList();
     //Mencari data join antara umum dan userUmum berdasarkan idGereja
-    var countP =
-        await userPemberkatanCollection.find({'idGereja': data[0]}).length;
+    var countP = await userPemberkatanCollection.find({'idGereja': data[0]}).length;
 
     var totalB = 0;
     var totalKo = 0;
@@ -171,34 +148,23 @@ class AgentPencarian extends Agent {
     }
     //Mencari jumlah umat yang mendaftar pelayanan kegiatan umum yang masih
     //belum dikonfirmasi
-    Message message = Message(
-        agentName,
-        sender,
-        "INFORM",
-        Tasks("hasil pencarian",
-            [data[2], totalB + totalKo + countP + totalKr + totalU]));
+    Message message = Message(agentName, sender, "INFORM", Tasks("hasil pencarian", [data[2], totalB + totalKo + countP + totalKr + totalU]));
     return message;
   }
 
   Future<Message> _cariAturanPelayanan(dynamic data, String sender) async {
-    var aturanPelayananCollection =
-        MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
-    var conn =
-        await aturanPelayananCollection.find({'idGereja': data}).toList();
+    var aturanPelayananCollection = MongoDatabase.db.collection(ATURAN_PELAYANAN_COLLECTION);
+    var conn = await aturanPelayananCollection.find({'idGereja': data}).toList();
     //Mencari data aturan pelayanan berdasarkan idGereja
-    Message message =
-        Message(agentName, sender, "INFORM", Tasks('hasil pencarian', conn));
+    Message message = Message(agentName, sender, "INFORM", Tasks('hasil pencarian', conn));
     return message;
   }
 
   Future<Message> _cariPengumuman(dynamic data, String sender) async {
-    var pengumumanCollection =
-        MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
-    var conn =
-        await pengumumanCollection.find(where.eq("idGereja", data[0])).toList();
+    var pengumumanCollection = MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
+    var conn = await pengumumanCollection.find(where.eq("idGereja", data[0])).toList();
     //Mencari data pengumuman berdasarkan idGereja
-    Message message = Message(
-        'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+    Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
     return message;
   }
 
@@ -208,74 +174,54 @@ class AgentPencarian extends Agent {
     String id = "";
     //Memberi nilai variabel berdasarkan data yang berada di pesan
     if (data[1] == "Baptis") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(USER_BAPTIS_COLLECTION);
       // initial = "userBaptis";
       id = "idBaptis";
     } else if (data[1] == "Komuni") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(USER_KOMUNI_COLLECTION);
       // initial = "userKomuni";
       id = "idKomuni";
     } else if (data[1] == "Krisma") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(USER_KRISMA_COLLECTION);
       // initial = "userKrisma";
       id = "idKrisma";
     } else if (data[1] == "Retret") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(USER_UMUM_COLLECTION);
       // initial = "userRetret";
       id = "idKegiatan";
     } else if (data[1] == "Rekoleksi") {
-      userPelayananCollection =
-          MongoDatabase.db.collection(USER_UMUM_COLLECTION);
+      userPelayananCollection = MongoDatabase.db.collection(USER_UMUM_COLLECTION);
       // initial = "userRekoleksi";
       id = "idKegiatan";
     }
     if (data[2] == "current") {
       //Melakukan join dengan pelayanan yang masih aktif
       final pipeline = AggregationPipelineBuilder()
-          .addStage(Lookup(
-              from: 'user',
-              localField: 'idUser',
-              foreignField: '_id',
-              as: initial))
+          .addStage(Lookup(from: 'user', localField: 'idUser', foreignField: '_id', as: initial))
           .addStage(Match(where.eq(id, data[0]).eq('status', 0).map['\$query']))
           .build();
-      var conn =
-          await userPelayananCollection.aggregateToStream(pipeline).toList();
+      var conn = await userPelayananCollection.aggregateToStream(pipeline).toList();
 
-      Message message = Message(
-          'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+      Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
     } else {
       //Melakukan join dengan pelayanan yang sudah tidak aktif
       final pipeline = AggregationPipelineBuilder()
-          .addStage(Lookup(
-              from: 'user',
-              localField: 'idUser',
-              foreignField: '_id',
-              as: initial))
-          .addStage(
-              Match(where.eq(id, data[0]).ne('status', -2).map['\$query']))
+          .addStage(Lookup(from: 'user', localField: 'idUser', foreignField: '_id', as: initial))
+          .addStage(Match(where.eq(id, data[0]).ne('status', -2).map['\$query']))
           .build();
-      var conn =
-          await userPelayananCollection.aggregateToStream(pipeline).toList();
+      var conn = await userPelayananCollection.aggregateToStream(pipeline).toList();
 
-      Message message = Message(
-          'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+      Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
     }
   }
 
   Future<Message> _cariPengumumanEdit(dynamic data, String sender) async {
-    var pengumumanCollection =
-        MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
+    var pengumumanCollection = MongoDatabase.db.collection(GAMBAR_GEREJA_COLLECTION);
     var conn = await pengumumanCollection.find({'_id': data[0]}).toList();
     //Mencari data pengumuman berdasarkan idPengumuman
-    Message message = Message(
-        'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+    Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
     return message;
   }
 
@@ -302,157 +248,10 @@ class AgentPencarian extends Agent {
     }
     var conn = await PelayananCollection.find({"_id": data[3]}).toList();
     //Mencari data pengumuman berdasarkan idPengumuman
-    Message message =
-        Message(agentName, sender, "INFORM", Tasks('send FCM', [data, conn]));
+    Message message = Message(agentName, sender, "INFORM", Tasks('send FCM', [data, conn]));
     return message;
   }
 
-  // Future<Message> _cariPelayanan(dynamic data, String sender) async {
-  //   var pelayananCollection;
-  //   var currentOrHistory;
-  //   String id = "idGereja";
-  //   //Memberi nilai pada variabel berdasarkan data pada isi pesan
-  //   if (data[1] == "baptis") {
-  //     pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
-  //   } else if (data[1] == "komuni") {
-  //     pelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
-  //   } else if (data[1] == "krisma") {
-  //     pelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
-  //   } else if (data[1] == "umum") {
-  //     pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-  //   } else if (data[1] == "perkawinan" && data[2] == "current") {
-  //     var PerkawinanCollection =
-  //         MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
-  //     final pipeline = AggregationPipelineBuilder()
-  //         .addStage(Lookup(
-  //             from: 'user',
-  //             localField: 'idUser',
-  //             foreignField: '_id',
-  //             as: 'userDaftar'))
-  //         .addStage(
-  //             Match(where.eq('idImam', data[0]).eq('status', 0).map['\$query']))
-  //         .build();
-  //     var conn =
-  //         await PerkawinanCollection.aggregateToStream(pipeline).toList();
-  //     Message message = Message(
-  //         'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
-  //     return message;
-  //   } else if (data[1] == "perkawinan" && data[2] == "history") {
-  //     var PerkawinanCollection =
-  //         MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
-  //     final pipeline = AggregationPipelineBuilder()
-  //         .addStage(Lookup(
-  //             from: 'user',
-  //             localField: 'idUser',
-  //             foreignField: '_id',
-  //             as: 'userDaftar'))
-  //         .addStage(
-  //             Match(where.eq('idImam', data[0]).ne("status", 0).map['\$query']))
-  //         .build();
-  //     var conn =
-  //         await PerkawinanCollection.aggregateToStream(pipeline).toList();
-  //     Message message = Message(
-  //         'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
-  //     return message;
-  //   } else if (data[1] == "perkawinan" && data[2] == "detail") {
-  //     var perkawinanCollection =
-  //         MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
-  //     var conn = await perkawinanCollection.find({'_id': data[0]}).toList();
-
-  //     var userCollection = MongoDatabase.db.collection(USER_COLLECTION);
-  //     var conn2 =
-  //         await userCollection.find({'_id': conn[0]['idUser']}).toList();
-
-  //     Message message = Message('Agent Pencarian', sender, "INFORM",
-  //         Tasks('hasil pencarian', [conn, conn2]));
-  //     return message;
-  //   } else if (data[1] == "sakramentali" && data[2] == "current") {
-  //     var PemberkatanCollection =
-  //         MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
-  //     final pipeline = AggregationPipelineBuilder()
-  //         .addStage(Lookup(
-  //             from: 'user',
-  //             localField: 'idUser',
-  //             foreignField: '_id',
-  //             as: 'userDaftar'))
-  //         .addStage(
-  //             Match(where.eq('idImam', data[0]).eq('status', 0).map['\$query']))
-  //         .build();
-  //     var conn =
-  //         await PemberkatanCollection.aggregateToStream(pipeline).toList();
-  //     Message message = Message(
-  //         'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
-  //     return message;
-  //   } else if (data[1] == "sakramentali" && data[2] == "history") {
-  //     var PemberkatanCollection =
-  //         MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
-  //     final pipeline = AggregationPipelineBuilder()
-  //         .addStage(Lookup(
-  //             from: 'user',
-  //             localField: 'idUser',
-  //             foreignField: '_id',
-  //             as: 'userDaftar'))
-  //         .addStage(
-  //             Match(where.eq('idImam', data[0]).ne("status", 0).map['\$query']))
-  //         .build();
-  //     var conn =
-  //         await PemberkatanCollection.aggregateToStream(pipeline).toList();
-  //     Message message = Message(
-  //         'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
-  //     return message;
-  //   } else if (data[1] == "sakramentali" && data[2] == "detail") {
-  //     var pemberkatanCollection =
-  //         MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
-  //     var conn = await pemberkatanCollection.find({'_id': data[0]}).toList();
-
-  //     var userCollection = MongoDatabase.db.collection(USER_COLLECTION);
-  //     var conn2 =
-  //         await userCollection.find({'_id': conn[0]['idUser']}).toList();
-
-  //     Message message = Message('Agent Pencarian', sender, "INFORM",
-  //         Tasks('hasil pencarian', [conn, conn2]));
-  //     return message;
-  //   }
-  //   if (data[1] == "umum") {
-  //     if (data[2] == "current") {
-  //       var rekoleksiCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-  //       var conn = await rekoleksiCollection.find({
-  //         'idGereja': data[0],
-  //         'jenisKegiatan': data[3],
-  //         'status': 0
-  //       }).toList();
-
-  //       Message message = Message('Agent Pencarian', sender, "INFORM",
-  //           Tasks('hasil pencarian', conn));
-  //       return message;
-  //     } else {
-  //       var rekoleksiCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-  //       var conn = await rekoleksiCollection.find({
-  //         'idGereja': data[0],
-  //         'jenisKegiatan': data[3],
-  //         "status": 1
-  //       }).toList();
-
-  //       Message message = Message('Agent Pencarian', sender, "INFORM",
-  //           Tasks('hasil pencarian', conn));
-  //       return message;
-  //     }
-  //   } else {
-  //     if (data[2] == "current") {
-  //       var conn =
-  //           await pelayananCollection.find({id: data[0], 'status': 0}).toList();
-  //       Message message = Message('Agent Pencarian', sender, "INFORM",
-  //           Tasks('hasil pencarian', conn));
-  //       return message;
-  //     } else {
-  //       var conn =
-  //           await pelayananCollection.find({id: data[0], "status": 1}).toList();
-  //       Message message = Message('Agent Pencarian', sender, "INFORM",
-  //           Tasks('hasil pencarian', conn));
-  //       return message;
-  //     }
-  //   }
-  // }
   Future<Message> _cariPelayanan(dynamic data, String sender) async {
     var pelayananCollection;
     var currentOrHistory;
@@ -467,136 +266,84 @@ class AgentPencarian extends Agent {
     } else if (data[1] == "Umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
     } else if (data[1] == "Perkawinan" && data[2] == "current") {
-      var PerkawinanCollection =
-          MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+      var PerkawinanCollection = MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
       final pipeline = AggregationPipelineBuilder()
-          .addStage(Lookup(
-              from: 'user',
-              localField: 'idUser',
-              foreignField: '_id',
-              as: 'userDaftar'))
-          .addStage(
-              Match(where.eq('idImam', data[0]).eq('status', 0).map['\$query']))
+          .addStage(Lookup(from: 'user', localField: 'idUser', foreignField: '_id', as: 'userDaftar'))
+          .addStage(Match(where.eq('idImam', data[0]).eq('status', 0).map['\$query']))
           .build();
-      var conn =
-          await PerkawinanCollection.aggregateToStream(pipeline).toList();
-      Message message = Message(
-          'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+      var conn = await PerkawinanCollection.aggregateToStream(pipeline).toList();
+      Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
     } else if (data[1] == "Perkawinan" && data[2] == "history") {
-      var PerkawinanCollection =
-          MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+      var PerkawinanCollection = MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
       final pipeline = AggregationPipelineBuilder()
-          .addStage(Lookup(
-              from: 'user',
-              localField: 'idUser',
-              foreignField: '_id',
-              as: 'userDaftar'))
-          .addStage(
-              Match(where.eq('idImam', data[0]).ne("status", 0).map['\$query']))
+          .addStage(Lookup(from: 'user', localField: 'idUser', foreignField: '_id', as: 'userDaftar'))
+          .addStage(Match(where.eq('idImam', data[0]).ne("status", 0).map['\$query']))
           .build();
-      var conn =
-          await PerkawinanCollection.aggregateToStream(pipeline).toList();
-      Message message = Message(
-          'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+      var conn = await PerkawinanCollection.aggregateToStream(pipeline).toList();
+      Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
     } else if (data[1] == "Perkawinan" && data[2] == "detail") {
       print("MASUKKKKKKKKKKK");
       print(data[0]);
-      var perkawinanCollection =
-          MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+      var perkawinanCollection = MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
       var conn = await perkawinanCollection.find({'_id': data[0]}).toList();
 
       var userCollection = MongoDatabase.db.collection(USER_COLLECTION);
-      var conn2 =
-          await userCollection.find({'_id': conn[0]['idUser']}).toList();
+      var conn2 = await userCollection.find({'_id': conn[0]['idUser']}).toList();
 
-      Message message = Message('Agent Pencarian', sender, "INFORM",
-          Tasks('hasil pencarian', [conn, conn2]));
+      Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', [conn, conn2]));
       return message;
     } else if (data[1] == "Pemberkatan" && data[2] == "current") {
-      var PemberkatanCollection =
-          MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+      var PemberkatanCollection = MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
       final pipeline = AggregationPipelineBuilder()
-          .addStage(Lookup(
-              from: 'user',
-              localField: 'idUser',
-              foreignField: '_id',
-              as: 'userDaftar'))
-          .addStage(
-              Match(where.eq('idImam', data[0]).eq('status', 0).map['\$query']))
+          .addStage(Lookup(from: 'user', localField: 'idUser', foreignField: '_id', as: 'userDaftar'))
+          .addStage(Match(where.eq('idImam', data[0]).eq('status', 0).map['\$query']))
           .build();
-      var conn =
-          await PemberkatanCollection.aggregateToStream(pipeline).toList();
-      Message message = Message(
-          'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+      var conn = await PemberkatanCollection.aggregateToStream(pipeline).toList();
+      Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
     } else if (data[1] == "Pemberkatan" && data[2] == "history") {
-      var PemberkatanCollection =
-          MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+      var PemberkatanCollection = MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
       final pipeline = AggregationPipelineBuilder()
-          .addStage(Lookup(
-              from: 'user',
-              localField: 'idUser',
-              foreignField: '_id',
-              as: 'userDaftar'))
-          .addStage(
-              Match(where.eq('idImam', data[0]).ne("status", 0).map['\$query']))
+          .addStage(Lookup(from: 'user', localField: 'idUser', foreignField: '_id', as: 'userDaftar'))
+          .addStage(Match(where.eq('idImam', data[0]).ne("status", 0).map['\$query']))
           .build();
-      var conn =
-          await PemberkatanCollection.aggregateToStream(pipeline).toList();
-      Message message = Message(
-          'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+      var conn = await PemberkatanCollection.aggregateToStream(pipeline).toList();
+      Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
       return message;
     } else if (data[1] == "Pemberkatan" && data[2] == "detail") {
-      var pemberkatanCollection =
-          MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+      var pemberkatanCollection = MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
       var conn = await pemberkatanCollection.find({'_id': data[0]}).toList();
 
       var userCollection = MongoDatabase.db.collection(USER_COLLECTION);
-      var conn2 =
-          await userCollection.find({'_id': conn[0]['idUser']}).toList();
+      var conn2 = await userCollection.find({'_id': conn[0]['idUser']}).toList();
 
-      Message message = Message('Agent Pencarian', sender, "INFORM",
-          Tasks('hasil pencarian', [conn, conn2]));
+      Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', [conn, conn2]));
       return message;
     }
     if (data[1] == "Umum") {
       if (data[2] == "current") {
         var rekoleksiCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-        var conn = await rekoleksiCollection.find({
-          'idGereja': data[0],
-          'jenisKegiatan': data[3],
-          'status': 0
-        }).toList();
+        var conn = await rekoleksiCollection.find({'idGereja': data[0], 'jenisKegiatan': data[3], 'status': 0}).toList();
 
-        Message message = Message('Agent Pencarian', sender, "INFORM",
-            Tasks('hasil pencarian', conn));
+        Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
         return message;
       } else {
         var rekoleksiCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
-        var conn = await rekoleksiCollection.find({
-          'idGereja': data[0],
-          'jenisKegiatan': data[3],
-          "status": 1
-        }).toList();
+        var conn = await rekoleksiCollection.find({'idGereja': data[0], 'jenisKegiatan': data[3], "status": 1}).toList();
 
-        Message message = Message('Agent Pencarian', sender, "INFORM",
-            Tasks('hasil pencarian', conn));
+        Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
         return message;
       }
     } else {
       if (data[2] == "current") {
-        var conn =
-            await pelayananCollection.find({id: data[0], 'status': 0}).toList();
-        Message message = Message('Agent Pencarian', sender, "INFORM",
-            Tasks('hasil pencarian', conn));
+        var conn = await pelayananCollection.find({id: data[0], 'status': 0}).toList();
+        Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
         return message;
       } else {
-        var conn =
-            await pelayananCollection.find({id: data[0], "status": 1}).toList();
-        Message message = Message('Agent Pencarian', sender, "INFORM",
-            Tasks('hasil pencarian', conn));
+        var conn = await pelayananCollection.find({id: data[0], "status": 1}).toList();
+        Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
         return message;
       }
     }
@@ -617,8 +364,7 @@ class AgentPencarian extends Agent {
 
     var conn = await pelayananCollection.find({'_id': data[0]}).toList();
     //Mencari data pelayanan berdasarkan id pelayanan
-    Message message = Message(
-        'Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
+    Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', conn));
     return message;
   }
 
@@ -627,66 +373,39 @@ class AgentPencarian extends Agent {
     var userKrismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
     var userBaptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
     var userKomuniCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
-    var userPemberkatanCollection =
-        MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
-    var perkawinanCollection =
-        MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+    var userPemberkatanCollection = MongoDatabase.db.collection(PEMBERKATAN_COLLECTION);
+    var perkawinanCollection = MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
     var userKegiatanCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
     var count = 0;
 
 ///////////Melakukan join pada setiap pelayanan dengan userPelayanan////////////
     final pipeline = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userBaptis',
-            localField: '_id',
-            foreignField: 'idBaptis',
-            as: 'userBaptis'))
-        .addStage(
-            Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
+        .addStage(Lookup(from: 'userBaptis', localField: '_id', foreignField: 'idBaptis', as: 'userBaptis'))
+        .addStage(Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
         .build();
-    var countB =
-        await userBaptisCollection.aggregateToStream(pipeline).toList();
+    var countB = await userBaptisCollection.aggregateToStream(pipeline).toList();
 
     final pipeline2 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userKomuni',
-            localField: '_id',
-            foreignField: 'idKomuni',
-            as: 'userKomuni'))
-        .addStage(
-            Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
+        .addStage(Lookup(from: 'userKomuni', localField: '_id', foreignField: 'idKomuni', as: 'userKomuni'))
+        .addStage(Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
         .build();
-    var countKo =
-        await userKomuniCollection.aggregateToStream(pipeline2).toList();
+    var countKo = await userKomuniCollection.aggregateToStream(pipeline2).toList();
 
     final pipeline3 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userKrisma',
-            localField: '_id',
-            foreignField: 'idKrisma',
-            as: 'userKrisma'))
-        .addStage(
-            Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
+        .addStage(Lookup(from: 'userKrisma', localField: '_id', foreignField: 'idKrisma', as: 'userKrisma'))
+        .addStage(Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
         .build();
-    var countKr =
-        await userKrismaCollection.aggregateToStream(pipeline3).toList();
+    var countKr = await userKrismaCollection.aggregateToStream(pipeline3).toList();
 
     final pipeline4 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userUmum',
-            localField: '_id',
-            foreignField: 'idKegiatan',
-            as: 'userKegiatan'))
-        .addStage(
-            Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
+        .addStage(Lookup(from: 'userUmum', localField: '_id', foreignField: 'idKegiatan', as: 'userKegiatan'))
+        .addStage(Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
         .build();
-    var countU =
-        await userKegiatanCollection.aggregateToStream(pipeline4).toList();
+    var countU = await userKegiatanCollection.aggregateToStream(pipeline4).toList();
 /////////////////////////////////////////////////////////////////////////////
 
 //Mencari total pengguna mendaftar pelayanan yang masih aktif
-    var countP = await userPemberkatanCollection
-        .find({'idImam': data[1], 'status': 0}).length;
+    var countP = await userPemberkatanCollection.find({'idImam': data[1], 'status': 0}).length;
 
     var totalB = 0;
     var totalKo = 0;
@@ -731,29 +450,13 @@ class AgentPencarian extends Agent {
         }
       }
     }
-    var totalKa = await perkawinanCollection
-        .find({'idImam': data[1], 'status': 0}).length;
+    var totalKa = await perkawinanCollection.find({'idImam': data[1], 'status': 0}).length;
 
     if (data[3] == 1) {
-      Message message = Message(
-          'Agent Pencarian',
-          sender,
-          "INFORM",
-          Tasks('hasil pencarian', [
-            totalB + totalKo + totalKr + totalU,
-            totalB + totalKo + totalKr,
-            countP,
-            totalU,
-            data[2]
-          ]));
+      Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', [totalB + totalKo + totalKr + totalU, totalB + totalKo + totalKr, countP, totalU, data[2]]));
       return message;
     } else {
-      Message message = Message(
-          'Agent Pencarian',
-          sender,
-          "INFORM",
-          Tasks('hasil pencarian',
-              [countP + totalKa, totalKa, countP, totalU, data[2]]));
+      Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', [countP + totalKa, totalKa, countP, totalU, data[2]]));
       return message;
     }
   }
@@ -763,46 +466,27 @@ class AgentPencarian extends Agent {
     var userKrismaCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
     var userBaptisCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
     var userKomuniCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
-    var perkawinanCollection =
-        MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
+    var perkawinanCollection = MongoDatabase.db.collection(PERKAWINAN_COLLECTION);
 
     var count = 0;
     //Join pelayanan sakramen dengan user pelayanan sakramen
     final pipeline = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userBaptis',
-            localField: '_id',
-            foreignField: 'idBaptis',
-            as: 'userBaptis'))
-        .addStage(
-            Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
+        .addStage(Lookup(from: 'userBaptis', localField: '_id', foreignField: 'idBaptis', as: 'userBaptis'))
+        .addStage(Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
         .build();
-    var countB =
-        await userBaptisCollection.aggregateToStream(pipeline).toList();
+    var countB = await userBaptisCollection.aggregateToStream(pipeline).toList();
 
     final pipeline2 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userKomuni',
-            localField: '_id',
-            foreignField: 'idKomuni',
-            as: 'userKomuni'))
-        .addStage(
-            Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
+        .addStage(Lookup(from: 'userKomuni', localField: '_id', foreignField: 'idKomuni', as: 'userKomuni'))
+        .addStage(Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
         .build();
-    var countKo =
-        await userKomuniCollection.aggregateToStream(pipeline2).toList();
+    var countKo = await userKomuniCollection.aggregateToStream(pipeline2).toList();
 
     final pipeline3 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userKrisma',
-            localField: '_id',
-            foreignField: 'idKrisma',
-            as: 'userKrisma'))
-        .addStage(
-            Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
+        .addStage(Lookup(from: 'userKrisma', localField: '_id', foreignField: 'idKrisma', as: 'userKrisma'))
+        .addStage(Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
         .build();
-    var countKr =
-        await userKrismaCollection.aggregateToStream(pipeline3).toList();
+    var countKr = await userKrismaCollection.aggregateToStream(pipeline3).toList();
 
     var totalB = 0;
     var totalKo = 0;
@@ -837,24 +521,13 @@ class AgentPencarian extends Agent {
         }
       }
     }
-    var totalKa = await perkawinanCollection
-        .find({'idImam': data[1], 'status': 0}).length;
+    var totalKa = await perkawinanCollection.find({'idImam': data[1], 'status': 0}).length;
 
     if (data[2] == 1) {
-      Message message = Message(
-          agentName,
-          sender,
-          "INFORM",
-          Tasks('hasil pencarian',
-              [totalB + totalKo + totalKr, totalB, totalKo, totalKr, totalKa]));
+      Message message = Message(agentName, sender, "INFORM", Tasks('hasil pencarian', [totalB + totalKo + totalKr, totalB, totalKo, totalKr, totalKa]));
       return message;
     } else {
-      Message message = Message(
-          agentName,
-          sender,
-          "INFORM",
-          Tasks(
-              'hasil pencarian', [totalKa, totalB, totalKo, totalKr, totalKa]));
+      Message message = Message(agentName, sender, "INFORM", Tasks('hasil pencarian', [totalKa, totalB, totalKo, totalKr, totalKa]));
       return message;
     }
   }
@@ -865,46 +538,22 @@ class AgentPencarian extends Agent {
 
     //Join pelayanan umum dengan userPelayanan umum
     final pipeline1 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userUmum',
-            localField: '_id',
-            foreignField: 'idKegiatan',
-            as: 'userKegiatan'))
-        .addStage(
-            Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
+        .addStage(Lookup(from: 'userUmum', localField: '_id', foreignField: 'idKegiatan', as: 'userKegiatan'))
+        .addStage(Match(where.eq('idGereja', data[0]).eq('status', 0).map['\$query']))
         .build();
-    var countU =
-        await userKegiatanCollection.aggregateToStream(pipeline1).toList();
+    var countU = await userKegiatanCollection.aggregateToStream(pipeline1).toList();
 
     final pipeline2 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userUmum',
-            localField: '_id',
-            foreignField: 'idKegiatan',
-            as: 'userKegiatan'))
-        .addStage(Match(where
-            .eq('idGereja', data[0])
-            .eq('status', 0)
-            .eq('jenisKegiatan', "Rekoleksi")
-            .map['\$query']))
+        .addStage(Lookup(from: 'userUmum', localField: '_id', foreignField: 'idKegiatan', as: 'userKegiatan'))
+        .addStage(Match(where.eq('idGereja', data[0]).eq('status', 0).eq('jenisKegiatan', "Rekoleksi").map['\$query']))
         .build();
-    var countU2 =
-        await userKegiatanCollection.aggregateToStream(pipeline2).toList();
+    var countU2 = await userKegiatanCollection.aggregateToStream(pipeline2).toList();
 
     final pipeline3 = AggregationPipelineBuilder()
-        .addStage(Lookup(
-            from: 'userUmum',
-            localField: '_id',
-            foreignField: 'idKegiatan',
-            as: 'userKegiatan'))
-        .addStage(Match(where
-            .eq('idGereja', data[0])
-            .eq('status', 0)
-            .eq('jenisKegiatan', "Retret")
-            .map['\$query']))
+        .addStage(Lookup(from: 'userUmum', localField: '_id', foreignField: 'idKegiatan', as: 'userKegiatan'))
+        .addStage(Match(where.eq('idGereja', data[0]).eq('status', 0).eq('jenisKegiatan', "Retret").map['\$query']))
         .build();
-    var countU3 =
-        await userKegiatanCollection.aggregateToStream(pipeline3).toList();
+    var countU3 = await userKegiatanCollection.aggregateToStream(pipeline3).toList();
 
     // final pipeline4 = AggregationPipelineBuilder()
     //     .addStage(Lookup(
@@ -967,8 +616,7 @@ class AgentPencarian extends Agent {
     //   }
     // }
 
-    Message message = Message('Agent Pencarian', sender, "INFORM",
-        Tasks('hasil pencarian', [totalU1, totalU2, totalU3]));
+    Message message = Message('Agent Pencarian', sender, "INFORM", Tasks('hasil pencarian', [totalU1, totalU2, totalU3]));
     return message;
   }
 
@@ -1000,27 +648,18 @@ class AgentPencarian extends Agent {
     ];
     //Perencanaan agen
     goals = [
-      Goals("cari aturan pelayanan", List<Map<String, Object?>>,
-          _timeAction["cari aturan pelayanan"]),
-      Goals("cari pengumuman edit", List<Map<String, Object?>>,
-          _timeAction["cari pengumuman edit"]),
-      Goals("cari pengumuman", List<Map<String, Object?>>,
-          _timeAction["cari pengumuman"]),
-      Goals("cari pelayanan", List<Map<String, Object?>>,
-          _timeAction["cari pelayanan"]),
+      Goals("cari aturan pelayanan", List<Map<String, Object?>>, _timeAction["cari aturan pelayanan"]),
+      Goals("cari pengumuman edit", List<Map<String, Object?>>, _timeAction["cari pengumuman edit"]),
+      Goals("cari pengumuman", List<Map<String, Object?>>, _timeAction["cari pengumuman"]),
+      Goals("cari pelayanan", List<Map<String, Object?>>, _timeAction["cari pelayanan"]),
       Goals("cari profile", List<dynamic>, _timeAction["cari profile"]),
       Goals("cari pelayanan", List<dynamic>, _timeAction["cari pelayanan"]),
-      Goals("cari pelayanan user", List<Map<String, Object?>>,
-          _timeAction["cari pelayanan user"]),
-      Goals("cari pelayanan pendaftaran", List<dynamic>,
-          _timeAction["cari pelayanan pendaftaran"]),
-      Goals("cari data edit pelayanan", List<Map<String, Object?>>,
-          _timeAction["cari data edit pelayanan"]),
-      Goals("cari pelayanan user", List<Map<String, Object?>>,
-          _timeAction["cari pelayanan user"]),
+      Goals("cari pelayanan user", List<Map<String, Object?>>, _timeAction["cari pelayanan user"]),
+      Goals("cari pelayanan pendaftaran", List<dynamic>, _timeAction["cari pelayanan pendaftaran"]),
+      Goals("cari data edit pelayanan", List<Map<String, Object?>>, _timeAction["cari data edit pelayanan"]),
+      Goals("cari pelayanan user", List<Map<String, Object?>>, _timeAction["cari pelayanan user"]),
       Goals("cari jumlah", List<dynamic>, _timeAction["cari jumlah"]),
-      Goals("cari jumlah Sakramen", List<dynamic>,
-          _timeAction["cari jumlah Sakramen"]),
+      Goals("cari jumlah Sakramen", List<dynamic>, _timeAction["cari jumlah Sakramen"]),
       Goals("cari jumlah Umum", List<int>, _timeAction["cari jumlah Umum"]),
       Goals("cari jumlah Umum", List<dynamic>, _timeAction["cari jumlah Umum"]),
     ];

@@ -20,19 +20,14 @@ class Login extends StatelessWidget {
     ///pegguna dan melakukan pengecekan pada collection imam
     ///
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page', 'Agent Akun', "REQUEST", Tasks('login', [id, password]));
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('login', [id, password]));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    var data = await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
-    var hasil =
-        await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
+    var hasil = await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
     completer.complete(); //Batas pengerjaan yang memerlukan completer
 
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
     return await hasil;
   }
@@ -114,10 +109,7 @@ class Login extends StatelessWidget {
                               child: Text(
                                 'Halo,Imam Katolik!',
                                 style: GoogleFonts.davidLibre(
-                                  textStyle: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.white,
-                                      letterSpacing: .5),
+                                  textStyle: TextStyle(fontSize: 30, color: Colors.white, letterSpacing: .5),
                                 ),
                               ),
                             ),
@@ -146,28 +138,17 @@ class Login extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color.fromRGBO(143, 148, 251, .2),
-                                      blurRadius: 20.0,
-                                      offset: Offset(0, 10))
-                                ]),
+                                boxShadow: [BoxShadow(color: Color.fromRGBO(143, 148, 251, .2), blurRadius: 20.0, offset: Offset(0, 10))]),
                             child: Column(
                               children: <Widget>[
                                 Container(
                                   padding: EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom:
-                                              BorderSide(color: Colors.grey))),
+                                  decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
                                   child: TextField(
                                     controller: emailController,
                                     style: TextStyle(color: Colors.black),
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: "Email",
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey[400])),
+                                    decoration:
+                                        InputDecoration(border: InputBorder.none, hintText: "Email", hintStyle: TextStyle(color: Colors.grey[400])),
                                   ),
                                 ),
                                 Container(
@@ -179,10 +160,7 @@ class Login extends StatelessWidget {
                                     autocorrect: false,
                                     controller: passwordController,
                                     decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: "Password",
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey[400])),
+                                        border: InputBorder.none, hintText: "Password", hintStyle: TextStyle(color: Colors.grey[400])),
                                   ),
                                 )
                               ],
@@ -208,13 +186,11 @@ class Login extends StatelessWidget {
                                 ),
                                 onPressed: () async {
                                   //Pengecekan jika email dan password kosong
-                                  if (emailController.text == "" ||
-                                      passwordController.text == "") {
+                                  if (emailController.text == "" || passwordController.text == "") {
                                     Fluttertoast.showToast(
                                         /////// Widget toast untuk menampilkan pesan pada halaman
                                         /////// Widget toast untuk menampilkan pesan pada halaman
-                                        msg:
-                                            "Email atau Password Tidak Boleh Kosong",
+                                        msg: "Email atau Password Tidak Boleh Kosong",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.CENTER,
                                         timeInSecForIosWeb: 2,
@@ -225,20 +201,27 @@ class Login extends StatelessWidget {
                                     passwordController.clear();
                                   } else {
                                     //Jika email dan password tidak kosong
-                                    await login(emailController.text,
-                                            passwordController.text)
-                                        .then((ret) async {
+                                    await login(emailController.text, passwordController.text).then((ret) async {
                                       try {
-                                        if (ret.length > 0) {
+                                        if (ret.runtimeType == String) {
+                                          //Jika terjadi error pada pengerjaan
+                                          Fluttertoast.showToast(
+                                              /////// Widget toast untuk menampilkan pesan pada halaman
+                                              msg: "Connection Problem",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 2,
+                                              backgroundColor: Colors.red,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                          emailController.clear();
+                                          passwordController.clear();
+                                        } else if (ret.runtimeType != String && ret.length > 0) {
                                           //Jika berhasil login maka akan
                                           //dipanggil kelas homePage
                                           Navigator.pushReplacement(
                                             context,
-                                            MaterialPageRoute(
-                                                builder: (context) => HomePage(
-                                                    ret[0]['_id'],
-                                                    ret[0]['idGereja'],
-                                                    ret[0]['role'])),
+                                            MaterialPageRoute(builder: (context) => HomePage(ret[0]['_id'], ret[0]['idGereja'], ret[0]['role'])),
                                           );
                                         } else {
                                           Fluttertoast.showToast(

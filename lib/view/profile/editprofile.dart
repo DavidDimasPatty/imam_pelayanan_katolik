@@ -23,8 +23,7 @@ class EditProfile extends StatefulWidget {
 
   EditProfile(this.iduser, this.idGereja, this.role);
   @override
-  _EditProfile createState() =>
-      _EditProfile(this.iduser, this.idGereja, this.role);
+  _EditProfile createState() => _EditProfile(this.iduser, this.idGereja, this.role);
 }
 
 class _EditProfile extends State<EditProfile> {
@@ -40,19 +39,14 @@ class _EditProfile extends State<EditProfile> {
 
   Future<List> callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message(
-        'Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data imam', iduser));
+    Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data imam', iduser));
 
-    MessagePassing messagePassing =
-        MessagePassing(); //Memanggil distributor pesan
-    var data = await messagePassing
-        .sendMessage(message); //Mengirim pesan ke distributor pesan
+    MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+    var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var result = await await AgentPage
-        .getData(); //Memanggil data yang tersedia di agen Page
+    var result = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-    await completer
-        .future; //Proses penungguan sudah selesai ketika varibel hasil
+    await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
 
     return result;
@@ -61,19 +55,14 @@ class _EditProfile extends State<EditProfile> {
   submitForm(nama, email, notelp, context) async {
     if (notelp != "" && email != "" && nama != "") {
       Completer<void> completer = Completer<void>();
-      Message message = Message('Agent Page', 'Agent Akun', "REQUEST",
-          Tasks('edit profile imam', [iduser, nama, email, notelp]));
+      Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('edit profile imam', [iduser, nama, email, notelp]));
 
-      MessagePassing messagePassing =
-          MessagePassing(); //Memanggil distributor pesan
-      var data = await messagePassing
-          .sendMessage(message); //Mengirim pesan ke distributor pesan
+      MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
+      var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
       completer.complete(); //Batas pengerjaan yang memerlukan completer
-      var hasil = await await AgentPage
-          .getData(); //Memanggil data yang tersedia di agen Page
+      var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
 
-      await completer
-          .future; //Proses penungguan sudah selesai ketika varibel hasil
+      await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
       //memiliki nilai
 
       if (hasil == 'oke') {
@@ -88,8 +77,7 @@ class _EditProfile extends State<EditProfile> {
             fontSize: 16.0);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) => Profile(iduser, idGereja, role)),
+          MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
         );
       } else if (hasil == 'nama') {
         Fluttertoast.showToast(
@@ -149,8 +137,7 @@ class _EditProfile extends State<EditProfile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -159,8 +146,7 @@ class _EditProfile extends State<EditProfile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -204,8 +190,7 @@ class _EditProfile extends State<EditProfile> {
                             TextField(
                               controller: namaController,
                               inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp("[a-zA-Z ]")),
+                                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
                               ],
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
@@ -284,8 +269,7 @@ class _EditProfile extends State<EditProfile> {
                             TextField(
                               controller: notelpController,
                               inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp("[0-9]")),
+                                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                               ],
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
@@ -322,11 +306,7 @@ class _EditProfile extends State<EditProfile> {
                                 borderRadius: new BorderRadius.circular(30.0),
                               ),
                               onPressed: () async {
-                                await submitForm(
-                                    namaController.text,
-                                    emailController.text,
-                                    notelpController.text,
-                                    context);
+                                await submitForm(namaController.text, emailController.text, notelpController.text, context);
                               }),
                         ),
                         Padding(padding: EdgeInsets.symmetric(vertical: 15))
@@ -340,8 +320,7 @@ class _EditProfile extends State<EditProfile> {
           )),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -369,14 +348,12 @@ class _EditProfile extends State<EditProfile> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -3,13 +3,7 @@ import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/daftarPelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/pelayanan/pelayanan.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
-import 'package:imam_pelayanan_katolik/view/umum/historyKegiatanUmum.dart';
-import 'package:imam_pelayanan_katolik/view/sakramen/historySakramen.dart';
-import 'package:imam_pelayanan_katolik/view/sakramentali/pemberkatan/historySakramentali.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import 'package:imam_pelayanan_katolik/view/umum/kegiatanUmum.dart';
-
-import 'package:imam_pelayanan_katolik/view/history.dart';
 
 class History extends StatelessWidget {
   var role;
@@ -36,8 +30,7 @@ class History extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -46,8 +39,7 @@ class History extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
               );
             },
           ),
@@ -66,21 +58,16 @@ class History extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => pelayanan(
-                          iduser, idGereja, role, "Sakramen", "history")),
+                  MaterialPageRoute(builder: (context) => pelayanan(iduser, idGereja, role, "Sakramen", "history")),
                 );
               },
               child: Container(
                   margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                        ]),
+                    gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                      Colors.blueGrey,
+                      Colors.lightBlue,
+                    ]),
                     border: Border.all(
                       color: Colors.lightBlue,
                     ),
@@ -91,10 +78,7 @@ class History extends StatelessWidget {
 
                     Text(
                       "History Sakramen",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w300),
+                      style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                       textAlign: TextAlign.left,
                     ),
                   ])),
@@ -106,21 +90,16 @@ class History extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => daftarPelayanan(iduser, idGereja,
-                            role, "Sakramentali", "history", "Pemberkatan")),
+                    MaterialPageRoute(builder: (context) => daftarPelayanan(iduser, idGereja, role, "Sakramentali", "history", "Pemberkatan")),
                   );
                 },
                 child: Container(
                     margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.lightBlue,
-                          ]),
+                      gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                        Colors.blueGrey,
+                        Colors.lightBlue,
+                      ]),
                       border: Border.all(
                         color: Colors.lightBlue,
                       ),
@@ -131,10 +110,7 @@ class History extends StatelessWidget {
 
                       Text(
                         "History Sakramentali",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 26.0,
-                            fontWeight: FontWeight.w300),
+                        style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                         textAlign: TextAlign.left,
                       ),
                     ])),
@@ -145,21 +121,16 @@ class History extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => pelayanan(
-                            iduser, idGereja, role, "Umum", "history")),
+                    MaterialPageRoute(builder: (context) => pelayanan(iduser, idGereja, role, "Umum", "history")),
                   );
                 },
                 child: Container(
                     margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.lightBlue,
-                          ]),
+                      gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.topLeft, colors: [
+                        Colors.blueGrey,
+                        Colors.lightBlue,
+                      ]),
                       border: Border.all(
                         color: Colors.lightBlue,
                       ),
@@ -170,10 +141,7 @@ class History extends StatelessWidget {
 
                       Text(
                         "History Kegiatan Umum",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 26.0,
-                            fontWeight: FontWeight.w300),
+                        style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
                         textAlign: TextAlign.left,
                       ),
                     ])),
@@ -185,8 +153,7 @@ class History extends StatelessWidget {
       ]),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             boxShadow: [
               BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
             ],
@@ -218,8 +185,7 @@ class History extends StatelessWidget {
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
                   );
                 }
               },

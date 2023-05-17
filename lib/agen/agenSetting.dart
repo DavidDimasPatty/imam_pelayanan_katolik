@@ -109,27 +109,21 @@ class AgentSetting extends Agent {
 
         await file.writeAsString(data[0]['_id'].toString());
 
-        await file.writeAsString('\n' + data[0]['idGereja'].toString(),
-            mode: FileMode.append);
-        await file.writeAsString('\n' + data[0]['role'].toString(),
-            mode: FileMode.append);
+        await file.writeAsString('\n' + data[0]['idGereja'].toString(), mode: FileMode.append);
+        await file.writeAsString('\n' + data[0]['role'].toString(), mode: FileMode.append);
       } else {
         //Jika tidak ada file maka file akan dibuat dan diisi dengan data
         final file = await File('$path/loginImam.txt').create(recursive: true);
         await file.writeAsString(data[0]['_id'].toString());
 
-        await file.writeAsString('\n' + data[0]['idGereja'].toString(),
-            mode: FileMode.append);
-        await file.writeAsString('\n' + data[0]['role'].toString(),
-            mode: FileMode.append);
+        await file.writeAsString('\n' + data[0]['idGereja'].toString(), mode: FileMode.append);
+        await file.writeAsString('\n' + data[0]['role'].toString(), mode: FileMode.append);
       }
     } catch (e) {
-      Message message = Message('Agent Setting', sender, "INFORM",
-          Tasks('status aplikasi', "failed"));
+      Message message = Message('Agent Setting', sender, "INFORM", Tasks('status aplikasi', "failed"));
       return message;
     }
-    Message message = Message(
-        'Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
+    Message message = Message('Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
     //Membuat pesan berhasil koordinasi dengan agen Akun
     return message;
   }
@@ -144,8 +138,7 @@ class AgentSetting extends Agent {
     final file = await File('$path/loginImam.txt');
     await file.writeAsString("");
 
-    Message message = Message(
-        'Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
+    Message message = Message('Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
     //Membuat pesan berhasil koordinasi dengan agen Akun
     return message;
   }
