@@ -11,7 +11,7 @@ class AgentPage extends Agent {
   }
   static List<dynamic> dataView = [];
   @override
-  int canPerformTask(Message message) {
+  int canPerformTask(Messages message) {
     if (message.task.action == "error") {
       return 1;
     } else {
@@ -26,7 +26,7 @@ class AgentPage extends Agent {
 
   @override
   Future performTask() async {
-    Message msg = Messages.last;
+    Messages msg = MessageList.last;
     String sender = Senders.last;
     dynamic task = msg.task;
     for (var p in plan) {
@@ -70,7 +70,7 @@ class AgentPage extends Agent {
   }
 
   @override
-  Message overTime(task, sender) {
+  Messages overTime(task, sender) {
     // TODO: implement overTime
     throw UnimplementedError();
   }

@@ -42,7 +42,7 @@ class _pelayananUser extends State<pelayananUser> {
 
   Future<List> callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan user', [idPelayanan, jenisSelectedPelayanan, jenisPencarian]));
+    Messages message = Messages('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan user', [idPelayanan, jenisSelectedPelayanan, jenisPencarian]));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
@@ -93,7 +93,7 @@ class _pelayananUser extends State<pelayananUser> {
     if (jenisPelayanan == "Umum") {
       umumSakramen = jenisPelayanan;
     }
-    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('update pelayanan user', [umumSakramen, id, token, idTarget, status, iduser, notif]));
+    Messages message = Messages('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('update pelayanan user', [umumSakramen, id, token, idTarget, status, iduser, notif]));
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer

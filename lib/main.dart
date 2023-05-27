@@ -11,7 +11,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 Future callDb() async {
   //Mengirim pesan untuk settingan aplikasi saat diluncurkan
   Completer<void> completer = Completer<void>();
-  Message message = Message('Agent Page', 'Agent Setting', "REQUEST", Tasks('setting user', null)); //Pembuatan Pesan
+  Messages message = Messages('Agent Page', 'Agent Setting', "REQUEST", Tasks('setting user', null)); //Pembuatan Pesan
 
   MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
   var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan

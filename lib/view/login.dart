@@ -20,7 +20,7 @@ class Login extends StatelessWidget {
     ///pegguna dan melakukan pengecekan pada collection imam
     ///
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('login', [id, password]));
+    Messages message = Messages('Agent Page', 'Agent Akun', "REQUEST", Tasks('login', [id, password]));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
@@ -147,8 +147,7 @@ class Login extends StatelessWidget {
                                   child: TextField(
                                     controller: emailController,
                                     style: TextStyle(color: Colors.black),
-                                    decoration:
-                                        InputDecoration(border: InputBorder.none, hintText: "Email", hintStyle: TextStyle(color: Colors.grey[400])),
+                                    decoration: InputDecoration(border: InputBorder.none, hintText: "Email", hintStyle: TextStyle(color: Colors.grey[400])),
                                   ),
                                 ),
                                 Container(
@@ -159,8 +158,7 @@ class Login extends StatelessWidget {
                                     style: TextStyle(color: Colors.black),
                                     autocorrect: false,
                                     controller: passwordController,
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none, hintText: "Password", hintStyle: TextStyle(color: Colors.grey[400])),
+                                    decoration: InputDecoration(border: InputBorder.none, hintText: "Password", hintStyle: TextStyle(color: Colors.grey[400])),
                                   ),
                                 )
                               ],

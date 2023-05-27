@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -85,11 +84,11 @@ class _editPelayanan extends State<editPelayanan> {
 
   Future callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message;
+    Messages message;
     if (jenisPelayanan == "Sakramen") {
-      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari data edit pelayanan', [idPelayanan, jenisSelectedPelayanan]));
+      message = Messages('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari data edit pelayanan', [idPelayanan, jenisSelectedPelayanan]));
     } else {
-      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari data edit pelayanan', [idPelayanan, jenisPelayanan]));
+      message = Messages('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari data edit pelayanan', [idPelayanan, jenisPelayanan]));
     }
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
@@ -117,7 +116,7 @@ class _editPelayanan extends State<editPelayanan> {
       }
       if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "" && jenisSelected != "") {
         Completer<void> completer = Completer<void>();
-        Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
+        Messages message = Messages('Agent Page', 'Agent Pendaftaran', "REQUEST",
             Tasks('edit pelayanan', [jenisSelectedPelayanan, idPelayanan, kapasitas.text, tanggalBuka.toString(), tanggalTutup.toString(), iduser, jenisSelected]));
 
         MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
@@ -176,7 +175,7 @@ class _editPelayanan extends State<editPelayanan> {
             lokasi.text != "" &&
             fileImage != null) {
           Completer<void> completer = Completer<void>();
-          Message message = Message(
+          Messages message = Messages(
               'Agent Page',
               'Agent Pendaftaran',
               "REQUEST",
@@ -248,7 +247,7 @@ class _editPelayanan extends State<editPelayanan> {
             lokasi.text != "" &&
             fileImage != null) {
           Completer<void> completer = Completer<void>();
-          Message message = Message(
+          Messages message = Messages(
               'Agent Page',
               'Agent Pendaftaran',
               "REQUEST",
@@ -388,6 +387,7 @@ class _editPelayanan extends State<editPelayanan> {
                                   padding: EdgeInsets.symmetric(vertical: 5),
                                 ),
                                 TextField(
+                                  maxLength: 20,
                                   controller: namaKegiatan,
                                   style: TextStyle(color: Colors.black),
                                   decoration: InputDecoration(
@@ -429,6 +429,7 @@ class _editPelayanan extends State<editPelayanan> {
                                   padding: EdgeInsets.symmetric(vertical: 5),
                                 ),
                                 TextField(
+                                  maxLength: 20,
                                   controller: temaKegiatan,
                                   style: TextStyle(color: Colors.black),
                                   decoration: InputDecoration(
@@ -511,6 +512,7 @@ class _editPelayanan extends State<editPelayanan> {
                                   padding: EdgeInsets.symmetric(vertical: 5),
                                 ),
                                 TextField(
+                                  maxLength: 20,
                                   controller: tamuKegiatan,
                                   style: TextStyle(color: Colors.black),
                                   decoration: InputDecoration(

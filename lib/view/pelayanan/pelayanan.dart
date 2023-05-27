@@ -40,7 +40,7 @@ class _pelayanan extends State<pelayanan> {
 
   Future callJumlah() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari jumlah ' + jenisPelayanan, [idGereja, iduser, role]));
+    Messages message = Messages('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari jumlah ' + jenisPelayanan, [idGereja, iduser, role]));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan

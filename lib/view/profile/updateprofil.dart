@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,7 +43,7 @@ class _UpdateProfile extends State<UpdateProfile> {
   Future submit() async {
     if (imageChange == false) {
       Completer<void> completer = Completer<void>();
-      Message message = Message(
+      Messages message = Messages(
           'Agent Page',
           'Agent Akun',
           "REQUEST",
@@ -106,7 +105,7 @@ class _UpdateProfile extends State<UpdateProfile> {
       }
     } else {
       Completer<void> completer = Completer<void>();
-      Message message = Message(
+      Messages message = Messages(
           'Agent Page',
           'Agent Akun',
           "REQUEST",
@@ -172,7 +171,7 @@ class _UpdateProfile extends State<UpdateProfile> {
 
   Future callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data gereja', idGereja));
+    Messages message = Messages('Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data gereja', idGereja));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan

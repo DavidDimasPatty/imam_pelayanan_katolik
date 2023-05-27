@@ -21,7 +21,7 @@ class Settings extends StatelessWidget {
 
   Future LogOut() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Setting', "REQUEST", Tasks('log out', null));
+    Messages message = Messages('Agent Page', 'Agent Setting', "REQUEST", Tasks('log out', null));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan

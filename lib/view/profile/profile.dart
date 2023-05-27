@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
@@ -38,7 +37,7 @@ class _Profile extends State<Profile> {
   @override
   Future callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('cari profile', [idGereja, iduser]));
+    Messages message = Messages('Agent Page', 'Agent Akun', "REQUEST", Tasks('cari profile', [idGereja, iduser]));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
@@ -53,7 +52,7 @@ class _Profile extends State<Profile> {
 
   Future gantiStatus(pelayanan, status) async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('edit status', [iduser, status, pelayanan]));
+    Messages message = Messages('Agent Page', 'Agent Akun', "REQUEST", Tasks('edit status', [iduser, status, pelayanan]));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
@@ -87,7 +86,7 @@ class _Profile extends State<Profile> {
 
   Future uploadFile(File file, context) async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('change profile picture', [iduser, file]));
+    Messages message = Messages('Agent Page', 'Agent Akun', "REQUEST", Tasks('change profile picture', [iduser, file]));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan

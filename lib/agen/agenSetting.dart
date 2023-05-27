@@ -18,7 +18,7 @@ class AgentSetting extends Agent {
     _initAgent();
   }
 
-  static int _estimatedTime = 20;
+  static int _estimatedTime = 30;
   //Batas waktu awal pengerjaan seluruh tugas agen
   static Map<String, int> _timeAction = {
     "setting user": _estimatedTime,
@@ -27,7 +27,7 @@ class AgentSetting extends Agent {
   };
   //Daftar batas waktu pengerjaan masing-masing tugas
 
-  Future<Message> action(String goals, dynamic data, String sender) async {
+  Future<Messages> action(String goals, dynamic data, String sender) async {
     //Daftar fungsi tindakan yang bisa dilakukan oleh agen, fungsi ini memilih tindakan
     //berdasarkan tugas yang berada pada isi pesan
     switch (goals) {
@@ -45,7 +45,7 @@ class AgentSetting extends Agent {
     }
   }
 
-  Future<Message> _settingUser(dynamic data, String sender) async {
+  Future<Messages> _settingUser(dynamic data, String sender) async {
     //Fungsi tindakan untuk mempesiapkan launch aplikasi
     var date = DateTime.now();
     var hour = date.hour;
@@ -70,7 +70,7 @@ class AgentSetting extends Agent {
     }
     //////////Check waktu saat pengguna membuka aplikasi dan membuat pesan/////////
     if (hour >= 5 && hour <= 17) {
-      Message message = Message(
+      Messages message = Messages(
           'Agent Setting',
           sender,
           "INFORM",
@@ -80,7 +80,7 @@ class AgentSetting extends Agent {
           ]));
       return message;
     } else {
-      Message message = Message(
+      Messages message = Messages(
           'Agent Setting',
           sender,
           "INFORM",
@@ -93,7 +93,7 @@ class AgentSetting extends Agent {
     ///////////////////////////////////////////////////////////////////////////
   }
 
-  Future<Message> _saveData(dynamic data, String sender) async {
+  Future<Messages> _saveData(dynamic data, String sender) async {
     //Fungsi tindakan untuk menyimpan data akun pada lokal file
     //
     ///Mendapatkan path ke lokal file aplikasi//////////
@@ -120,15 +120,15 @@ class AgentSetting extends Agent {
         await file.writeAsString('\n' + data[0]['role'].toString(), mode: FileMode.append);
       }
     } catch (e) {
-      Message message = Message('Agent Setting', sender, "INFORM", Tasks('status aplikasi', "failed"));
+      Messages message = Messages('Agent Setting', sender, "INFORM", Tasks('status aplikasi', "failed"));
       return message;
     }
-    Message message = Message('Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
+    Messages message = Messages('Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
     //Membuat pesan berhasil koordinasi dengan agen Akun
     return message;
   }
 
-  Future<Message> _logOut(dynamic data, String sender) async {
+  Future<Messages> _logOut(dynamic data, String sender) async {
     //Fungsi tindakan untuk menghapus data akun pada lokal file
     //
     ///Mendapatkan path ke lokal file aplikasi//////////
@@ -138,7 +138,7 @@ class AgentSetting extends Agent {
     final file = await File('$path/loginImam.txt');
     await file.writeAsString("");
 
-    Message message = Message('Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
+    Messages message = Messages('Agent Setting', sender, "INFORM", Tasks('status aplikasi', "oke"));
     //Membuat pesan berhasil koordinasi dengan agen Akun
     return message;
   }

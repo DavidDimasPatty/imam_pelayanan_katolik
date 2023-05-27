@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:anim_search_bar/anim_search_bar.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
@@ -45,16 +44,16 @@ class _daftarPelayanan extends State<daftarPelayanan> {
   _daftarPelayanan(this.iduser, this.idGereja, this.role, this.jenisPelayanan, this.jenisPencarian, this.jenisSelectedPelayanan);
 
   Future callDb() async {
-    Message message;
+    Messages message;
     Completer<void> completer = Completer<void>();
     if (jenisPelayanan == "Sakramen" && jenisSelectedPelayanan != "Perkawinan") {
-      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [idGereja, jenisSelectedPelayanan, jenisPencarian]));
+      message = Messages('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [idGereja, jenisSelectedPelayanan, jenisPencarian]));
     } else if (jenisPelayanan == "Sakramen" && jenisSelectedPelayanan == "Perkawinan") {
-      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [iduser, jenisSelectedPelayanan, jenisPencarian]));
+      message = Messages('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [iduser, jenisSelectedPelayanan, jenisPencarian]));
     } else if (jenisPelayanan == "Sakramentali") {
-      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [iduser, jenisSelectedPelayanan, jenisPencarian]));
+      message = Messages('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [iduser, jenisSelectedPelayanan, jenisPencarian]));
     } else {
-      message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [idGereja, jenisPelayanan, jenisPencarian, jenisSelectedPelayanan]));
+      message = Messages('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [idGereja, jenisPelayanan, jenisPencarian, jenisSelectedPelayanan]));
     }
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
@@ -88,7 +87,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
     } else {
       jenis = jenisSelectedPelayanan;
     }
-    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('update status pelayanan', [jenis, id, status, iduser]));
+    Messages message = Messages('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('update status pelayanan', [jenis, id, status, iduser]));
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer

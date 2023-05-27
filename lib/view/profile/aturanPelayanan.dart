@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
@@ -38,7 +37,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
 
   Future callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari aturan pelayanan', idGereja));
+    Messages message = Messages('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari aturan pelayanan', idGereja));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
@@ -53,7 +52,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
 
   submitForm(baptis, komuni, krisma, perkawinan, perminyakan, tobat, pemberkatan, context) async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('edit aturan pelayanan', [idGereja, baptis, komuni, krisma, perkawinan, perminyakan, tobat, pemberkatan, iduser]));
+    Messages message = Messages('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('edit aturan pelayanan', [idGereja, baptis, komuni, krisma, perkawinan, perminyakan, tobat, pemberkatan, iduser]));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan

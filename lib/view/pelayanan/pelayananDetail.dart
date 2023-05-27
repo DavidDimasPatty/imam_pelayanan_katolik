@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:flutter/material.dart';
-import 'package:imam_pelayanan_katolik/DatabaseFolder/mongodb.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
@@ -41,7 +38,7 @@ class _pelayananDetail extends State<pelayananDetail> {
   @override
   Future callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [idPelayanan, jenisSelectedPelayanan, "detail"]));
+    Messages message = Messages('Agent Page', 'Agent Pencarian', "REQUEST", Tasks('cari pelayanan', [idPelayanan, jenisSelectedPelayanan, "detail"]));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
@@ -62,7 +59,7 @@ class _pelayananDetail extends State<pelayananDetail> {
       statusKonfirmasi = "Menolak";
     }
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('update pelayanan user', [jenisSelectedPelayanan, idPelayanan, token, idPelayanan, status, iduser, notif]));
+    Messages message = Messages('Agent Page', 'Agent Pendaftaran', "REQUEST", Tasks('update pelayanan user', [jenisSelectedPelayanan, idPelayanan, token, idPelayanan, status, iduser, notif]));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan

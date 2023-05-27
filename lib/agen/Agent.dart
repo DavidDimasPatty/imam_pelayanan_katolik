@@ -14,7 +14,7 @@ abstract class Agent {
       plan = [];
   List<Goals> //Perencanaan agen
       goals = [];
-  List Messages = [];
+  List MessageList = [];
   List Senders = [];
   String agentName = "";
   bool stop = false;
@@ -23,7 +23,7 @@ abstract class Agent {
   ///
 ////////////////////////////////////Fungsi Agen////////////////////////////////////
 
-  int canPerformTask(Message message) {
+  int canPerformTask(Messages message) {
     //Fungsi untuk melakukan pengecekan pada plan agen terhadap
     //tugas yang berada dalam pesan
 
@@ -42,11 +42,11 @@ abstract class Agent {
     return -1;
   }
 
-  Future<dynamic> receiveMessage(Message msg, String sender) {
+  Future<dynamic> receiveMessage(Messages msg, String sender) {
     //Fungsi agen menerima pesan yang dikirim oleh agen pengirim
     print(agentName + ' received message from $sender');
     //Menambahkan pesan dan nama pengirim ke variabel
-    Messages.add(msg);
+    MessageList.add(msg);
     Senders.add(sender);
     //Mengembalikan fungsi performTask
     return performTask();
@@ -54,7 +54,7 @@ abstract class Agent {
 
   Future<dynamic> performTask() async {
     //Fungsi agen mengerjakan tugas yang berada dalam pesan
-    Message msgCome = Messages.last;
+    Messages msgCome = MessageList.last;
     String sender = Senders.last;
     dynamic task = msgCome.task;
     //Mengektifitaskan pemanggilan variabel
@@ -69,17 +69,17 @@ abstract class Agent {
       timer.cancel(); //memberhentikan timer
       addEstimatedTime(task.action); //menambahkan waktu pengerjaan terhadap tugas tersebut
       MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
-      Message msg = overTime(msgCome, sender); //Mengirim pesan overtime
+      Messages msg = overTime(msgCome, sender); //Mengirim pesan overtime
       messagePassing.sendMessage(msg);
     });
 //Timer pengerjaan tugas agen
 
-    Message message;
+    Messages message;
     try {
       message = await action(task.action, msgCome, sender); //Memanggil fungsi action untuk memilih tindakan yang dikerjakan
       //Memanggil fungsi action untuk memilih tindakan yang dikerjakan
     } catch (e) {
-      message = Message(agentName, sender, "INFORM", Tasks('lack of parameters', "failed"));
+      message = Messages(agentName, sender, "INFORM", Tasks('lack of parameters', "failed"));
       //Jika terdapat error dalam pengerjaan maka pesan gagal
     }
 
@@ -92,7 +92,7 @@ abstract class Agent {
         if (message.task.data.runtimeType == String && message.task.data == "failed") {
           //Jika hasil pengerjaan gagal
           MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
-          Message msg = rejectTask(msgCome, sender); //agen menolak tugas
+          Messages msg = rejectTask(msgCome, sender); //agen menolak tugas
           return messagePassing.sendMessage(msg);
         } else {
           //Jika hasil pengerjaan tidak gagal
@@ -117,7 +117,7 @@ abstract class Agent {
           } else if (checkGoals == false) {
             //jika tidak sama dengan goal tugas agen
             MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
-            Message msg = failedGoal(msgCome, sender);
+            Messages msg = failedGoal(msgCome, sender);
             return messagePassing.sendMessage(msg);
           }
         }
@@ -125,9 +125,9 @@ abstract class Agent {
     }
   }
 
-  Message rejectTask(dynamic task, sender) {
+  Messages rejectTask(dynamic task, sender) {
     //Fungsi untuk membuat pesan agen tidak mampu melakukan pengerjaan
-    Message message = Message(
+    Messages message = Messages(
         agentName,
         sender,
         "INFORM",
@@ -139,9 +139,9 @@ abstract class Agent {
     return message;
   }
 
-  Message overTime(dynamic task, sender) {
+  Messages overTime(dynamic task, sender) {
     //Fungsi untuk membuat pesan agen melewati batas waktu pengerjaan goals
-    Message message = Message(
+    Messages message = Messages(
         agentName,
         sender,
         "INFORM",
@@ -153,9 +153,9 @@ abstract class Agent {
     return message;
   }
 
-  Message failedGoal(dynamic task, sender) {
+  Messages failedGoal(dynamic task, sender) {
     //Fungsi untuk membuat pesan penolakan terhadap pesan agen
-    Message message = Message(agentName, sender, "INFORM", Tasks('error', 'failed'));
+    Messages message = Messages(agentName, sender, "INFORM", Tasks('error', 'failed'));
 
     print(agentName + " rejecting task from $sender because the result of ${task.task.action} dataType does'nt suit the goal from ${agentName}");
     return message;

@@ -79,11 +79,11 @@ class _addPelayanan extends State<addPelayanan> {
   }
 
   Future submit() async {
-    Message message;
+    Messages message;
     if (jenisPelayanan == "Sakramen") {
       if (kapasitas != "" && tanggalBuka != "" && tanggalTutup != "" && jenisSelected != "") {
         Completer<void> completer = Completer<void>();
-        message = Message('Agent Page', 'Agent Pendaftaran', "REQUEST",
+        message = Messages('Agent Page', 'Agent Pendaftaran', "REQUEST",
             Tasks('add pelayanan', [jenisSelectedPelayanan, idGereja, kapasitas.text, tanggalBuka.toString(), tanggalTutup.toString(), iduser, jenisSelected]));
 
         MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
@@ -140,7 +140,7 @@ class _addPelayanan extends State<addPelayanan> {
           lokasi.text != "" &&
           fileImage != null) {
         Completer<void> completer = Completer<void>();
-        Message message = Message(
+        Messages message = Messages(
             'Agent Page',
             'Agent Pendaftaran',
             "REQUEST",
@@ -258,6 +258,7 @@ class _addPelayanan extends State<addPelayanan> {
                     padding: EdgeInsets.symmetric(vertical: 5),
                   ),
                   TextField(
+                    maxLength: 20,
                     controller: namaKegiatan,
                     style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
@@ -299,6 +300,7 @@ class _addPelayanan extends State<addPelayanan> {
                     padding: EdgeInsets.symmetric(vertical: 5),
                   ),
                   TextField(
+                    maxLength: 20,
                     controller: temaKegiatan,
                     style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
@@ -381,6 +383,7 @@ class _addPelayanan extends State<addPelayanan> {
                     padding: EdgeInsets.symmetric(vertical: 5),
                   ),
                   TextField(
+                    maxLength: 20,
                     controller: tamuKegiatan,
                     style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
@@ -626,10 +629,6 @@ class _addPelayanan extends State<addPelayanan> {
                     padding: EdgeInsets.symmetric(vertical: 5),
                   ),
                   DropdownSearch<dynamic>(
-                    // popupProps: PopupProps.menu(
-                    //   showSelectedItems: true,
-                    //   disabledItemFn: (String s) => s.startsWith('I'),
-                    // ),
                     items: jenis,
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(

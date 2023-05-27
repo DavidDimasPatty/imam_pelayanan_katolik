@@ -1,8 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
@@ -11,9 +8,7 @@ import 'package:imam_pelayanan_katolik/view/history.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
 class EditProfile extends StatefulWidget {
@@ -39,7 +34,7 @@ class _EditProfile extends State<EditProfile> {
 
   Future<List> callDb() async {
     Completer<void> completer = Completer<void>();
-    Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data imam', iduser));
+    Messages message = Messages('Agent Page', 'Agent Akun', "REQUEST", Tasks('cari data imam', iduser));
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
@@ -55,7 +50,7 @@ class _EditProfile extends State<EditProfile> {
   submitForm(nama, email, notelp, context) async {
     if (notelp != "" && email != "" && nama != "") {
       Completer<void> completer = Completer<void>();
-      Message message = Message('Agent Page', 'Agent Akun', "REQUEST", Tasks('edit profile imam', [iduser, nama, email, notelp]));
+      Messages message = Messages('Agent Page', 'Agent Akun', "REQUEST", Tasks('edit profile imam', [iduser, nama, email, notelp]));
 
       MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
       var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
