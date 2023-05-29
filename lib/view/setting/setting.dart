@@ -4,15 +4,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
-import 'package:imam_pelayanan_katolik/view/homepage.dart';
-import 'package:imam_pelayanan_katolik/view/login.dart';
+import 'package:imam_pelayanan_katolik/view/homePage.dart';
+import 'package:imam_pelayanan_katolik/view/logIn.dart';
 import 'package:imam_pelayanan_katolik/view/setting/customerService.dart';
 import 'package:imam_pelayanan_katolik/view/setting/privacySafety.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
 import '../profile/profile.dart';
 
-class Settings extends StatelessWidget {
+class setting extends StatelessWidget {
   var role;
   var iduser;
   var idGereja;
@@ -44,7 +44,7 @@ class Settings extends StatelessWidget {
     }
   }
 
-  Settings(this.iduser, this.idGereja, this.role);
+  setting(this.iduser, this.idGereja, this.role);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +64,7 @@ class Settings extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -73,7 +73,7 @@ class Settings extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => setting(iduser, idGereja, role)),
               );
             },
           ),
@@ -140,7 +140,7 @@ class Settings extends StatelessWidget {
                   await LogOut();
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Login()),
+                    MaterialPageRoute(builder: (context) => logIn()),
                   );
                 },
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
@@ -198,12 +198,12 @@ class Settings extends StatelessWidget {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => history(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => homePage(iduser, idGereja, role)),
                   );
                 }
               },

@@ -11,21 +11,21 @@ import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 
-class EditProfile extends StatefulWidget {
+class editProfile extends StatefulWidget {
   final role;
   final idGereja;
   final iduser;
 
-  EditProfile(this.iduser, this.idGereja, this.role);
+  editProfile(this.iduser, this.idGereja, this.role);
   @override
-  _EditProfile createState() => _EditProfile(this.iduser, this.idGereja, this.role);
+  _editProfile createState() => _editProfile(this.iduser, this.idGereja, this.role);
 }
 
-class _EditProfile extends State<EditProfile> {
+class _editProfile extends State<editProfile> {
   final role;
   final idGereja;
   final iduser;
-  _EditProfile(this.iduser, this.idGereja, this.role);
+  _editProfile(this.iduser, this.idGereja, this.role);
 
   @override
   TextEditingController namaController = new TextEditingController();
@@ -72,7 +72,7 @@ class _EditProfile extends State<EditProfile> {
             fontSize: 16.0);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+          MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
         );
       } else if (hasil == 'nama') {
         Fluttertoast.showToast(
@@ -132,7 +132,7 @@ class _EditProfile extends State<EditProfile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -141,7 +141,7 @@ class _EditProfile extends State<EditProfile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => setting(iduser, idGereja, role)),
               );
             },
           ),
@@ -343,12 +343,12 @@ class _EditProfile extends State<EditProfile> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => history(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => homePage(iduser, idGereja, role)),
                   );
                 }
               },

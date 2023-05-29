@@ -15,7 +15,7 @@
 //   var idGereja;
 //   var dataUser;
 
-//   HomePage(this.iduser, this.idGereja,this.role this.role);
+//   homePage(this.iduser, this.idGereja,this.role this.role);
 //   @override
 
 //   //function
@@ -102,7 +102,7 @@
 //                   Navigator.push(
 //                     context,
 //                     MaterialPageRoute(
-//                         builder: (context) => History( iduser, idGereja,role)),
+//                         builder: (context) => history( iduser, idGereja,role)),
 //                   );
 //                 } else if (index == 0) {}
 //               },

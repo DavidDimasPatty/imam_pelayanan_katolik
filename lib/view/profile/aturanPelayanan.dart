@@ -4,27 +4,27 @@ import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
-import 'package:imam_pelayanan_katolik/view/homePage.dart';
+import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 
-class AturanPelayanan extends StatefulWidget {
+class aturanPelayanan extends StatefulWidget {
   final role;
   final idGereja;
   final iduser;
 
-  AturanPelayanan(this.iduser, this.idGereja, this.role);
+  aturanPelayanan(this.iduser, this.idGereja, this.role);
   @override
-  _AturanPelayanan createState() => _AturanPelayanan(this.iduser, this.idGereja, this.role);
+  _aturanPelayanan createState() => _aturanPelayanan(this.iduser, this.idGereja, this.role);
 }
 
-class _AturanPelayanan extends State<AturanPelayanan> {
+class _aturanPelayanan extends State<aturanPelayanan> {
   final iduser;
   final role;
   final idGereja;
-  _AturanPelayanan(this.iduser, this.idGereja, this.role);
+  _aturanPelayanan(this.iduser, this.idGereja, this.role);
 
   @override
   TextEditingController baptisController = new TextEditingController();
@@ -74,7 +74,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
           fontSize: 16.0);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+        MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
       );
     } else {
       Fluttertoast.showToast(
@@ -113,7 +113,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -122,7 +122,7 @@ class _AturanPelayanan extends State<AturanPelayanan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => setting(iduser, idGereja, role)),
               );
             },
           ),
@@ -497,12 +497,12 @@ class _AturanPelayanan extends State<AturanPelayanan> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => history(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => homePage(iduser, idGereja, role)),
                   );
                 }
               },

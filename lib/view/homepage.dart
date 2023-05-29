@@ -13,19 +13,19 @@ import 'package:imam_pelayanan_katolik/view/profile/profile.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 
 //stateless dan class
-class HomePage extends StatefulWidget {
+class homePage extends StatefulWidget {
   var iduser;
   var idGereja;
   var role;
-  HomePage(this.iduser, this.idGereja, this.role);
-  _HomePage createState() => _HomePage(this.iduser, this.idGereja, this.role);
+  homePage(this.iduser, this.idGereja, this.role);
+  _homePage createState() => _homePage(this.iduser, this.idGereja, this.role);
 }
 
-class _HomePage extends State<HomePage> {
+class _homePage extends State<homePage> {
   var role;
   var iduser;
   var idGereja;
-  _HomePage(this.iduser, this.idGereja, this.role);
+  _homePage(this.iduser, this.idGereja, this.role);
   @override
   Future callJumlah() async {
     Completer<void> completer = Completer<void>();
@@ -70,7 +70,7 @@ class _HomePage extends State<HomePage> {
           fontSize: 16.0);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Login()),
+        MaterialPageRoute(builder: (context) => logIn()),
       );
     }
   }
@@ -93,7 +93,7 @@ class _HomePage extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -102,7 +102,7 @@ class _HomePage extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => setting(iduser, idGereja, role)),
               );
             },
           ),
@@ -631,7 +631,7 @@ class _HomePage extends State<HomePage> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => history(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {}
               },

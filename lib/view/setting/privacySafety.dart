@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
+import 'package:imam_pelayanan_katolik/view/homepage.dart';
 import 'package:imam_pelayanan_katolik/view/setting/gantiPasword.dart';
-import 'package:imam_pelayanan_katolik/view/homePage.dart';
+
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import '../profile/profile.dart';
 
@@ -29,7 +30,7 @@ class privacySafety extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -38,7 +39,7 @@ class privacySafety extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => setting(iduser, idGereja, role)),
               );
             },
           ),
@@ -110,12 +111,12 @@ class privacySafety extends StatelessWidget {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => history(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => homePage(iduser, idGereja, role)),
                   );
                 }
               },

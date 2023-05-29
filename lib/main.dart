@@ -41,7 +41,7 @@ callTampilan(tampilan) {
           brightness: Brightness.light,
           primaryColor: Colors.grey,
         ),
-        home: HomePage(ObjectId.parse(object1), ObjectId.parse(object2), int.parse(tampilan[0][0][2])), // Memanggil halaman home dengan
+        home: homePage(ObjectId.parse(object1), ObjectId.parse(object2), int.parse(tampilan[0][0][2])), // Memanggil halaman home dengan
         //parameter variabel object
       ));
     } else {
@@ -53,7 +53,7 @@ callTampilan(tampilan) {
           brightness: Brightness.light,
           primaryColor: Colors.grey,
         ),
-        home: Login(),
+        home: logIn(),
       ));
       //Maka akan ditampilkan halaman login
     }
@@ -72,7 +72,7 @@ callTampilan(tampilan) {
           brightness: Brightness.dark,
           primaryColor: Colors.grey,
         ),
-        home: HomePage(ObjectId.parse(object1), ObjectId.parse(object2), int.parse(tampilan[0][0][2])),
+        home: homePage(ObjectId.parse(object1), ObjectId.parse(object2), int.parse(tampilan[0][0][2])),
         // Memanggil halaman home dengan
         //parameter variabel object
       ));
@@ -84,7 +84,7 @@ callTampilan(tampilan) {
           brightness: Brightness.dark,
           primaryColor: Colors.grey,
         ),
-        home: Login(),
+        home: logIn(),
       ));
       //Maka akan ditampilkan halaman login
     }

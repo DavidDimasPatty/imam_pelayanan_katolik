@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/view/homepage.dart';
 
-class Login extends StatelessWidget {
+class logIn extends StatelessWidget {
   ////////Inisialisasi variabel untuk mengkontrol input field//////////////
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
@@ -219,7 +219,7 @@ class Login extends StatelessWidget {
                                           //dipanggil kelas homePage
                                           Navigator.pushReplacement(
                                             context,
-                                            MaterialPageRoute(builder: (context) => HomePage(ret[0]['_id'], ret[0]['idGereja'], ret[0]['role'])),
+                                            MaterialPageRoute(builder: (context) => homePage(ret[0]['_id'], ret[0]['idGereja'], ret[0]['role'])),
                                           );
                                         } else {
                                           Fluttertoast.showToast(

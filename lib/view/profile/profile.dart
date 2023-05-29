@@ -4,27 +4,27 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:imam_pelayanan_katolik/agen/Message.dart';
 import 'package:imam_pelayanan_katolik/agen/MessagePassing.dart';
 import 'package:imam_pelayanan_katolik/agen/Task.dart';
-import 'package:imam_pelayanan_katolik/view/homepage.dart';
+import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/profile/aturanPelayanan.dart';
-import 'package:imam_pelayanan_katolik/view/profile/editprofile.dart';
-import 'package:imam_pelayanan_katolik/view/profile/updateprofil.dart';
+import 'package:imam_pelayanan_katolik/view/profile/editProfile.dart';
+import 'package:imam_pelayanan_katolik/view/profile/updateProfile.dart';
 import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'package:imam_pelayanan_katolik/agen/agenPage.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
 
-class Profile extends StatefulWidget {
+class profile extends StatefulWidget {
   var role;
   var iduser;
   var idGereja;
 
-  Profile(this.iduser, this.idGereja, this.role);
+  profile(this.iduser, this.idGereja, this.role);
 
-  _Profile createState() => _Profile(this.iduser, this.idGereja, this.role);
+  _profile createState() => _profile(this.iduser, this.idGereja, this.role);
 }
 
-class _Profile extends State<Profile> {
+class _profile extends State<profile> {
   var role;
   var iduser;
   var idGereja;
@@ -33,7 +33,7 @@ class _Profile extends State<Profile> {
   var statusPerk;
   var statusTob;
 
-  _Profile(this.iduser, this.idGereja, this.role);
+  _profile(this.iduser, this.idGereja, this.role);
   @override
   Future callDb() async {
     Completer<void> completer = Completer<void>();
@@ -107,7 +107,7 @@ class _Profile extends State<Profile> {
           fontSize: 16.0);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+        MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
       );
     }
   }
@@ -141,7 +141,7 @@ class _Profile extends State<Profile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => setting(iduser, idGereja, role)),
               );
             },
           ),
@@ -394,7 +394,7 @@ class _Profile extends State<Profile> {
                             onPressed: () async {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => EditProfile(iduser, idGereja, role)),
+                                MaterialPageRoute(builder: (context) => editProfile(iduser, idGereja, role)),
                               );
                             },
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
@@ -426,7 +426,7 @@ class _Profile extends State<Profile> {
                               onPressed: () async {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => AturanPelayanan(iduser, idGereja, role)),
+                                  MaterialPageRoute(builder: (context) => aturanPelayanan(iduser, idGereja, role)),
                                 );
                               },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
@@ -696,12 +696,12 @@ class _Profile extends State<Profile> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => history(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => homePage(iduser, idGereja, role)),
                   );
                 }
               },

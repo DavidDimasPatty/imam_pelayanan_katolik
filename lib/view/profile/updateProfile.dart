@@ -100,7 +100,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             fontSize: 16.0);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+          MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
         );
       }
     } else {
@@ -151,7 +151,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             fontSize: 16.0);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+          MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
         );
       }
     }
@@ -201,7 +201,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => profile(iduser, idGereja, role)),
               );
             },
           ),
@@ -210,7 +210,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Settings(iduser, idGereja, role)),
+                MaterialPageRoute(builder: (context) => setting(iduser, idGereja, role)),
               );
             },
           ),
@@ -619,12 +619,12 @@ class _UpdateProfile extends State<UpdateProfile> {
                 if (index == 1) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => History(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => history(iduser, idGereja, role)),
                   );
                 } else if (index == 0) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage(iduser, idGereja, role)),
+                    MaterialPageRoute(builder: (context) => homePage(iduser, idGereja, role)),
                   );
                 }
               },

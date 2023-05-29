@@ -48,9 +48,9 @@ class AgentAkun extends Agent {
       case "cari data gereja":
         return _cariProfileGereja(data.task.data, sender);
       case "edit profile gereja":
-        return _EditProfileGereja(data.task.data, sender);
+        return _editProfileGereja(data.task.data, sender);
       case "edit profile imam":
-        return _EditProfileImam(data.task.data, sender);
+        return _editProfileImam(data.task.data, sender);
       case "cari data imam":
         return _cariDataImam(data.task.data, sender);
       case "find password":
@@ -163,7 +163,7 @@ class AgentAkun extends Agent {
     return message;
   }
 
-  Future<Messages> _EditProfileGereja(dynamic data, String sender) async {
+  Future<Messages> _editProfileGereja(dynamic data, String sender) async {
     var gerejaCollection = MongoDatabase.db.collection(GEREJA_COLLECTION);
     var checkName;
     checkName = await gerejaCollection.find(where.eq('nama', data[1]).ne('_id', data[0])).toList();
@@ -213,7 +213,7 @@ class AgentAkun extends Agent {
     }
   }
 
-  Future<Messages> _cariEditProfileImam(dynamic data, String sender) async {
+  Future<Messages> _carieditProfileImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var conn = await imamCollection.find({'_id': data[1][0]});
     //Pencarian pada collection imam berdasarkan id
@@ -221,7 +221,7 @@ class AgentAkun extends Agent {
     return message;
   }
 
-  Future<Messages> _EditProfileImam(dynamic data, String sender) async {
+  Future<Messages> _editProfileImam(dynamic data, String sender) async {
     var imamCollection = MongoDatabase.db.collection(IMAM_COLLECTION);
     var checkEmail;
     var checkName;
