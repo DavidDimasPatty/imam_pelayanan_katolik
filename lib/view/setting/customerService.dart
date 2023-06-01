@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imam_pelayanan_katolik/view/homePage.dart';
 import 'package:imam_pelayanan_katolik/view/history.dart';
+import 'package:imam_pelayanan_katolik/view/setting/setting.dart';
 import '../profile/profile.dart';
 
 class customerService extends StatelessWidget {
@@ -28,7 +29,12 @@ class customerService extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => setting(iduser, idGereja, role)),
+              );
+            },
           ),
         ],
       ),

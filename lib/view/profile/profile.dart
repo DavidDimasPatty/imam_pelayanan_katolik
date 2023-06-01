@@ -42,7 +42,7 @@ class _profile extends State<profile> {
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var result = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    var result = await await agenPage.getData(); //Memanggil data yang tersedia di agen Page
 
     await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
@@ -57,7 +57,7 @@ class _profile extends State<profile> {
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var result = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    var result = await await agenPage.getData(); //Memanggil data yang tersedia di agen Page
 
     await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
@@ -91,7 +91,7 @@ class _profile extends State<profile> {
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    var hasil = await await agenPage.getData(); //Memanggil data yang tersedia di agen Page
 
     await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai

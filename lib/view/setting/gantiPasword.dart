@@ -56,7 +56,7 @@ class gantiPassword extends StatelessWidget {
       MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
       var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
       completer.complete(); //Batas pengerjaan yang memerlukan completer
-      var value = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+      var value = await await agenPage.getData(); //Memanggil data yang tersedia di agen Page
 
       await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
       //memiliki nilai
@@ -80,7 +80,7 @@ class gantiPassword extends StatelessWidget {
         MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
         var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
         completer.complete(); //Batas pengerjaan yang memerlukan completer
-        var value = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+        var value = await await agenPage.getData(); //Memanggil data yang tersedia di agen Page
 
         await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
         //memiliki nilai

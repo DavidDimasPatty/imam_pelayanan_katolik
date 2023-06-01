@@ -12,13 +12,13 @@ import 'Goals.dart';
 import 'Plan.dart';
 import 'Task.dart';
 
-class AgentSetting extends Agent {
-  AgentSetting() {
+class agenSetting extends Agent {
+  agenSetting() {
     //Konstruktor agen memanggil fungsi initAgent
     _initAgent();
   }
 
-  static int _estimatedTime = 30;
+  static int _estimatedTime = 60;
   //Batas waktu awal pengerjaan seluruh tugas agen
   static Map<String, int> _timeAction = {
     "setting user": _estimatedTime,

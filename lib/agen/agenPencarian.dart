@@ -8,13 +8,13 @@ import 'Goals.dart';
 import 'Plan.dart';
 import 'Task.dart';
 
-class AgentPencarian extends Agent {
-  AgentPencarian() {
+class agenPencarian extends Agent {
+  agenPencarian() {
     //Konstruktor agen memanggil fungsi initAgent
     _initAgent();
   }
 
-  static int _estimatedTime = 2;
+  static int _estimatedTime = 5;
   //Batas waktu awal pengerjaan seluruh tugas agen
   static Map<String, int> _timeAction = {
     "cari aturan pelayanan": _estimatedTime,

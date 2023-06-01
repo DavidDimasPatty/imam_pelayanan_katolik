@@ -46,7 +46,7 @@ class _pelayananUser extends State<pelayananUser> {
 
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
-    var hasilPencarian = await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    var hasilPencarian = await agenPage.getData(); //Memanggil data yang tersedia di agen Page
 
     completer.complete(); //Batas pengerjaan yang memerlukan completer
 
@@ -97,7 +97,7 @@ class _pelayananUser extends State<pelayananUser> {
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasilDaftar = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    var hasilDaftar = await await agenPage.getData(); //Memanggil data yang tersedia di agen Page
 
     String statusKonfirmasi = "Menerima";
     if (hasilDaftar == "oke") {

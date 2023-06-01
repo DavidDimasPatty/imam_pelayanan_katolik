@@ -43,7 +43,7 @@ class _pelayananDetail extends State<pelayananDetail> {
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    var hasil = await await agenPage.getData(); //Memanggil data yang tersedia di agen Page
 
     await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
@@ -64,7 +64,7 @@ class _pelayananDetail extends State<pelayananDetail> {
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasil = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    var hasil = await await agenPage.getData(); //Memanggil data yang tersedia di agen Page
 
     if (hasil == "failed") {
       Fluttertoast.showToast(

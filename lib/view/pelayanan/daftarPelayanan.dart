@@ -57,7 +57,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
     }
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     var data = await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
-    var hasilPencarian = await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    var hasilPencarian = await agenPage.getData(); //Memanggil data yang tersedia di agen Page
     completer.complete(); //Batas pengerjaan yang memerlukan completer
     await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
@@ -91,7 +91,7 @@ class _daftarPelayanan extends State<daftarPelayanan> {
     MessagePassing messagePassing = MessagePassing(); //Memanggil distributor pesan
     await messagePassing.sendMessage(message); //Mengirim pesan ke distributor pesan
     completer.complete(); //Batas pengerjaan yang memerlukan completer
-    var hasilDaftar = await await AgentPage.getData(); //Memanggil data yang tersedia di agen Page
+    var hasilDaftar = await await agenPage.getData(); //Memanggil data yang tersedia di agen Page
     await completer.future; //Proses penungguan sudah selesai ketika varibel hasil
     //memiliki nilai
     if (hasilDaftar == "oke") {
