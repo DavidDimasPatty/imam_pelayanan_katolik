@@ -183,8 +183,8 @@ class _profile extends State<profile> {
                               child: Container(
                                 width: 350.0,
                                 height: 350.0,
-                                child: Center(
-                                  child: Column(
+                                child: ListView(children: [
+                                  Column(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -257,7 +257,7 @@ class _profile extends State<profile> {
                                       )
                                     ],
                                   ),
-                                ),
+                                ]),
                               ))),
                       Container(
                           height: 150,
@@ -445,7 +445,7 @@ class _profile extends State<profile> {
                                   alignment: Alignment.center,
                                   child: Text(
                                     "Aturan Pelayanan Gereja",
-                                    style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight: FontWeight.w300),
+                                    style: TextStyle(color: Colors.white, fontSize: 22.0, fontWeight: FontWeight.w300),
                                   ),
                                 ),
                               )),
