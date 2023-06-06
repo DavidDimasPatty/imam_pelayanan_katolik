@@ -147,8 +147,6 @@ class agenPendaftaran extends Agent {
 
     String status = "";
     String body = "";
-    String statusSoon = "";
-    String bodySoon = "";
     var FCMStatus = 0;
     String FCMKEY = dotenv.env['FCM'].toString(); // Mendapatkan key dari FCM
 
@@ -156,8 +154,6 @@ class agenPendaftaran extends Agent {
       if (data[0][4] == 1) {
         status = "Permintaan " + Pelayanan + " Diterima";
         body = "Permintaan baptis pada tanggal " + tanggal.toString().substring(0, 10) + " telah dikonfirmasi";
-        statusSoon = "Baptis " + tanggal.toString().substring(0, 10);
-        bodySoon = "Besok, Baptis " + tanggal.toString().substring(0, 10) + " Akan Dilaksakan";
       } else {
         status = "Permintaan" + Pelayanan + "Ditolak";
         body = "Maaf, permintaan " + Pelayanan + " pada tanggal " + tanggal.toString().substring(0, 10) + " ditolak";
@@ -173,28 +169,6 @@ class agenPendaftaran extends Agent {
             'title': status,
             'body': body,
           },
-        });
-      }
-
-      if (data[0][4] == 1) {
-        String constructFCMPayloadSoon(String token) {
-          return jsonEncode({
-            'to': token,
-            'data': {"title": statusSoon, "message": bodySoon, "isScheduled": "true", "scheduledTime": tanggal.subtract(Duration(days: 1)).toString()},
-          });
-        }
-
-        //Mengirim endpoint ke FCM
-        await http
-            .post(
-          Uri.parse('https://fcm.googleapis.com/fcm/send'),
-          headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8', 'Authorization': FCMKEY},
-          body: constructFCMPayloadSoon(data[0][2]),
-        )
-            .then((value) {
-          FCMStatus = value.statusCode;
-
-          print("success fcm for soon!");
         });
       }
 
