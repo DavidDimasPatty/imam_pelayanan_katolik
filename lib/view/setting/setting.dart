@@ -19,7 +19,7 @@ class setting extends StatelessWidget {
   var dataUser;
   var data;
 
-  Future LogOut() async {
+  Future LogOut(context) async {
     Completer<void> completer = Completer<void>();
     Messages message = Messages('Agent Page', 'Agent Setting', "REQUEST", Tasks('log out', null));
 
@@ -41,6 +41,11 @@ class setting extends StatelessWidget {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
+      Navigator.pop(context, true);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => logIn()),
+      );
     }
   }
 
@@ -137,11 +142,7 @@ class setting extends StatelessWidget {
             Padding(padding: EdgeInsets.symmetric(vertical: 14)),
             RaisedButton(
                 onPressed: () async {
-                  await LogOut();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => logIn()),
-                  );
+                  await LogOut(context);
                 },
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
                 elevation: 10.0,
