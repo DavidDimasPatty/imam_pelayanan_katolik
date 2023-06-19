@@ -41,11 +41,10 @@ class setting extends StatelessWidget {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pop(context, true);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => logIn()),
-      );
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (BuildContext context) => logIn()),
+          ModalRoute.withName('/'));
     }
   }
 
