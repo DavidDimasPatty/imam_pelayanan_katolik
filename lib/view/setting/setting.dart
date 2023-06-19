@@ -41,10 +41,9 @@ class setting extends StatelessWidget {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (BuildContext context) => logIn()),
-          ModalRoute.withName('/'));
+       Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => logIn()),
+          (Route<dynamic> route) => false);
     }
   }
 
