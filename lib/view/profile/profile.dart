@@ -183,7 +183,7 @@ class _profile extends State<profile> {
                               child: Container(
                                 width: 350.0,
                                 height: 350.0,
-                                child: ListView(children: [
+                                child: Column(children: [
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
