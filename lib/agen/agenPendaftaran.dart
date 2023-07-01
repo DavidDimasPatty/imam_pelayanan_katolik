@@ -305,10 +305,12 @@ class agenPendaftaran extends Agent {
     }
     if (data[0] == "Umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
+      print(data[12]);
+      print(data[11]);
       if (data[12] == true) {
         //Jika ada perubahan gambar
         var urlDownload = await FirebaseApi.configureUpload('files/Imam Pelayanan Katolik/kegiatan umum/', data[11]);
-        var update = await pelayananCollection.updateOne(
+        update = await pelayananCollection.updateOne(
             where.eq('_id', data[1]),
             modify
                 .set('namaKegiatan', data[2])
@@ -354,8 +356,6 @@ class agenPendaftaran extends Agent {
         }
       }
     } else {
-      print("masuk");
-      print(pelayananCollection);
       update = await pelayananCollection.updateOne(
           where.eq('_id', data[1]),
           modify

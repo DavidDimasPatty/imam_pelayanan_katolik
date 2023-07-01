@@ -175,9 +175,12 @@ class agenAkun extends Agent {
     }
 
     if (data[7] == true) {
+      print(data[6]);
+      print("masuk");
       //Jika ada perubahan gambar
       var urlDownload = await FirebaseApi.configureUpload('files/Imam Pelayanan Katolik/gereja/', data[6]);
       //Upload ke Firebase
+      print("masuk2");
       var update = await gerejaCollection.updateOne(
           where.eq('_id', data[0]),
           modify

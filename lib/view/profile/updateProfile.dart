@@ -88,7 +88,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
-      } else {
+      } else if ((hasil == 'oke')) {
         Fluttertoast.showToast(
             /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Berhasil Update Informasi Gereja",
@@ -116,7 +116,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             paroki.text,
             lingkungan.text,
             deskripsi.text,
-            fileImage,
+            fileChange,
             imageChange,
             double.parse(lattitude.text),
             double.parse(longttitude.text),
@@ -139,7 +139,7 @@ class _UpdateProfile extends State<UpdateProfile> {
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
-      } else {
+      } else if (hasil == "oke") {
         Fluttertoast.showToast(
             /////// Widget toast untuk menampilkan pesan pada halaman
             msg: "Berhasil Update Informasi Gereja",
