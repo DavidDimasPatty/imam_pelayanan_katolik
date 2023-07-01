@@ -292,17 +292,18 @@ class agenPendaftaran extends Agent {
 
   Future<Messages> _editPelayanan(dynamic data, String sender) async {
     //Memberi nilai pada variabel berdasarkan data pada isi pesan
+    var update;
     var pelayananCollection;
-    if (data[0] == "baptis") {
+    if (data[0] == "Baptis") {
       pelayananCollection = MongoDatabase.db.collection(BAPTIS_COLLECTION);
     }
-    if (data[0] == "komuni") {
+    if (data[0] == "Komuni") {
       pelayananCollection = MongoDatabase.db.collection(KOMUNI_COLLECTION);
     }
-    if (data[0] == "krisma") {
+    if (data[0] == "Krisma") {
       pelayananCollection = MongoDatabase.db.collection(KRISMA_COLLECTION);
     }
-    if (data[0] == "umum") {
+    if (data[0] == "Umum") {
       pelayananCollection = MongoDatabase.db.collection(UMUM_COLLECTION);
       if (data[12] == true) {
         //Jika ada perubahan gambar
@@ -330,7 +331,7 @@ class agenPendaftaran extends Agent {
           return message;
         }
       } else {
-        var update = await pelayananCollection.updateOne(
+        update = await pelayananCollection.updateOne(
             where.eq('_id', data[1]),
             modify
                 .set('namaKegiatan', data[2])
@@ -352,18 +353,20 @@ class agenPendaftaran extends Agent {
           return message;
         }
       }
+    } else {
+      print("masuk");
+      print(pelayananCollection);
+      update = await pelayananCollection.updateOne(
+          where.eq('_id', data[1]),
+          modify
+              .set("kapasitas", int.parse(data[2]))
+              .set("jenis", data[6])
+              .set("jadwalBuka", DateTime.parse(data[3]))
+              .set("jadwalTutup", DateTime.parse(data[4]))
+              .set("updatedAt", DateTime.now())
+              .set("updatedBy", data[5]));
+      //update data pada collection pelayanan
     }
-
-    var update = await pelayananCollection.updateOne(
-        where.eq('_id', data[1]),
-        modify
-            .set("kapasitas", int.parse(data[2]))
-            .set("jenis", data[6])
-            .set("jadwalBuka", DateTime.parse(data[3]))
-            .set("jadwalTutup", DateTime.parse(data[4]))
-            .set("updatedAt", DateTime.now())
-            .set("updatedBy", data[5]));
-    //update data pada collection pelayanan
     if (update.isSuccess) {
       Messages message = Messages(agentName, sender, "INFORM", Tasks('status modifikasi data', "oke"));
       return message;

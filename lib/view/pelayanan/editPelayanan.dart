@@ -180,7 +180,7 @@ class _editPelayanan extends State<editPelayanan> {
               'Agent Pendaftaran',
               "REQUEST",
               Tasks('edit pelayanan', [
-                "umum",
+                "Umum",
                 idPelayanan,
                 namaKegiatan.text,
                 temaKegiatan.text,
